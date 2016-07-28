@@ -29,7 +29,6 @@ import org.junit.runner.JUnitCore;
 import robot.Robot;
 import strategie.GameState;
 import table.Table;
-import threads.dataHandlers.TemporalyUselessThread;
 
 public class JUnit_BorneArcade extends JUnit_Test 
 {
@@ -52,8 +51,7 @@ public class JUnit_BorneArcade extends JUnit_Test
 		
 		container.getService(ServiceNames.THREAD_INTERFACE);
 		container.getService(ServiceNames.THREAD_SENSOR);
-		container.startInstanciedThreads();
-        
+
 		real_state.robot.setPosition(Table.entryPosition);
 		real_state.robot.setOrientation(Math.PI);
 		real_state.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
@@ -61,8 +59,8 @@ public class JUnit_BorneArcade extends JUnit_Test
 		real_state.robot.updateConfig();
 		real_state.robot.useActuator(ActuatorOrder.MONTLHERY, false);
 
-		TemporalyUselessThread t = new TemporalyUselessThread(real_state.robot);
-		t.start();
+		container.getService(ServiceNames.THREAD_BALISES);
+		container.startInstanciedThreads();
 
 	}
 

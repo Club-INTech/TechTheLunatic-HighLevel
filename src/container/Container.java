@@ -215,7 +215,10 @@ public class Container
 																	(SerialWrapper)getService(ServiceNames.SERIAL_WRAPPER),
 																	(ThreadSerial)getService(ServiceNames.THREAD_SERIAL)
 																);
-
+		else if(serviceRequested == ServiceNames.THREAD_BALISES)
+			instanciedServices[serviceRequested.ordinal()] = 	(Service)threadManager.getThreadBalises(
+																	(Robot)getService(ServiceNames.ROBOT)
+																);
 
 		else if(serviceRequested == ServiceNames.THREAD_INTERFACE)
 			instanciedServices[serviceRequested.ordinal()] = 	(Service)threadManager.getThreadInterface(

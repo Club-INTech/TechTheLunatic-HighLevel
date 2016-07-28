@@ -48,6 +48,7 @@ public enum ServiceNames
 	 THREAD_INTERFACE,
 	 THREAD_EYES,
 	 THREAD_EVENTS,
+	 THREAD_BALISES,
 	 
 	 STRATEGIE;
 

@@ -22,6 +22,7 @@ package threads;
 import robot.Robot;
 import robot.serial.SerialWrapper;
 import table.Table;
+import threads.dataHandlers.ThreadBalises;
 import threads.dataHandlers.ThreadSerial;
 import utils.Config;
 import utils.Log;
@@ -111,6 +112,14 @@ public class ThreadManager
 		if(thread == null)
 			instanciedThreads.put("threadEvents", new threads.dataHandlers.ThreadEvents( table, robot, serial));
 		return instanciedThreads.get("threadEvents");
+	}
+
+	public AbstractThread getThreadBalises(Robot robot)
+	{
+		AbstractThread thread = instanciedThreads.get("threadBalises");
+		if(thread == null)
+			instanciedThreads.put("threadBalises", new ThreadBalises(robot));
+		return instanciedThreads.get("threadBalises");
 	}
 
 	/**

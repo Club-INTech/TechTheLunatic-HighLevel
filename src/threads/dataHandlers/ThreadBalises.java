@@ -32,7 +32,7 @@ import java.io.*;
 /**
  * Lecture des balises, juste utilisé pendant leur phase de dev pour récupérer des valeurs
  */
-public class TemporalyUselessThread extends AbstractThread
+public class ThreadBalises extends AbstractThread
 {
     SerialPort serialPort;
 
@@ -42,7 +42,26 @@ public class TemporalyUselessThread extends AbstractThread
 
     private Robot robot;
 
-    public TemporalyUselessThread(Robot robot)
+    private enum Perm{
+        MUST_BE_LAST,
+        CAN_BE_FIRST,
+        CANT_BE_FIRST
+    }
+
+    private final byte CANAL_1 = 0;
+    private final byte CANAL_2 = 1;
+    private final byte INT = 2;
+
+    private final long MAX_INTER_GAP = 6250;
+    private final long MAX_EXTREME_GAP = 9870;
+
+    private Perm[] permissions = new Perm[3];
+
+    private long[] timestamps = new long[3];
+
+    private boolean[] wrote = new boolean[3];
+
+    public ThreadBalises(Robot robot)
     {
         this.robot = robot;
         try
@@ -98,17 +117,47 @@ public class TemporalyUselessThread extends AbstractThread
     @Override
     public void run()
     {
+        String vals;
+        byte no;
+        long timestamp;
         while(true)
         {
-            String vals = readLine();
-            try {
-                out.write(vals+";"+robot.getPositionFast().x + ";" + robot.getPositionFast().y);
-                out.newLine();
-                out.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
+            updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
+
+            vals = readLine();
+
+            try{
+                no = Byte.parseByte(vals.substring(0,1));
+                timestamp = Long.parseLong(vals.substring(2));
+            } catch (NumberFormatException e)
+            {
+                log.warning("BALISES : Mauvaise donnée balise");
+                continue;
             }
-            System.out.println("Got one !");
+
+            checkData(no, timestamp);
+
+            if(wrote[0] && wrote[1] && wrote[2])
+            {
+                wrote[0] = false; wrote[1] = false; wrote[2] = false;
+
+                if(extremeLateness())
+                {
+                    log.debug("BALISES : Valeurs refusées car ecart > 9670 us");
+                    continue;
+                }
+
+                try {
+                    out.write(timestamps[CANAL_1]+";"+timestamps[CANAL_2]+";"+timestamps[INT]+";"
+                            +robot.getPositionFast().x + ";" + robot.getPositionFast().y);
+                    out.newLine();
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
         }
     }
 
@@ -182,5 +231,99 @@ public class TemporalyUselessThread extends AbstractThread
                 e.printStackTrace();
             }
             return res;
+    }
+
+    void updatePermissions(float x, float y)
+    {
+        if (x < -1000 && y < 200)
+        {
+            permissions[CANAL_2] = Perm.CAN_BE_FIRST;
+            permissions[CANAL_1] = Perm.CANT_BE_FIRST;
+            permissions[INT] = Perm.CANT_BE_FIRST;
+        }
+        else if (x < -1000 && y > 1800)
+        {
+            permissions[CANAL_1] = Perm.CAN_BE_FIRST;
+            permissions[CANAL_2] = Perm.CANT_BE_FIRST;
+            permissions[INT] = Perm.CANT_BE_FIRST;
+        }
+        else if (x < -700)
+        {
+            permissions[INT] = Perm.MUST_BE_LAST;
+            permissions[CANAL_1] = Perm.CAN_BE_FIRST;
+            permissions[CANAL_2] = Perm.CAN_BE_FIRST;
+        }
+        else if (x > 700)
+        {
+            permissions[INT] = Perm.CAN_BE_FIRST;
+            permissions[CANAL_1] = Perm.CANT_BE_FIRST;
+            permissions[CANAL_2] = Perm.CANT_BE_FIRST;
+        }
+        else
+        {
+            permissions[CANAL_1] = Perm.CAN_BE_FIRST;
+            permissions[CANAL_2] = Perm.CAN_BE_FIRST;
+            permissions[INT] = Perm.CAN_BE_FIRST;
+        }
+    }
+
+    void checkData(byte no, long timestamp)
+    {
+        if(!wrote[no])
+            return;
+
+        if( permissions[no] == Perm.CAN_BE_FIRST || ( permissions[no] == Perm.CANT_BE_FIRST && !isFirst(no) ) ||
+                ( permissions[no] == Perm.MUST_BE_LAST && isLast(no) ) )
+        {
+            timestamps[no] = timestamp;
+            wrote[no] = true;
+
+            if(isLate(no))
+            {
+                for(byte i=0 ; i<3 ; i++)
+                    if(i!=no)
+                        wrote[i]=false;
+            }
+
+        }
+    }
+
+    boolean isFirst(byte no)
+    {
+        for(byte i=0; i < 3 ; i++)
+            if(i != no && wrote[i])
+                return false;
+        return true;
+    }
+
+    boolean isLast(byte no)
+    {
+        for(byte i=0; i<3 ; i++)
+            if(i != no && !wrote[i])
+                return false;
+        return true;
+    }
+
+    boolean isLate(byte no)
+    {
+        for(byte i=0 ; i<3 ;i++)
+            if(i!=no && wrote[i] && timestamps[no] - timestamps[i] > MAX_INTER_GAP)
+                return true;
+        return false;
+    }
+
+    boolean extremeLateness()
+    {
+        long max = timestamps[0];
+        long min = timestamps[0];
+        for(byte i=0 ; i<3 ; i++)
+        {
+            if(timestamps[i] > max)
+                max = timestamps[i];
+            else if(timestamps[i] < min)
+                min = timestamps[i];
+        }
+
+        return max-min > MAX_EXTREME_GAP;
     }
 }
