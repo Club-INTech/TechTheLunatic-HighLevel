@@ -122,7 +122,6 @@ public class ThreadBalises extends AbstractThread
         long timestamp;
         while(true)
         {
-            updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
 
             vals = readLine();
 
@@ -140,6 +139,7 @@ public class ThreadBalises extends AbstractThread
             if(wrote[0] && wrote[1] && wrote[2])
             {
                 wrote[0] = false; wrote[1] = false; wrote[2] = false;
+                updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
 
                 if(extremeLateness())
                 {
@@ -283,6 +283,7 @@ public class ThreadBalises extends AbstractThread
                 for(byte i=0 ; i<3 ; i++)
                     if(i!=no)
                         wrote[i]=false;
+                updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
             }
 
         }
