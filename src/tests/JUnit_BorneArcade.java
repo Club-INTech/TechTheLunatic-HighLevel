@@ -27,9 +27,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import robot.Robot;
-import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
+import threads.dataHandlers.TemporalyUselessThread;
 
 public class JUnit_BorneArcade extends JUnit_Test 
 {
@@ -54,18 +54,24 @@ public class JUnit_BorneArcade extends JUnit_Test
 		container.getService(ServiceNames.THREAD_SENSOR);
 		container.startInstanciedThreads();
         
-		//FIXME : bug pour la position en y :(
-		real_state.robot.setPosition(new Vec2(1500-750, 1840));
-		real_state.robot.setOrientation(-0.5*Math.PI);
+		real_state.robot.setPosition(Table.entryPosition);
+		real_state.robot.setOrientation(Math.PI);
 		real_state.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 		
 		real_state.robot.updateConfig();
 		real_state.robot.useActuator(ActuatorOrder.MONTLHERY, false);
+
+		TemporalyUselessThread t = new TemporalyUselessThread(real_state.robot);
+		t.start();
+
 	}
 
 	@Test
 	public void start()
 	{
-		while(true);
+		while(true)
+		{
+			real_state.robot.getPosition();
+		}
 	}
 }
