@@ -39,6 +39,7 @@ public class ThreadBalises extends AbstractThread
     private InputStream input;
 
     private BufferedWriter out;
+    private BufferedWriter outpos;
 
     private Robot robot;
 
@@ -48,9 +49,9 @@ public class ThreadBalises extends AbstractThread
         CANT_BE_FIRST
     }
 
-    private final byte CANAL_1 = 0;
-    private final byte CANAL_2 = 1;
-    private final byte INT = 2;
+    private final byte CANAL_1 = 1;
+    private final byte CANAL_2 = 2;
+    private final byte INT = 0;
 
     private final long MAX_INTER_GAP = 6250;
     private final long MAX_EXTREME_GAP = 9870;
@@ -67,12 +68,20 @@ public class ThreadBalises extends AbstractThread
         try
         {
             File file = new File("data.txt");
+            File file2 = new File("pos.txt");
             if (!file.exists())
             {
                 //file.delete();
                 file.createNewFile();
             }
+            if (!file2.exists())
+            {
+                //file.delete();
+                file2.createNewFile();
+            }
+
             out = new BufferedWriter(new FileWriter(file));
+            outpos = new BufferedWriter(new FileWriter(file2));
 
         } catch (IOException e) {
             log.critical("Manque de droits pour l'output");
@@ -82,7 +91,7 @@ public class ThreadBalises extends AbstractThread
         CommPortIdentifier portId = null;
         try
         {
-            portId = CommPortIdentifier.getPortIdentifier("/dev/ttyACM1");
+            portId = CommPortIdentifier.getPortIdentifier("/dev/ttyACM0");
         }
         catch (NoSuchPortException e2)
         {
@@ -151,10 +160,12 @@ public class ThreadBalises extends AbstractThread
                 }
 
                 try {
-                    out.write(timestamps[CANAL_1]+";"+timestamps[CANAL_2]+";"+timestamps[INT]+";"
-                            +robot.getPositionFast().x + ";" + robot.getPositionFast().y);
+                    out.write(timestamps[CANAL_1]+";"+timestamps[CANAL_2]+";"+timestamps[INT]);
                     out.newLine();
                     out.flush();
+                    outpos.write(robot.getPositionFast().x+"\t"+robot.getPositionFast().y);
+                    outpos.newLine();
+                    outpos.flush();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
