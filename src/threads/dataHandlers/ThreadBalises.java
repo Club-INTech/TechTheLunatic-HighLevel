@@ -82,7 +82,7 @@ public class ThreadBalises extends AbstractThread
         CommPortIdentifier portId = null;
         try
         {
-            portId = CommPortIdentifier.getPortIdentifier("/dev/ttyACM0");
+            portId = CommPortIdentifier.getPortIdentifier("/dev/ttyACM1");
         }
         catch (NoSuchPortException e2)
         {
@@ -120,6 +120,8 @@ public class ThreadBalises extends AbstractThread
         String vals;
         byte no;
         long timestamp;
+        serialPort.notifyOnDataAvailable(false);
+        updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
         while(true)
         {
 
@@ -130,6 +132,7 @@ public class ThreadBalises extends AbstractThread
                 timestamp = Long.parseLong(vals.substring(2));
             } catch (NumberFormatException e)
             {
+
                 log.warning("BALISES : Mauvaise donnée balise");
                 continue;
             }
@@ -157,6 +160,7 @@ public class ThreadBalises extends AbstractThread
                 }
             }
 
+            Sleep.sleep(1);
 
         }
     }
@@ -269,7 +273,7 @@ public class ThreadBalises extends AbstractThread
 
     void checkData(byte no, long timestamp)
     {
-        if(!wrote[no])
+        if(wrote[no])
             return;
 
         if( permissions[no] == Perm.CAN_BE_FIRST || ( permissions[no] == Perm.CANT_BE_FIRST && !isFirst(no) ) ||
@@ -285,7 +289,6 @@ public class ThreadBalises extends AbstractThread
                         wrote[i]=false;
                 updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
             }
-
         }
     }
 

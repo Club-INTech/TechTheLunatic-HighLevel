@@ -181,6 +181,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     SerialPort.STOPBITS_1,
                     SerialPort.PARITY_NONE);
             serialPort.notifyOnDataAvailable(false);
+            serialPort.enableReceiveTimeout(TIME_OUT);
 
             input = serialPort.getInputStream();
             output = serialPort.getOutputStream();
@@ -223,7 +224,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     {
         if(shutdown)
             throw new SerialConnexionException();
-        synchronized(output)
+        synchronized(serialPort)
         {
             String inputLines[] = new String[nb_lignes_reponse];
             try
@@ -343,7 +344,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      */
     public synchronized void sendRaw(byte[] message) throws IOException {
         output.write(message);
-
     }
 
     /**
@@ -483,7 +483,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      */
     public int read() throws IOException
     {
-        synchronized (output) {
             if (input.available() == 0)
                 Sleep.sleep(5); // On attend un tout petit peu, au cas où
 
@@ -494,13 +493,12 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
 
             return out & 0xFF;
-        }
+
     }
 
     private String readLine()
     {
         String res = "";
-        synchronized (output) {
             try {
                 int lastReceived;
 
@@ -571,14 +569,16 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                 e.printStackTrace();
             }
             return res;
-        }
+
     }
 
     private String waitAndGetResponse()
     {
         String res;
 
-        while((res = standardBuffer.poll()) == null)
+        long startTime = System.currentTimeMillis();
+
+        while((res = standardBuffer.poll()) == null && System.currentTimeMillis() - startTime < 2*TIME_OUT)
         {
             try {
                 Thread.sleep(100);
@@ -586,6 +586,9 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                 e.printStackTrace();
             }
         }
+
+        if(res == null)
+            return "";
 
         return res;
     }

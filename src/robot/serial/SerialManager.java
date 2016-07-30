@@ -104,6 +104,9 @@ public class SerialManager
 
 		for (String connectedSerial : this.connectedSerial)
 		{
+			if(connectedSerial.contains("ACM"))
+				continue;
+
 			ThreadSerial ser = new ThreadSerial(log,"test");
 			ser.initialize(connectedSerial, baudrate);
 
