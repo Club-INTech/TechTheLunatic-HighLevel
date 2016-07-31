@@ -19,8 +19,12 @@
 
 package enums;
 
+/**
+ * Principales raisons bloquant le robot
+ * A utiliser avec les exceptions UnableToMove
+ */
 public enum UnableToMoveReason
 {
-	OBSTACLE_DETECTED,
-	PHYSICALLY_BLOCKED,
+	OBSTACLE_DETECTED, // obstacle vu par les capteurs
+	PHYSICALLY_BLOCKED, // blocage physique (bord de table, décor...)
 }

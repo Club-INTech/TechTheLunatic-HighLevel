@@ -21,27 +21,20 @@ package exceptions;
 
 
 /**
- * Utilisée par la stratégie pour savoir qu'on a récupéré tous les coquillages disponibles de notre côté
+ * Exception levée par les scripts pour le score ou la position d'entrée
  */
 public class BadVersionException extends Exception
 {
-    /**
-     * Indique s'il s'agit d'un problème bénin de coquillages (aucun disponible)
-     */
-    private boolean shellProblem=false;
+	private static final long serialVersionUID = 9001281178162797559L;
 
     public BadVersionException()
     {
-
+    	super();
     }
-
-    public BadVersionException(boolean shells)
+    
+    public BadVersionException(String m)
     {
-        this.shellProblem = true;
+    	super(m);
     }
 
-
-    public boolean isShellProblem() {
-        return shellProblem;
-    }
 }

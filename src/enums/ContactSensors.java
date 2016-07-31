@@ -31,7 +31,7 @@ public enum ContactSensors {
 	/**le string a envoyer a la serie*/
 	private String serialSensor;
 	
-	/**la valeur par default envoyee par le capteur (celle qui fait terminer le script le plus vite)*/
+	/**la valeur par defaut envoyee par le capteur (celle qui fait terminer le script le plus vite)*/
 	private boolean defaultValue;
 
 	public int getAverageDuration() 

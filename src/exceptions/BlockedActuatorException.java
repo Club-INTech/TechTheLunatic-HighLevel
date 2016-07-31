@@ -21,11 +21,14 @@ package exceptions;
 
 
 /**
- * Un capteur est bloqué, bloquant le script
+ * Exception levée lorsqu'un des actionneurs est bloqué
  */
 public class BlockedActuatorException extends Exception
 {
-    public BlockedActuatorException()
+
+	private static final long serialVersionUID = 5491450420828506304L;
+
+	public BlockedActuatorException()
     {
         super();
     }

@@ -19,9 +19,12 @@
 
 package enums;
 
+/** Liste des stratégies en rotation du robot
+ * @author Discord
+ */
 public enum TurningStrategy
 {
-    FASTEST,
-    RIGHT_ONLY,
-    LEFT_ONLY;
+    FASTEST, // au plus rapide
+    RIGHT_ONLY, // dans le sens horaire seulement
+    LEFT_ONLY; // dans le sens trigo seulement
 }

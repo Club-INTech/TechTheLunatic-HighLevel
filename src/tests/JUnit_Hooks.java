@@ -47,7 +47,6 @@ public class JUnit_Hooks extends JUnit_Test
 	private HookFactory hookFactory;
 	private ArrayList<Hook> emptyHook = new ArrayList<Hook>();
 	
-	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception
 	{

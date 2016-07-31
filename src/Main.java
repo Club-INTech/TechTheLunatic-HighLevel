@@ -31,10 +31,7 @@ import table.Table;
 import threads.ThreadTimer;
 import utils.Config;
 import utils.Log;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**
@@ -56,7 +53,6 @@ public class Main
 // dans la config de debut de match, toujours demander une entrée clavier assez longue (ex "oui" au lieu de "o", pour éviter les fautes de frappes. Une erreur a ce stade coûte cher.
 // ---> En même temps si tu tapes n à la place de o, c'est que tu es vraiment con.  -Discord
 // PS : Les vérifications et validations c'est pas pour les chiens.
-	@SuppressWarnings("unchecked")
 	public static void main(String[] args)
 	{
 		try
@@ -98,14 +94,15 @@ public class Main
 	
 
 	/**
-	 * Attends que le match soit lancé
-	 * cette fonction prend fin quand le match a démarré
+	 * Attend la mise en place puis le retrait du jumper pour lancer le robot dans son match
+	 * Méthode à appeler dans le main juste avant de lancer l'IA ou le match scripté
 	 */
 	static void waitMatchBegin()
 	{
 
 		System.out.println("Robot pret pour le match, attente du retrait du jumper");
-
+		
+		// attend l'insertion du jumper
 		while(mSerialWrapper.isJumperAbsent())
 		{
 			try {
@@ -114,6 +111,8 @@ public class Main
 				e.printStackTrace();
 			}
 		}
+		
+		// puis attend son retrait
 		while(!mSerialWrapper.isJumperAbsent())
 		{
 			try {
@@ -126,32 +125,4 @@ public class Main
 		// maintenant que le jumper est retiré, le match a commencé
 		ThreadTimer.matchStarted = true;
 	}
-	
-
-	/**
-	 * Demande si la couleur est verte au jaune
-	 * @throws Exception
-	 */
-	static void configColor()
-	{
-		String couleur = "";
-		while(!couleur.contains("violet") && !couleur.contains("vert")) // TODO : modifier les couleurs
-		{
-			System.out.println("Rentrez \"vert\" ou \"violet\" : ");
-			BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in)); 
-			 
-			try 
-			{
-				couleur = keyboard.readLine();
-			}
-			catch (IOException e) 
-			{
-				System.out.println("Erreur IO: le clavier est il bien branché ?");
-			} 
-			if(couleur.contains("violet"))
-				config.set("couleur","violet");
-			else if(couleur.contains("vert"))
-				config.set("couleur", "vert");	
-		}
-	}	
 }

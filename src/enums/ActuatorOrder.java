@@ -39,8 +39,9 @@ public enum ActuatorOrder
 	TURN_LEFT("tg"),
 	SSTOP("sstop"),
 	MONTLHERY("montlhery"),
-
-
+	
+	// TODO : rajouter les actionneurs (AX-12, moteurs...)
+	
 	STOP("stop");
 
 	/**

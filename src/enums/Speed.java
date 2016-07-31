@@ -40,32 +40,19 @@ public enum Speed
 	SLOW_T_MEDIUM_R(200,Math.PI/2),
 	
 	/** Vitesse standard de déplacement et rotation*/
-	MEDIUM_ALL(420,(Math.PI/2)),
+	MEDIUM_ALL(420,Math.PI/2),
 
 	/** Just for fishing */
 	SLOW_MEDIUM(300, Math.PI/2),
 	
 	/** vitesse standard de déplacement, lente en rotation*/
 	MEDIUM_T_SLOW_R(350,Math.PI/4),
-
+	
+	/** vitesse rapide en translation et lente en rotation*/
 	FAST_T_SLOW_R(500, Math.PI/4),
 
 	/** vitesse rapide en translation et rotation*/
 	FAST_ALL(500,(Math.PI));
-	
-	///** vitesse en temps normal (pour des distances de 200mm à 1000 mm) */
-		//BETWEEN_SCRIPTS_SLOW(10, 10),
-	
-	//buggé jusqu'a nouveau test
-//	/** vitesse en temps normal (distances de 1000+ mm) */
-//	BETWEEN_SCRIPTS(20, 20),
-//    
-//    /** vitesse rapide */
-//    FAST(60,60),
-//	
-//    /** vitesse très rapide */
-//	VERY_FAST(100, 100);
-
     
     /** vitesse des moteurs lors d'une translation, ce sont ces valeurs qui seront envoyées à la STM*/
     public float translationSpeed;
@@ -76,8 +63,8 @@ public enum Speed
         
     /**
      * Constructeur d'une vitesse.
-     * @param translationSpeed la vitesse (entre 0 et 255) translationnel
-     * @param rotationSpeed la vitesse (entre 0 et 255) en rotation
+     * @param translationSpeed la vitesse de translation ( en mm/s)
+     * @param rotationSpeed la vitesse de rotation (en rad/s)
      */
     private Speed(int translationSpeed, double rotationSpeed)
     {

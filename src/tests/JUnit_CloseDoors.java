@@ -41,7 +41,6 @@ public class JUnit_CloseDoors extends JUnit_Test
 	private GameState mRobot;
 	private ScriptManager scriptManager;
 
-	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception
 	{

@@ -38,7 +38,6 @@ public class JUnit_Symetry extends JUnit_Test
 	ScriptManager scriptmanager;
 	SerialWrapper serialWrapper;
 	
-	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception
 	{
