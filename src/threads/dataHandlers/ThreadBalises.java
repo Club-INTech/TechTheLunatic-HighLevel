@@ -67,9 +67,9 @@ public class ThreadBalises extends AbstractThread
 
     private boolean[] wrote = new boolean[3];
 
-    private double[] counter = new double[3];
+    private double[] counter = new double[4];
 
-    private final String[] names = new String[3];
+    private final String[] names = new String[4];
 
     public ThreadBalises(Robot robot)
     {
@@ -183,6 +183,7 @@ public class ThreadBalises extends AbstractThread
                         debugPos.addPointFromTimestamps(timestamps[CANAL_1], timestamps[CANAL_2], timestamps[INT],0);
                         debugPos.addPoint(robot.getPositionFast().clone(),1);
                     }
+                    counter[3]++;
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -192,7 +193,7 @@ public class ThreadBalises extends AbstractThread
             if(debugSignal != null && System.currentTimeMillis() - lastSignalDebug >= 1000)
             {
                 debugSignal.addData(counter.clone(), names);
-                counter[0]=0;   counter[1]=0;  counter[2]=0;
+                counter[0]=0;  counter[1]=0;  counter[2]=0; counter[3]=0;
                 lastSignalDebug = System.currentTimeMillis();
             }
 
@@ -374,6 +375,7 @@ public class ThreadBalises extends AbstractThread
         names[CANAL_1] = "Signal CANAL_1";
         names[CANAL_2] = "Signal CANAL_2";
         names[INT] = "Signal INT";
+        names[3] = "Mesures valides/sec";
 
     }
 }
