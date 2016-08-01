@@ -29,11 +29,14 @@ import org.junit.runner.JUnitCore;
 import robot.Robot;
 import strategie.GameState;
 import table.Table;
+import threads.dataHandlers.ThreadBalises;
 
 public class JUnit_BorneArcade extends JUnit_Test 
 {
 	GameState real_state;
 	Window win;
+
+	ThreadBalises balises;
 	
 	public static void main(String[] args) throws Exception
 	{
@@ -59,7 +62,8 @@ public class JUnit_BorneArcade extends JUnit_Test
 		real_state.robot.updateConfig();
 		real_state.robot.useActuator(ActuatorOrder.MONTLHERY, false);
 
-		container.getService(ServiceNames.THREAD_BALISES);
+		balises = (ThreadBalises) container.getService(ServiceNames.THREAD_BALISES);
+		balises.showDebug();
 		container.startInstanciedThreads();
 
 	}

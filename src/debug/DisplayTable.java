@@ -1,10 +1,28 @@
-package debug;
+/*
+ * Copyright (c) 2016, INTech.
+ *
+ * This file is part of INTech's HighLevel.
+ *
+ *  INTech's HighLevel is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  INTech's HighLevel is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with it.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
+package debug;
 
 import smartMath.Vec2;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -213,6 +231,7 @@ public class DisplayTable extends JPanel {
 
 	public synchronized void addPointFromTimestamps(double t0, double t1, double t2, int indiceListe)
 	{
+		//t0 = CANAL_1 ; t1 = CANAL_2 ; t2 = INT
 		addPoint(Triangulation.computePoints(t0, t1, t2), indiceListe);
 	}
 	

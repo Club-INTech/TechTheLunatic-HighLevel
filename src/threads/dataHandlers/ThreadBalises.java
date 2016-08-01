@@ -19,6 +19,8 @@
 
 package threads.dataHandlers;
 
+import debug.AffichageDebug;
+import debug.DisplayTable;
 import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;
 import gnu.io.PortInUseException;
@@ -53,6 +55,9 @@ public class ThreadBalises extends AbstractThread
     private final byte CANAL_2 = 2;
     private final byte INT = 0;
 
+    private DisplayTable debugPos = null;
+    private AffichageDebug debugSignal = null;
+
     private final long MAX_INTER_GAP = 6250;
     private final long MAX_EXTREME_GAP = 9870;
 
@@ -61,6 +66,10 @@ public class ThreadBalises extends AbstractThread
     private long[] timestamps = new long[3];
 
     private boolean[] wrote = new boolean[3];
+
+    private double[] counter = new double[3];
+
+    private final String[] names = new String[3];
 
     public ThreadBalises(Robot robot)
     {
@@ -129,6 +138,7 @@ public class ThreadBalises extends AbstractThread
         String vals;
         byte no;
         long timestamp;
+        long lastSignalDebug = System.currentTimeMillis();
         serialPort.notifyOnDataAvailable(false);
         updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
         while(true)
@@ -147,6 +157,7 @@ public class ThreadBalises extends AbstractThread
             }
 
             checkData(no, timestamp);
+            counter[no]++;
 
             if(wrote[0] && wrote[1] && wrote[2])
             {
@@ -155,7 +166,7 @@ public class ThreadBalises extends AbstractThread
 
                 if(extremeLateness())
                 {
-                    log.debug("BALISES : Valeurs refusées car ecart > 9670 us");
+                    log.critical("BALISES : Valeurs refusées car ecart > 9670 us");
                     continue;
                 }
 
@@ -166,9 +177,23 @@ public class ThreadBalises extends AbstractThread
                     outpos.write(robot.getPositionFast().x+"\t"+robot.getPositionFast().y);
                     outpos.newLine();
                     outpos.flush();
+
+                    if(debugPos != null)
+                    {
+                        debugPos.addPointFromTimestamps(timestamps[CANAL_1], timestamps[CANAL_2], timestamps[INT],0);
+                        debugPos.addPoint(robot.getPositionFast().clone(),1);
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+
+            if(debugSignal != null && System.currentTimeMillis() - lastSignalDebug >= 1000)
+            {
+                debugSignal.addData(counter.clone(), names);
+                counter[0]=0;   counter[1]=0;  counter[2]=0;
+                lastSignalDebug = System.currentTimeMillis();
             }
 
             Sleep.sleep(1);
@@ -340,5 +365,15 @@ public class ThreadBalises extends AbstractThread
         }
 
         return max-min > MAX_EXTREME_GAP;
+    }
+
+    public void showDebug()
+    {
+        this.debugPos = new DisplayTable(true);
+        this.debugSignal = new AffichageDebug();
+        names[CANAL_1] = "Signal CANAL_1";
+        names[CANAL_2] = "Signal CANAL_2";
+        names[INT] = "Signal INT";
+
     }
 }
