@@ -100,7 +100,7 @@ public class ThreadBalises extends AbstractThread
         CommPortIdentifier portId = null;
         try
         {
-            portId = CommPortIdentifier.getPortIdentifier("/dev/ttyACM0");
+            portId = CommPortIdentifier.getPortIdentifier("/dev/ttyACM1");
         }
         catch (NoSuchPortException e2)
         {
@@ -181,7 +181,8 @@ public class ThreadBalises extends AbstractThread
                     if(debugPos != null)
                     {
                         debugPos.addPointFromTimestamps(timestamps[CANAL_1], timestamps[CANAL_2], timestamps[INT],0);
-                        debugPos.addPoint(robot.getPositionFast().clone(),1);
+                        debugPos.addPoint(robot.getPosition().clone(), 1);
+                        debugPos.showHyperbolaFromTimestamps(timestamps[CANAL_1], timestamps[CANAL_2], timestamps[INT]);
                     }
                     counter[3]++;
 

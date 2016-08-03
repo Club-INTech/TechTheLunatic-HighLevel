@@ -243,6 +243,15 @@ public class DisplayTable extends JPanel {
 			repaint();
 		}
 	}
+
+	public synchronized void showHyperbolaFromTimestamps(double t0, double t1, double t2)
+	{
+		clearHyperboles();
+		hyperboles.add(new Hyperbola(0, Math.abs(t2-t1)));
+        hyperboles.add(new Hyperbola(1, Math.abs(t0-t2)));
+        hyperboles.add(new Hyperbola(2, Math.abs(t0-t1)));
+        repaint();
+	}
 	
 	public synchronized void clearPoints()
 	{
