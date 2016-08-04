@@ -22,11 +22,9 @@ package tests;
 import enums.ActuatorOrder;
 import enums.ServiceNames;
 import enums.Speed;
-import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
-import robot.Robot;
 import strategie.GameState;
 import table.Table;
 import threads.dataHandlers.ThreadBalises;
@@ -34,7 +32,7 @@ import threads.dataHandlers.ThreadBalises;
 public class JUnit_BorneArcade extends JUnit_Test 
 {
 	GameState real_state;
-	Window win;
+	//Window win;
 
 	ThreadBalises balises;
 	
@@ -50,7 +48,7 @@ public class JUnit_BorneArcade extends JUnit_Test
 
 		real_state = (GameState) container.getService(ServiceNames.GAME_STATE);
         
-		win = new Window((Table)container.getService(ServiceNames.TABLE), (Robot)real_state.robot);
+		//win = new Window((Table)container.getService(ServiceNames.TABLE), (Robot)real_state.robot);
 		
 		//container.getService(ServiceNames.THREAD_INTERFACE);
 		//container.getService(ServiceNames.THREAD_SENSOR);

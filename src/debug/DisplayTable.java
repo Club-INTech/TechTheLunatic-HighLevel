@@ -232,11 +232,22 @@ public class DisplayTable extends JPanel {
 	public synchronized void addPointFromTimestamps(double t0, double t1, double t2, int indiceListe)
 	{
 		//t0 = CANAL_1 ; t1 = CANAL_2 ; t2 = INT
-		addPoint(Triangulation.computePoints(t0, t1, t2), indiceListe);
+		addPoint(Triangulation.computePoints(t0, t1, t2)[0], indiceListe);
+	}
+
+	public synchronized void addAllPointsFromTimestamps(double t0, double t1, double t2, int indiceListe1, int indiceListe2)
+	{
+		//t0 = CANAL_1 ; t1 = CANAL_2 ; t2 = INT
+        Vec2[] pos = Triangulation.computePoints(t0, t1, t2);
+		addPoint(pos[0], indiceListe1);
+        addPoint(pos[1], indiceListe2);
 	}
 	
 	private synchronized void addPoint(Vec2 p, int indiceListe, Color couleur)
 	{
+		if(p == null)
+			return;
+
 		if(p.x >= -1500 && p.x <= 1500 && p.y >= 0 && p.y <= 2000 && indiceListe >= 0 && indiceListe < nbListe)
 		{
 			points[indiceListe].add(new Point(p, couleur));
@@ -294,7 +305,7 @@ public class DisplayTable extends JPanel {
 	
 	public void setUniquePointFromTimestamps(double t0, double t1, double t2)
 	{
-		setUniquePoint(Triangulation.computePoints(t0, t1, t2));
+		setUniquePoint(Triangulation.computePoints(t0, t1, t2)[0]);
 	}
 	
 }

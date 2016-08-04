@@ -45,8 +45,9 @@ public class Triangulation {
     private static double dateDebut = 0;
     private static int nbPoints = 0;
     
-    public static Vec2 computePoints(double t0, double t1, double t2)
+    public static Vec2[] computePoints(double t0, double t1, double t2)
     {
+        Vec2[] res = new Vec2[2];
     	double t0_trie, t1_trie, t2_trie;
     	t0_trie = Math.min(t0, Math.min(t1, t2));
     	t2_trie = Math.max(t0, Math.max(t1, t2));
@@ -119,12 +120,16 @@ public class Triangulation {
 		{
 			if(verbose)
 				System.out.println("Autre solution : "+point1);
-			return point2;
+            res[0] = point2;
+            res[1] = point1;
+			return res;
 		}
         
 		if(verbose)
 			System.out.println("Autre solution : "+point2);
-        return point1;
+        res[1] = point2;
+        res[0] = point1;
+        return res;
 //        System.out.println(point1+" "+point2);
 
     }
