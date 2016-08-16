@@ -24,7 +24,7 @@ import java.io.StringWriter;
 
 
 /**
- * Exception lancée en cas de blocage mécanique du robot (les moteurs forcent sans que les codeuses ne tournent pas)
+ * Exception lancée en cas de blocage mécanique du robot (les moteurs forcent sans que les codeuses tournent)
  * @author pf, marsu
  *
  */

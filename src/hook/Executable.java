@@ -23,7 +23,7 @@ import strategie.GameState;
 
 /**
  * Interface utilisée pour passer des méthodes à Callback.
- * Il faut créer une classe implémentant cette interface par méthode d'intérêt.
+ * Il faut créer une classe (dans le package hook.methods) implémentant cette interface par méthode d'intérêt.
  * Il y a alors, dans l'implémentation, des attributs pour les arguments qui sont initialisés par le constructeur,
  * de manière à ce que execute reste sans argument.
  * @author pf
@@ -32,7 +32,8 @@ import strategie.GameState;
 public interface Executable
 {
 	/**
-	 * La méthode qui sera exécutée par le hook
+	 * La méthode qui sera exécutée par le hook, elle est à override dans chaque classe implémentant Executable.
+	 * C'est dans cette méthode que seront définies les actions effectuées par le robot lors d'un déplacement. 
 	 * @param stateToConsider 
      * @return un booléen qui renseignera sur le fait que la méthode fait ou non bouger le robot
 	 */

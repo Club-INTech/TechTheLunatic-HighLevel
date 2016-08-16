@@ -20,8 +20,8 @@
 package enums;
 
 /**
- * Principales raisons bloquant le robot
- * A utiliser avec les exceptions UnableToMove
+ * Principales raisons bloquant le robot.
+ * A utiliser avec les exceptions UnableToMoveException
  */
 public enum UnableToMoveReason
 {

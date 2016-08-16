@@ -24,7 +24,8 @@ import hook.Executable;
 import strategie.GameState;
 
 /**
- * Exécutable réduisant la vitesse en cours de mouvement
+ * Exécutable réduisant la vitesse du robot en cours de mouvement.
+ * Implémente le service Executable pour redéfinir la méthode execute.
  * @author CF
  */
 public class SpeedDown implements Executable

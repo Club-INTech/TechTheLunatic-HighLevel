@@ -29,29 +29,21 @@ import java.io.StringWriter;
  * Problème générique de déplacement du robot, que ce soit a cause d'un robot ennemi
  * (détecté par les capteurs) qui bloque le passage, ou d'un bloquage mécanique (type mur)
  * @author pf, marsu, theo
- *
  */
 public class UnableToMoveException extends Exception
 {
 
-	/**
-	 * La position où on voulais aller au moment de l'exception
-	 */
+	
+	/** La position où on voulait aller au moment de l'exception */
 	public Vec2 aim;
 	
-	/**
-	 * La raison de l'exception
-	 */
+	/** La raison du blocage */
 	public UnableToMoveReason reason;
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8139322860107594266L;
 
 	/**
-	 * 
-	 * @param aim  position où on voulais aller au moment de l'exception
+	 * @param aim  position où on voulait aller au moment de l'exception
 	 * @param reason raison de l'exception
 	 */
 	public UnableToMoveException(Vec2 aim, UnableToMoveReason reason)
@@ -63,7 +55,7 @@ public class UnableToMoveException extends Exception
 	
 	/**
 	 * @param m 
-	 * @param aim  position où on voulais aller au moment de l'exception
+	 * @param aim  position où on voulait aller au moment de l'exception
 	 * @param reason raison de l'exception
 	 */
 	public UnableToMoveException(String m, Vec2 aim, UnableToMoveReason reason)

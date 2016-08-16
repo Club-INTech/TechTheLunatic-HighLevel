@@ -22,10 +22,9 @@ package hook;
 import strategie.GameState;
 
 /**
- * Classe de callback. Contient la fonction et ses arguments à appeler.
+ * Classe de callback qui possède la fonction que le robot doit effectuer pendant son déplacement.
  * @author pf
  */
-
 public class Callback
 {
 
@@ -41,9 +40,9 @@ public class Callback
 	private GameState stateToConsider = null;
 
 	/**
-	 * Constructeur d'un callback avec 2 paramètres: la méthode et si elle doit être exécutée une seule fois
-	 * @param methode
-	 * @param unique
+	 * Constructeur d'un callback avec 2 paramètres
+	 * @param methode la méthode à exécuter
+	 * @param unique si l'exécution est unique
 	 * @param stateToConsider 
 	 */
 	public Callback(Executable methode, boolean unique, GameState stateToConsider)

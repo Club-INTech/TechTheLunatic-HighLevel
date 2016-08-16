@@ -24,12 +24,9 @@ import java.io.StringWriter;
 
 public class ExecuteException extends Exception
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6657089731926485052L;
 	/**
-	 * Exception levée par un Execute raté
+	 * Exception levée lorsqu'un script échoue dans sa méthode Execute
 	 * @author Théo
 	 */
 	

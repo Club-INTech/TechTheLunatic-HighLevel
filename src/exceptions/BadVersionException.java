@@ -22,6 +22,7 @@ package exceptions;
 
 /**
  * Exception levée par les scripts pour le score ou la position d'entrée
+ * si la version demandée n'existe pas
  */
 public class BadVersionException extends Exception
 {

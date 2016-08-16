@@ -34,17 +34,16 @@ public class HookIsPositionAndOrientationCorrect extends Hook
 {
 
 		
-	//centre du cercle qui nous interesse pour activer le hook
+	/**centre du cercle qui nous interesse pour activer le hook*/
 	private Vec2 mPoint;
 	
-	//orientation de declenchement du hook 
+	/**orientation de declenchement du hook */
 	private float mOrientation;
 		
-	// Tolerance qu'on accorde au robot pour activer le hook, en mm 
+	/** Tolerance qu'on accorde au robot pour activer le hook, en mm*/ 
 	private float mTolerancyPoint;
 		
-	// Tolerance en orientation qu'on accorde au robot pour activer le hook, en miliradians : 
-	// attention à comparer miliradians avec miliradians
+	/**Tolerance en orientation qu'on accorde au robot pour activer le hook, en miliradians */ 
 	private float mTolerancyOrientation;
 	
 	public HookIsPositionAndOrientationCorrect(Config config, Log log,GameState realState,

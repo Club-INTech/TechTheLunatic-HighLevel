@@ -26,14 +26,14 @@ import utils.Log;
 import java.util.ArrayList;
 
 /**
- * Classe-mère abstraite des hooks, utilisés pour la programmation évènementielle
+ * Classe-mère abstraite des hooks, utilisés pour la programmation évènementielle.
+ * Les hooks permettent via leur callback de déclencher une action lors d'un mouvement du robot sous certaines conditions de position ou d'état de jeu.
  * @author pf
- *
  */
 
 abstract public class Hook
 {
-
+	/** Liste de callback du hook*/
 	protected ArrayList<Callback> callbacks = new ArrayList<Callback>();
 
 	/** Système de log sur lequel écrire */
@@ -47,7 +47,7 @@ abstract public class Hook
 	protected GameState mState;
 
 	/**
-	 *  ce constructeur ne sera appellé que par les constructeurs des classes filles (des hooks bien précis)  
+	 *  ce constructeur ne sera appellé que par les constructeurs des classes filles (des hooks bien précis dans le package hook.types)  
 	 * @param config endroit où lire la configuration du robot 
 	 * @param log Système de log sur lequel écrire
 	 * @param gameState Etat du jeu sur lequel on vérifie si le hook se déclenche ou non
@@ -62,7 +62,7 @@ abstract public class Hook
 	/**
 	 * On peut ajouter un callback à un hook.
 	 * Il n'y a pas de méthode pour en retirer, car il n'y en a a priori pas besoin
-	 * @param callback
+	 * @param callback le callback que l'on souhaite ajouter au hook 
 	 */
 	public void addCallback(Callback callback)
 	{
@@ -70,8 +70,7 @@ abstract public class Hook
 	}
 	
 	/**
-	 * Déclenche le hook.
-	 * Tous ses callbacks sont exécutés
+	 * Déclenche le hook en exécutant tous ses callbacks.
 	 * @return true si ce hook modifie les déplacements du robot
 	 */
 	protected boolean trigger()
@@ -85,7 +84,7 @@ abstract public class Hook
 
 	/**
 	 * Méthode qui sera surchargée par les classes filles.
-	 * Elle contient la condition d'appel du hook
+	 * Elle contient la condition d'appel du hook et de ses callbacks.
 	 * @return true si ce hook modifie les déplacements du robot, false sinon
 	 */
 	public abstract boolean evaluate();

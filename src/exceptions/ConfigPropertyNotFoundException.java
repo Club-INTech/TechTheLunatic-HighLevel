@@ -23,9 +23,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * exception levee si aucun chemin n'est trouve par le pathfinding
- * @author Etienne
- *
+ * exception levée si une propriété ou valeur n'est pas trouvée dans le fichier de config
  */
 public class ConfigPropertyNotFoundException extends Exception
 {
