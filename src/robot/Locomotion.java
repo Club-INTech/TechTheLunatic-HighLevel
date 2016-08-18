@@ -56,25 +56,19 @@ import java.util.ArrayList;
 public class Locomotion implements Service
 {
 
-	/**
-	 * le log si on a des erreurs
-	 */
+	/** le log si on a des erreurs */
     private Log log;
-    /**
-     * la config ...
-     */
+    
+    /**la config ...*/
     private Config config;
-    /**
-     * la table sur laquelle evolue le robot
-     */
+    
+    /** la table sur laquelle evolue le robot*/
     private Table table;
-    /**
-     * le bas-niveau
-     */
+    
+    /** le bas-niveau*/
     private SerialWrapper serialWrapper;
-    /**
-     * la longueur du robot (taille dans la direction où le robot avance)
-     */
+    
+    /** la longueur du robot (taille dans la direction où le robot avance)*/
     private int robotLength;
     
     /**
@@ -118,27 +112,21 @@ public class Locomotion implements Service
      */
     private double highLevelOrientation;
     
-    /**
-     * vrai si on est a gauche de la table (x<0 et violet)
-     * faux sinon
-     */
+    /** Indique si la symétrie est activée (si le robot démarre du côté x<0)
+     * La symétrie s'applique sur les déplacements et les actionneurs*/
     private boolean symetry;
     
-    /**
-     * temps d'attente entre deux boucles d'acquitement
-     */
+    /**temps d'attente entre deux boucles d'acquitement*/
     private int feedbackLoopDelay = 50;
-    /**
-     * la distance dont le robot vas avancer pour se degager en cas de bloquage mecanique
-     */
+    
+    /**la distance dont le robot va avancer pour se dégager en cas de bloquage mécanique*/
     private int distanceToDisengage = 50;
-    /**
-     * l'angle dont le robot vas tourner pour se degager en cas de blouage mecanique
-     */
+    
+    /**l'angle dont le robot va tourner pour se dégager en cas de bloquage mécanique*/
     private double angleToDisengage;
     
     /**
-     * 	La distance maximale pour une correction rotationelle 
+     * 	La distance maximale pour une correction translationnelle 
      * 	La correction ne sera effectuée que si le robot est loin de son point d'arrivée.
      */
     private final int maxLengthCorrectionThreeshold = 20;
@@ -151,22 +139,26 @@ public class Locomotion implements Service
 
     /**
      * L'orientation maximale pour ignorer le sens obligatoire de rotation
-     * Si l'angle y est inférieur, je tourne en FASTEST
+     * Si l'angle y est inférieur, le robot tourne en FASTEST
      */
     private final double maxRotationTurningStrategyIgnore = Math.PI/3;
 
-    /**Booleen explicitant si le robot est pret à tourner, utile pour le cercle de detection */
+    /**Booléen explicitant si le robot est prêt à tourner, utile pour le cercle de détection */
 	public boolean isRobotTurning=false;	
 	
 	/** nombre d'essais maximum après une BlockedException*/
     private int maxRetriesIfBlocked=1;
+    
+    /** nombre d'essais en cours après un BlockedException*/
     private int actualRetriesIfBlocked=0;
     
-    /** Utile pour l'activation dees capteurs*/
+    /** Indique si le robot est en marche avant, utile pour les capteurs*/
     public boolean isRobotMovingForward;
+    
+    /** Indique si le robot est en marche arrière, utile pour les capteurs*/
     public boolean isRobotMovingBackward;
 
-    /** Donne le sens de rotation */
+    /** Donne la stratégie de rotation */
     private TurningStrategy turningStrategy = TurningStrategy.FASTEST;
     
     /**Donne la stratégie de translation */
@@ -184,9 +176,7 @@ public class Locomotion implements Service
     /** Vitesse de rotation */
     private double rotSpeed = Speed.MEDIUM_ALL.rotationSpeed;
 
-    /**
-     * Valeurs des ultrasons filtrés par le LL pour la détection basique
-     */
+    /** Valeurs des ultrasons filtrés par le LL pour la détection basique */
     private ArrayList<Integer> USvalues;
 
     /**
@@ -195,18 +185,18 @@ public class Locomotion implements Service
      */
     private int basicDetectDistance = 200;
 
-    /**
-     * Si la détection basique est activée ou non
-     */
+    /** Si la détection basique est activée ou non */
     private boolean basicDetection = false;
 
-    /**
-     * Seulement pour les arcs, empêche de symétriser deux fois
-     */
+    /** Seulement pour les arcs, empêche de symétriser deux fois */
     private boolean symetrised = false;
 
-
-
+    /**Constructeur de Locomotion
+     * @param log le fichier de log
+     * @param config le fichier de config
+     * @param table la table de jeu
+     * @param serialWrapper protocole de communication série
+     */
     public Locomotion(Log log, Config config, Table table, SerialWrapper serialWrapper)
     {
         this.log = log;
@@ -217,12 +207,10 @@ public class Locomotion implements Service
         updateConfig();
     }
     
-    /**
-     * recale le robot qui a perdu sa position acuelle, rentre dans les murs ou les obstacles fixes
-     */
+    /**recale le robot qui a perdu sa position actuelle, rentre dans les murs ou les obstacles fixes*/
     public void readjust()
     {
-    	//TODO reajuster le robot en cours de match
+    	//TODO réajuster le robot en cours de match
     }
 
     

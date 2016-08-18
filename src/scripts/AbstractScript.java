@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 /**
  * Classe abstraite dont héritent les différents scripts.
- * Sles scripts héritants de cette classe peuvent être indifférement exécutés par un Robot ou un Robothrono.
+ * Les scripts héritants de cette classe peuvent être indifférement exécutés par un Robot ou un Robotchrono.
  * @author pf, marsu
  */
 public abstract class AbstractScript implements Service 
@@ -57,7 +57,7 @@ public abstract class AbstractScript implements Service
 	protected Integer[] versions;	
 	
 	/**
-	 * Constructeur a appeller lorsque un script héritant de la classe AbstractScript est instancié.
+	 * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
 	 * Le constructeur se charge de renseigner la hookFactory, le système de config et de log.
 	 * @param hookFactory La factory a utiliser pour générer les hooks dont pourra avoir besoin le script
 	 * @param config le fichier de config a partir duquel le script pourra se configurer

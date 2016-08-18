@@ -51,7 +51,7 @@ public class JUnit_Robot extends JUnit_Test
     @Test
     public void test_recaler() throws Exception
     {
-        robotReal.recaler();
+        robotReal.readjust();
     }
     
     // TODO : tester chaque action de cette facon

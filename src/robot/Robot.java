@@ -38,7 +38,6 @@ import java.util.ArrayList;
 /**
  * Effectue le lien entre le code et la réalité (permet de parler aux actionneurs, d'interroger les capteurs, etc.)
  * @author pf, marsu
- *
  */
 public class Robot implements Service
 {
@@ -49,9 +48,8 @@ public class Robot implements Service
 	/**  endroit ou lire la configuration du robot. */
 	protected Config config;
 
-	/**  la table est symétrisée si on est équipe jaune. */
+	/**  la table est symétrisée si le robot démarre du côté x<0 */
 	protected boolean symmetry;
-
 
 	/**  vitesse du robot sur la table. */
 	protected Speed speed;
@@ -62,7 +60,8 @@ public class Robot implements Service
 	/** l'orientation du robot*/
 	protected double orientation;
 
-	/** Rayon du robot provenant du fichier de config */
+	/** Rayon du robot provenant du fichier de config, modélise le robot comme un cercle.
+	 * Le rayon est la distance entre le centre des roues et le point le plus éloigné du centre*/
 	private int robotRay;
 
 	/** chemin en court par le robot, utilise par l'interface graphique */
@@ -73,17 +72,28 @@ public class Robot implements Service
 	/** Si le robot force dans ses mouvements*/
 	protected boolean isForcing = false;
 
+	/** Protocole de communication série*/
 	private SerialWrapper serialWrapper;
 
+	/** Map pour la symétrie des actionneurs*/
 	private SymmetrizedActuatorOrderMap mActuatorCorrespondenceMap = new SymmetrizedActuatorOrderMap();
+	
+	/** Map pour la symétrie de la stratégie en rotation*/
 	private SymmetrizedTurningStrategy mTurningStrategyCorrespondenceMap = new SymmetrizedTurningStrategy();
+	
+	/** Map pour la symétrie des capteurs*/
 	private SymmetrizedSensorNamesMap mSensorNamesMap = new SymmetrizedSensorNamesMap();
 	
-	/** Système de locomotion a utiliser pour déplacer le robot */
+	/** Système de locomotion à utiliser pour déplacer le robot */
 	private Locomotion mLocomotion;
 	
 	
-	/** Constructeur*/
+	/** Constructeur
+	 * @param deplacements système de locomotion
+	 * @param config fichier de config
+	 * @param log fichier de log
+	 * @param serialWrapper protocole communication série
+	 */
 	public Robot(Locomotion deplacements, Config config, Log log, SerialWrapper serialWrapper)
  	{
 		this.config = config;
@@ -95,7 +105,7 @@ public class Robot implements Service
 	}
 
 	/**
-	 * Met a jour la configuration de la classe via le fichier de configuration fourni par le sysème de container.
+	 * Met à jour la configuration de la classe via le fichier de configuration fourni par le sysème de container
 	 * et supprime les espaces (si si c'est utile)
 	 */
 	public void updateConfig()
@@ -141,6 +151,9 @@ public class Robot implements Service
 				}
 	}
 
+	/** Fait attendre le programme
+	 * @param duree attente en ms
+	 */
 	public void sleep(long duree)
 	{
 		Sleep.sleep(duree);
@@ -150,7 +163,7 @@ public class Robot implements Service
 	 * Recale le robot pour qu'il sache ou il est sur la table et dans quel sens il se trouve.
 	 * La méthode est de le faire pecuter contre les coins de la table, ce qui lui donne des repères.
 	 */
-	public void recaler()
+	public void readjust()
 	{
 	    mLocomotion.readjust();
 	}
