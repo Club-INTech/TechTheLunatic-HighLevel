@@ -45,7 +45,7 @@ public class GameState implements Service
     /** La table */
     public final Table table;
     
-    /** Le robot que l'on fait agir sur cette table. Cela peut être un Robot ou un Robothrono */
+    /** Le robot que l'on fait agir sur cette table*/
     public final Robot robot;
 
     /** Temps écoulé depuis le début du match en ms */

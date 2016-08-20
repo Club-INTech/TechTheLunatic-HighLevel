@@ -33,9 +33,9 @@ public abstract class Obstacle
 	protected Vec2 position;
 	
 	/**
-	 * construit un nouvel obstacle a position donnée
+	 * construit un nouvel obstacle à une position donnée
 	 *
-	 * @param position position de l'obstacle a construire
+	 * @param position position de l'obstacle à construire
 	 */
 	public Obstacle (Vec2 position)
 	{
@@ -48,8 +48,7 @@ public abstract class Obstacle
 	public abstract Obstacle clone();
 
 	/**
-	 * Renvois la position de cet obstacle.
-	 *
+	 * Renvoie la position de cet obstacle.
 	 * @return the position
 	 */
 	public Vec2 getPosition()
@@ -57,6 +56,9 @@ public abstract class Obstacle
 		return this.position;
 	}
 	
+	/** Change la position de l'obstacle
+	 * @param position la nouvelle position de l'obstacle
+	 */
 	public void setPosition(Vec2 position)
 	{
 		this.position = position;

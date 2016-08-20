@@ -20,20 +20,11 @@
 package smartMath;
 
 /**
- * classe de calculs de geometrie
+ * classe de calculs de géométrie
  * @author Etienne
- *
  */
 public class Geometry
 {
-	/**
-	 * retourne vrai si les points a, b, c sont orient�s dans le sens trigonometrique, faux sinon.
-	 * @param a
-	 * @param b
-	 * @param c
-	 * @return
-	 */
-	
 	/**
 	 * calcule le "vrai" modulo (entre 0 et module) contairement a % qui calcule entre -module et module
 	 * @param number le nombre dont on veut calculer le modulo
@@ -49,10 +40,10 @@ public class Geometry
 	}
 	
 	/**
-	 * calcule la diference entre deux angles dans un cercle (prends en compte le fait que le cercle soit circulaire)
+	 * calcule la différence entre deux angles dans un cercle (prends en compte le fait que le cercle soit circulaire)
 	 * @param angle1 le premier angle entre 0 et sizeOfCircle
-	 * @param angle2 le deuxieme angle entre 0 et sizeOfCircle (on peut echanger angle1 et angle2 sans changer le retour)
-	 * @param sizeOfCircle la taille du cercle (2Pi en Radiant 2000Pi en miliRadiant ou 360 en Degre par exemple)
+	 * @param angle2 le deuxieme angle entre 0 et sizeOfCircle (on peut échanger angle1 et angle2 sans changer le retour)
+	 * @param sizeOfCircle la taille du cercle (2Pi en Radiant 2000Pi en milliRadian ou 360 en Degré par exemple)
 	 * @return angle1 - angle2 dans un espace circulaire, forcement < a sizeOfCircle
 	 */
 	public static double minusAngle(double angle1, double angle2, double sizeOfCircle)
@@ -64,8 +55,8 @@ public class Geometry
 
 	/**
 	 * dit si l'angleEnd est plus loin que angleBegin sur le cercle trigo (prends en compte le fait que le cercle soit circulaire)
-	 * @param angleBegin l'angle de position initiale (doit etre en Radiant pas milliRadiant)
-	 * @param angleEnd l'angle dont on veut savoir si il est plus loin sur le cercle trigo (doit estre en Radiant et pas en milliRadiant)
+	 * @param angleBegin l'angle de position initiale (doit être en Radian pas milliRadian)
+	 * @param angleEnd l'angle dont on veut savoir si il est plus loin sur le cercle trigo (doit être en Radian et pas en milliRadian)
 	 * @return true si angleEnd est plus loin que angleBegin sur le cercle trigo
 	 */
 	public static boolean isFurtherInTrigoCircle(double angleBegin, double angleEnd) 
@@ -87,13 +78,13 @@ public class Geometry
 	 * 
 	 * @param segment1
 	 * @param segment2
-	 * @return vrai si il y a intersection entre les deux segments, faux sinon (les extremites ne sont pas comptees comme intersection)
+	 * @return vrai si il y a intersection entre les deux segments, faux sinon (les extremités ne sont pas comptées comme intersection)
 	 */
 	public static boolean intersects(Segment segment1, Segment segment2)
 	{
 		// les points formant les segments 1 et 2 sont A1, B1, A2, B2
 		// pour qu'il y ait intersection, il faut :
-		// - les segments ne soient pas paralleles : (A1B1)^(A2B2) != 0
+		// - les segments ne soient pas parallèles : (A1B1)^(A2B2) != 0
 		// - le point d'intersection est entre A2 et B2 : (A1B1)^(A1B2) * (A1B1)^(A1A2) < 0
 		// - le point d'intersection est entre A1 et B1 : (A2B2)^(A2B1) * (A2B2)^(A2A1) < 0
 		// ^ = produit vectoriel
@@ -112,16 +103,16 @@ public class Geometry
 	public static boolean intersects(Segment segment, Circle circle)
 	{
 		// TODO : expliquer l'algo (TOO MANY CASTS EXCEPTION)
-		double area = ((double)circle.position.x - (double)segment.getA().x)*((double)segment.getB().y - (double)segment.getA().y) - ((double)circle.position.y - (double)segment.getA().y)*((double)segment.getB().x - (double)segment.getA().x);
-		double distA = ((double)segment.getA().x - (double)circle.position.x)*((double)segment.getA().x - (double)circle.position.x) + ((double)segment.getA().y - (double)circle.position.y)*((double)segment.getA().y - (double)circle.position.y);
-		double distB = ((double)segment.getB().x - (double)circle.position.x)*((double)segment.getB().x - (double)circle.position.x) + ((double)segment.getB().y - (double)circle.position.y)*((double)segment.getB().y - (double)circle.position.y);
+		double area = ((double)circle.center.x - (double)segment.getA().x)*((double)segment.getB().y - (double)segment.getA().y) - ((double)circle.center.y - (double)segment.getA().y)*((double)segment.getB().x - (double)segment.getA().x);
+		double distA = ((double)segment.getA().x - (double)circle.center.x)*((double)segment.getA().x - (double)circle.center.x) + ((double)segment.getA().y - (double)circle.center.y)*((double)segment.getA().y - (double)circle.center.y);
+		double distB = ((double)segment.getB().x - (double)circle.center.x)*((double)segment.getB().x - (double)circle.center.x) + ((double)segment.getB().y - (double)circle.center.y)*((double)segment.getB().y - (double)circle.center.y);
 		if(distA >= (double)circle.radius*(double)circle.radius && distB < (double)circle.radius*(double)circle.radius || distA < (double)circle.radius*(double)circle.radius && distB >= (double)circle.radius*(double)circle.radius)
 			return true;
 		return distA >= (double)circle.radius*(double)circle.radius
 			&& distB >= (double)circle.radius*(double)circle.radius
 			&& area * area / (((double)segment.getB().x - (double)segment.getA().x)*((double)segment.getB().x - (double)segment.getA().x)+((double)segment.getB().y - (double)segment.getA().y)*((double)segment.getB().y - (double)segment.getA().y)) <= (double)circle.radius * (double)circle.radius
-			&& ((double)segment.getB().x - (double)segment.getA().x)*((double)circle.position.x - (double)segment.getA().x) + ((double)segment.getB().y - (double)segment.getA().y)*((double)circle.position.y - (double)segment.getA().y) >= 0
-			&& ((double)segment.getA().x - (double)segment.getB().x)*((double)circle.position.x - (double)segment.getB().x) + ((double)segment.getA().y - (double)segment.getB().y)*((double)circle.position.y - (double)segment.getB().y) >= 0;
+			&& ((double)segment.getB().x - (double)segment.getA().x)*((double)circle.center.x - (double)segment.getA().x) + ((double)segment.getB().y - (double)segment.getA().y)*((double)circle.center.y - (double)segment.getA().y) >= 0
+			&& ((double)segment.getA().x - (double)segment.getB().x)*((double)circle.center.x - (double)segment.getB().x) + ((double)segment.getA().y - (double)segment.getB().y)*((double)circle.center.y - (double)segment.getB().y) >= 0;
 	}
 	
 	
@@ -130,7 +121,7 @@ public class Geometry
 	 * 
 	 * @param segment1
 	 * @param segment2
-	 * @return le point d'intersection des droites portees par les segments.
+	 * @return le point d'intersection des droites portées par les segments.
 	 */
 	public static Vec2 intersection(Segment segment1, Segment segment2)
 	{

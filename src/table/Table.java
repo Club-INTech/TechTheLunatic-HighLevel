@@ -41,7 +41,7 @@ import utils.Log;
  */
 
 /**
- * Stocke toute les informations liées a la table (muables et immuables) au cours d'un match.
+ * Stocke toute les informations liées à la table (muables et immuables) au cours d'un match.
  * @author Discord
  */
 public class Table implements Service
@@ -56,9 +56,10 @@ public class Table implements Service
 	private Config config;
 	
 	//TODO : définir les éléments de jeu de la table
+	// Au besoin, créer les classes nécessaires dans le package table
 	
-	/** point de depart du match a modifier a chaque base roulante */
-	public static final Vec2 entryPosition = new Vec2(1500-175,1215); //TODO position entree
+	/** point de départ du match à modifier a chaque base roulante */
+	public static final Vec2 entryPosition = new Vec2(1500-175,1215); //TODO position entrée
 	
 	/**
 	 * Instancie une nouvelle table
@@ -76,7 +77,7 @@ public class Table implements Service
 	
 	public void initialise() // initialise la table du debut du jeu
 	{
-		// TODO : initialiser les éléments de jue définis plus haut
+		// TODO : initialiser les éléments de jeu définis plus haut
 	}
 
 	public ObstacleManager getObstacleManager()

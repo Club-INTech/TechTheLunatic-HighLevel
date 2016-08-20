@@ -20,67 +20,45 @@
 package smartMath;
 
 /**
- * 
+ * Classe des cercles, utile pour les points d'entrée des scripts et le Pathfinding
  * @author paul
- *Classe des cercles, utile pour les points d'entree des scripts et peut-etre pour le pathDingDing
  */
 public class Circle {
 
-	public Vec2 position;
+	/** Position du centre du cercle*/
+	public Vec2 center;
+	
+	/** Rayon du cercle*/
 	public double radius;
 	
 	/**
-	 * construit un cercle
-	 * @param position le centre en mm  pas de virgule
-	 * @param radius le rayon en mm, avec virgule
+	 * construit un cercle à partir de son centre et rayon
+	 * @param center le centre
+	 * @param radius le rayon en mm
 	 */
-	public Circle(Vec2 position, double radius)
+	public Circle(Vec2 center, double radius)
 	{
-		this.position=position;
+		this.center=center;
 		this.radius=radius;
 	}
 
 	/**
-	 * construit un cercle
-	 * dans ce constructeur on suppose le rayon nul
-	 *
+	 * construit un cercle de rayon nul, soit un point
 	 * @param center le centre en mm, pas de virgule
 	 */
 	public Circle(Vec2 center)
 	{
-		this.position=center;
-		this.radius=0;
-	}
-	/**
-	 * construit un cercle de rayon nul
-	 * @param centerX la coordonee en abscisse du centre
-	 * @param centerY la coordonee en ordonne du centre
-	 */
-	public Circle (int centerX, int centerY)
-	{
-		this.position=new Vec2(centerX,centerY);
+		this.center=center;
 		this.radius=0;
 	}
 
 	/**
-	 * cree un nouveau cerlce
-	 * @param centerX la position en abscisse du centre
-	 * @param centerY la position en ordonnee du centre
-	 * @param ray le rayon
-	 */
-	public Circle(int centerX, int centerY, int ray) 
-	{
-		this.position=new Vec2(centerX,centerY);
-		this.radius=ray;
-	}
-
-	/**
-	 * 
+	 * Getter de center
 	 * @return le centre du cercle (position en mm)
 	 */
-	public Vec2 toVec2()
+	public Vec2 getCenter()
 	{
-		return this.position;
+		return this.center;
 	}
 
 	/**
@@ -90,7 +68,7 @@ public class Circle {
 	 */
 	public boolean containDisk(Vec2 point)
 	{
-		return (point.distance(this.position)<=this.radius);
+		return (point.distance(this.center)<=this.radius);
 	}
 	
 	/**
@@ -100,8 +78,8 @@ public class Circle {
 	 */
 	public boolean containCircle(Vec2 point)
 	{
-		double dx=point.x-this.position.x;
-		double dy=point.y-this.position.y;
+		double dx=point.x-this.center.x;
+		double dy=point.y-this.center.y;
 		return (dx*dx+dy*dy)==(radius*radius);
 	}
 }

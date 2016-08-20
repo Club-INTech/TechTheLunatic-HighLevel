@@ -23,6 +23,7 @@ import smartMath.Vec2;
 
 /**
  * Element de jeu
+ * @author Discord
  */
 abstract class GameElement
 {
@@ -34,7 +35,7 @@ abstract class GameElement
 	public boolean inRobot;
 	
 	/**
-	 * Crée un nouvel élément a l'endroit de la table spécifié
+	 * Crée un nouvel élément à l'endroit de la table spécifié
 	 *
 	 * @param position position à laquelle instancier l'élément de jeu
 	 */

@@ -37,19 +37,17 @@ import java.util.ArrayList;
 
 /**
  * Script pour la fermeture des portes des cabines
- * Version 0 : Deplacement de la serviette aux portes puis fermeture en même temps ; aucune action prevue hors du deplacement ; aucun pathdingding/evitement ; si pb -> arret complet
+ * Version 0 : Déplacement de la serviette aux portes puis fermeture en même temps ; aucune action prevue hors du deplacement ; aucun pathdingding/evitement ; si pb -> arret complet
  * Version 1 : Identique à la version 0, sauf qu'on ferme les portes en marche avant
- * Version 2 : Intégration des trajectoires courbes
- * Version 3 : version 0 avec appel PDD
+ * Version 3 : Intégration des trajectoires courbes
+ * Version 4 : version 0 avec appel PDD
  * @author Discord, CF
  */
 public class CloseDoors extends AbstractScript
 {
 	public CloseDoors(HookFactory hookFactory, Config config, Log log) {
 		super(hookFactory, config, log);
-		/**
-		 * Versions du script
-		 */
+
 		versions = new Integer[]{0,1,3,4};
 		
 	}
@@ -58,12 +56,12 @@ public class CloseDoors extends AbstractScript
 	 * On lance le script choisi.
 	 * @param versionToExecute Version a lancer
 	 * @param stateToConsider Notre bon vieux robot
-	 * @param hooksToConsider Les hooks necessaires pour l'execution du script
+	 * @param hooksToConsider Les hooks nécessaires pour l'execution du script
 	 */
 	@Override
 	public void execute(int versionToExecute, GameState stateToConsider, ArrayList<Hook> hooksToConsider) throws SerialFinallyException, ExecuteException, UnableToMoveException
 	{
-		//Les parametres de cette version ont ete determines experimentalement, fonctionnel sur robot 2015
+		//Les paramètres de cette version ont été déterminés expérimentalement, fonctionnels sur robot 2015
 		
 		try
 		{

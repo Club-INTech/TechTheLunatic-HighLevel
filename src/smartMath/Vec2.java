@@ -38,15 +38,13 @@ package smartMath;
 public class Vec2
 {
 
-	/** The x. */
+	/** Abscisse x*/
 	public int x;
 	
-	/** The y. */
+	/** Ordonnée y*/
 	public int y;
 	
-	/**
-	 * Instantiates a new vec2.
-	 */
+	/** Constructeur d'un vecteur nul */
 	public Vec2()
 	{
 		x = 0;
@@ -54,10 +52,9 @@ public class Vec2
 	}
 
 	/**
-	 * Instantiates a new vec2.
-	 *
-	 * @param requestedX the requested x
-	 * @param requestedY the requested y
+	 * Construit un vecteur à partir de ses coordonnées cartésiennes
+	 * @param requestedX abscisse
+	 * @param requestedY ordonnée
 	 */
 	public Vec2(int requestedX, int requestedY)
 	{
@@ -65,61 +62,47 @@ public class Vec2
 		y = requestedY;
 	}
 	
-	// Do not square a length, use squared length directly
-	// to increase performances
+	// Il est plus performant de trouver la longueur au carré et de la comparer à des distances au carré que d'en extraire la racine
 	/**
-	 * Squared length.
-	 *
-	 * @return the int
+	 * @return la longueur au carré du vecteur 
 	 */
 	public int squaredLength()
 	{
 		return x*x + y*y;
 	}
 
-	// Returns this vec2's magnitude
 	/**
-	 * Length.
-	 * sqrt is applied
-	 * @return the float
+	 * @return la longueur du vecteur
 	 */
 	public float length()
 	{
 		return (float) Math.sqrt(squaredLength());
 	}
-	
-	// dot product
+
 	/**
-	 * le produit scalaire
-	 *
-	 * @param other the other
-	 * @return the int
+	 * Effectue le produit scalaire avec un second vecteur
+	 * @param other le second vecteur du produit scalaire
+	 * @return résultat du produit
 	 */
 	public int dot(Vec2 other)
 	{
 		return x*other.x + y*other.y;
 	}
 	
-
-	// build a new Vec2 by summing the calling Vec2 and the one in args
 	/**
-	 * Plus new vector.
-	 *
-	 * @param other the other
-	 * @return the vec2
+	 * Construit un nouveau vecteur avec une somme
+	 * @param other le vecteur à sommer au premier
+	 * @return le nouveau vecteur
 	 */
 	public Vec2 plusNewVector(Vec2 other)
 	{
 		return new Vec2(x + other.x, y + other.y);
 	}
 	
-	// build a new Vec2 with the value obtained by decrementing the
-	// calling Vec2 by the provided Vec2 in args
 	/**
-	 * Minus new vector.
-	 *
-	 * @param other the other
-	 * @return the vec2
+	 * Construit un nouveau vecteur avec une différence
+	 * @param other le vecteur à soustraire au premier
+	 * @return le nouveau vecteur
 	 */
 	public Vec2 minusNewVector(Vec2 other)
 	{
@@ -127,9 +110,8 @@ public class Vec2
 	}
 
 	/**
-	 * Plus.
-	 *
-	 * @param other the other
+	 * Accroissement du vecteur actuel par un second
+	 * @param other le second vecteur
 	 */
 	public void plus(Vec2 other)
 	{
@@ -138,9 +120,8 @@ public class Vec2
 	}
 	
 	/**
-	 * Minus.
-	 *
-	 * @param other the other
+	 * Réduction du vecteur actuel par un second
+	 * @param other le second vecteur
 	 */
 	public void minus(Vec2 other)
 	{
@@ -157,10 +138,9 @@ public class Vec2
 	}
 	
 	/**
-	 * Squared distance.
-	 *
-	 * @param other the other
-	 * @return the float
+	 * Calcul la distance au carré séparant le vecteur actuel d'un second
+	 * @param other le second vecteur
+	 * @return distance au carré entre les deux vecteurs
 	 */
 	public float squaredDistance(Vec2 other)
 	{
@@ -168,10 +148,9 @@ public class Vec2
 	}
 
 	/**
-	 * Distance.
-	 *
-	 * @param other the other
-	 * @return the float
+	 * Distance entre le vecteur actuel et un second
+	 * @param other le second vecteur
+	 * @return la distance entre les deux vecteurs
 	 */
 	public float distance(Vec2 other)
 	{
@@ -196,10 +175,9 @@ public class Vec2
 	}
 	
 	/**
-	 * Equals.
-	 *
-	 * @param other the other
-	 * @return true, if successful
+	 * Compare deux vecteurs
+	 * @param other le second vecteur
+	 * @return vrai si les coordonnées sont égales
 	 */
 	public boolean equals(Vec2 other)
 	{
@@ -207,21 +185,9 @@ public class Vec2
 	}
 	
 	/**
-	 * Dot float.
-	 *
-	 * @param a the a
-	 * @return the vec2
-	 */
-	public Vec2 dotFloat(int a)
-	{
-		return new Vec2(x*a,y*a);
-	}
-	
-	/**
-	 * Dot float.
-	 *
-	 * @param a the scalar to multiply the Vec2 with
-	 * @return the vec2 multiplied by a
+	 * Multiplication par un scalaire
+	 * @param a le scalaire
+	 * @return ancien vecteur dilaté
 	 */
 	public Vec2 dotFloat(double a)
 	{
@@ -229,9 +195,8 @@ public class Vec2
 	}
 	
 	/**
-	 * Sets the.
-	 *
-	 * @param other the other
+	 * Remplace les coordonnées du vecteur actuel par celui d'un second
+	 * @param other le second vecteur
 	 */
 	public void set(Vec2 other)
 	{
@@ -249,16 +214,6 @@ public class Vec2
 		result = prime * result + x;
 		result = prime * result + y;
 		return result;
-	}
-	
-	/**
-	 * Make copy.
-	 *
-	 * @return the vec2
-	 */
-	public Vec2 makeCopy()
-	{
-		return new Vec2(x, y);
 	}
 	
 	/* (non-Javadoc)
@@ -281,25 +236,13 @@ public class Vec2
 	}
 
 	/**
-	 * Manhattan_distance.
-	 *
-	 * @param other the other
-	 * @return the int
+	 * Distance Manhattan avec un second vecteur
+	 * @param other le second vecteur
+	 * @return la distance Manhattan
 	 */
 	public int manhattan_distance(Vec2 other)
 	{
 		return Math.abs(x - other.x) + Math.abs(y - other.y); 
-	}
-
-	/**
-	 * Copie this dans other.
-	 *
-	 * @param other the other
-	 */
-	public void copy(Vec2 other)
-	{
-	    other.x = x;
-	    other.y = y;
 	}
 
 	/**

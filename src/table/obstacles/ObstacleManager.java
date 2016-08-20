@@ -260,7 +260,7 @@ public class ObstacleManager
 	    		if(obstacle.position.distance(position)<(obstacle.radius+radius)/2)
 	    		{
     				mUntestedMobileObstacles.get(i).numberOfTimeDetected++;
-    				position.copy(mUntestedMobileObstacles.get(i).position);
+    				mUntestedMobileObstacles.get(i).position.set(position);
     				mUntestedMobileObstacles.get(i).radius=radius;
     				mUntestedMobileObstacles.get(i).setLifeTime(lifetime);
     				
@@ -287,7 +287,7 @@ public class ObstacleManager
     				isThereAnObstacleIntersecting=true;
     				
     				mMobileObstacles.get(i).numberOfTimeDetected++;
-    				position.copy(mMobileObstacles.get(i).position);
+    				mMobileObstacles.get(i).position.set(position);
     				mMobileObstacles.get(i).radius=radius;
     				mMobileObstacles.get(i).setLifeTime(lifetime);
     				
@@ -474,7 +474,7 @@ public class ObstacleManager
     /**
      * Change le position d'un robot adverse.
      *
-     * @param ennemyID num�ro du robot
+     * @param ennemyID numéro du robot
      * @param position nouvelle position du robot
      */
     public synchronized void setEnnemyNewLocation(int ennemyID, final Vec2 position)
@@ -502,7 +502,7 @@ public class ObstacleManager
     
     
     /**
-     * Utilis� pour les tests.
+     * Utilisé pour les tests.
      * Renvois le nombre d'obstacles mobiles actuellement en mémoire
      *
      * @return le nombre d'obstacles mobiles actuellement en mémoire
@@ -556,7 +556,7 @@ public class ObstacleManager
     }
     
     /**
-     *  On enleve les obstacles presents sur la table virtuelle mais non detectés
+     *  On enlève les obstacles présents sur la table virtuelle mais non detectés
      * @param position 
      * @param orientation 
      * @param detectionRadius 

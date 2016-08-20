@@ -20,42 +20,55 @@
 package smartMath;
 
 /**
- * segment, coordonnees double
+ * segment, coordonnées double
  * @author Etienne
  *
  */
 public class Segment
 {
+	/** Premier pont du segment*/
 	private Vec2 mPointA;
+	
+	/** Second point du segment*/
 	private Vec2 mPointB;
 	
-	public Segment()
-	{
-		mPointA = new Vec2();
-		mPointB = new Vec2();
-	}
-	
+	/** Construit le segment à partir de ses points extrêmes
+	 * @param pointA premier point
+	 * @param pointB second point
+	 */
 	public Segment(Vec2 pointA, Vec2 pointB)
 	{
 		mPointA = pointA;
 		mPointB = pointB;
 	}
 
+	/**
+	 * @return le premier point
+	 */
 	public Vec2 getA()
 	{
 		return mPointA;
 	}
 	
+	/**
+	 * @return le second point
+	 */
 	public Vec2 getB()
 	{
 		return mPointB;
 	}
 	
+	/**
+	 * @param pointA le nouveau point initial
+	 */
 	public void setA(Vec2 pointA)
 	{
 		mPointA = pointA;
 	}
 	
+	/**
+	 * @param pointB le nouveau point final
+	 */
 	public void setB(Vec2 pointB)
 	{
 		mPointB = pointB;
