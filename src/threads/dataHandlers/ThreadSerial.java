@@ -83,6 +83,11 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      */
     public static boolean shutdown = false;
 
+    /**
+     * DEFINE pour le print du log bas-niveau
+     */
+    private final boolean printLLDebug = true;
+
 
     //=================BUFFERS LinkedList<String>=======================
 
@@ -100,7 +105,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     private final char[] eventHeader = {0x13, 0x37};
 
-    private final char[] ultrasoundHeader = {0x01, 0x010};
+    private final char[] ultrasoundHeader = {0x01, 0x10};
 
     private final char[] debugHeader = {0x02, 0x20};
 
@@ -430,6 +435,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
                     if(buffer.toCharArray()[0] == debugHeader[0] && buffer.toCharArray()[1] == debugHeader[1])
                     {
+                        if(!printLLDebug) continue;
                         log.debug("Debug LL : "+buffer.substring(2));
                         continue;
                     }

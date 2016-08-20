@@ -57,9 +57,9 @@ public class Table implements Service
 	
 	//TODO : définir les éléments de jeu de la table
 	// Au besoin, créer les classes nécessaires dans le package table
-	
+
 	/** point de départ du match à modifier a chaque base roulante */
-	public static final Vec2 entryPosition = new Vec2(1500-175,1215); //TODO position entrée
+	public static final Vec2 entryPosition = new Vec2(600,1150); //TODO position entrée
 	
 	/**
 	 * Instancie une nouvelle table
