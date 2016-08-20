@@ -58,8 +58,9 @@ public class ThreadBalises extends AbstractThread
     private final byte CANAL_1 = 1;
     private final byte CANAL_2 = 2;
     private final byte INT = 0;
-    private final int FILTER_COUNT = 20;
-    private final byte DEBUG_MODE = 1;
+    private final int FILTER_COUNT = 100;
+    private final byte DEBUG_MODE = 1; // 0 : deux solutions brutes ; 1 : filtrage + dérivation
+    private final int GRAPH_FREQUENCY = 1; // Hz
 
     private byte count = 0;
 
@@ -69,20 +70,21 @@ public class ThreadBalises extends AbstractThread
     private final long MAX_INTER_GAP = 6250;
     private final long MAX_EXTREME_GAP = 9870;
 
-    private Perm[] permissions = new Perm[3];
+    private volatile Perm[] permissions = new Perm[3];
 
-    private long[] timestamps = new long[3];
+    private volatile long[] timestamps = new long[3];
 
-    private boolean[] wrote = new boolean[3];
+    private volatile boolean[] wrote = new boolean[3];
 
-    private double[] counter = new double[4];
+    private volatile double[] counter = new double[4];
 
     private final String[] names = new String[4];
 
     private LinkedList<Vec2> filter = new LinkedList<>();
 
-    private Vec2 lastMesure = null;
-    private Vec2 enemyPos = Table.entryPosition;
+    private volatile Vec2 lastMesure = null;
+    private volatile Vec2 enemyPos = Table.entryPosition;
+    private volatile boolean cleaned = false;
 
     public ThreadBalises(Robot robot)
     {
@@ -200,9 +202,13 @@ public class ThreadBalises extends AbstractThread
                             debugPos.addAllPointsFromTimestamps(timestamps[CANAL_1], timestamps[CANAL_2], timestamps[INT], 0, 1);
                             debugPos.addPoint(robot.getPositionFast().clone(), 2);
                         }
-                        else
+                        else if(DEBUG_MODE == 1)
                         {
                             addVal(Triangulation.computePoints(timestamps[CANAL_1], timestamps[CANAL_2], timestamps[INT])[0]);
+
+                            if(!cleaned)
+                                continue;
+
                             if(filter.size() == FILTER_COUNT)
                             {
                                 if(lastMesure == null)
@@ -212,14 +218,14 @@ public class ThreadBalises extends AbstractThread
                                 }
                                 count++;
                                 Vec2 delta = getMoy().minusNewVector(lastMesure);
-                                if(enemyPos.plusNewVector(delta).minusNewVector(enemyPos).length() >= 500)
-                                    throw new NullPointerException(); // #YOLO
+                               // if(enemyPos.plusNewVector(delta).minusNewVector(enemyPos).length() >= 250)
+                                 //   throw new NullPointerException(); // #YOLO
                                 enemyPos.plus(delta);
                                 debugPos.addPoint(enemyPos.clone(), 0);
                                 debugPos.addPoint(robot.getPositionFast().clone(), 1);
                                 lastMesure.plus(delta);
-                                if(count >= 50){
-                                    // debugPos.showHyperbolaFromTimestamps(timestamps[CANAL_1], timestamps[CANAL_2], timestamps[INT]);
+                                if(count >= 10){
+                                   // debugPos.showHyperbolaFromTimestamps(timestamps[CANAL_1], timestamps[CANAL_2], timestamps[INT]);
                                     count = 0;
                                 }
                             }
@@ -232,14 +238,12 @@ public class ThreadBalises extends AbstractThread
                 } catch (NullPointerException ignored){}
             }
 
-            if(debugSignal != null && System.currentTimeMillis() - lastSignalDebug >= 1000)
+            if(debugSignal != null && System.currentTimeMillis() - lastSignalDebug >= 1000 * Math.round(1./GRAPH_FREQUENCY))
             {
                 debugSignal.addData(counter.clone(), names);
                 counter[0]=0;  counter[1]=0;  counter[2]=0; counter[3]=0;
                 lastSignalDebug = System.currentTimeMillis();
             }
-
-            Sleep.sleep(1);
 
         }
     }
@@ -367,6 +371,7 @@ public class ThreadBalises extends AbstractThread
                     if(i!=no)
                         wrote[i]=false;
                 updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
+                log.debug("LATE "+no);
             }
         }
     }
@@ -387,12 +392,14 @@ public class ThreadBalises extends AbstractThread
         return true;
     }
 
-    boolean isLate(byte no)
-    {
-        for(byte i=0 ; i<3 ;i++)
-            if(i!=no && wrote[i] && timestamps[no] - timestamps[i] > MAX_INTER_GAP)
-                return true;
-        return false;
+    boolean isLate(byte no) {
+        long max = 0;
+        for (byte i = 0; i < 3; i++)
+            if (i != no && wrote[i] && timestamps[i] > max)
+                max = timestamps[i];
+
+        return max != 0 && timestamps[no] - max > MAX_INTER_GAP;
+
     }
 
     boolean extremeLateness()
@@ -436,8 +443,13 @@ public class ThreadBalises extends AbstractThread
 
     private void addVal(Vec2 val)
     {
+        if(!cleaned && filter.size() >= FILTER_COUNT)
+        {
+            filter.clear();
+            cleaned = true;
+        }
         if(filter.size() >= FILTER_COUNT)
-            filter.poll();
+            filter.clear();
         filter.add(val);
     }
 }
