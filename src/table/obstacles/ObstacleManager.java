@@ -702,8 +702,8 @@ public class ObstacleManager
 		}
 	    catch (ConfigPropertyNotFoundException e)
     	{
-    		log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());;
-    	}
+    		log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());
+		}
 	}
     
     public ArrayList<ObstacleProximity> getUntestedArrayList()

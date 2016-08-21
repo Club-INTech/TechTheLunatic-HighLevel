@@ -106,11 +106,11 @@ public class Geometry
 		double area = ((double)circle.center.x - (double)segment.getA().x)*((double)segment.getB().y - (double)segment.getA().y) - ((double)circle.center.y - (double)segment.getA().y)*((double)segment.getB().x - (double)segment.getA().x);
 		double distA = ((double)segment.getA().x - (double)circle.center.x)*((double)segment.getA().x - (double)circle.center.x) + ((double)segment.getA().y - (double)circle.center.y)*((double)segment.getA().y - (double)circle.center.y);
 		double distB = ((double)segment.getB().x - (double)circle.center.x)*((double)segment.getB().x - (double)circle.center.x) + ((double)segment.getB().y - (double)circle.center.y)*((double)segment.getB().y - (double)circle.center.y);
-		if(distA >= (double)circle.radius*(double)circle.radius && distB < (double)circle.radius*(double)circle.radius || distA < (double)circle.radius*(double)circle.radius && distB >= (double)circle.radius*(double)circle.radius)
+		if(distA >= circle.radius * circle.radius && distB < circle.radius * circle.radius || distA < circle.radius * circle.radius && distB >= circle.radius * circle.radius)
 			return true;
-		return distA >= (double)circle.radius*(double)circle.radius
-			&& distB >= (double)circle.radius*(double)circle.radius
-			&& area * area / (((double)segment.getB().x - (double)segment.getA().x)*((double)segment.getB().x - (double)segment.getA().x)+((double)segment.getB().y - (double)segment.getA().y)*((double)segment.getB().y - (double)segment.getA().y)) <= (double)circle.radius * (double)circle.radius
+		return distA >= circle.radius * circle.radius
+			&& distB >= circle.radius * circle.radius
+			&& area * area / (((double)segment.getB().x - (double)segment.getA().x)*((double)segment.getB().x - (double)segment.getA().x)+((double)segment.getB().y - (double)segment.getA().y)*((double)segment.getB().y - (double)segment.getA().y)) <= circle.radius * circle.radius
 			&& ((double)segment.getB().x - (double)segment.getA().x)*((double)circle.center.x - (double)segment.getA().x) + ((double)segment.getB().y - (double)segment.getA().y)*((double)circle.center.y - (double)segment.getA().y) >= 0
 			&& ((double)segment.getA().x - (double)segment.getB().x)*((double)circle.center.x - (double)segment.getB().x) + ((double)segment.getA().y - (double)segment.getB().y)*((double)circle.center.y - (double)segment.getB().y) >= 0;
 	}
@@ -131,7 +131,7 @@ public class Geometry
 		if((segment2.getB().y - segment2.getA().y) != 0)
 		{
 			inter = (double)(segment2.getB().x - segment2.getA().x) / (double)(segment2.getB().y - segment2.getA().y);
-			k = (segment1.getA().x - segment2.getA().x + inter * (double)(segment2.getA().y - segment1.getA().y)) / (double)(segment1.getB().x - segment1.getA().x - inter * (segment1.getB().y - segment1.getA().y));
+			k = (segment1.getA().x - segment2.getA().x + inter * (double)(segment2.getA().y - segment1.getA().y)) / (segment1.getB().x - segment1.getA().x - inter * (segment1.getB().y - segment1.getA().y));
 		}
 		else
 			k = -(double)(segment2.getA().y - segment1.getA().y) / (double)(segment1.getB().y - segment1.getA().y);

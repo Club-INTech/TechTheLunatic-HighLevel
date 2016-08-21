@@ -74,10 +74,10 @@ public class TablePanel extends JPanel
 	    ArrayList<Segment> lines = mTable.getObstacleManager().getLines();
 	    for(int i = 0; i < lines.size(); i++)
 	    {
-	    	g.drawLine((int)((lines.get(i).getA().x + 1500) * this.getWidth() / 3000), 
-	    			   (int)((-lines.get(i).getA().y) * this.getHeight() / 2000 + this.getHeight()),
-	    			   (int)((lines.get(i).getB().x + 1500) * this.getWidth() / 3000),
-	    			   (int)((-lines.get(i).getB().y) * this.getHeight() / 2000 + this.getHeight()));
+	    	g.drawLine((lines.get(i).getA().x + 1500) * this.getWidth() / 3000,
+                    (-lines.get(i).getA().y) * this.getHeight() / 2000 + this.getHeight(),
+                    (lines.get(i).getB().x + 1500) * this.getWidth() / 3000,
+                    (-lines.get(i).getB().y) * this.getHeight() / 2000 + this.getHeight());
 	    }
 	    
 	    

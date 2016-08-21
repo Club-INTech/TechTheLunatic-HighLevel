@@ -53,7 +53,7 @@ public class DisplayTable extends JPanel {
 
 		public Point(Vec2 p, Color couleur)
 		{
-			this((int)p.x, (int)p.y, couleur);
+			this(p.x, p.y, couleur);
 		}
 	}
 	

@@ -57,7 +57,7 @@ public enum ActuatorOrder
 	 * on suppose que son temps d'exécution est d'une seconde
 	 * @param serialString la chaine de caractère à envoyer à la carte actionnneurs
 	 */
-	private ActuatorOrder(String serialString)
+    ActuatorOrder(String serialString)
 	{
 		this.serialOrder = serialString;
 		this.duration = 700;	// valeur par défaut de la durée de mouvement d'un actionneur
@@ -67,7 +67,7 @@ public enum ActuatorOrder
 	 * Construit un ordre pour un actionneur avec le temps d'exécution spécifié 
 	 * @param serialString la chaine de caractère à envoyer à la carte actionnneurs
 	 */
-	private ActuatorOrder(String serialString, int duration)
+    ActuatorOrder(String serialString, int duration)
 	{
 		this.serialOrder = serialString;
 		this.duration = duration;

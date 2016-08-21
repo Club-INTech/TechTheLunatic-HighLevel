@@ -96,7 +96,6 @@ public class JUnit_Sensors extends JUnit_Test
 		} 
 		catch (UnableToMoveException e1)
 		{
-			;
 		}
 
 		log.critical("Fin de moveLengthWise");
@@ -176,7 +175,6 @@ public class JUnit_Sensors extends JUnit_Test
 		}
 		while (true)
 		{
-			;
 		}
 	}
 	

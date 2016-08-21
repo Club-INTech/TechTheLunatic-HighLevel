@@ -33,5 +33,5 @@ public enum Side
 	RIGHT,
 	
 	/** le milieu */
-	MIDDLE;
+	MIDDLE
 }

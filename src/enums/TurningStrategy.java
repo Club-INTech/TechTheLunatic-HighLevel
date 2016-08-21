@@ -26,5 +26,5 @@ public enum TurningStrategy
 {
     FASTEST, // au plus rapide
     RIGHT_ONLY, // dans le sens horaire seulement
-    LEFT_ONLY; // dans le sens trigo seulement
+    LEFT_ONLY // dans le sens trigo seulement
 }

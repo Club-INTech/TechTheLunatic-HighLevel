@@ -39,7 +39,7 @@ public enum ContactSensors {
 		return averageDuration;
 	}
 	
-	private ContactSensors(String serialString, int duration, boolean defaultValue)
+	ContactSensors(String serialString, int duration, boolean defaultValue)
 	{
 		this.defaultValue = defaultValue;
 		this.serialSensor = serialString;

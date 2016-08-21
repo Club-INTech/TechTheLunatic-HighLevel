@@ -21,7 +21,6 @@ package tests;
 
 import enums.ServiceNames;
 import org.junit.Before;
-import org.junit.Test;
 import robot.Robot;
 
 
@@ -43,16 +42,6 @@ public class JUnit_Robot extends JUnit_Test
         robotReal = (Robot) container.getService(ServiceNames.ROBOT);
     }
 
-    /**
-     * Test_recaler.
-     *
-     * @throws Exception the exception
-     */
-    @Test
-    public void test_recaler() throws Exception
-    {
-        robotReal.readjust();
-    }
     
     // TODO : tester chaque action de cette facon
     /*

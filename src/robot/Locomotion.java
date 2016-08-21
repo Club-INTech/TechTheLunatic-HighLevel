@@ -206,12 +206,6 @@ public class Locomotion implements Service
         USvalues = new ArrayList<Integer>(){{for(int i=0;i<4;i++)add(0);}};
         updateConfig();
     }
-    
-    /**recale le robot qui a perdu sa position actuelle, rentre dans les murs ou les obstacles fixes*/
-    public void readjust()
-    {
-    	//TODO réajuster le robot en cours de match
-    }
 
     
     /**

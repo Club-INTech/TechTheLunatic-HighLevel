@@ -75,8 +75,8 @@ public class HookFactory implements Service
 		}
 		catch (ConfigPropertyNotFoundException e)
 		{
-    		log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());;
-		}
+    		log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());
+        }
 	}
 	
 	//TODO Ajouter les nouveaux hooks

@@ -67,8 +67,6 @@ public class Robot implements Service
 	/** chemin en court par le robot, utilise par l'interface graphique */
 	public ArrayList<Vec2> cheminSuivi = new ArrayList<Vec2>();
 
-	private float aimThresold = 15;
-
 	/** Si le robot force dans ses mouvements*/
 	protected boolean isForcing = false;
 
@@ -120,10 +118,17 @@ public class Robot implements Service
 		catch (ConfigPropertyNotFoundException e)
 		{
 			log.critical( e.logStack());
-			log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());;
-		}
+			log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());
+        }
 	}
 
+	/**
+	 * Utiliser un actuateur par l'ordre fourni
+	 * Peut être bloquante le temps de faire l'action
+	 * @param order l'order
+	 * @param waitForCompletion si on attends un temps prédéfini pendant l'action
+	 * @throws SerialConnexionException
+	 */
 	public void useActuator(ActuatorOrder order, boolean waitForCompletion) throws SerialConnexionException
 	{
 		if(symmetry)
@@ -135,7 +140,13 @@ public class Robot implements Service
 			sleep(order.getDuration());
 		}
 	}
-	
+
+	/**
+	 * Renvoie la valeur d'un capteur de contact
+	 * @param sensor le capteur en question
+	 * @return l'état logique du capteur
+	 * @throws SerialConnexionException
+	 */
 	public boolean getContactSensorValue (ContactSensors sensor) throws SerialConnexionException
 	{
 		// si il n'y a pas de symétrie, on renvoie la valeur brute du bas niveau
@@ -151,21 +162,13 @@ public class Robot implements Service
 				}
 	}
 
-	/** Fait attendre le programme
+	/**
+	 * Fait attendre le programme
 	 * @param duree attente en ms
 	 */
 	public void sleep(long duree)
 	{
 		Sleep.sleep(duree);
-	}
-	
-	/**
-	 * Recale le robot pour qu'il sache ou il est sur la table et dans quel sens il se trouve.
-	 * La méthode est de le faire pecuter contre les coins de la table, ce qui lui donne des repères.
-	 */
-	public void readjust()
-	{
-	    mLocomotion.readjust();
 	}
 	
 	
@@ -184,16 +187,27 @@ public class Robot implements Service
 	}
 
 
+	/**
+	 * Active la détection basique
+	 * @param basicDetection oui/non
+	 */
     public void setBasicDetection(boolean basicDetection)
     {
         mLocomotion.setBasicDetection(basicDetection);
     }
 
+	/**
+	 * Forcer les valeurs des capteurs dans cet objet
+	 * @param val les valeurs comme définies dans threadSensors
+	 */
 	public void setUSvalues(ArrayList<Integer> val)
 	{
 		mLocomotion.setUSvalues(val);
 	}
 
+	/**
+	 * moveLengthwise mais sans détection
+	 */
     public void moveLengthwiseWithoutDetection(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact) throws UnableToMoveException
 	{	
 		log.debug("appel de Robot.moveLengthwiseWithoutDetection(" + distance + "," + hooksToConsider + "," + expectsWallImpact + ")");
@@ -401,6 +415,10 @@ public class Robot implements Service
     	}
     }
 
+	/**
+	 * Active le mouvement forcé (on ignore les conditions de blocage du bas-niveau)
+	 * @param state oui/non
+	 */
 	public void setForceMovement(boolean state)
 	{
 		try {
@@ -413,6 +431,9 @@ public class Robot implements Service
 		this.isForcing = true;
 	}
 
+	/**
+	 * Change l'accélération en plus fluide mais plus lente
+	 */
 	public void setSmoothAcceleration(boolean state) throws SerialConnexionException
 	{
 		this.mLocomotion.setSmoothAcceleration(state);

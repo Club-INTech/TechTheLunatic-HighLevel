@@ -19,7 +19,6 @@
 
 package robot.serial;
 
-import enums.ServiceNames;
 import exceptions.serial.SerialManagerException;
 import gnu.io.CommPortIdentifier;
 import threads.dataHandlers.ThreadSerial;
@@ -29,12 +28,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 
 /**
- * Instancie toutes les s�ries, il faut bien faire attention � d�finir les cartes
- * qui seront utilis�es dans le robot, avec le ping et le baudrate de fonctionnement.
  * 
- * Cette classe va au pr�alable charger les param�tres des cartes (dans le constructeur),
- * puis regarder toutes les liaisons s�ries qui sont susceptibles d'�tre connect�es
- * (dans /dev/ttyUSB* ou /dev/ACM*, mais pas besoin de savoir �a, il se d�brouille comme un grand).
+ * Classe instanciatrice de la série
  * @author pierre
  * @author pf
  */
@@ -45,31 +40,22 @@ public class SerialManager
 	 */
 	private Log log;
 
-	/** Series a instancier : celle pour la carte d'asser */
+	/** Thread série à lancer */
 	public ThreadSerial threadSerial = null;
 
-	//Pour chaque carte, on connait a l'avance son nom, son ping et son baudrate
-	/** Carte d'assservissement, paramétré a l'avance par son nom, son id et son baudrate */
-	private CardSpecification STM_Card = new CardSpecification(ServiceNames.THREAD_SERIAL, 0, 115200);
-
-	/** Liste pour stocker les series qui sont connectees au pc */ 
+	/** Liste pour stocker les series qui sont connectees au système, afin de trouver la bonne */
 	private ArrayList<String> connectedSerial = new ArrayList<String>();
 
 	/** Baudrate de la liaison série */
 	public static final int baudrate = 115200;
 
-	/**
-	 * Recuperation des param�tres des cartes dans cards et des baudrates dans baudrate
-	 * (ceux d�finis plus haut), puis fait appel � checkSerial() et createSerial().
-	 * A la fin de ce constructeur, les s�ries sont d�tect�es et instanci�es. 
-	 * @param log : la sortie de log à utiliser
-	 * @throws SerialManagerException 
-	 */
+
+
 	public SerialManager(Log log) throws SerialManagerException
 	{
 		this.log = log;
 
-		this.threadSerial = new ThreadSerial(log, this.STM_Card.name.name());
+		this.threadSerial = new ThreadSerial(log, "STM32");
 
 		checkSerial();
 		createSerial();
@@ -89,13 +75,11 @@ public class SerialManager
 	}
 
 	/**
-	 * Création des series (il faut au prealable faire un checkSerial()).
+	 * Création de la serie (il faut au prealable faire un checkSerial()).
 	 *
-	 * Cette m�thode cr�e une s�rie de test pour chaque port /dev/ttyUSB* et /dev/ttyACM* d�tect�
-	 * dans le but de ping ces ports et d�terminer si il nous interesse (en v�rifiant le ping re�u,
-	 * si il en re�oit un). Si un /dev/ttyUSB (ou ACM) n'est pas une liaison s�rie,
-	 * il se peut que l'on ait un message d'erreur li� au fait que l'on ping un /dev/ttyUSB (ou ACM)
-	 * qui ne nous r�pond pas.
+	 * Instancie un thread pour chaque série, vérifie que tout fonctionne (ou non) et valide
+	 * le tout une fois la bonne trouvée
+	 *
 	 * @throws SerialManagerException
 	 */
 	public void createSerial() throws SerialManagerException
@@ -135,7 +119,7 @@ public class SerialManager
 	}
 
 	/**
-	 * Permet d'obtenir une série au pr�alable instanci� dans le constructeur.
+	 * Permet d'obtenir une série au préalable instanciée dans le constructeur.
 	 * @return L'instance de la série
 	 * @throws SerialManagerException 
 	 */

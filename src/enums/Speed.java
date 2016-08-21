@@ -66,7 +66,7 @@ public enum Speed
      * @param translationSpeed la vitesse de translation ( en mm/s)
      * @param rotationSpeed la vitesse de rotation (en rad/s)
      */
-    private Speed(int translationSpeed, double rotationSpeed)
+    Speed(int translationSpeed, double rotationSpeed)
     {
         this.translationSpeed = translationSpeed;
         this.rotationSpeed = rotationSpeed;

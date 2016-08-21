@@ -29,6 +29,9 @@ import strategie.GameState;
 import table.Table;
 import threads.dataHandlers.ThreadBalises;
 
+/**
+ * Utile pour faire des tests fourre-tout
+ */
 public class JUnit_BorneArcade extends JUnit_Test 
 {
 	GameState real_state;

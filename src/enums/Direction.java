@@ -23,5 +23,5 @@ public enum Direction
 {
 	Forward,
 	Backward,
-	Both;
+	Both
 }

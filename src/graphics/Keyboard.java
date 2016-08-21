@@ -26,7 +26,10 @@ import robot.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-
+/**
+ * Gestionnaire des actions clavier pour l'interface graphique, ajoutez vos actions aux blocks correspondants
+ * @author etienne, discord
+ */
 public class Keyboard implements KeyListener
 {
 	private Robot mRobot;

@@ -31,11 +31,12 @@ import java.io.*;
 import java.util.LinkedList;
 
 /**
- * Classe implÃƒÂ©mentant le concept d'une connexion sÃƒÂ©rie.
- * UtilisÃƒÂ©e pour parler aux cartes ÃƒÂ©lectroniques.
+ * Classe implémentant le concept d'une connexion série.
+ * Utilisable pour parler à la carte bas-niveau
  * @author karton, dede, kayou, pf, discord
  *
- * Fonctionne désormais en thread séparant les informations en différents canaux
+ * Fonctionne désormais en thread séparant les informations en différents canaux, le canal principal
+ * restant dans cette classe
  * @author discord
  *
  */
@@ -113,9 +114,9 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
 
     /**
-     * Construit une connexion sÃ¯Â¿Â½rie
+     * Construit une connexion série
      * @param log Sortie de log a utiliser
-     * @param name nom de la connexion sÃƒÂ©rie
+     * @param name nom de la connexion série
      */
     ThreadSerial(Log log, ServiceNames name)
     {
@@ -123,9 +124,9 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     }
 
     /**
-     * Construit une connexion sÃ¯Â¿Â½rie
+     * Construit une connexion série
      * @param log Sortie de log a utiliser
-     * @param name nom de la connexion sÃƒÂ©rie
+     * @param name nom de la connexion série
      */
     public ThreadSerial(Log log, String name)
     {
@@ -155,8 +156,8 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     }
 
     /**
-     * AppelÃ¯Â¿Â½ par le SerialManager, il donne Ã¯Â¿Â½ la sÃ¯Â¿Â½rie tout ce qu'il faut pour fonctionner
-     * @param port_name : Le port oÃ¯Â¿Â½ est connectÃ¯Â¿Â½ la carte (/dev/ttyUSB ou /dev/ttyACM)
+     * Appelé par le SerialManager, il donne a la série tout ce qu'il faut pour fonctionner
+     * @param port_name : Le port où est connectée la carte (/dev/ttyUSB ou /dev/ttyACM)
      * @param baudrate : Le baudrate que la carte utilise
      */
     public void initialize(String port_name, int baudrate)
@@ -202,11 +203,13 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     }
 
     /**
-     * MÃ¯Â¿Â½thode pour communiquer Ã¯Â¿Â½ la liaison sÃ¯Â¿Â½rie. Il ne faut absolument pas se tromper sur le nombre de lignes attendu en retour.
-     * (une ligne est dÃ¯Â¿Â½limitÃ¯Â¿Â½ par un "\r\n" sur une communication sÃ¯Â¿Â½rie. elle peut Ã¯Â¿Â½tre envoyÃ¯Â¿Â½ par le bas niveau dans un:
-     * printf("\r\n") ou un printfln("...") oÃ¯Â¿Â½ ici le ln veut dire retour Ã¯Â¿Â½ la ligne donc se charge de mettre "\r\n" Ã¯Â¿Â½ la fin du message pour l'utilisateur).
-     * @param message Message ÃƒÂ  envoyer
-     * @param nb_lignes_reponse Nombre de lignes que le bas niveau va rÃƒÂ©pondre (sans compter les acquittements)
+     * Méthode pour communiquer a la liaison série. Il ne faut absolument pas se tromper sur le nombre de lignes attendu en retour.
+     * (une ligne est délimitée par un "\r\n" sur une communication série par le canal principal.
+     * Elle peut etre envoyée par le bas niveau dans un:
+     * printf("\r\n") ou un printfln("...") où ici le ln veut dire retour a la ligne donc se charge de mettre
+     * "\r\n" é la fin du message pour l'utilisateur).
+     * @param message Message a envoyer
+     * @param nb_lignes_reponse Nombre de lignes que le bas niveau va répondre (sans compter les acquittements)
      * @return Un tableau contenant le message
      * @throws SerialConnexionException
      */
@@ -217,11 +220,13 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     }
 
     /**
-     * MÃ¯Â¿Â½thode pour communiquer Ã¯Â¿Â½ la liaison sÃ¯Â¿Â½rie. Il ne faut absolument pas se tromper sur le nombre de lignes attendu en retour.
-     * (une ligne est dÃ¯Â¿Â½limitÃ¯Â¿Â½ par un "\r\n" sur une communication sÃ¯Â¿Â½rie. elle peut Ã¯Â¿Â½tre envoyÃ¯Â¿Â½ par le bas niveau dans un:
-     * printf("\r\n") ou un printfln("...") oÃ¯Â¿Â½ ici le ln veut dire retour Ã¯Â¿Â½ la ligne donc se charge de mettre "\r\n" Ã¯Â¿Â½ la fin du message pour l'utilisateur).
-     * @param messages Messages ÃƒÂ  envoyer
-     * @param nb_lignes_reponse Nombre de lignes que l'avr va rÃƒÂ©pondre (sans compter les acquittements)
+     * Méthode pour communiquer a la liaison série. Il ne faut absolument pas se tromper sur le nombre de lignes attendu en retour.
+     * (une ligne est délimitée par un "\r\n" sur une communication série par le canal principal.
+     * Elle peut etre envoyée par le bas niveau dans un:
+     * printf("\r\n") ou un printfln("...") où ici le ln veut dire retour a la ligne donc se charge de mettre
+     * "\r\n" é la fin du message pour l'utilisateur).
+     * @param messages Messages a envoyer
+     * @param nb_lignes_reponse Nombre de lignes que le bas niveau va répondre (sans compter les acquittements)
      * @return Un tableau contenant le message
      * @throws SerialConnexionException
      */
@@ -236,8 +241,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             {
                 for (String m : messages)
                 {
-                    // affiche dans la console ce qu'on envois sur la sÃƒÂ©rie -> On cache ca, pour eviter le xy0? en permanence, mais ca peux etre interessant de le garder.
-                    // ne jamais push un code avec cette ligne decommentee
 					//log.debug("Envoi serie : '" + m  + "'");
                     m += "\r";
 
@@ -257,7 +260,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     {
                         nb_tests++;
 
-                        // affiche dans la console ce qu'on lit sur la sÃƒÂ©rie
                         String resposeFromCard = waitAndGetResponse();
 
                         //TODO commenter.
@@ -329,7 +331,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     /**
      * Handle an event on the serial port.
-     * NE PAS SUPPRIMER!!!!!! Cette mÃ¯Â¿Â½thode est essentielle au fonctionnement de la communication sÃ¯Â¿Â½rie, mÃ¯Â¿Â½me si elle est vide.
+     * NE PAS SUPPRIMER!!!!!! Cette méthode est essentielle au fonctionnement de la communication.
      */
     public synchronized void serialEvent(SerialPortEvent oEvent)
     {
@@ -353,12 +355,12 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     /**
      * Ping de la carte.
-     * Peut envoyer un message d'erreur lors de l'exÃ¯Â¿Â½cution de createSerial() dans SerialManager.
+     * Peut envoyer un message d'erreur lors de l'exécution de createSerial() dans SerialManager.
      *
-     * (Avec la carte de test dans createSerial(), on ne sait pas encore si celle-ci va rÃ¯Â¿Â½pondre ou non, c'est Ã¯Â¿Â½ dire,
-     * si il s'agit bien d'une liaison sÃ¯Â¿Â½rie, ou alors d'un autre pÃ¯Â¿Â½riphÃ¯Â¿Â½rique. Si il s'agit d'un autre pÃ¯Â¿Â½riphÃ¯Â¿Â½rique,
-     * alors cette mÃ¯Â¿Â½thode va catch une exception)
-     * UtilisÃƒÂ© que par createSerial de SerialManager
+     * (Avec la carte de test dans createSerial(), on ne sait pas encore si celle-ci va répondre ou non, c'est a dire,
+     * si il s'agit bien d'une liaison série, ou alors d'un autre périphérique. Si il s'agit d'un autre périphérique,
+     * alors cette méthode va catch une exception)
+     * Utilisé que par createSerial de SerialManager
      * @return l'id de la carte
      */
     public synchronized String ping()
@@ -402,6 +404,9 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     }
 
 
+    /**
+     * Fonction exécutée par le thread, capture tout ce qui arrive sur la série et trie selon différents canaux
+     */
     @Override
     public void run()
     {
@@ -474,6 +479,10 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         return true;
     }
 
+    /**
+     * Il y a-t-il un octet de disponible ?
+     * @throws IOException
+     */
     public boolean available() throws IOException
     {
         // tant qu'on est occupé, on dit qu'on ne reçoit rien
@@ -484,7 +493,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     /**
      * Lit un byte. On sait qu'il doit y en a avoir un.
-     * @return
      * @throws IOException
      */
     public int read() throws IOException
@@ -502,6 +510,10 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     }
 
+    /**
+     * Lecture complète d'une ligne se terminant par "\r\n"
+     * @return la ligne sans le "\r\n"
+     */
     private String readLine()
     {
         String res = "";
@@ -531,7 +543,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     {
                         if(System.currentTimeMillis() - time > TIME_OUT)
                         {
-                            log.critical("blocaqe attente nouveau char (pas de /r ?) dernier : "+(int)lastReceived);
+                            log.critical("blocaqe attente nouveau char (pas de /r ?) dernier : "+ lastReceived);
                             return (res+(char)260);
                         }
                         Thread.sleep(5);
@@ -578,6 +590,10 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     }
 
+    /**
+     * On attend la disponibilité d'une réponse traité par la partie thread (pour l'ancien système)
+     * @return la réponse
+     */
     private String waitAndGetResponse()
     {
         String res;

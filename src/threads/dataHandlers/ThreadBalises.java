@@ -304,7 +304,7 @@ public class ThreadBalises extends AbstractThread
                 {
                     if(System.currentTimeMillis() - time > 1000)
                     {
-                        log.critical("blocaqe attente nouveau char (pas de /r ?) dernier : "+(int)lastReceived);
+                        log.critical("blocaqe attente nouveau char (pas de /r ?) dernier : "+ lastReceived);
                         return (res+(char)260);
                     }
                     Thread.sleep(5);

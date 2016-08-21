@@ -37,9 +37,7 @@ import java.util.Locale;
  * Prototype de wrapper pour la série incluant toutes les méthodes série. Diffère des différents CardWrapper car tout y
  * est centralisé. Les CardWrapper étaient utiles quand on avait plusieures AVRs pour les différentes fonctions, désormais
  * tout est centralisé sur l'ARM, ces CardWrappers ne sont donc que des reliques à éliminer.
- *
- * N'EST PAS IMPLEMENTE DANS LE ROBOT POUR LE MOMENT ; TEST DANS LA BRANCHE serialwrapper
- *
+ **
  * @author pf, marsu, paul, discord
  */
 public class SerialWrapper implements Service
@@ -113,7 +111,7 @@ public class SerialWrapper implements Service
     /**
      * Regarde si le robot bouge effectivement.
      * Provoque un appel série pour avoir des information a jour. Cette méthode est demande donc un peu de temps.
-     * @return truz si le robot bouge
+     * @return true si le robot bouge
      * @throws SerialConnexionException en cas de problème de communication avec la carte d'asservissement
      */
 
@@ -131,18 +129,6 @@ public class SerialWrapper implements Service
     {
         float distanceTruncated = (float)distance;
         String chaines[] = {"d", Float.toString(distanceTruncated)};
-        serial.communiquer(chaines, 0);
-    }
-
-    /**
-     * Fait suivre un arc au robot. Méthode non bloquante
-     * @param length la longueur de l'arc à suivre
-     * @param radius le rayon de courbure
-     * @throws SerialConnexionException pb de comm
-     */
-    public void moveArc(double length, double radius) throws SerialConnexionException
-    {
-        String chaines[] = {"dc", Integer.toString((int)length), Integer.toString((int)radius)};
         serial.communiquer(chaines, 0);
     }
 
@@ -180,13 +166,6 @@ public class SerialWrapper implements Service
             String chaines[] = {"tol", String.format(Locale.US, "%.3f", angleTruncated)};
             serial.communiquer(chaines, 0);
         }
-    }
-    public void turnRelative(double angle) throws SerialConnexionException
-    {
-        // tronque l'angle que l'on envoit a la série pour éviter les overflows
-        float angleTruncated = (float)angle;
-        String chaines[] = {"t3", String.format(Locale.US, "%.3f", angleTruncated)};
-        serial.communiquer(chaines, 0);
     }
 
     /**

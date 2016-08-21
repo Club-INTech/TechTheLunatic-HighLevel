@@ -25,7 +25,6 @@ import exceptions.BlockedActuatorException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
-import exceptions.serial.SerialFinallyException;
 import hook.Hook;
 import hook.types.HookFactory;
 import smartMath.Circle;
@@ -77,10 +76,9 @@ public abstract class AbstractScript implements Service
 	 * @param hooksToConsider les hooks a considérer lors des déplacements vers ces scripts
 	 * @throws UnableToMoveException losrque le robot veut se déplacer et que quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
 	 * @throws SerialConnexionException s'il y a un problème de communication avec une des cartes électroniques
-	 * @throws SerialFinallyException si le finally n'est pas correctement execute (erreur critique)
 	 * @throws ExecuteException
 	 */
-	public void goToThenExec(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws UnableToMoveException, BadVersionException, SerialConnexionException, SerialFinallyException, ExecuteException, BlockedActuatorException
+	public void goToThenExec(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws UnableToMoveException, BadVersionException, SerialConnexionException, ExecuteException, BlockedActuatorException
 	{
 		// va jusqu'au point d'entrée de la version demandée
 		log.debug("Lancement de " + this + " version " + versionToExecute);
@@ -108,10 +106,9 @@ public abstract class AbstractScript implements Service
 	 * @param hooksToConsider les hooks à considérer lors des déplacements vers ces scripts
 	 * @throws UnableToMoveException exception levée lorsque le robot ne peut se déplacer (décor ou obstacles détectés par capteurs)
 	 * @throws SerialConnexionException s'il y a un problème de communication avec une des cartes électroniques
-	 * @throws SerialFinallyException s'il y a un problème de communication avec une des cartes électroniques lors du finallize
-	 * @throws ExecuteException 
+	 * @throws ExecuteException
 	 */
-	public abstract void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws UnableToMoveException, SerialFinallyException, ExecuteException, SerialConnexionException, BlockedActuatorException;
+	public abstract void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws UnableToMoveException, ExecuteException, SerialConnexionException, BlockedActuatorException;
 
 	/**
 	 * Renvoie le score que peut fournir une version d'un script.
@@ -140,10 +137,9 @@ public abstract class AbstractScript implements Service
 	 * @param state : état du jeu au sein duquel il faut finaliser le script
 	 * @param e : l'exception qui a déclenché le finalize 
 	 * @throws UnableToMoveException exception levée lorsque le robot ne peut se déplacer (décor ou obstacles détectés par capteurs)
-	 * @throws SerialFinallyException exception levée si le finalize échoue
 	 * @throws SerialConnexionException s'il y a un problème de communication avec une des cartes électroniques
 	 */
-	public abstract void finalize(GameState state, Exception e) throws UnableToMoveException, SerialFinallyException;
+	public abstract void finalize(GameState state, Exception e) throws UnableToMoveException;
 
 	/**
 	 * Fonction qui attend que l'ennemi détecté par les capteurs se dégage du chemin suivi par le robot

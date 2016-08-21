@@ -37,5 +37,5 @@ public interface Executable
 	 * @param stateToConsider 
      * @return un booléen qui renseignera sur le fait que la méthode fait ou non bouger le robot
 	 */
-	public boolean execute(GameState stateToConsider);
+    boolean execute(GameState stateToConsider);
 }

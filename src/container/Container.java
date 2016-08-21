@@ -117,11 +117,11 @@ public class Container
 		System.out.println("Loading config from current directory : " +  System.getProperty("user.dir"));
 		
 		//parse le ficher de configuration.
-		instanciedServices[ServiceNames.CONFIG.ordinal()] = (Service)new Config("./config/");
+		instanciedServices[ServiceNames.CONFIG.ordinal()] = new Config("./config/");
 		config = (Config)instanciedServices[ServiceNames.CONFIG.ordinal()];
 		
 		// démarre le système de log
-		instanciedServices[ServiceNames.LOG.ordinal()] = (Service)new Log(config);
+		instanciedServices[ServiceNames.LOG.ordinal()] = new Log(config);
 		log = (Log)instanciedServices[ServiceNames.LOG.ordinal()];
 		
 		// instancie le gestionnnaire de thread
@@ -146,7 +146,7 @@ public class Container
 		
 		// Si le service n'est pas encore instancié, on l'instancie avant de le retourner à l'utilisateur
 		else if(serviceRequested == ServiceNames.TABLE)
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)new Table(
+			instanciedServices[serviceRequested.ordinal()] = new Table(
 																	(Log)getService(ServiceNames.LOG),
 																	(Config)getService(ServiceNames.CONFIG)
 																);
@@ -154,73 +154,73 @@ public class Container
 		{
 			if(serialManager == null)
 				serialManager = new SerialManager(log);
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)serialManager.getSerial();
+			instanciedServices[serviceRequested.ordinal()] = serialManager.getSerial();
 		}
 		else if(serviceRequested == ServiceNames.SERIAL_WRAPPER)
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)new SerialWrapper(
+			instanciedServices[serviceRequested.ordinal()] = new SerialWrapper(
 																	(Config)getService(ServiceNames.CONFIG),
 																	(Log)getService(ServiceNames.LOG),
 																	(ThreadSerial)getService(ServiceNames.THREAD_SERIAL)
 																);
 		else if(serviceRequested == ServiceNames.HOOK_FACTORY)
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)new HookFactory(
+			instanciedServices[serviceRequested.ordinal()] = new HookFactory(
 																	(Config)getService(ServiceNames.CONFIG),
 																	(Log)getService(ServiceNames.LOG),
 																	(GameState)getService(ServiceNames.GAME_STATE)
 																);
 		else if(serviceRequested == ServiceNames.ROBOT)
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)new Robot(
+			instanciedServices[serviceRequested.ordinal()] = new Robot(
 																	(Locomotion)getService(ServiceNames.LOCOMOTION),
 																	(Config)getService(ServiceNames.CONFIG),
 																	(Log)getService(ServiceNames.LOG),
 																	(SerialWrapper)getService(ServiceNames.SERIAL_WRAPPER)
 																);		
         else if(serviceRequested == ServiceNames.LOCOMOTION)
-            instanciedServices[serviceRequested.ordinal()] = 	(Service)new Locomotion(
+            instanciedServices[serviceRequested.ordinal()] = new Locomotion(
             														(Log)getService(ServiceNames.LOG),
             														(Config)getService(ServiceNames.CONFIG),
             														(Table)getService(ServiceNames.TABLE),
             														(SerialWrapper)getService(ServiceNames.SERIAL_WRAPPER)
             													);
         else if(serviceRequested == ServiceNames.GAME_STATE)
-            instanciedServices[serviceRequested.ordinal()] = 	(Service)new GameState(
+            instanciedServices[serviceRequested.ordinal()] = new GameState(
             														(Config)getService(ServiceNames.CONFIG),
                                                              		(Log)getService(ServiceNames.LOG),
                                                              		(Table)getService(ServiceNames.TABLE),
                                                              		(Robot)getService(ServiceNames.ROBOT)
                                                              	);
 		else if(serviceRequested == ServiceNames.SCRIPT_MANAGER)
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)new ScriptManager(
+			instanciedServices[serviceRequested.ordinal()] = new ScriptManager(
 																	(HookFactory)getService(ServiceNames.HOOK_FACTORY),
 																	(Config)getService(ServiceNames.CONFIG),
 																	(Log)getService(ServiceNames.LOG)
 																);
 		else if(serviceRequested == ServiceNames.THREAD_TIMER)
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)threadManager.getThreadTimer(
+			instanciedServices[serviceRequested.ordinal()] = threadManager.getThreadTimer(
 																	(Table)getService(ServiceNames.TABLE),
 																	(Robot)getService(ServiceNames.ROBOT),
 																	(SerialWrapper)getService(ServiceNames.SERIAL_WRAPPER)
                                                                 );
 		else if(serviceRequested == ServiceNames.THREAD_EVENTS)
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)threadManager.getThreadEvents(
+			instanciedServices[serviceRequested.ordinal()] = threadManager.getThreadEvents(
 																	(Table)getService(ServiceNames.TABLE),
 																	(Robot)getService(ServiceNames.ROBOT),
 																	(ThreadSerial) getService(ServiceNames.THREAD_SERIAL)
                                                                 );
 		else if(serviceRequested == ServiceNames.THREAD_SENSOR)
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)threadManager.getThreadSensors(
+			instanciedServices[serviceRequested.ordinal()] = threadManager.getThreadSensors(
 																	(Table)getService(ServiceNames.TABLE),
 																	(Robot)getService(ServiceNames.ROBOT),
 																	(SerialWrapper)getService(ServiceNames.SERIAL_WRAPPER),
 																	(ThreadSerial)getService(ServiceNames.THREAD_SERIAL)
 																);
 		else if(serviceRequested == ServiceNames.THREAD_BALISES)
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)threadManager.getThreadBalises(
+			instanciedServices[serviceRequested.ordinal()] = threadManager.getThreadBalises(
 																	(Robot)getService(ServiceNames.ROBOT)
 																);
 
 		else if(serviceRequested == ServiceNames.THREAD_INTERFACE)
-			instanciedServices[serviceRequested.ordinal()] = 	(Service)threadManager.getThreadInterface(
+			instanciedServices[serviceRequested.ordinal()] = threadManager.getThreadInterface(
 																	(Config)getService(ServiceNames.CONFIG),
 																	(Log)getService(ServiceNames.LOG),
 																	(Table)getService(ServiceNames.TABLE),

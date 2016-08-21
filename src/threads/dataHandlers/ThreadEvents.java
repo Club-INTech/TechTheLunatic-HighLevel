@@ -37,6 +37,7 @@ public class ThreadEvents extends AbstractThread
 
     Robot robot;
 
+    /** Buffer de lecture des events, rempli par ThreadSerial */
     LinkedList<String> events;
 
     public ThreadEvents(Table table, Robot robot, ThreadSerial serial)

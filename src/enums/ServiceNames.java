@@ -55,7 +55,7 @@ public enum ServiceNames
 	 /**
 	  * Constructeur vide
 	  */
-	 private ServiceNames()
+     ServiceNames()
 	 {
 		 
 	 }

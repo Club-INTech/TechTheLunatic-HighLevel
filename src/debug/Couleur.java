@@ -40,12 +40,12 @@ public enum Couleur
 	private static final int alpha = 150;
 	public final Color couleur;
 	
-	private Couleur(int r, int g, int b, int a)
+	Couleur(int r, int g, int b, int a)
 	{
 		this.couleur = new Color(r,g,b,a);
 	}
 
-	private Couleur(int r, int g, int b)
+	Couleur(int r, int g, int b)
 	{
 		this.couleur = new Color(r,g,b,alpha);
 	}
