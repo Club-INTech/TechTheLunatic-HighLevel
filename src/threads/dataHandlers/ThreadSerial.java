@@ -318,7 +318,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     }
 
     /**
-     * Doit ÃƒÂªtre appelÃƒÂ© quand on arrÃƒÂªte de se servir de la sÃƒÂ©rie
+     * Doit etre appelé quand on arrete de se servir de la série
      */
     public void close()
     {
