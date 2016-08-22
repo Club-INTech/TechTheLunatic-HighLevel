@@ -29,6 +29,8 @@ import java.util.ArrayList;
  * Classe-mère abstraite des hooks, utilisés pour la programmation évènementielle.
  * Les hooks permettent via leur callback de déclencher une action lors d'un mouvement du robot sous certaines conditions de position ou d'état de jeu.
  * @author pf
+ *
+ * TODO A déplacer en LL
  */
 
 abstract public class Hook

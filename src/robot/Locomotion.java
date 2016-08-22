@@ -47,9 +47,9 @@ import java.util.ArrayList;
  * (les méthodes non-bloquantes s'exécutent très rapidement)
  * Les méthodes "bloquantes" se finissent alors que le robot est arrêté.
  * @author pf
- * @author discord (trajectoires courbes + mouvement forcé)
  *
- * TODO faire une gestion complète des trajectoires courbes
+ * TODO OPTIONNEL faire une gestion complète des trajectoires courbes
+ * https://goo.gl/7HU589
  *
  */
 

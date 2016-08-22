@@ -31,8 +31,6 @@ import utils.Log;
  * Thread affichant l'interface graphique pour observer ce que le robot pense être vrai, ainsi que le chemin
  * qu'il va suivre.
  * @author discord
- *
- * TODO Lier à la stratégie
  */
 public class ThreadInterface extends AbstractThread
 {
