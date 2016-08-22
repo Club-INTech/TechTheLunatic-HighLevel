@@ -53,7 +53,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     Log log;
 
     /**
-     * Nom de la connexion sÃƒÂ©rie
+     * Nom de la connexion série
      */
     String name;
 
@@ -61,7 +61,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     int baudrate;
 
     /**
-     * Flux d'entÃ¯Â¿Â½e du port
+     * Flux d'entrée du port
      */
     private InputStream input;
 
@@ -71,7 +71,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     private OutputStream output;
 
     /**
-     * TIME_OUT d'attente de rÃ¯Â¿Â½ception d'un message
+     * TIME_OUT d'attente de réception d'un message
      */
     private static final int TIME_OUT = 1000;
 
@@ -104,11 +104,11 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     //===========================HEADERS=================================
 
-    private final char[] eventHeader = {0x13, 0x37};
+    public final char[] eventHeader = {0x13, 0x37};
 
-    private final char[] ultrasoundHeader = {0x01, 0x10};
+    public final char[] ultrasoundHeader = {0x01, 0x10};
 
-    private final char[] debugHeader = {0x02, 0x20};
+    public final char[] debugHeader = {0x02, 0x20};
 
     //===================================================================
 
@@ -315,6 +315,41 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             }
             return inputLines;
         }
+    }
+
+    /**
+     * Idem que communiquer mais place un header devant chaque ligne du message
+     * Je recommande d'utiliser les defines dans cette classe pour les headers
+     * @param messages le message à envoyer SANS HEADER
+     * @param nb_lignes_reponse nb de lignes attendues en réponse du LL
+     * @param header le header à ajouter
+     * @return la réponse du LL
+     * @throws SerialConnexionException
+     */
+    public String[] communiquerAvecHeader(String[] messages, int nb_lignes_reponse, char[] header) throws SerialConnexionException
+    {
+        for(int i=0 ; i < messages.length ; i++)
+        {
+            messages[i] = String.valueOf(header) + messages[i];
+        }
+
+        return communiquer(messages, nb_lignes_reponse);
+    }
+
+    /**
+     * Idem que communiquer mais place un header devant le message
+     * Je recommande d'utiliser les defines dans cette classe pour les headers
+     * @param message le message à envoyer SANS HEADER
+     * @param nb_lignes_reponse nb de lignes attendues en réponse du LL
+     * @param header le header à ajouter
+     * @return la réponse du LL
+     * @throws SerialConnexionException
+     */
+    public String[] communiquerAvecHeader(String message, int nb_lignes_reponse, char[] header) throws SerialConnexionException
+    {
+        message = String.valueOf(header) + message;
+
+        return communiquer(message, nb_lignes_reponse);
     }
 
     /**
