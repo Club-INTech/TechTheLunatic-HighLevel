@@ -17,7 +17,7 @@
  *  along with it.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package robot.serial;
+package robot;
 
 
 import container.Service;

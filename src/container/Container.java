@@ -19,19 +19,14 @@
 
 package container;
 
+import enums.ThreadName;
 import exceptions.ContainerException;
-import robot.serial.SerialManager;
 import threads.ThreadExit;
-import threads.ThreadName;
+import threads.dataHandlers.ThreadSerial;
 import utils.Config;
 import utils.Log;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -57,11 +52,16 @@ public class Container implements Service
 	
 	// permet de détecter les dépendances circulaires
 	private Stack<String> stack = new Stack<String>();
+
+    /**
+     * Chemin relatif vers le fichier de config
+     */
+    private final static String configPath = "./config/";
 	
 	private Log log;
 	private Config config;
 	
-	private static int nbInstances = 0;
+	private static boolean instanciated;
 	
 	private static final boolean showGraph = false;
 	private FileWriter fw;
@@ -86,11 +86,11 @@ public class Container implements Service
 		
 		log.debug("Fermeture de la série");
 		/**
-		 * Mieux vaut écrire SerialManager.class.getSimpleName()) que "SerialManager",
+		 * Mieux vaut écrire ThreadSerial.class.getSimpleName()) que "ThreadSerial",
 		 * car en cas de refactor, le premier est automatiquement ajusté
 		 */
-		if(instanciedServices.containsKey(SerialManager.class.getSimpleName()))
-			((SerialManager)instanciedServices.get(SerialManager.class.getSimpleName())).threadSerial.close();
+		if(instanciedServices.containsKey(ThreadSerial.class.getSimpleName()))
+			((ThreadSerial)instanciedServices.get(ThreadSerial.class.getSimpleName())).close();
 
 		if(showGraph)
 		{
@@ -105,8 +105,7 @@ public class Container implements Service
 		// fermeture du log
 		log.debug("Fermeture du log");
 		log.close();
-		nbInstances--;
-		System.out.println("Singularité évaporée.");
+		instanciated = false;
 		System.out.println();
 		printMessage("outro.txt");
 	}
@@ -118,21 +117,21 @@ public class Container implements Service
 	 */
 	public Container() throws ContainerException, InterruptedException
 	{
-		/**
-		 * On vérifie qu'il y ait un seul container à la fois
+		/*
+		  On vérifie qu'il y ait un seul container à la fois
 		 */
-		if(nbInstances != 0)
+		if(instanciated)
 			throw new ContainerException("Un autre container existe déjà! Annulation du constructeur.");
 
-		nbInstances++;
+		instanciated = true;
 		
-		/**
-		 * Affichage d'un petit message de bienvenue
+		/*
+		  Affichage d'un petit message de bienvenue
 		 */
 		printMessage("intro.txt");
 		
-		/**
-		 * Affiche la version du programme (dernier commit et sa branche)
+		/*
+		  Affiche la version du programme (dernier commit et sa branche)
 		 */
 		try {
 			Process p = Runtime.getRuntime().exec("git log -1 --oneline");
@@ -154,8 +153,8 @@ public class Container implements Service
 			System.out.println(e1);
 		}
 		
-		/**
-		 * Infos diverses
+		/*
+		  Infos diverses
 		 */
 		System.out.println("System : "+System.getProperty("os.name")+" "+System.getProperty("os.version")+" "+System.getProperty("os.arch"));
 		System.out.println("Java : "+System.getProperty("java.vendor")+" "+System.getProperty("java.version")+", max memory : "+Math.round(100.*Runtime.getRuntime().maxMemory()/(1024.*1024.*1024.))/100.+"G, available processors : "+Runtime.getRuntime().availableProcessors());
@@ -163,10 +162,26 @@ public class Container implements Service
 
 		System.out.println("    Remember, with great power comes great current squared times resistance !");
 		System.out.println();
-		
-		log = getServiceRecursif(Log.class);
-		config = getServiceRecursif(Config.class);
-		log.updateConfig();
+
+		/*
+			La config a un statut spécial, vu qu'elle nécessite un chemin d'accès vers le fichier de config
+		 */
+        try
+        {
+            config = new Config(configPath);
+            instanciedServices.put(Config.class.getSimpleName(), (Service) config);
+        }
+        catch (IOException e)
+        {
+            System.err.println("FATAL : Could not load config !");
+            e.printStackTrace();
+            destructor();
+            System.exit(0);
+        }
+
+        log = getServiceRecursif(Log.class);
+
+        log.updateConfig();
 
 		// Le container est aussi un service
 		instanciedServices.put(getClass().getSimpleName(), this);
@@ -186,7 +201,6 @@ public class Container implements Service
 	 * Créé un object de la classe demandée, ou le récupère s'il a déjà été créé
 	 * S'occupe automatiquement des dépendances
 	 * Toutes les classes demandées doivent implémenter Service ; c'est juste une sécurité.
-	 * @param classe
 	 * @return un objet de cette classe
 	 * @throws ContainerException
 	 * @throws InterruptedException 
@@ -200,8 +214,8 @@ public class Container implements Service
 	@SuppressWarnings("unused")
 	private <S extends Service> S getServiceDisplay(Class<? extends Service> serviceFrom, Class<S> serviceTo) throws ContainerException, InterruptedException
 	{
-		/**
-		 * On ne crée pas forcément le graphe de dépendances pour éviter une lourdeur inutile
+		/*
+		  On ne crée pas forcément le graphe de dépendances pour éviter une lourdeur inutile
 		 */
 		if(showGraph && !serviceTo.equals(Log.class))
 		{
@@ -233,14 +247,14 @@ public class Container implements Service
 	public <S extends Service> S getServiceRecursif(Class<S> classe) throws ContainerException, InterruptedException
 	{
 		try {
-			/**
-			 * Si l'objet existe déjà, on le renvoie
+			/*
+			  Si l'objet existe déjà, on le renvoie
 			 */			
 			if(instanciedServices.containsKey(classe.getSimpleName()))
 				return (S) instanciedServices.get(classe.getSimpleName());
 			
-			/**
-			 * Détection de dépendances circulaires
+			/*
+			  Détection de dépendances circulaires
 			 */
 			if(stack.contains(classe.getSimpleName()))
 			{
@@ -257,42 +271,56 @@ public class Container implements Service
 			// On met à jour la pile
 			stack.push(classe.getSimpleName());
 
-			/**
-			 * Récupération du constructeur et de ses paramètres
-			 * On suppose qu'il n'y a chaque fois qu'un seul constructeur pour cette classe
+			/*
+			  Récupération du constructeur et de ses paramètres
+			  On suppose qu'il n'y a chaque fois qu'un seul constructeur pour cette classe
 			 */
 			if(classe.getConstructors().length > 1)
 				throw new ContainerException(classe.getSimpleName()+" a plusieurs constructeurs !");
 
 			Constructor<S> constructeur = (Constructor<S>) classe.getConstructors()[0];
 			Class<Service>[] param = (Class<Service>[]) constructeur.getParameterTypes();
-			
-			/**
-			 * On demande récursivement chacun de ses paramètres
+
+			/*
+			  On demande récursivement chacun de ses paramètres
 			 */
 			Object[] paramObject = new Object[param.length];
 			for(int i = 0; i < param.length; i++)
 				paramObject[i] = getServiceDisplay(classe, param[i]);
 
-			/**
-			 * Instanciation et sauvegarde
+			/*
+			  Instanciation et sauvegarde
 			 */
 			S s = constructeur.newInstance(paramObject);
 			instanciedServices.put(classe.getSimpleName(), (Service) s);
 			
-			/**
-			 * Mise à jour de la config
+			/*
+			  Mise à jour de la config
 			 */
 			if(config != null)
+			{
 				for(Method m : Service.class.getMethods())
-					classe.getMethod(m.getName(), Config.class).invoke(s, config);
+                {
+                    try
+                    {
+					    classe.getMethod(m.getName(), Config.class).invoke(s, config);
+                    }
+                    catch(NoSuchMethodException e)
+                    {
+                        if(log != null)
+                            log.debug("WARN : "+classe.getSimpleName() + " does not contain "+m.getName()+ " method");
+                        else
+                            System.out.println("WARN : "+classe.getSimpleName() + " does not contain "+m.getName()+ " method");
+                    }
+                }
+			}
 			
 			// Mise à jour de la pile
 			stack.pop();
 			
 			return s;
 		} catch (IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException
+				| InvocationTargetException
 				| SecurityException | InstantiationException e) {
 			e.printStackTrace();
 			throw new ContainerException(e.getMessage());
@@ -312,9 +340,9 @@ public class Container implements Service
 				log.critical(e);
 			}
 		}
-			
-		/**
-		 * Planification du hook de fermeture
+
+		/*
+		  Planification du hook de fermeture
 		 */
 		ThreadExit.makeInstance(this);
 		Runtime.getRuntime().addShutdownHook(ThreadExit.getInstance());

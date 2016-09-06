@@ -21,13 +21,10 @@ package tests;
 
 import org.junit.Assert;
 import org.junit.Test;
-
 import robot.Robot;
-import robot.serial.SerialWrapper;
 import smartMath.Vec2;
 import table.Table;
 import threads.ThreadTimer;
-import threads.dataHandlers.ThreadSensor;
 
 /**
  * Tests unitaires des threads.

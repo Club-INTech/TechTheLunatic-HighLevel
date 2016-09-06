@@ -30,7 +30,6 @@ import exceptions.Locomotion.UnableToMoveException;
 import exceptions.Locomotion.UnexpectedObstacleOnPathException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
-import robot.serial.SerialWrapper;
 import smartMath.Vec2;
 import table.Table;
 import utils.Config;

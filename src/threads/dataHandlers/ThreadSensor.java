@@ -22,7 +22,7 @@ package threads.dataHandlers;
 import exceptions.ConfigPropertyNotFoundException;
 import graphics.Window;
 import robot.Robot;
-import robot.serial.SerialWrapper;
+import robot.SerialWrapper;
 import smartMath.Vec2;
 import table.Table;
 import threads.AbstractThread;

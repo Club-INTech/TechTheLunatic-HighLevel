@@ -24,12 +24,10 @@ import exceptions.Locomotion.UnableToMoveException;
 import exceptions.Locomotion.UnexpectedObstacleOnPathException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import robot.Locomotion;
-import robot.serial.SerialWrapper;
+import robot.SerialWrapper;
 import smartMath.Circle;
 import smartMath.Vec2;
 import strategie.GameState;

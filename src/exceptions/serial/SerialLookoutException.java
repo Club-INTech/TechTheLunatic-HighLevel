@@ -17,25 +17,41 @@
  *  along with it.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package tests.container;
+package exceptions.serial;
 
-import container.Service;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
- * Classe utilisée pour le test de l'appel de config
+ * Exception levée par le gestionnaire des connexions séries
  * @author pf
  *
  */
-public class D implements Service
+public class SerialLookoutException extends Exception
 {
-	public boolean updateConfigOk = false;
-	
-	public D()
-	{}
-	
-	@Override
-	public void updateConfig()
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1826278884421114631L;
+
+	public SerialLookoutException()
 	{
-		updateConfigOk = true;
+		super();
+	}
+	
+	public SerialLookoutException(String m)
+	{
+		super(m);
+	}
+	
+	public String logStack()
+	{
+		StringWriter sw = new StringWriter();
+		this.printStackTrace(new PrintWriter(sw));
+		
+		String exceptionAsString = sw.toString();	
+		exceptionAsString = exceptionAsString.replaceAll("(\r\n|\n\r|\r|\n)", " -> ");
+		
+		return exceptionAsString;
 	}
 }

@@ -26,7 +26,7 @@ import hook.Hook;
 import org.junit.After;
 import org.junit.Before;
 import robot.Robot;
-import robot.serial.SerialWrapper;
+import robot.SerialWrapper;
 import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;

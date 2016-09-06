@@ -25,7 +25,6 @@ import exceptions.ConfigPropertyNotFoundException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
-import robot.serial.SerialWrapper;
 import smartMath.Circle;
 import smartMath.Vec2;
 import table.Table;

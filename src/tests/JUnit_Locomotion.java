@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import robot.Locomotion;
-import robot.serial.SerialWrapper;
+import robot.SerialWrapper;
 import smartMath.Vec2;
 
 import java.util.ArrayList;

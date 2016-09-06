@@ -22,7 +22,7 @@ import enums.Speed;
 import exceptions.ContainerException;
 import hook.Hook;
 import robot.Locomotion;
-import robot.serial.SerialWrapper;
+import robot.SerialWrapper;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;

@@ -17,41 +17,34 @@
  *  along with it.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package exceptions.serial;
+package enums;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import threads.AbstractThread;
+import threads.ThreadTimer;
+import threads.dataHandlers.ThreadEvents;
+import threads.dataHandlers.ThreadSensor;
+import threads.dataHandlers.ThreadSerial;
 
 /**
- * Exception levée par le gestionnaire des connexions séries
+ * Tous les threads à instancier au début du match. Utilisé par le container
  * @author pf
  *
  */
-public class SerialManagerException extends Exception
-{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1826278884421114631L;
 
-	public SerialManagerException()
+public enum ThreadName
+{
+	TIMER(ThreadTimer.class),
+	//BALISES(ThreadBalises.class),
+	EVENTS(ThreadEvents.class),
+	SENSOR(ThreadSensor.class),
+	SERIAL(ThreadSerial.class);
+	
+	public Class<? extends AbstractThread> c;
+	
+	private ThreadName(Class<? extends AbstractThread> c)
 	{
-		super();
+		this.c = c;
 	}
 	
-	public SerialManagerException(String m)
-	{
-		super(m);
-	}
-	
-	public String logStack()
-	{
-		StringWriter sw = new StringWriter();
-		this.printStackTrace(new PrintWriter(sw));
-		
-		String exceptionAsString = sw.toString();	
-		exceptionAsString = exceptionAsString.replaceAll("(\r\n|\n\r|\r|\n)", " -> ");
-		
-		return exceptionAsString;
-	}
+
 }

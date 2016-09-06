@@ -21,7 +21,7 @@ package threads;
 
 import exceptions.serial.SerialConnexionException;
 import robot.Robot;
-import robot.serial.SerialWrapper;
+import robot.SerialWrapper;
 import table.Table;
 import threads.dataHandlers.ThreadSerial;
 import utils.Log;

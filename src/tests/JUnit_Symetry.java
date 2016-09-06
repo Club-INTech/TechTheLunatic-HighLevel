@@ -22,7 +22,7 @@ package tests;
 import hook.Hook;
 import org.junit.Before;
 import org.junit.Test;
-import robot.serial.SerialWrapper;
+import robot.SerialWrapper;
 import scripts.ScriptManager;
 import smartMath.Vec2;
 import strategie.GameState;

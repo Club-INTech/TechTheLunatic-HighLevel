@@ -21,12 +21,15 @@ package threads.dataHandlers;
 
 import container.Service;
 import exceptions.serial.SerialConnexionException;
+import exceptions.serial.SerialLookoutException;
 import gnu.io.*;
 import threads.AbstractThread;
 import utils.Log;
 import utils.Sleep;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.LinkedList;
 
 /**
@@ -57,7 +60,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     String name;
 
     String port_name;
-    int baudrate;
 
     /**
      * Flux d'entrée du port
@@ -68,6 +70,12 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      * Flux de sortie du port
      */
     private OutputStream output;
+
+    /** Liste pour stocker les series qui sont connectees au système, afin de trouver la bonne */
+    private ArrayList<String> connectedSerial = new ArrayList<String>();
+
+    /** Baudrate de la liaison série */
+    public static final int baudrate = 115200;
 
     /**
      * TIME_OUT d'attente de réception d'un message
@@ -114,9 +122,8 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     /**
      * Construit une connexion série
      * @param log Sortie de log a utiliser
-     * @param name nom de la connexion série
      */
-    public ThreadSerial(Log log)
+    public ThreadSerial(Log log) throws SerialLookoutException
     {
         super();
         this.log = log;
@@ -141,10 +148,13 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         }
         else
             this.out = null;
+
+        checkSerial();
+        createSerial();
     }
 
     /**
-     * Appelé par le SerialManager, il donne a la série tout ce qu'il faut pour fonctionner
+     * Appelé par le constructeur, il donne a la série tout ce qu'il faut pour fonctionner
      * @param port_name : Le port où est connectée la carte (/dev/ttyUSB ou /dev/ttyACM)
      * @param baudrate : Le baudrate que la carte utilise
      */
@@ -187,7 +197,63 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         }
 
         this.port_name = port_name;
-        this.baudrate = baudrate;
+    }
+
+    /**
+     * Regarde toutes les series qui sont branchees (sur /dev/ttyUSB* et /dev/ttyACM*)
+     */
+    public  void checkSerial()
+    {
+        Enumeration<?> ports = CommPortIdentifier.getPortIdentifiers();
+        while (ports.hasMoreElements())
+        {
+            CommPortIdentifier port = (CommPortIdentifier) ports.nextElement();
+            this.connectedSerial.add(port.getName());
+        }
+    }
+
+    /**
+     * Création de la serie (il faut au prealable faire un checkSerial()).
+     *
+     * Instancie un thread pour chaque série, vérifie que tout fonctionne (ou non) et valide
+     * le tout une fois la bonne trouvée
+     *
+     * @throws SerialLookoutException
+     */
+    public void createSerial() throws SerialLookoutException
+    {
+        int id;
+
+        for (String connectedSerial : this.connectedSerial)
+        {
+            if(connectedSerial.contains("ACM"))
+                continue;
+
+            ThreadSerial ser = new ThreadSerial(log);
+            ser.initialize(connectedSerial, baudrate);
+
+            if (ser.ping() != null)
+                id = Integer.parseInt(ser.ping());
+            else {
+                ser.close();
+                continue;
+            }
+
+            if (id != 0) {
+                ser.close();
+                continue;
+            }
+
+            ser.close();
+            System.out.println("Carte sur: " + connectedSerial);
+
+            this.initialize(connectedSerial, baudrate);
+            this.start();
+            return;
+        }
+
+        log.critical("La carte STM32 n'est pas détectée");
+        throw new SerialLookoutException();
     }
 
     /**
@@ -378,12 +444,12 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     /**
      * Ping de la carte.
-     * Peut envoyer un message d'erreur lors de l'exécution de createSerial() dans SerialManager.
+     * Peut envoyer un message d'erreur lors de l'exécution de createSerial() dans le constructeur.
      *
      * (Avec la carte de test dans createSerial(), on ne sait pas encore si celle-ci va répondre ou non, c'est a dire,
      * si il s'agit bien d'une liaison série, ou alors d'un autre périphérique. Si il s'agit d'un autre périphérique,
      * alors cette méthode va catch une exception)
-     * Utilisé que par createSerial de SerialManager
+     * Utilisé que par createSerial
      * @return l'id de la carte
      */
     public synchronized String ping()
