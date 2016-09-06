@@ -19,7 +19,6 @@
 
 package tests;
 
-import enums.ServiceNames;
 import hook.Hook;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,9 +41,9 @@ public class JUnit_Symetry extends JUnit_Test
 	public void setUp() throws Exception
 	{
 		super.setUp();
-		real_state = (GameState) container.getService(ServiceNames.GAME_STATE);
-		scriptmanager = (ScriptManager) container.getService(ServiceNames.SCRIPT_MANAGER);
-		serialWrapper = (SerialWrapper) container.getService(ServiceNames.SERIAL_WRAPPER);
+		real_state = container.getService(GameState.class);
+		scriptmanager = container.getService(ScriptManager.class);
+		serialWrapper = container.getService(SerialWrapper.class);
 		emptyHook = new ArrayList<Hook> ();  
 
 		// La position est setée qu'on soit jaune ou vert

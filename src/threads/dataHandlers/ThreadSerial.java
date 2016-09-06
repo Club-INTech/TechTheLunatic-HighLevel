@@ -20,7 +20,6 @@
 package threads.dataHandlers;
 
 import container.Service;
-import enums.ServiceNames;
 import exceptions.serial.SerialConnexionException;
 import gnu.io.*;
 import threads.AbstractThread;
@@ -112,27 +111,16 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     //===================================================================
 
-
     /**
      * Construit une connexion série
      * @param log Sortie de log a utiliser
      * @param name nom de la connexion série
      */
-    ThreadSerial(Log log, ServiceNames name)
-    {
-        this(log, name.toString());
-    }
-
-    /**
-     * Construit une connexion série
-     * @param log Sortie de log a utiliser
-     * @param name nom de la connexion série
-     */
-    public ThreadSerial(Log log, String name)
+    public ThreadSerial(Log log)
     {
         super();
         this.log = log;
-        this.name = name;
+        this.name = "STM32";
         if(this.debug)
         {
             try

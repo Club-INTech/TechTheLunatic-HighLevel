@@ -18,10 +18,8 @@
  */
 
 import container.Container;
-import enums.ServiceNames;
 import enums.Speed;
 import exceptions.ContainerException;
-import exceptions.serial.SerialManagerException;
 import hook.Hook;
 import robot.Locomotion;
 import robot.serial.SerialWrapper;
@@ -31,7 +29,7 @@ import table.Table;
 import threads.ThreadTimer;
 import utils.Config;
 import utils.Log;
-import java.io.IOException;
+
 import java.util.ArrayList;
 
 /**
@@ -53,17 +51,16 @@ public class Main
 // dans la config de debut de match, toujours demander une entrée clavier assez longue (ex "oui" au lieu de "o", pour éviter les fautes de frappes. Une erreur a ce stade coûte cher.
 // ---> En même temps si tu tapes n à la place de o, c'est que tu es vraiment con.  -Discord
 // PS : Les vérifications et validations c'est pas pour les chiens.
-	public static void main(String[] args)
+	public static void main(String[] args) throws InterruptedException
 	{
 		try
 		{
 			container = new Container();
-			container.getService(ServiceNames.LOG);
-			config = (Config) container.getService(ServiceNames.CONFIG);
-			realState = (GameState) container.getService(ServiceNames.GAME_STATE);
-			scriptmanager = (ScriptManager) container.getService(ServiceNames.SCRIPT_MANAGER);
-			mSerialWrapper = (SerialWrapper) container.getService(ServiceNames.SERIAL_WRAPPER);
-			mLocomotion=(Locomotion) container.getService(ServiceNames.LOCOMOTION);
+			config = container.getService(Config.class);
+			realState = container.getService(GameState.class);
+			scriptmanager = container.getService(ScriptManager.class);
+			mSerialWrapper = container.getService(SerialWrapper.class);
+			mLocomotion= container.getService(Locomotion.class);
 			config.updateConfig();
 
             Thread.currentThread().setPriority(6);
@@ -82,11 +79,7 @@ public class Main
 			
 			Log.stop();
 
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (ContainerException e) {
-			e.printStackTrace();
-		} catch (SerialManagerException e) {
 			e.printStackTrace();
 		}
 	}

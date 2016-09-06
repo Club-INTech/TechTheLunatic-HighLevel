@@ -19,7 +19,6 @@
 
 package tests;
 
-import enums.ServiceNames;
 import enums.Speed;
 import exceptions.Locomotion.UnableToMoveException;
 import hook.Hook;
@@ -42,8 +41,8 @@ public class JUnit_Speed extends JUnit_Test {
 	{
 		super.setUp();
 		
-		robot = (Robot)container.getService(ServiceNames.ROBOT);
-		table = (Table)container.getService(ServiceNames.TABLE);
+		robot = container.getService(Robot.class);
+		table = container.getService(Table.class);
 		
 		robot.setPosition(Table.entryPosition);
 		robot.setOrientation(Math.PI);

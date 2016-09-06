@@ -20,7 +20,6 @@
 package tests;
 
 import container.Container;
-import enums.ServiceNames;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
@@ -61,8 +60,8 @@ public abstract class JUnit_Test
 	public void setUp() throws Exception
 	{
 		container = new Container();
-		config = (Config) container.getService(ServiceNames.CONFIG);
-		log = (Log) container.getService(ServiceNames.LOG);
+		config = container.getService(Config.class);
+		log = container.getService(Log.class);
 	}
 	
 	/**

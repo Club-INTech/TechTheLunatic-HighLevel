@@ -19,7 +19,6 @@
 
 package tests;
 
-import enums.ServiceNames;
 import org.junit.Before;
 import org.junit.Test;
 import utils.Log;
@@ -39,7 +38,7 @@ public class JUnit_Log extends JUnit_Test
     {
         super.setUp();
         
-        log = (Log)container.getService(ServiceNames.LOG);
+        log = container.getService(Log.class);
     }
     
     /**

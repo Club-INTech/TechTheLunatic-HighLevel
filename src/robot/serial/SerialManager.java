@@ -55,7 +55,7 @@ public class SerialManager
 	{
 		this.log = log;
 
-		this.threadSerial = new ThreadSerial(log, "STM32");
+		this.threadSerial = new ThreadSerial(log);
 
 		checkSerial();
 		createSerial();
@@ -91,7 +91,7 @@ public class SerialManager
 			if(connectedSerial.contains("ACM"))
 				continue;
 
-			ThreadSerial ser = new ThreadSerial(log,"test");
+			ThreadSerial ser = new ThreadSerial(log);
 			ser.initialize(connectedSerial, baudrate);
 
 			if (ser.ping() != null)

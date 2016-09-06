@@ -20,7 +20,6 @@
 package tests;
 
 import enums.ActuatorOrder;
-import enums.ServiceNames;
 import enums.Speed;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +48,7 @@ public class JUnit_BorneArcade extends JUnit_Test
 	{
 		super.setUp();
 
-		real_state = (GameState) container.getService(ServiceNames.GAME_STATE);
+		real_state = container.getService(GameState.class);
         
 		//win = new Window((Table)container.getService(ServiceNames.TABLE), (Robot)real_state.robot);
 		
@@ -63,9 +62,8 @@ public class JUnit_BorneArcade extends JUnit_Test
 		real_state.robot.updateConfig();
 		real_state.robot.useActuator(ActuatorOrder.MONTLHERY, false);
 
-		balises = (ThreadBalises) container.getService(ServiceNames.THREAD_BALISES);
+		balises = container.getService(ThreadBalises.class);
 		balises.showDebug();
-		container.startInstanciedThreads();
 
 	}
 

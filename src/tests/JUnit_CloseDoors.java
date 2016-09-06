@@ -19,7 +19,6 @@
 
 package tests;
 
-import enums.ServiceNames;
 import enums.Speed;
 import hook.Hook;
 import org.junit.After;
@@ -46,12 +45,12 @@ public class JUnit_CloseDoors extends JUnit_Test
 	{
 		super.setUp();
 		log.debug("JUnit_DeplacementsTest.setUp()");
-		mRobot = (GameState)container.getService(ServiceNames.GAME_STATE);
+		mRobot = container.getService(GameState.class);
 		//La position de depart est mise dans le updateConfig()
 		mRobot.updateConfig();
 		mRobot.robot.setPosition(Table.entryPosition);
 		mRobot.robot.setOrientation(Math.PI);
-		scriptManager = (ScriptManager)container.getService(ServiceNames.SCRIPT_MANAGER);
+		scriptManager = container.getService(ScriptManager.class);
 		mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 		mRobot.robot.moveLengthwise(100);
 		//container.getService(ServiceNames.THREAD_INTERFACE);

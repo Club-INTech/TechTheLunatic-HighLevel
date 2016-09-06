@@ -19,15 +19,15 @@
 
 package tests;
 
-import enums.ServiceNames;
 import exceptions.ContainerException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.Locomotion.UnexpectedObstacleOnPathException;
 import exceptions.serial.SerialConnexionException;
-import exceptions.serial.SerialManagerException;
 import hook.Hook;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import robot.Locomotion;
 import robot.serial.SerialWrapper;
 import smartMath.Circle;
@@ -61,33 +61,26 @@ public class JUnit_Sensors extends JUnit_Test
 	public void setUp() throws Exception 
 	{
 		super.setUp();
-		state = (GameState)container.getService(ServiceNames.GAME_STATE);
+		state = container.getService(GameState.class);
 		
 		log.debug("JUnit_ActionneursTest.setUp()");
-		capteurs = (SerialWrapper) container.getService(ServiceNames.SERIAL_WRAPPER);
+		capteurs = container.getService(SerialWrapper.class);
 		
 		config.set("capteurs_on", "true");
 		capteurs.updateConfig();
-		
-		container.getService(ServiceNames.THREAD_SENSOR);
-		//container.getService(ServiceNames.THREAD_TIMER);
-		
+				
 		//locomotion
-		mLocomotion = (Locomotion)container.getService(ServiceNames.LOCOMOTION);
-		mLocomotion.updateConfig();
+		mLocomotion = container.getService(Locomotion.class);
 
 		//mLocomotion.setPosition(new Vec2 (1500-320-77,1000));
 		mLocomotion.setPosition(Table.entryPosition);// milieu de table
 		mLocomotion.setOrientation(Math.PI);
-		container.getService(ServiceNames.THREAD_INTERFACE);
-		container.getService(ServiceNames.THREAD_TIMER);
-		container.startInstanciedThreads();
 
 	}
 
 	
 //	@Test
-	public void testEvitement()
+	public void testEvitement() throws Exception
 	{
 		log.debug("Test d'évitement");
 		try 
@@ -103,9 +96,9 @@ public class JUnit_Sensors extends JUnit_Test
 		{
 			try
 			{
-				state.robot.moveToCircle(new Circle(new Vec2(-700, 900),0),  new ArrayList<Hook>(), (Table)container.getService(ServiceNames.TABLE));
+				state.robot.moveToCircle(new Circle(new Vec2(-700, 900),0),  new ArrayList<Hook>(), container.getService(Table.class));
 			}
-			catch (UnableToMoveException | ContainerException | SerialManagerException e) 
+			catch (UnableToMoveException | ContainerException e) 
 			{
 				log.critical("!!!!!! Catch de"+e+" dans testEvitement !!!!!!");
 			}	

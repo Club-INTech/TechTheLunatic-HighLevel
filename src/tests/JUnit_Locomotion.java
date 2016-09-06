@@ -21,7 +21,6 @@ package tests;
 
 
 import enums.DirectionStrategy;
-import enums.ServiceNames;
 import exceptions.Locomotion.BlockedException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.Locomotion.UnexpectedObstacleOnPathException;
@@ -85,9 +84,8 @@ public class JUnit_Locomotion extends JUnit_Test
 	{
 		super.setUp();
 		log.debug("JUnit_DeplacementsTest.setUp()");
-		mLocomotion = (Locomotion)container.getService(ServiceNames.LOCOMOTION);
-		cardWrapper=(SerialWrapper) container.getService(ServiceNames.SERIAL_WRAPPER);
-		container.getService(ServiceNames.ROBOT);
+		mLocomotion = container.getService(Locomotion.class);
+		cardWrapper= container.getService(SerialWrapper.class);
 		config.set("couleur", "vert");
 		mLocomotion.updateConfig();
 		mLocomotion.setPosition(new Vec2 (1381,1000));

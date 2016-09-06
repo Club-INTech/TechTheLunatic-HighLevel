@@ -19,7 +19,6 @@
 
 package tests;
 
-import enums.ServiceNames;
 import enums.Speed;
 import exceptions.Locomotion.UnableToMoveException;
 import hook.Hook;
@@ -51,9 +50,9 @@ public class JUnit_Hooks extends JUnit_Test
 	public void setUp() throws Exception
 	{
 		super.setUp();
-		scriptManager = (ScriptManager)container.getService(ServiceNames.SCRIPT_MANAGER);
-		theRobot = (GameState)container.getService(ServiceNames.GAME_STATE);
-		hookFactory = (HookFactory) container.getService(ServiceNames.HOOK_FACTORY);
+		scriptManager = container.getService(ScriptManager.class);
+		theRobot = container.getService(GameState.class);
+		hookFactory = container.getService(HookFactory.class);
 		theRobot.robot.setOrientation(Math.PI);
 		theRobot.robot.setPosition(Table.entryPosition);
 		theRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);

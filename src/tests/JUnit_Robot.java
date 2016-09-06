@@ -19,7 +19,6 @@
 
 package tests;
 
-import enums.ServiceNames;
 import org.junit.Before;
 import robot.Robot;
 
@@ -39,7 +38,7 @@ public class JUnit_Robot extends JUnit_Test
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        robotReal = (Robot) container.getService(ServiceNames.ROBOT);
+        robotReal = container.getService(Robot.class);
     }
 
     
