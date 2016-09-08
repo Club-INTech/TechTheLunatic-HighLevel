@@ -51,7 +51,7 @@ public class Container implements Service
 	private boolean threadsStarted = false;
 	
 	// permet de détecter les dépendances circulaires
-	private Stack<String> stack = new Stack<String>();
+	private volatile Stack<String> stack = new Stack<String>();
 
     /**
      * Chemin relatif vers le fichier de config
@@ -179,7 +179,7 @@ public class Container implements Service
             System.exit(0);
         }
 
-        log = getServiceRecursif(Log.class);
+        log = getService(Log.class);
 
         log.updateConfig();
 
@@ -205,14 +205,14 @@ public class Container implements Service
 	 * @throws ContainerException
 	 * @throws InterruptedException 
 	 */
-	public <S extends Service> S getService(Class<S> serviceTo) throws ContainerException, InterruptedException
+	public synchronized <S extends Service> S getService(Class<S> serviceTo) throws ContainerException, InterruptedException
 	{
 		stack.clear(); // pile d'appel vidée
 		return getServiceDisplay(null, serviceTo);
 	}
 	
 	@SuppressWarnings("unused")
-	private <S extends Service> S getServiceDisplay(Class<? extends Service> serviceFrom, Class<S> serviceTo) throws ContainerException, InterruptedException
+	private synchronized <S extends Service> S getServiceDisplay(Class<? extends Service> serviceFrom, Class<S> serviceTo) throws ContainerException, InterruptedException
 	{
 		/*
 		  On ne crée pas forcément le graphe de dépendances pour éviter une lourdeur inutile
@@ -244,7 +244,7 @@ public class Container implements Service
 	 * @throws InterruptedException
 	 */
 	@SuppressWarnings("unchecked")
-	public <S extends Service> S getServiceRecursif(Class<S> classe) throws ContainerException, InterruptedException
+	public synchronized <S extends Service> S getServiceRecursif(Class<S> classe) throws ContainerException, InterruptedException
 	{
 		try {
 			/*
@@ -335,7 +335,7 @@ public class Container implements Service
 		for(ThreadName n : ThreadName.values())
 		{
 			try {
-				getServiceRecursif(n.c).start();
+				getService(n.c).start();
 			} catch (ContainerException e) {
 				log.critical(e);
 			}
