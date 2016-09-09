@@ -50,9 +50,6 @@ public class Container implements Service
 	
 	private boolean threadsStarted = false;
 	
-	// permet de détecter les dépendances circulaires
-	private volatile Stack<String> stack = new Stack<String>();
-
     /**
      * Chemin relatif vers le fichier de config
      */
@@ -207,12 +204,11 @@ public class Container implements Service
 	 */
 	public synchronized <S extends Service> S getService(Class<S> serviceTo) throws ContainerException, InterruptedException
 	{
-		stack.clear(); // pile d'appel vidée
-		return getServiceDisplay(null, serviceTo);
+		return getServiceDisplay(null, serviceTo, new Stack<String>());
 	}
 	
 	@SuppressWarnings("unused")
-	private synchronized <S extends Service> S getServiceDisplay(Class<? extends Service> serviceFrom, Class<S> serviceTo) throws ContainerException, InterruptedException
+	private synchronized <S extends Service> S getServiceDisplay(Class<? extends Service> serviceFrom, Class<S> serviceTo, Stack<String> stack) throws ContainerException, InterruptedException
 	{
 		/*
 		  On ne crée pas forcément le graphe de dépendances pour éviter une lourdeur inutile
@@ -233,7 +229,7 @@ public class Container implements Service
 				e.printStackTrace();
 			}
 		}
-		return getServiceRecursif(serviceTo);
+		return getServiceRecursif(serviceTo, stack);
 	}
 
 	/**
@@ -244,7 +240,7 @@ public class Container implements Service
 	 * @throws InterruptedException
 	 */
 	@SuppressWarnings("unchecked")
-	public synchronized <S extends Service> S getServiceRecursif(Class<S> classe) throws ContainerException, InterruptedException
+	public synchronized <S extends Service> S getServiceRecursif(Class<S> classe, Stack<String> stack) throws ContainerException, InterruptedException
 	{
 		try {
 			/*
@@ -286,7 +282,7 @@ public class Container implements Service
 			 */
 			Object[] paramObject = new Object[param.length];
 			for(int i = 0; i < param.length; i++)
-				paramObject[i] = getServiceDisplay(classe, param[i]);
+				paramObject[i] = getServiceDisplay(classe, param[i], stack);
 
 			/*
 			  Instanciation et sauvegarde
