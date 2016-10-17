@@ -19,17 +19,21 @@
 
 package tests;
 
+import enums.ServiceNames;
+import exceptions.ContainerException;
+import exceptions.serial.SerialManagerException;
 import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
 import smartMath.Vec2;
+import table.Table;
 import utils.Sleep;
 
 import java.util.ArrayList;
 
 public class JUnit_Graphics extends JUnit_Test
 {
-	Window win;
+	private Window win;
 	
     @Before
     public void setUp() throws Exception
@@ -52,7 +56,7 @@ public class JUnit_Graphics extends JUnit_Test
     	Thread.sleep(5000);
     }
     
-    @Test
+    //@Test
     public void testSensorPanel() throws InterruptedException
     {
     	win = new Window();
@@ -62,4 +66,27 @@ public class JUnit_Graphics extends JUnit_Test
     		Sleep.sleep(200);
     	}
     }
+
+    @Test
+	public void showTable()
+	{
+		try {
+
+			win = new Window((Table) container.getService(ServiceNames.TABLE));
+
+			win.getPanel().repaint();
+
+			while(true)
+			{
+				Thread.sleep(500);
+			}
+
+
+		} catch (ContainerException | SerialManagerException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+	}
 }

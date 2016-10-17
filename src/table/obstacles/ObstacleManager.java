@@ -48,6 +48,8 @@ public class ObstacleManager
 
     /** Ensemble des obstacles mobiles/temporaires se trouvant sur la table */
     private ArrayList<ObstacleProximity> mMobileObstacles;
+
+
     private ArrayList<ObstacleCircular> mFixedObstacles;
     
     /**
