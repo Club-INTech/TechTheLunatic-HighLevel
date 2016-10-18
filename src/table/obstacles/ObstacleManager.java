@@ -113,6 +113,17 @@ public class ObstacleManager
       	mLines.add(new Segment(new Vec2(-1500 + mRobotRadius, 2000 - mRobotRadius), new Vec2(-1500 + mRobotRadius, 0 + mRobotRadius)));
       	
       	//Les différents obstacles fixés sur la table
+
+		// zones de départ
+		mRectangles.add(new ObstacleRectangular(new Vec2(-965, 180), 350 + 2*mRobotRadius, 360 + 2*mRobotRadius) );
+		mRectangles.add(new ObstacleRectangular(new Vec2(965, 180), 350 + 2*mRobotRadius, 360 + 2*mRobotRadius));
+		mRectangles.add(new ObstacleRectangular(new Vec2(-1145, 371), 710 + 2*mRobotRadius, 22 + 2*mRobotRadius));
+		mRectangles.add(new ObstacleRectangular(new Vec2(1145, 371), 710 + 2*mRobotRadius, 22 + 2*mRobotRadius));
+
+		//fusées
+		mRectangles.add(new ObstacleRectangular(new Vec2(-350, 371), 710 + 2*mRobotRadius, 22 + 2*mRobotRadius));
+
+
       	//planches au sud
       	mRectangles.add(new ObstacleRectangular(new Vec2(711, 1900), 22 + 2*mRobotRadius, 200 + 2*mRobotRadius));
       	mRectangles.add(new ObstacleRectangular(new Vec2(-711, 1900), 200 + 2*mRobotRadius, 200 + 2*mRobotRadius));
@@ -266,7 +277,7 @@ public class ObstacleManager
     				mUntestedMobileObstacles.get(i).radius=radius;
     				mUntestedMobileObstacles.get(i).setLifeTime(lifetime);
     				
-    				// si on l'a deja vu plin de fois
+    				// si on l'a deja vu plein de fois
     				if(mUntestedMobileObstacles.get(i).numberOfTimeDetected >= mUntestedMobileObstacles.get(i).getMaxNumberOfTimeDetected())
     					mUntestedMobileObstacles.get(i).numberOfTimeDetected = mUntestedMobileObstacles.get(i).getMaxNumberOfTimeDetected();
 
@@ -293,7 +304,7 @@ public class ObstacleManager
     				mMobileObstacles.get(i).radius=radius;
     				mMobileObstacles.get(i).setLifeTime(lifetime);
     				
-    				// si on l'a deja vu plin de fois
+    				// si on l'a deja vu plein de fois
     				if(mMobileObstacles.get(i).numberOfTimeDetected >= mMobileObstacles.get(i).getMaxNumberOfTimeDetected())
     					mMobileObstacles.get(i).numberOfTimeDetected = mMobileObstacles.get(i).getMaxNumberOfTimeDetected();
     			}
@@ -350,7 +361,7 @@ public class ObstacleManager
 	}
 
     /**
-	 * Supprime du gestionnaire tout les obstacles dont la date de péremption est antérieure a la date fournie
+	 * Supprime du gestionnaire tout les obstacles dont la date de péremption est antérieure à la date fournie
      *
      */
     public synchronized void removeOutdatedObstacles()
