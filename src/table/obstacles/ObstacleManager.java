@@ -122,21 +122,21 @@ public class ObstacleManager
 
 
 		//fusées
-		mRectangles.add(new ObstacleCircular(new Vec2(-350, 40), 80 + mRobotRadius));
-		mRectangles.add(new ObstacleCircular(new Vec2(350, 40), 40 + mRobotRadius));
-		mRectangles.add(new ObstacleCircular(new Vec2(-1460, 1350), 40 + mRobotRadius));
-		mRectangles.add(new ObstacleCircular(new Vec2(1460, 1350), 40 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(-350, 40), 80 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(350, 40), 40 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(-1460, 1350), 40 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(1460, 1350), 40 + mRobotRadius));
 
 		//cratères
-		mRectangles.add(new ObstacleCircular(new Vec2(-850, 640), 85 + mRobotRadius));
-		mRectangles.add(new ObstacleCircular(new Vec2(850, 640), 85 + mRobotRadius));
-		mRectangles.add(new ObstacleCircular(new Vec2(-1500, 2000), 510 + mRobotRadius));
-		mRectangles.add(new ObstacleCircular(new Vec2(1500, 2000), 510 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(-850, 640), 85 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(850, 640), 85 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(-1500, 2000), 510 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(1500, 2000), 510 + mRobotRadius));
 		//pose module côté
 		mRectangles.add(new ObstacleRectangular(new Vec2(-1446, 678), 108 + 2*mRobotRadius, 472 + 2*mRobotRadius));
 		mRectangles.add(new ObstacleRectangular(new Vec2(1446, 678), 108 + 2*mRobotRadius, 472 + 2*mRobotRadius));
 		//base lunaire
-		mRectangles.add(new ObstacleCircular(new Vec2(0, 2000), 800 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(0, 2000), 800 + mRobotRadius));
       	//planches au sud
       	/*mRectangles.add(new ObstacleRectangular(new Vec2(711, 1900), 22 + 2*mRobotRadius, 200 + 2*mRobotRadius));
       	mRectangles.add(new ObstacleRectangular(new Vec2(-711, 1900), 200 + 2*mRobotRadius, 200 + 2*mRobotRadius));
