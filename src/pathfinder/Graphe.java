@@ -7,9 +7,34 @@ public class Graphe {
 
 
 
-    public void Astarfoulah(Noeud arrivee)
-    {// on met les noeud plus celui du calcul dans l'ordre de leur distance carrée a l'arrivée
-       PriorityQueue pq= new PriorityQueue();// a intégrer a l'objet graphe plutot
+    public void Astarfoulah(Noeud depart, Noeud arrivee)
+    {// on met les noeuds dans une priority queue
+        // TODO créér la fonction de comparaison de noeuds/ la fonction d'update d'une arrête
+
+        PriorityQueue <Noeud> pq= new PriorityQueue();
+        pq.add(depart);
+        Noeud noeudcourant=null;
+        while(noeudcourant != arrivee)
+        {
+            noeudcourant=pq.poll();
+
+            for (Arrete aux : noeudcourant.lArretes)
+            {
+                if(aux.isUpdated)
+                {
+                    if (!aux.bloquant && aux.isUpdated)
+                        pq.add(aux.arrivee);
+                }
+
+                else
+                {
+                    aux.update();
+                }
+
+
+            }
+        }
+
 
     }
 }

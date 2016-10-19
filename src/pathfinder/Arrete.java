@@ -9,11 +9,11 @@ import table.obstacles.ObstacleCircular;
  * Created by shininisan on 19/10/16.
  */
 public class Arrete {
-    private Noeud depart;
-    private Noeud arrivee;
-    private double cout;
-    private boolean isUpdated= true;
-    private boolean bloquant= false;
+    public Noeud depart;
+    public Noeud arrivee;
+    public double cout;
+    public boolean isUpdated= true;
+    public boolean bloquant= false;
     public Arrete(Noeud n1, Noeud n2)
     {
         depart=n1;
@@ -21,6 +21,10 @@ public class Arrete {
         bloquant=false;
         isUpdated=true;
         this.calcCout();
+
+    }
+    public void update()
+    {
 
     }
 
