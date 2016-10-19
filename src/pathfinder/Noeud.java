@@ -1,4 +1,4 @@
-package scripts;
+package pathfinder;
 
 import smartMath.Vec2;
 // TODO la liste potentielle des scripts à lancer.
