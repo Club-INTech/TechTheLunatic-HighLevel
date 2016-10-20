@@ -19,9 +19,7 @@
 
 package tests;
 
-import enums.ServiceNames;
 import exceptions.ContainerException;
-import exceptions.serial.SerialManagerException;
 import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
@@ -72,7 +70,7 @@ public class JUnit_Graphics extends JUnit_Test
 	{
 		try {
 
-			win = new Window((Table) container.getService(ServiceNames.TABLE));
+			win = new Window((Table) container.getService(Table.class));
 
 			win.getPanel().repaint();
 
@@ -82,9 +80,7 @@ public class JUnit_Graphics extends JUnit_Test
 			}
 
 
-		} catch (ContainerException | SerialManagerException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
+		} catch (ContainerException | InterruptedException e) {
 			e.printStackTrace();
 		}
 
