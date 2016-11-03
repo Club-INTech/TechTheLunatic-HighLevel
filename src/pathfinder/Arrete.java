@@ -18,7 +18,6 @@ public class Arrete {
     {
         depart=n1;
         arrivee=n2;
-        bloquant=false;
         isUpdated=true;
         this.calcCout();
 
@@ -28,7 +27,7 @@ public class Arrete {
 
     }
 
-    public boolean isBloquant(ObstacleCircular obstacle) // calcul de l'intersection de la ligne et des objets
+    public void isBloquant(ObstacleCircular obstacle) // calcul de l'intersection de la ligne et des objets
     {
 
         if(!isUpdated)
@@ -38,16 +37,14 @@ public class Arrete {
             double distcentre= da.dot(dc) / dc.length();
             if (distcentre< obstacle.getRadius())
             {
-                this.bloquant=true;
-            }
-            else
-            {
-                this.bloquant=false;
+                // on le détache de ses noeuds
+                this.depart.lArretes.remove(this.depart);
+                this.arrivee.lArretes.remove(this.arrivee);
             }
 
         }
         this.isUpdated=false;
-        return this.bloquant;
+        ;
 
         /*
         si on est update on renvoit bloquant
