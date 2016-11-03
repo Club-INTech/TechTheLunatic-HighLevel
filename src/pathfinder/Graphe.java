@@ -22,8 +22,8 @@ public class Graphe {
             {
                 if(aux.isUpdated)
                 {
-                    if (!aux.bloquant && aux.isUpdated)
-                        pq.add(aux.arrivee);
+
+                    pq.add(aux.arrivee);
                 }
 
                 else

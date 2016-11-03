@@ -13,7 +13,7 @@ public class Arrete {
     public Noeud arrivee;
     public double cout;
     public boolean isUpdated= true;
-    public boolean bloquant= false;
+
     public Arrete(Noeud n1, Noeud n2)
     {
         depart=n1;
@@ -41,8 +41,7 @@ public class Arrete {
                 this.depart.lArretes.remove(this.depart);
                 this.arrivee.lArretes.remove(this.arrivee);
             }
-
-        }
+           }
         this.isUpdated=false;
         ;
 
