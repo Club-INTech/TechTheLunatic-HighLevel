@@ -34,8 +34,9 @@ public class Arrete {
         {
             Vec2 da= new Vec2(depart.position.x-arrivee.position.x,depart.position.y-arrivee.position.y);
             Vec2 dc= new Vec2(depart.position.x-obstacle.getPosition().x,depart.position.y-obstacle.getPosition().y);
-            double distcentre= da.dot(dc) / dc.length();
-            if (distcentre< obstacle.getRadius())
+            double distcentre= da.dot(dc);
+            //... découverte de la fonction isinobstacle
+            if (distcentre< obstacle.getRadius()*obstacle.getRadius())
             {
                 // on le détache de ses noeuds
                 this.depart.lArretes.remove(this.depart);
