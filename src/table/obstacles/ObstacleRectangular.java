@@ -19,6 +19,8 @@
 
 package table.obstacles;
 
+import pathfinder.Graphe;
+import pathfinder.Noeud;
 import smartMath.Segment;
 import smartMath.Vec2;
 
@@ -191,6 +193,27 @@ public class ObstacleRectangular extends Obstacle
 	{
 		this.sizeX=sizeX;
 		this.sizeY=sizeY;
+	}
+	public void fabriqueNoeud(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
+	{
+		Vec2 coinBasGauche = position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));
+		Vec2 coinHautGauche = position.plusNewVector((new Vec2(0-ecart,0+ecart)));
+		Vec2 coinBasDroite = position.plusNewVector((new Vec2(sizeX+ecart,-sizeY -ecart )));
+		Vec2 coinHautDroite = position.plusNewVector((new Vec2(sizeX+ecart,0-ecart)));
+		Noeud noeudBD=new Noeud(graphe,coinBasDroite);
+		Noeud noeudBG=new Noeud(graphe,coinBasGauche);
+		Noeud noeudHD=new Noeud(graphe,coinHautDroite);
+		Noeud noeudHG=new Noeud(graphe,coinHautGauche);
+		graphe.getlNoeuds().add(noeudBD);
+		graphe.getlNoeuds().add(noeudBG);
+		graphe.getlNoeuds().add(noeudHD);
+		graphe.getlNoeuds().add(noeudHG);
+		// et on relie les noeuds
+		noeudBD.attachelien(noeudBG);
+		noeudBD.attachelien(noeudHD);
+		noeudHG.attachelien(noeudBG);
+		noeudHG.attachelien(noeudHD);
+
 	}
 	
 }

@@ -5,11 +5,21 @@ import java.util.Queue;
 
 
 public class Graphe {
-    private int noeudsurtable= 50;
+    private int noeudsurtable;
 
     private ArrayList<Noeud> lNoeuds;
 
+    public void setNoeudsurtable(int noeudsurtable) {
+        this.noeudsurtable = noeudsurtable;
+    }
 
+    public int getNoeudsurtable() {
+        return noeudsurtable;
+    }
+
+    public ArrayList<Noeud> getlNoeuds() {
+        return lNoeuds;
+    }
 
     public ArrayList <Noeud> Astarfoulah(Noeud depart, Noeud arrivee)
     {// on met les noeuds dans une priority queue
@@ -52,7 +62,8 @@ public class Graphe {
 
     return chemin;
     }
-    Arrete Nazareth (int i,Noeud t1, Noeud t2)
+
+    Arrete Nazareth (int i,Noeud t1, Noeud t2) //retrouve le noeud t2 dans la liste de t1
     {
         if(t1.lArretes.get(i).arrivee==t2)
         {

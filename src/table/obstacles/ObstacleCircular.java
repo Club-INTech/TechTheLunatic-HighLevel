@@ -19,6 +19,8 @@
 
 package table.obstacles;
 
+import pathfinder.Graphe;
+import pathfinder.Noeud;
 import smartMath.Circle;
 import smartMath.Segment;
 import smartMath.Vec2;
@@ -116,6 +118,28 @@ public class ObstacleCircular extends Obstacle
 	/* (non-Javadoc)
 	 * @see table.obstacles.Obstacle#toString()
 	 */
+	public void fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe
+	{
+		Noeud[] myList = new Noeud[10];
+		Noeud noeudact;
+		for (int i=0;i<n;i++)
+		{
+			Vec2 spin=new Vec2((int)(this.getRadius()*Math.cos(2*Math.PI/n)/Math.cos(Math.PI/n))+ecart, (int) (this.getRadius()*Math.sin(Math.PI*2/n)/Math.cos(Math.PI/n))+ecart);
+			noeudact=new Noeud(graphe,this.getPosition().plusNewVector(spin));
+			myList[i]=noeudact;
+			graphe.getlNoeuds().add(noeudact);
+
+			//p=h/cos(pi/n)
+			// on fait les liens
+		}
+		for (int i=0;i<n;i++)
+		{ myList[i].attachelien(myList[i%n]);
+		}
+
+	}
+
+
+
 	public String toString()
 	{
 		return "Obstacle circulaire de centre " + position + " et de rayon: "+radius;
