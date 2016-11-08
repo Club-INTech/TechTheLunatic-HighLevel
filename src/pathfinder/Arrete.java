@@ -18,20 +18,16 @@ public class Arrete {
     {
         depart=n1;
         arrivee=n2;
-        isUpdated=true;
+
         this.calcCout();
 
     }
-    public void update()
-    {
 
-    }
 
     public void isBloquant(ObstacleCircular obstacle) // calcul de l'intersection de la ligne et des objets
     {
 
-        if(!isUpdated)
-        {
+
             Vec2 da= new Vec2(depart.position.x-arrivee.position.x,depart.position.y-arrivee.position.y);
             Vec2 dc= new Vec2(depart.position.x-obstacle.getPosition().x,depart.position.y-obstacle.getPosition().y);
             double distcentre= da.dot(dc);
@@ -42,8 +38,7 @@ public class Arrete {
                 this.depart.lArretes.remove(this.depart);
                 this.arrivee.lArretes.remove(this.arrivee);
             }
-           }
-        this.isUpdated=false;
+
         ;
 
         /*
