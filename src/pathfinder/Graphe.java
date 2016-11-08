@@ -25,9 +25,15 @@ public class Graphe {
     }
 
 
+    /**
+     *
+     * @param depart noeud de depart de l'A*
+     * @param arrivee noeud d'arrivée
+     * @return Liste des noeuds
+     */
     public ArrayList <Noeud> Astarfoulah(Noeud depart, Noeud arrivee)
     {// on met les noeuds dans une priority queue
-        // TODO la fonction d'update d'une arrête; la création du graphe;
+
 
         ArrayList <Noeud> chemin= new ArrayList() ;
 
@@ -42,10 +48,14 @@ public class Graphe {
             noeudCourant=pq.poll();
             chemin.add(noeudCourant);
             noeudCourant.distheuristique(arrivee);
-            Arrete arr = new Arrete(noeudCourant,noeudCourant);
 
-           noeudCourant.sommedepart=noeudPrecedent.sommedepart + Nazareth(0,noeudPrecedent,noeudCourant).cout;
-
+            if(noeudPrecedent==null)
+            {
+                noeudCourant.sommedepart = 0;
+            }
+            else {
+                noeudCourant.sommedepart = noeudPrecedent.sommedepart + Nazareth(noeudPrecedent, noeudCourant).cout;
+            }
             for (Arrete aux : noeudCourant.lArretes)
             {
 
@@ -61,23 +71,41 @@ public class Graphe {
     return chemin;
     }
 
-    Arrete Nazareth (int i,Noeud t1, Noeud t2) //retrouve le noeud t2 dans la liste de t1
+    /**
+     *
+     * @param t1 Le noeud dans lequel t2 se trouve potentiellement
+     * @param t2 Le noeud à chercher
+     * @return L'Arrete qui relie t1 et t2
+     */
+    Arrete Nazareth(Noeud t1, Noeud t2)
     {
-        if(t1.lArretes.get(i).arrivee==t2)
-        {
-            return t1.lArretes.get(i);
-        }
-        else
-        { return Nazareth(i+1,t1,t2);
-        }
-
+       for (Arrete x :t1.lArretes)
+       {
+           if(x.arrivee.equals(t2))
+           {
+               return x;
+           }
+       }
+        return null;
     }
+
+    /**
+     * Graphe initial
+     */
     public Graphe() //le graphe initial
     {
         Noeud n1=new Noeud(this,new Vec2(0,0));
         this.lNoeuds.add(n1);
 
     }
+
+    /**
+     * Surcharge du constructeur: construit un sous-graphe à partir de
+     * @param position du robot
+     * @param detecte l'obstacle détecté
+     * @param ini le noeud où était le robot avant la détection
+     * @param fin le noeud vers lequel se dirige le robot
+     */
     public Graphe(Vec2 position,ObstacleCircular detecte, Noeud ini,Noeud fin)
     {
 
@@ -95,16 +123,27 @@ public class Graphe {
 
 
     }
+
+    /**
+     * réharmonise le nombre de noeud sur la table d'un graphe et leur indice
+     */
     public void reorder()
     {
-        for (int i=0;i<lNoeuds.size();i++)
+        for (int i=0;i<this.lNoeuds.size();i++)
         {
             this.lNoeuds.get(i).indice=i;
             this.noeudsurtable=this.getlNoeuds().size();
         }
     }
 
-    // Pour créer des sous graphes
+    /**
+     *
+     * @param position la position du robot
+     * @param detecte l'obstacle détecté
+     * @param chemin la liste des Noeuds que le robot était censé suivre
+     * @param indice l'indice de la liste précédente
+     * @return la liste des noeuds intermédiaires pour éviter l'obstacle
+     */
     public ArrayList<Noeud> actGraphe(Vec2 position, ObstacleCircular detecte,ArrayList<Noeud> chemin,int indice)
     {
         //on veut une copie de ini et de fin

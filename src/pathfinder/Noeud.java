@@ -16,6 +16,11 @@ public class Noeud
     public ArrayList <Arrete> lArretes;
     public double sommedepart;
 
+    /**
+     * Constructeur
+     * @param g graphe
+     * @param position
+     */
     public Noeud(Graphe g, Vec2 position)
     {
         this.position=position;
@@ -24,7 +29,12 @@ public class Noeud
 
 
     }
-    public Noeud (Noeud n1)//ctor copy
+
+    /**
+     * Ctor de copy
+     * @param n1 noeud à copier
+     */
+    public Noeud (Noeud n1)
     {
         this.position=n1.position;
         this.indice=n1.indice;
@@ -33,6 +43,11 @@ public class Noeud
         this.sommedepart=n1.sommedepart;
     }
 
+    /**
+     * Crée l'arête entre this et le noeud fourni
+     * Fabrique également le lien dans l'autre sens
+     * @param autre Noeud destination
+     */
     public void attachelien(Noeud autre)
     {
         this.lArretes.add(new Arrete(this,autre));
@@ -40,11 +55,19 @@ public class Noeud
 
     }
 
+    /**
+     * Actualise la distance euclidienne jusqu'à l'arrivée
+     * @param arrivee
+     */
     public void distheuristique(Noeud arrivee)
     {
-        this.distarrivee= this.lArretes.get(arrivee.indice).cout;
+        this.distarrivee=  this.position.minusNewVector(arrivee.position).length();
     }
 
+    /**
+     * Détruit les liens bloque par l'obstacle fourni en argument
+     * @param detecte obstacle détecté
+     */
     public void update(ObstacleCircular detecte)
     {
         for (Arrete x:this.lArretes)

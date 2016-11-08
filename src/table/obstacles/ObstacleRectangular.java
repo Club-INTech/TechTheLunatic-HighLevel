@@ -194,6 +194,12 @@ public class ObstacleRectangular extends Obstacle
 		this.sizeX=sizeX;
 		this.sizeY=sizeY;
 	}
+
+	/**
+	 * ajoute les noeuds liés à l'obstacle sur le graphe
+	 * @param graphe
+	 * @param ecart écart minimal par rapport à l'obstacle
+	 */
 	public void fabriqueNoeud(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
 	{
 		Vec2 coinBasGauche = position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));

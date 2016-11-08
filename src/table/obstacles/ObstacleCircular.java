@@ -118,6 +118,13 @@ public class ObstacleCircular extends Obstacle
 	/* (non-Javadoc)
 	 * @see table.obstacles.Obstacle#toString()
 	 */
+
+	/**
+	 * Ajoute sur le graphe n noeud autour du cercle délimitant l'obstacle
+	 * @param graphe
+	 * @param n
+	 * @param ecart
+	 */
 	public void fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe
 	{
 		Noeud[] myList = new Noeud[10];

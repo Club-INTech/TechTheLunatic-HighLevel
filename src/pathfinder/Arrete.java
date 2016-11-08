@@ -23,7 +23,10 @@ public class Arrete {
 
     }
 
-
+    /**
+     * détruit le lien entre arrivee et départ
+     * @param obstacle
+     */
     public void isBloquant(ObstacleCircular obstacle) // calcul de l'intersection de la ligne et des objets
     {
 
@@ -48,6 +51,9 @@ public class Arrete {
         */
     }
 
+    /**
+     * actualise le cout de l'arrête
+     */
     public void calcCout()
     {
         this.cout=new Vec2 (this.depart.position.x-this.arrivee.position.x,this.depart.position.y-this.arrivee.position.y).length();
