@@ -54,7 +54,7 @@ public class HookFactory implements Service
 	 * @param log système de log
 	 * @param realState état du jeu
 	 */
-	public HookFactory(Config config, Log log, GameState realState)
+	private HookFactory(Config config, Log log, GameState realState)
 	{
 		this.config = config;
 		this.log = log;

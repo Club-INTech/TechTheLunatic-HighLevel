@@ -62,7 +62,7 @@ public class GameState implements Service
      * @param table l'état de la table a considérer
      * @param robot Le robot a considérer, soit un Robot, soit un Robothrono
      */
-    public GameState(Config config, Log log, Table table, Robot robot)
+    private GameState(Config config, Log log, Table table, Robot robot)
     {
         this.table = table;
         this.robot = robot;

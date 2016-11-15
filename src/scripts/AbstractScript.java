@@ -62,7 +62,7 @@ public abstract class AbstractScript implements Service
 	 * @param config le fichier de config a partir duquel le script pourra se configurer
 	 * @param log le système de log qu'utilisera le script
 	 */
-	public AbstractScript(HookFactory hookFactory, Config config, Log log)
+	protected AbstractScript(HookFactory hookFactory, Config config, Log log)
 	{
 		AbstractScript.hookFactory = hookFactory;
 		AbstractScript.config = config;

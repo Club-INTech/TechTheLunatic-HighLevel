@@ -165,10 +165,13 @@ public class Container implements Service
 		 */
         try
         {
-            config = new Config(configPath);
+			Constructor<Config> constructeur = Config.class.getDeclaredConstructor(String.class);
+			constructeur.setAccessible(true); // on outrepasse les droits
+			config = constructeur.newInstance(configPath);
+			constructeur.setAccessible(false); // on revient à l'état d'origine !
             instanciedServices.put(Config.class.getSimpleName(), (Service) config);
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             System.err.println("FATAL : Could not load config !");
             e.printStackTrace();

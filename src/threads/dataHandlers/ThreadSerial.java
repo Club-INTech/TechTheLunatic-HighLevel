@@ -123,7 +123,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      * Construit une connexion série
      * @param log Sortie de log a utiliser
      */
-    public ThreadSerial(Log log) throws SerialLookoutException
+    private ThreadSerial(Log log) throws SerialLookoutException
     {
         super();
         this.log = log;

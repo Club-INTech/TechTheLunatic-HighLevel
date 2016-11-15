@@ -69,7 +69,7 @@ public class Log implements Service
 	 *
 	 * @param config fichier de configuration pour le match.
 	 */
-	public Log(Config config)
+	private Log(Config config)
 	{
 		this.config = config;
 		
