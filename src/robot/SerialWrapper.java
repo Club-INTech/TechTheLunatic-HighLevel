@@ -73,7 +73,7 @@ public class SerialWrapper implements Service
      */
     private int delayBetweenSend = 100;
 
-    public SerialWrapper(Config config, Log log, ThreadSerial serie)
+    private SerialWrapper(Config config, Log log, ThreadSerial serie)
     {
         this.log = log;
         this.config = config;

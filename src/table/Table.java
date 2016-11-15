@@ -67,7 +67,7 @@ public class Table implements Service
 	 * @param log le système de log sur lequel écrire.
 	 * @param config l'endroit ou lire la configuration du robot
 	 */
-	public Table(Log log, Config config)
+	private Table(Log log, Config config)
 	{
 		this.log = log;
 		this.config = config;

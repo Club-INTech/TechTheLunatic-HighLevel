@@ -58,7 +58,7 @@ public class Config implements Service
 	 * @param path endroit ou trouver le fichier de configuration
 	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
-	public Config(String path) throws IOException
+	private Config(String path) throws IOException
 	{
 		this.path = path;
 		System.out.println("Loading config from current directory : " +  System.getProperty("user.dir") + path);

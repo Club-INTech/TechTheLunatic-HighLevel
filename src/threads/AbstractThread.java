@@ -48,7 +48,7 @@ public abstract class AbstractThread extends Thread implements Service
 	 * @param config Fichier ou lire la configuration du match.
 	 * @param log Le système de log a utiliser pour écrire.
 	 */
-	public AbstractThread(Config config, Log log)
+	protected AbstractThread(Config config, Log log)
 	{
 		AbstractThread.config = config;
 		AbstractThread.log = log;

@@ -51,7 +51,7 @@ public class ScriptManager implements Service
 	 * @param config the config endroit ou lire la configuration du robot
 	 * @param log système de log sur lequel écrire
 	 */
-	public ScriptManager(HookFactory factory, Config config, Log log)
+	private ScriptManager(HookFactory factory, Config config, Log log)
 	{
 		this.log = log;
 		this.config = config;

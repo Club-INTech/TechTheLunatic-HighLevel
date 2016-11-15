@@ -91,7 +91,7 @@ public class Robot implements Service
 	 * @param log fichier de log
 	 * @param serialWrapper protocole communication série
 	 */
-	public Robot(Locomotion deplacements, Config config, Log log, SerialWrapper serialWrapper)
+	private Robot(Locomotion deplacements, Config config, Log log, SerialWrapper serialWrapper)
  	{
 		this.config = config;
 		this.log = log;

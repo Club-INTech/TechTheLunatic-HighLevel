@@ -196,7 +196,7 @@ public class Locomotion implements Service
      * @param table la table de jeu
      * @param serialWrapper protocole de communication série
      */
-    public Locomotion(Log log, Config config, Table table, SerialWrapper serialWrapper)
+    private Locomotion(Log log, Config config, Table table, SerialWrapper serialWrapper)
     {
         this.log = log;
         this.config = config;
