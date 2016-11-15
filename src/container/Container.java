@@ -274,7 +274,7 @@ public class Container implements Service
 			if(classe.getConstructors().length > 1)
 				throw new ContainerException(classe.getSimpleName()+" a plusieurs constructeurs !");
 
-			Constructor<S> constructeur = (Constructor<S>) classe.getConstructors()[0];
+			Constructor<S> constructeur = (Constructor<S>) classe.getDeclaredConstructors()[0];
 			Class<Service>[] param = (Class<Service>[]) constructeur.getParameterTypes();
 
 			/*
@@ -287,7 +287,9 @@ public class Container implements Service
 			/*
 			  Instanciation et sauvegarde
 			 */
+			constructeur.setAccessible(true); // on outrepasse les droits
 			S s = constructeur.newInstance(paramObject);
+			constructeur.setAccessible(false); // on revient à l'état d'origine !
 			instanciedServices.put(classe.getSimpleName(), (Service) s);
 			
 			/*
