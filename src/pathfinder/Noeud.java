@@ -53,6 +53,7 @@ public class Noeud
         this.lArretes.add(new Arrete(this,autre));
         autre.lArretes.add(new Arrete(autre,this));
 
+
     }
 
     /**

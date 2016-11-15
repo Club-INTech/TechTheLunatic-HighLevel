@@ -41,8 +41,14 @@ public class ObstacleRectangular extends Obstacle
 	
 	/** taille du rectangle en mm selon l'axe Y */
 	protected int sizeY;
-	
-	/**
+
+	private Noeud[] lNoeud={null,null,null,null};
+
+    public Noeud[] getlNoeud() {
+        return lNoeud;
+    }
+
+    /**
 	 *	crée un nouvel obstacle rectangulaire sur la table a la position désirée.
 	 *
 	 * @param position Positon désirée du centre du rectangle représentant l'obstacle (intersection des 2 diagonales)
@@ -199,8 +205,9 @@ public class ObstacleRectangular extends Obstacle
 	 * ajoute les noeuds liés à l'obstacle sur le graphe
 	 * @param graphe
 	 * @param ecart écart minimal par rapport à l'obstacle
+	 * @Overide
 	 */
-	public void fabriqueNoeud(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
+	public Noeud[] fabriqueNoeud(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
 	{
 		Vec2 coinBasGauche = position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));
 		Vec2 coinHautGauche = position.plusNewVector((new Vec2(0-ecart,0+ecart)));
@@ -219,6 +226,33 @@ public class ObstacleRectangular extends Obstacle
 		noeudBD.attachelien(noeudHD);
 		noeudHG.attachelien(noeudBG);
 		noeudHG.attachelien(noeudHD);
+		this.lNoeud[0]=noeudBD;
+		this.lNoeud[1]=noeudBG;
+		this.lNoeud[2]=noeudHD;
+		this.lNoeud[3]=noeudHG;
+
+
+		return this.lNoeud;
+	}
+	public void relieObstacle(ObstacleRectangular obstacle, Graphe g,int ecart)
+	{
+		int mindist=1000000000; //distance de l'obstacle à l'autre
+		Noeud[] l1=this.fabriqueNoeud(g,ecart);
+		Noeud[] l2=obstacle.fabriqueNoeud(g,ecart);
+		Noeud nmin1=null;
+		Noeud nmin2=null;
+		for (Noeud n2:l2) {
+			for (Noeud x : l1) {
+				int calc = x.position.minusNewVector(n2.position).squaredLength();
+				if (calc < mindist) {
+					mindist = calc;
+					nmin1 = x;
+					nmin2=n2;
+
+				}
+			}
+		}
+		nmin1.attachelien(nmin2);
 
 	}
 	

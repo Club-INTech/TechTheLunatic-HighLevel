@@ -125,9 +125,9 @@ public class ObstacleCircular extends Obstacle
 	 * @param n
 	 * @param ecart
 	 */
-	public void fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe
+	public Noeud[] fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
 	{
-		Noeud[] myList = new Noeud[10];
+		Noeud[] myList = new Noeud[n];
 		Noeud noeudact;
 		for (int i=0;i<n;i++)
 		{
@@ -142,8 +142,70 @@ public class ObstacleCircular extends Obstacle
 		for (int i=0;i<n;i++)
 		{ myList[i].attachelien(myList[i%n]);
 		}
+return myList;
+	}
+
+
+	/**
+	 * relie deux obstacles sur un graphe de manière optimale. Ne vérifie PAS qu'il n'y a pas d'objet au milieu
+	 * @param obstacle
+	 * @param g
+	 * @param n
+	 * @param ecart
+	 */
+	public void relieObstacle(ObstacleCircular obstacle, Graphe g,int n,int ecart)
+	{
+		int mindist1=this.position.minusNewVector(obstacle.position).squaredLength(); //distance de l'obstacle à l'autre
+		int mindist2=this.position.minusNewVector(obstacle.position).squaredLength(); //distance de l'obstacle à l'autre
+		Noeud[] l1=this.fabriqueNoeud(g,n,ecart);
+		Noeud[] l2=obstacle.fabriqueNoeud(g,n,ecart);
+		Noeud nmin1=null;
+		for (Noeud x:l1)
+		{
+			int calc=x.position.minusNewVector(obstacle.position).squaredLength();
+			if(calc<mindist1)
+			{
+				mindist1=calc;
+				nmin1=x;
+
+			}
+		}
+		Noeud nmin2=null;
+		for (Noeud x:l2)
+		{
+			int calc=x.position.minusNewVector(this.position).squaredLength();
+			if(calc<mindist2)
+			{
+				mindist2=calc;
+				nmin2=x;
+
+			}
+		}
+		nmin1.attachelien(nmin2);
 
 	}
+	public void relieObstacle(ObstacleRectangular obstacle, Graphe g,int n,int ecart)
+	{
+		int mindist=1000000000; //distance de l'obstacle à l'autre
+		Noeud[] l1=this.fabriqueNoeud(g,n,ecart);
+		Noeud[] l2=obstacle.fabriqueNoeud(g,ecart);
+		Noeud nmin1=null;
+		Noeud nmin2=null;
+		for (Noeud n2:l2) {
+			for (Noeud x : l1) {
+				int calc = x.position.minusNewVector(n2.position).squaredLength();
+				if (calc < mindist) {
+					mindist = calc;
+					nmin1 = x;
+					nmin2=n2;
+
+				}
+			}
+		}
+		nmin1.attachelien(nmin2);
+
+	}
+
 
 
 

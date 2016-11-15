@@ -1,6 +1,11 @@
 package pathfinder;
 import smartMath.Vec2;
+import table.obstacles.Obstacle;
 import table.obstacles.ObstacleCircular;
+import table.obstacles.ObstacleManager;
+import table.obstacles.ObstacleRectangular;
+import utils.Config;
+import utils.Log;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
@@ -11,6 +16,8 @@ public class Graphe {
     private int noeudsurtable;
 
     private ArrayList<Noeud> lNoeuds;
+    private int n=8;
+    private int ecart=10;
 
     public void setNoeudsurtable(int noeudsurtable) {
         this.noeudsurtable = noeudsurtable;
@@ -42,7 +49,7 @@ public class Graphe {
         pq.add(depart);
         Noeud noeudCourant=null;
         Noeud noeudPrecedent=null;
-        while(noeudCourant != arrivee)
+        while(noeudCourant != arrivee || pq.size()==0)
         {
 
             noeudCourant=pq.poll();
@@ -92,11 +99,50 @@ public class Graphe {
     /**
      * Graphe initial
      */
-    public Graphe() //le graphe initial
+    public Graphe() //le graphe initial V1
     {
+
         Noeud n1=new Noeud(this,new Vec2(0,0));
         this.lNoeuds.add(n1);
+        Config conf=new Config("./config.ini"); //à réparer
+        ObstacleManager a= new ObstacleManager(new Log(conf),conf);
 
+        //on relie tous les obstacles
+        for (ObstacleCircular x:a.getFixedObstacles())
+        {
+            for (ObstacleCircular x1:a.getFixedObstacles())
+            {
+                x.relieObstacle(x1,this,this.n,this.ecart);
+
+            }
+
+
+
+        }
+        for (ObstacleRectangular x:a.getRectangles())
+        {
+            for (ObstacleCircular x1:a.getFixedObstacles())
+            {
+                x1.relieObstacle(x,this,this.n,this.ecart);
+
+            }
+
+        }
+        // On détruit tous ceux qui sont bloqués
+        for (Noeud x:this.getlNoeuds())
+        {
+            for(Arrete y:x.lArretes)
+            {
+                for (ObstacleCircular z:a.getFixedObstacles())
+                {
+                    y.isBloquant(z);
+                }
+                for (ObstacleRectangular z:a.getRectangles())
+                {
+                    y.isBloquant(z);
+                }
+            }
+        }
     }
 
     /**

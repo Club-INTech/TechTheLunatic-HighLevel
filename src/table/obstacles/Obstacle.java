@@ -18,7 +18,10 @@
  */
 
 package table.obstacles;
+import pathfinder.Graphe;
 import smartMath.Vec2;
+
+import java.awt.*;
 
 /**
  * classe abstraite pour les obstacles sur la table.
@@ -71,5 +74,8 @@ public abstract class Obstacle
 	{
 		return "Obstacle en "+position;
 	}
+
+
+
 	
 }
