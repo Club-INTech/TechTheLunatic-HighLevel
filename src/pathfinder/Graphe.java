@@ -7,6 +7,7 @@ import table.obstacles.ObstacleRectangular;
 import utils.Config;
 import utils.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -99,16 +100,47 @@ public class Graphe {
     /**
      * Graphe initial
      */
-    public Graphe() //le graphe initial V1
+    public Graphe(Log log,Config conf) //le graphe initial V1
     {
-
+        //on fabrique les noeuds. On les relie TOUS. On supprime ceux bloqués. C'est sale, mais ça fait un graphe bien fourni
         Noeud n1=new Noeud(this,new Vec2(0,0));
         this.lNoeuds.add(n1);
-        Config conf=new Config("./config.ini"); //à réparer
-        ObstacleManager a= new ObstacleManager(new Log(conf),conf);
-
-        //on relie tous les obstacles
+        ArrayList <Noeud> lN=new ArrayList<Noeud>();
+        ArrayList <Arrete> lA=new ArrayList<Arrete>();
+        ObstacleManager a= new ObstacleManager(log,conf);
         for (ObstacleCircular x:a.getFixedObstacles())
+        {
+            for (Noeud y: x.fabriqueNoeud(this,this.n,this.ecart))
+
+            {
+                lN.add(y);
+            }
+        }
+        for (Noeud noeud1: lN)
+        {
+            for (Noeud noeud2: lN)
+            {
+                if(noeud1 != noeud2)
+                {
+                    noeud1.attachelien(noeud2);
+
+                }
+            }
+            for(Arrete y:noeud1.lArretes) {
+                for (ObstacleCircular z : a.getFixedObstacles()) {
+                    y.isBloquant(z);
+
+                }
+                for (ObstacleRectangular z : a.getRectangles()) {
+                    y.isBloquant(z);
+
+                }
+            }
+        }
+
+        }
+        //on relie tous les obstacles
+        /**for (ObstacleCircular x:a.getFixedObstacles())
         {
             for (ObstacleCircular x1:a.getFixedObstacles())
             {
@@ -143,8 +175,8 @@ public class Graphe {
                 }
             }
         }
-    }
-
+         */
+    
     /**
      * Surcharge du constructeur: construit un sous-graphe à partir de
      * @param position du robot
