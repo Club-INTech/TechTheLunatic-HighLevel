@@ -176,7 +176,7 @@ public class Graphe {
             }
         }
          */
-    
+
     /**
      * Surcharge du constructeur: construit un sous-graphe à partir de
      * @param position du robot

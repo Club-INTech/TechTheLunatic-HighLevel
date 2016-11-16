@@ -125,7 +125,7 @@ public class ObstacleCircular extends Obstacle
 	 * @param n
 	 * @param ecart
 	 */
-	public Noeud[] fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
+	public Noeud[] fabriqueNoeudRelie(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
 	{
 		Noeud[] myList = new Noeud[n];
 		Noeud noeudact;
@@ -143,6 +143,22 @@ public class ObstacleCircular extends Obstacle
 		{ myList[i].attachelien(myList[i%n]);
 		}
 return myList;
+	}
+	public Noeud[] fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
+	{
+		Noeud[] myList = new Noeud[n];
+		Noeud noeudact;
+		for (int i=0;i<n;i++)
+		{
+			Vec2 spin=new Vec2((int)(this.getRadius()*Math.cos(2*Math.PI/n)/Math.cos(Math.PI/n))+ecart, (int) (this.getRadius()*Math.sin(Math.PI*2/n)/Math.cos(Math.PI/n))+ecart);
+			noeudact=new Noeud(graphe,this.getPosition().plusNewVector(spin));
+			myList[i]=noeudact;
+			graphe.getlNoeuds().add(noeudact);
+
+			//p=h/cos(pi/n)
+			// on fait les liens
+		}
+		return myList;
 	}
 
 

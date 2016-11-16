@@ -207,7 +207,7 @@ public class ObstacleRectangular extends Obstacle
 	 * @param ecart écart minimal par rapport à l'obstacle
 	 * @Overide
 	 */
-	public Noeud[] fabriqueNoeud(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
+	public Noeud[] fabriqueNoeudRelie(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
 	{
 		Vec2 coinBasGauche = position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));
 		Vec2 coinHautGauche = position.plusNewVector((new Vec2(0-ecart,0+ecart)));
@@ -226,6 +226,26 @@ public class ObstacleRectangular extends Obstacle
 		noeudBD.attachelien(noeudHD);
 		noeudHG.attachelien(noeudBG);
 		noeudHG.attachelien(noeudHD);
+		this.lNoeud[0]=noeudBD;
+		this.lNoeud[1]=noeudBG;
+		this.lNoeud[2]=noeudHD;
+		this.lNoeud[3]=noeudHG;
+
+
+		return this.lNoeud;
+	}
+	public Noeud[] fabriqueNoeud(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
+	{
+		Vec2 coinBasGauche = position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));
+		Vec2 coinHautGauche = position.plusNewVector((new Vec2(0-ecart,0+ecart)));
+		Vec2 coinBasDroite = position.plusNewVector((new Vec2(sizeX+ecart,-sizeY -ecart )));
+		Vec2 coinHautDroite = position.plusNewVector((new Vec2(sizeX+ecart,0-ecart)));
+		Noeud noeudBD=new Noeud(graphe,coinBasDroite);
+		Noeud noeudBG=new Noeud(graphe,coinBasGauche);
+		Noeud noeudHD=new Noeud(graphe,coinHautDroite);
+		Noeud noeudHG=new Noeud(graphe,coinHautGauche);
+		
+		// et on relie les noeuds
 		this.lNoeud[0]=noeudBD;
 		this.lNoeud[1]=noeudBG;
 		this.lNoeud[2]=noeudHD;
