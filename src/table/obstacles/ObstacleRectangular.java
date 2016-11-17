@@ -244,7 +244,7 @@ public class ObstacleRectangular extends Obstacle
 		Noeud noeudBG=new Noeud(graphe,coinBasGauche);
 		Noeud noeudHD=new Noeud(graphe,coinHautDroite);
 		Noeud noeudHG=new Noeud(graphe,coinHautGauche);
-		
+
 		// et on relie les noeuds
 		this.lNoeud[0]=noeudBD;
 		this.lNoeud[1]=noeudBG;

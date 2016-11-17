@@ -1,5 +1,6 @@
 package pathfinder;
 import smartMath.Vec2;
+import table.Table;
 import table.obstacles.Obstacle;
 import table.obstacles.ObstacleCircular;
 import table.obstacles.ObstacleManager;
@@ -14,6 +15,9 @@ import java.util.Queue;
 
 
 public class Graphe {
+    private  Table table;
+    private Config config;
+    private  Log log;
     private int noeudsurtable;
 
     private ArrayList<Noeud> lNoeuds;
@@ -39,45 +43,7 @@ public class Graphe {
      * @param arrivee noeud d'arrivée
      * @return Liste des noeuds
      */
-    public ArrayList <Noeud> Astarfoulah(Noeud depart, Noeud arrivee)
-    {// on met les noeuds dans une priority queue
 
-
-        ArrayList <Noeud> chemin= new ArrayList() ;
-
-
-        PriorityQueue <Noeud> pq = new PriorityQueue( noeudsurtable, new ComparaNoeud());
-        pq.add(depart);
-        Noeud noeudCourant=null;
-        Noeud noeudPrecedent=null;
-        while(noeudCourant != arrivee || pq.size()==0)
-        {
-
-            noeudCourant=pq.poll();
-            chemin.add(noeudCourant);
-            noeudCourant.distheuristique(arrivee);
-
-            if(noeudPrecedent==null)
-            {
-                noeudCourant.sommedepart = 0;
-            }
-            else {
-                noeudCourant.sommedepart = noeudPrecedent.sommedepart + Nazareth(noeudPrecedent, noeudCourant).cout;
-            }
-            for (Arrete aux : noeudCourant.lArretes)
-            {
-
-                    pq.add(aux.arrivee);
-
-
-
-
-            }
-            noeudPrecedent=noeudCourant;
-        }
-
-    return chemin;
-    }
 
     /**
      *
@@ -85,7 +51,7 @@ public class Graphe {
      * @param t2 Le noeud à chercher
      * @return L'Arrete qui relie t1 et t2
      */
-    Arrete Nazareth(Noeud t1, Noeud t2)
+    public Arrete Nazareth(Noeud t1, Noeud t2)
     {
        for (Arrete x :t1.lArretes)
        {
@@ -97,17 +63,25 @@ public class Graphe {
         return null;
     }
 
+
+public Graphe(Log log, Config config, Table table)
+{
+    this.log=log;
+    this.config=config;
+    this.table=table;
+
+}
     /**
      * Graphe initial
      */
-    public Graphe(Log log,Config conf) //le graphe initial V1
+    public void initGraphe() //le graphe initial V1
     {
         //on fabrique les noeuds. On les relie TOUS. On supprime ceux bloqués. C'est sale, mais ça fait un graphe bien fourni
         Noeud n1=new Noeud(this,new Vec2(0,0));
         this.lNoeuds.add(n1);
         ArrayList <Noeud> lN=new ArrayList<Noeud>();
         ArrayList <Arrete> lA=new ArrayList<Arrete>();
-        ObstacleManager a= new ObstacleManager(log,conf);
+        ObstacleManager a=this.table.getObstacleManager();
         for (ObstacleCircular x:a.getFixedObstacles())
         {
             for (Noeud y: x.fabriqueNoeud(this,this.n,this.ecart))
@@ -184,7 +158,7 @@ public class Graphe {
      * @param ini le noeud où était le robot avant la détection
      * @param fin le noeud vers lequel se dirige le robot
      */
-    public Graphe(Vec2 position,ObstacleCircular detecte, Noeud ini,Noeud fin)
+    public void initGraphe(Vec2 position,ObstacleCircular detecte, Noeud ini,Noeud fin)
     {
 
 
@@ -222,23 +196,7 @@ public class Graphe {
      * @param indice l'indice de la liste précédente
      * @return la liste des noeuds intermédiaires pour éviter l'obstacle
      */
-    public ArrayList<Noeud> actGraphe(Vec2 position, ObstacleCircular detecte,ArrayList<Noeud> chemin,int indice)
-    {
-        //on veut une copie de ini et de fin
-        Noeud ini=new Noeud(chemin.get(indice));
-        Noeud fin=new Noeud(chemin.get(indice+1));
 
-
-        ini.position=position;
-        ini.update(detecte);// on supprime les liens inutiles et actualise les valeurs
-
-        ini.lArretes.add(new Arrete(ini,fin));
-        // on crée un nouveau graphe, en recopiant les arêtes du noeud précédent, actualisant les valeurs
-        Graphe sousg=new Graphe(position,detecte,ini,fin);
-        return sousg.Astarfoulah(ini,fin);
-
-
-    }
 }
 
 
