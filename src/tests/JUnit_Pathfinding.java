@@ -18,30 +18,17 @@ package tests;
  *  along with it.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import enums.Speed;
-import hook.Hook;
-import org.junit.After;
+import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
 import pathfinder.Graphe;
 import pathfinder.Noeud;
+import pathfinder.Pathfinding;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
-import tests.JUnit_Test;
+import utils.Log;
 
-import java.util.ArrayList;
-
-
-import enums.Speed;
-import hook.Hook;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import scripts.ScriptManager;
-import strategie.GameState;
-import table.Table;
-import  pathfinder.Pathfinding;
 import java.util.ArrayList;
 
 /**
@@ -53,8 +40,26 @@ public class JUnit_Pathfinding extends JUnit_Test{
 
     private GameState mRobot;
     private ScriptManager scriptManager;
+    private Table table;
+
+    private Pathfinding pf;
+
+    private Window win;
 
     @Before
+    public void setUp() throws Exception
+    {
+        super.setUp();
+        table = container.getService(Table.class);
+
+
+        log = container.getService(Log.class);
+        win = new Window(table);
+
+        pf = container.getService(Pathfinding.class);
+    }
+
+
     @Test
     public void iniTable() throws Exception
     {
@@ -75,6 +80,36 @@ public class JUnit_Pathfinding extends JUnit_Test{
             System.out.println(x.indice+" "+x.position.x+" "+x.position.y);
         }
 
+    }
+
+
+    //@Test
+    public void testClickedPF() throws Exception
+    {
+        while(true)
+        {
+            if(win.getMouse().hasClicked())
+            {
+                // try
+                // {
+                long start = System.currentTimeMillis();
+                // TODO  win.getPanel().drawArrayList(pf.Astarfoulah(win.getMouse().getLeftClickPosition(), win.getMouse().getRightClickPosition()));
+                long end = System.currentTimeMillis();
+                System.out.println("time elapsed : " + (end - start));
+                // }
+          /*  catch(PathNotFoundException e)
+            {
+                log.debug("pas de chemin trouve entre "+win.getMouse().getLeftClickPosition()+"et"+ win.getMouse().getRightClickPosition());
+            }
+            catch(PointInObstacleException e)
+            {
+                log.debug("point d'arrivée dans un obstacle");
+            }*/ //TODO exceptions
+                win.getPanel().repaint();
+            }
+            else
+                Thread.sleep(200);
+        }
     }
 
 
