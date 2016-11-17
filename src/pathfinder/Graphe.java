@@ -24,6 +24,18 @@ public class Graphe {
     private int n=8;
     private int ecart=10;
 
+    public int getN() {
+        return n;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public int getEcart() {
+        return ecart;
+    }
+
     public void setNoeudsurtable(int noeudsurtable) {
         this.noeudsurtable = noeudsurtable;
     }
@@ -37,12 +49,7 @@ public class Graphe {
     }
 
 
-    /**
-     *
-     * @param depart noeud de depart de l'A*
-     * @param arrivee noeud d'arrivée
-     * @return Liste des noeuds
-     */
+
 
 
     /**
@@ -63,16 +70,22 @@ public class Graphe {
         return null;
     }
 
-
-public Graphe(Log log, Config config, Table table)
+    /**
+     * Constructeur standard du graphe
+     * @param log
+     * @param config
+     * @param table
+     */
+    public Graphe(Log log, Config config, Table table)
 {
     this.log=log;
     this.config=config;
     this.table=table;
 
 }
+
     /**
-     * Graphe initial
+     * Construit le graphe initial de la table, en reliant tous les noeuds et supprimant ceux bloqués par des obstacles
      */
     public void initGraphe() //le graphe initial V1
     {
@@ -152,7 +165,7 @@ public Graphe(Log log, Config config, Table table)
          */
 
     /**
-     * Surcharge du constructeur: construit un sous-graphe à partir de
+     * Surcharge de l'initialiseur: construit un sous-graphe à partir de
      * @param position du robot
      * @param detecte l'obstacle détecté
      * @param ini le noeud où était le robot avant la détection
@@ -169,7 +182,12 @@ public Graphe(Log log, Config config, Table table)
         //on ajoute les noeuds dans le sous graphe
         this.lNoeuds.add(ini);
         this.lNoeuds.add(fin);
-        detecte.fabriqueNoeud(this,8,3);
+
+        for (Noeud x : detecte.fabriqueNoeudRelie(this,this.n,this.ecart))// on fait les noeuds de l'obstacle, on les relie entre eux et on les relie
+        {
+            ini.attachelien(x);
+        }
+        ini.update(detecte);// on supprime les liens que l'obstacle bouche
         //on revoit nos indices pour des raisons cosmétiques pour l'instant
         this.reorder();
 
@@ -188,14 +206,7 @@ public Graphe(Log log, Config config, Table table)
         }
     }
 
-    /**
-     *
-     * @param position la position du robot
-     * @param detecte l'obstacle détecté
-     * @param chemin la liste des Noeuds que le robot était censé suivre
-     * @param indice l'indice de la liste précédente
-     * @return la liste des noeuds intermédiaires pour éviter l'obstacle
-     */
+
 
 }
 

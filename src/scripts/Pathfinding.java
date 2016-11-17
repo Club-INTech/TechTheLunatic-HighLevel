@@ -32,7 +32,12 @@ import java.util.PriorityQueue;
 
 
 
-
+    /**
+     *
+     * @param depart noeud de depart de l'A*
+     * @param arrivee noeud d'arrivée
+     * @return Liste des noeuds
+     */
     public ArrayList<Noeud> Astarfoulah(Noeud depart, Noeud arrivee)
     {// on met les noeuds dans une priority queue
 
@@ -72,15 +77,22 @@ import java.util.PriorityQueue;
 
         return chemin;
     }
+    /**
+     *
+     * @param position la position du robot
+     * @param detecte l'obstacle détecté
+     * @param chemin la liste des Noeuds que le robot était censé suivre
+     * @param indice l'indice de la liste précédente
+     * @return la liste des noeuds intermédiaires pour éviter l'obstacle
+     */
     public ArrayList<Noeud> actGraphe(Vec2 position, ObstacleCircular detecte, ArrayList<Noeud> chemin, int indice)
     {
         //on veut une copie de ini et de fin
         Noeud ini=new Noeud(chemin.get(indice));
         Noeud fin=new Noeud(chemin.get(indice+1));
 
-
         ini.position=position;
-        ini.update(detecte);// on supprime les liens inutiles et actualise les valeurs
+        // on supprime les liens inutiles et actualise les valeurs on rajoute les noeuds de l'obstacles, on relie
 
         ini.lArretes.add(new Arrete(ini,fin));
         // on crée un nouveau graphe, en recopiant les arêtes du noeud précédent, actualisant les valeurs

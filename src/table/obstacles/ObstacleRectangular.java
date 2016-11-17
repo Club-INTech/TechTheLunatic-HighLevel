@@ -202,39 +202,31 @@ public class ObstacleRectangular extends Obstacle
 	}
 
 	/**
-	 * ajoute les noeuds liés à l'obstacle sur le graphe
+	 * ajoute les noeuds liés à l'obstacle sur le graphe et les relie entre eux
 	 * @param graphe
 	 * @param ecart écart minimal par rapport à l'obstacle
-	 * @Overide
+	 *
 	 */
 	public Noeud[] fabriqueNoeudRelie(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
 	{
-		Vec2 coinBasGauche = position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));
-		Vec2 coinHautGauche = position.plusNewVector((new Vec2(0-ecart,0+ecart)));
-		Vec2 coinBasDroite = position.plusNewVector((new Vec2(sizeX+ecart,-sizeY -ecart )));
-		Vec2 coinHautDroite = position.plusNewVector((new Vec2(sizeX+ecart,0-ecart)));
-		Noeud noeudBD=new Noeud(graphe,coinBasDroite);
-		Noeud noeudBG=new Noeud(graphe,coinBasGauche);
-		Noeud noeudHD=new Noeud(graphe,coinHautDroite);
-		Noeud noeudHG=new Noeud(graphe,coinHautGauche);
-		graphe.getlNoeuds().add(noeudBD);
-		graphe.getlNoeuds().add(noeudBG);
-		graphe.getlNoeuds().add(noeudHD);
-		graphe.getlNoeuds().add(noeudHG);
+		Noeud[] lN=fabriqueNoeud(graphe,ecart);
 		// et on relie les noeuds
-		noeudBD.attachelien(noeudBG);
-		noeudBD.attachelien(noeudHD);
-		noeudHG.attachelien(noeudBG);
-		noeudHG.attachelien(noeudHD);
-		this.lNoeud[0]=noeudBD;
-		this.lNoeud[1]=noeudBG;
-		this.lNoeud[2]=noeudHD;
-		this.lNoeud[3]=noeudHG;
+		lN[0].attachelien(lN[1]);
+		lN[0].attachelien(lN[2]);
+		lN[3].attachelien(lN[1]);
+		lN[3].attachelien(lN[2]);
 
 
-		return this.lNoeud;
+		return lN;
 	}
-	public Noeud[] fabriqueNoeud(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
+
+	/**
+	 *  Fabrique dans graphe les 4 noeuds aux angles d'un obstacle rectangulaire et retourne la liste de ces noeuds
+	 * @param graphe là où on ajoute les noeuds
+	 * @param ecart ecart par rapport à l'angle
+	 * @return tableau des 4 noeuds
+	 */
+	public Noeud[] fabriqueNoeud(Graphe graphe,int ecart)
 	{
 		Vec2 coinBasGauche = position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));
 		Vec2 coinHautGauche = position.plusNewVector((new Vec2(0-ecart,0+ecart)));
@@ -254,11 +246,18 @@ public class ObstacleRectangular extends Obstacle
 
 		return this.lNoeud;
 	}
+
+	/**
+	 * Fabrique et relie les noeuds de obstacle deux obstacles entre eux via leur noeud le plus proche l'un de l'autre
+	 * @param obstacle Obstacle à relier
+	 * @param g graphe sur lequelon travaille
+	 * @param ecart ecart
+	 */
 	public void relieObstacle(ObstacleRectangular obstacle, Graphe g,int ecart)
 	{
 		int mindist=1000000000; //distance de l'obstacle à l'autre
-		Noeud[] l1=this.fabriqueNoeud(g,ecart);
-		Noeud[] l2=obstacle.fabriqueNoeud(g,ecart);
+		Noeud[] l1=this.fabriqueNoeudRelie(g,ecart);
+		Noeud[] l2=obstacle.fabriqueNoeudRelie(g,ecart);
 		Noeud nmin1=null;
 		Noeud nmin2=null;
 		for (Noeud n2:l2) {

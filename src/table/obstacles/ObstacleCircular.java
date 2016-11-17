@@ -163,7 +163,7 @@ return myList;
 
 
 	/**
-	 * relie deux obstacles sur un graphe de manière optimale. Ne vérifie PAS qu'il n'y a pas d'objet au milieu
+	 * relie deux obstacles circulaires après avoir fabriqués les noeuds et arrêtes autour de l'obstacle sur un graphe de manière optimale. Ne vérifie PAS qu'il n'y a pas d'objet au milieu
 	 * @param obstacle
 	 * @param g
 	 * @param n
@@ -200,11 +200,18 @@ return myList;
 		nmin1.attachelien(nmin2);
 
 	}
+	/**
+	 * relie un obstacle circulaire, un rectangulaire sur un graphe après avoir fabriqués les noeuds et arrêtes autour de l'obstacle de manière optimale. Ne vérifie PAS qu'il n'y a pas d'objet au milieu
+	 * @param obstacle
+	 * @param g
+	 * @param n
+	 * @param ecart
+	 */
 	public void relieObstacle(ObstacleRectangular obstacle, Graphe g,int n,int ecart)
 	{
 		int mindist=1000000000; //distance de l'obstacle à l'autre
-		Noeud[] l1=this.fabriqueNoeud(g,n,ecart);
-		Noeud[] l2=obstacle.fabriqueNoeud(g,ecart);
+		Noeud[] l1=this.fabriqueNoeudRelie(g,n,ecart);
+		Noeud[] l2=obstacle.fabriqueNoeudRelie(g,ecart);
 		Noeud nmin1=null;
 		Noeud nmin2=null;
 		for (Noeud n2:l2) {
