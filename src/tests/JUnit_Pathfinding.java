@@ -1,4 +1,4 @@
-package tests.container;
+package tests;
 /*
  * Copyright (c) 2016, INTech.
  *
