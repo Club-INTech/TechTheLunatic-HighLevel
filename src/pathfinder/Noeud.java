@@ -11,22 +11,40 @@ public class Noeud
 
     public Vec2 position;
     public int indice;// pour éviter d'avoir a rechercher plus tard
-    public int nom; // useless pour l'instant, mais peut être utile a l'affichage
+
     public double distarrivee; // distance vers l'arrivee
     public ArrayList <Arrete> lArretes;
     public double sommedepart;
 
+    public int getIndice() {
+        return indice;
+    }
+
+    /**
+     * Constructeur Noeud vide
+     */
+    public Noeud()
+    {
+        this.indice =-1;
+        this.lArretes=new ArrayList<Arrete>();
+        this.position=new Vec2();
+        this.distarrivee=0;
+        this.sommedepart=0;
+    }
     /**
      * Constructeur
      * @param g graphe
      * @param position
      */
+
     public Noeud(Graphe g, Vec2 position)
     {
         this.position=position;
+        this.distarrivee=0;
+        this.sommedepart=0;
+        this.lArretes=new ArrayList<Arrete>();
         this.indice=g.getNoeudsurtable()+1;
         g.setNoeudsurtable(this.indice);
-
 
     }
 
@@ -51,7 +69,7 @@ public class Noeud
     public void attachelien(Noeud autre)
     {
         this.lArretes.add(new Arrete(this,autre));
-        autre.lArretes.add(new Arrete(autre,this));
+        //autre.lArretes.add(new Arrete(autre,this));
 
 
     }

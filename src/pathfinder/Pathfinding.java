@@ -1,4 +1,4 @@
-package scripts;
+package pathfinder;
 
 import pathfinder.Arrete;
 import pathfinder.ComparaNoeud;
@@ -16,12 +16,12 @@ import java.util.PriorityQueue;
 /**
  * Created by shininisan on 17/11/16.
  */
- class Pathfinding {
-    Graphe  graphe;
+ public class Pathfinding {
+    private Graphe  graphe;
     private  Table table;
     private Config config;
     private  Log log;
-    private Pathfinding(Log log, Config config, Table table)
+    public Pathfinding(Log log, Config config, Table table)
     {
         this.log=log;
         this.config=config;
@@ -29,8 +29,10 @@ import java.util.PriorityQueue;
 
     }
 
-
-
+    public void setGraphe(Graphe graphe) {
+        this.graphe = graphe;
+    }
+    public Graphe getGraphe(){return this.graphe;}
 
     /**
      *
@@ -45,32 +47,33 @@ import java.util.PriorityQueue;
         ArrayList <Noeud> chemin= new ArrayList() ;
 
 
-        PriorityQueue<Noeud> pq = new PriorityQueue( graphe.getNoeudsurtable(), new ComparaNoeud());
+        PriorityQueue<Noeud> pq = new PriorityQueue( this.graphe.getNoeudsurtable(), new ComparaNoeud());
         pq.add(depart);
-        Noeud noeudCourant=null;
-        Noeud noeudPrecedent=null;
+        Noeud noeudCourant=new Noeud();
+        Noeud noeudPrecedent=new Noeud();
         while(noeudCourant != arrivee || pq.size()==0)
         {
 
             noeudCourant=pq.poll();
             chemin.add(noeudCourant);
             noeudCourant.distheuristique(arrivee);
+            log.debug(noeudCourant.indice+" taille pq :"+pq.size()+"nombre arrete de ce noeud"+noeudCourant.lArretes.size());
 
-            if(noeudPrecedent==null)
+            if(noeudPrecedent.getIndice()== -1)
             {
                 noeudCourant.sommedepart = 0;
             }
             else {
-                noeudCourant.sommedepart = noeudPrecedent.sommedepart + graphe.Nazareth(noeudPrecedent, noeudCourant).cout;
+                noeudCourant.sommedepart = noeudPrecedent.sommedepart;
+                log.debug(noeudCourant+" <=suivant prec =>"+noeudPrecedent);
+                noeudCourant.sommedepart += graphe.Nazareth(noeudPrecedent, noeudCourant).cout;
             }
             for (Arrete aux : noeudCourant.lArretes)
             {
+                if(!pq.contains(aux)) {
 
-                pq.add(aux.arrivee);
-
-
-
-
+                    pq.add(aux.arrivee);
+                }
             }
             noeudPrecedent=noeudCourant;
         }

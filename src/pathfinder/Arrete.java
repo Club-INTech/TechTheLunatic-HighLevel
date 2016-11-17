@@ -19,7 +19,7 @@ public class Arrete {
     {
         depart=n1;
         arrivee=n2;
-
+        this.cout=0;
         this.calcCout();
 
     }

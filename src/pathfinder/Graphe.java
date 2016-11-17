@@ -81,6 +81,9 @@ public class Graphe {
     this.log=log;
     this.config=config;
     this.table=table;
+    this.noeudsurtable=0;
+
+    this.lNoeuds=new ArrayList<Noeud>();
 
 }
 
@@ -90,10 +93,11 @@ public class Graphe {
     public void initGraphe() //le graphe initial V1
     {
         //on fabrique les noeuds. On les relie TOUS. On supprime ceux bloqués. C'est sale, mais ça fait un graphe bien fourni
-        Noeud n1=new Noeud(this,new Vec2(0,0));
-        this.lNoeuds.add(n1);
+        Noeud n1=new Noeud(this,new Vec2(200,200));
+
+        this.getlNoeuds().add(n1);
         ArrayList <Noeud> lN=new ArrayList<Noeud>();
-        ArrayList <Arrete> lA=new ArrayList<Arrete>();
+
         ObstacleManager a=this.table.getObstacleManager();
         for (ObstacleCircular x:a.getFixedObstacles())
         {
@@ -103,6 +107,7 @@ public class Graphe {
                 lN.add(y);
             }
         }
+
         for (Noeud noeud1: lN)
         {
             for (Noeud noeud2: lN)
@@ -123,6 +128,11 @@ public class Graphe {
 
                 }
             }
+        }
+        log.debug(lN.size()+"Nombre d'arrete ");
+        for (Noeud N:lN)
+        {
+            log.debug(N.lArretes.size());
         }
 
         }
