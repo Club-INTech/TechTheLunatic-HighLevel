@@ -1,9 +1,6 @@
 package pathfinder;
 
-import pathfinder.Arrete;
-import pathfinder.ComparaNoeud;
-import pathfinder.Graphe;
-import pathfinder.Noeud;
+import container.Service;
 import smartMath.Vec2;
 import table.Table;
 import table.obstacles.ObstacleCircular;
@@ -16,7 +13,7 @@ import java.util.PriorityQueue;
 /**
  * Created by shininisan on 17/11/16.
  */
- public class Pathfinding {
+ public class Pathfinding implements Service {
     private Graphe  graphe;
     private  Table table;
     private Config config;
@@ -107,5 +104,11 @@ import java.util.PriorityQueue;
         return this.Astarfoulah(ini,fin);
 
 
+    }
+
+    @Override
+    public void updateConfig()
+    {
+        //TODO charger la config
     }
 }
