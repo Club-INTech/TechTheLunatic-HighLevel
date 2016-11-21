@@ -66,7 +66,9 @@ import java.util.PriorityQueue;
             else {
                 noeudCourant.sommedepart = noeudPrecedent.sommedepart;
                 log.debug(noeudCourant+" <=suivant prec =>"+noeudPrecedent);
-                noeudCourant.sommedepart += graphe.Nazareth(noeudPrecedent, noeudCourant).cout;
+                if(noeudCourant != noeudPrecedent) {
+                    noeudCourant.sommedepart += graphe.Nazareth(noeudPrecedent, noeudCourant).cout;
+                }
             }
             for (Arrete aux : noeudCourant.lArretes)
             {

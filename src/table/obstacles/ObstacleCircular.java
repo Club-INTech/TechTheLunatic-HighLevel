@@ -150,7 +150,7 @@ return myList;
 		Noeud noeudact;
 		for (int i=0;i<n;i++)
 		{
-			Vec2 spin=new Vec2((int)(this.getRadius()*Math.cos(2*Math.PI/n)/Math.cos(Math.PI/n))+ecart, (int) (this.getRadius()*Math.sin(Math.PI*2/n)/Math.cos(Math.PI/n))+ecart);
+			Vec2 spin=new Vec2((int)(this.getRadius()*Math.cos(2*Math.PI/i))+ecart, (int) (this.getRadius()*Math.sin(Math.PI*2/i))+ecart);
 			noeudact=new Noeud(graphe,this.getPosition().plusNewVector(spin));
 			myList[i]=noeudact;
 			graphe.getlNoeuds().add(noeudact);

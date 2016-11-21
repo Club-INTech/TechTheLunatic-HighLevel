@@ -108,7 +108,7 @@ public class Graphe {
                 lN.add(y);
             }
         }
-
+//Erreur tous les noeuds d'un cercles sont au meme endroit
         for (Noeud noeud1: lN)
         {
             for (Noeud noeud2: lN)
@@ -127,10 +127,11 @@ public class Graphe {
                 for (ObstacleRectangular z : a.getRectangles()) {
                     y.isBloquant(z);
 
+
                 }
             }
         }
-        log.debug(lN.size()+"Nombre d'arrete ");
+
         for (Noeud N:lN)
         {
             log.debug(N.lArretes.size());
