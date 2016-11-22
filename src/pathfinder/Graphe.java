@@ -85,7 +85,7 @@ public class Graphe {
     this.noeudsurtable=0;
 
     this.lNoeuds=new ArrayList<Noeud>();
-
+    initGraphe();
 }
 
     /**

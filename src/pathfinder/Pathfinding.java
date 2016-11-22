@@ -4,6 +4,8 @@ import container.Service;
 import smartMath.Vec2;
 import table.Table;
 import table.obstacles.ObstacleCircular;
+import table.obstacles.ObstacleManager;
+import table.obstacles.ObstacleRectangular;
 import utils.Config;
 import utils.Log;
 
@@ -24,6 +26,7 @@ import java.util.PriorityQueue;
         this.config = config;
         this.table = table;
 
+
     }
 
     public void setGraphe(Graphe graphe) {
@@ -35,48 +38,78 @@ import java.util.PriorityQueue;
     }
 
     /**
-     * @param depart  noeud de depart de l'A*
-     * @param arrivee noeud d'arrivée
+     * @param departV  noeud de depart de l'A*
+     * @param arriveeV noeud d'arrivée
      * @return Liste des noeuds
      */
-    public ArrayList<Noeud> Astarfoulah(Noeud depart, Noeud arrivee) {// on met les noeuds dans une priority queue
+    public ArrayList<Noeud> Astarfoulah(Vec2 departV, Vec2 arriveeV, Graphe g) {// on met les noeuds dans une priority queue
+
+
+        Noeud depart = new Noeud(g, departV);
+        g.getlNoeuds().add(depart);
+        Noeud arrivee = new Noeud(g, arriveeV);
+        g.getlNoeuds().add(arrivee);
+        ObstacleManager a = this.table.getObstacleManager();
+        for (Noeud noeud1 : g.getlNoeuds())
+        {
+            depart.attachelien(noeud1);
+        }
+            for (ObstacleCircular z : a.getFixedObstacles()) {
+                for (int i = 0; i < depart.lArretes.size(); i++) {
+                    if (depart.lArretes.get(i).isBloquant(z)) {
+                        i--;
+                    }
+                }
+            }
+            for (ObstacleRectangular z : a.getRectangles()) {
+                for (int i = 0; i < depart.lArretes.size(); i++) {
+                    if (depart.lArretes.get(i).isBloquant(z)) {
+                        i--;
+                    }
+
+
+                }
+
+        }
+        return Astarfoulah(depart,arrivee,g);
+    }
+
+
+
+
+
+    public ArrayList<Noeud> Astarfoulah(Noeud depart, Noeud arrivee,Graphe g) {// on met les noeuds dans une priority queue
 
 
         ArrayList<Noeud> chemin = new ArrayList();
 
 
-        PriorityQueue<Noeud> pq = new PriorityQueue(this.graphe.getNoeudsurtable(), new ComparaNoeud());
+        PriorityQueue<Noeud> pq = new PriorityQueue(g.getNoeudsurtable(), new ComparaNoeud());
         pq.add(depart);
         depart.distheuristique(arrivee);
         Noeud noeudCourant = new Noeud();
 
 
-        while (noeudCourant != arrivee || pq.size() == 0) {
+        while (noeudCourant != arrivee && !pq.isEmpty() ) {
             if (noeudCourant.getIndice() == -1) {
                 noeudCourant.sommedepart = 0;
             }
+            log.debug("pq size"+pq.size());
             noeudCourant = pq.poll();
 
-                while (noeudCourant.visite) {
-                    noeudCourant = pq.poll();
-                }
 
+            while (noeudCourant.visite) {
+                noeudCourant = pq.poll();
+            }
+            noeudCourant.visite=true;
 
-            /**
-             else {
-             noeudCourant.sommedepart = noeudPrecedent.sommedepart;
-             log.debug(noeudCourant+" <=suivant prec =>"+noeudPrecedent);
-             if(noeudCourant != noeudPrecedent && noeudCourant.lArretes.size()>0 && noeudPrecedent.lArretes.size()>0 ){
-             noeudCourant.sommedepart += graphe.Nazareth(noeudPrecedent, noeudCourant).cout;
-             }
-             }
-             */if (noeudCourant.lArretes.size() > 0) {
+            if (noeudCourant.lArretes.size() > 0) {
                 for (Arrete aux : noeudCourant.lArretes) {
                     if (! aux.arrivee.visite && aux.arrivee != noeudCourant) {
 
                         aux.arrivee.sommedepart = noeudCourant.sommedepart + aux.cout;
                         aux.arrivee.noeudPrecedent = noeudCourant;
-                        aux.arrivee.visite=true;
+
 
                         pq.add(aux.arrivee);
 
@@ -90,9 +123,8 @@ import java.util.PriorityQueue;
             noeudCourant = noeudCourant.noeudPrecedent;
             chemin.add(noeudCourant);
         }
-    return chemin;
+        return chemin;
     }
-
     /**
      *
      * @param position la position du robot
@@ -115,7 +147,7 @@ import java.util.PriorityQueue;
         Graphe sousg=new Graphe(this.log,this.config,this.table);
 
         sousg.initGraphe(position,detecte,ini,fin);
-        return this.Astarfoulah(ini,fin);
+        return this.Astarfoulah(ini,fin,sousg);
 
 
     }

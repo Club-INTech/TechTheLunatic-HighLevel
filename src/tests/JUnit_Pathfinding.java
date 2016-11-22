@@ -70,11 +70,10 @@ public class JUnit_Pathfinding extends JUnit_Test{
 
 
         Pathfinding pf=new Pathfinding(log,config,T);
-        Graphe graphe= new Graphe(log,config,T);
-        graphe.initGraphe();
-        pf.setGraphe(graphe);
 
-        ArrayList<Noeud> aff= pf.Astarfoulah(graphe.getlNoeuds().get(1),graphe.getlNoeuds().get(20));
+        Graphe graphe= new Graphe(log,config,T);
+
+        ArrayList<Noeud> aff= pf.Astarfoulah(graphe.getlNoeuds().get(1),graphe.getlNoeuds().get(20),graphe);
         log.debug(aff);
         for (Noeud x:aff) {
             System.out.println(x.indice+" "+x.position.x+" "+x.position.y);
