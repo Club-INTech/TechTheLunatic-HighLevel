@@ -42,7 +42,7 @@ import java.util.PriorityQueue;
      * @param arriveeV noeud d'arrivée
      * @return Liste des noeuds
      */
-    public ArrayList<Noeud> Astarfoulah(Vec2 departV, Vec2 arriveeV, Graphe g) {// on met les noeuds dans une priority queue
+    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV, Graphe g) {// on met les noeuds dans une priority queue
 
 
         Noeud depart = new Noeud(g, departV);
@@ -78,10 +78,10 @@ import java.util.PriorityQueue;
 
 
 
-    public ArrayList<Noeud> Astarfoulah(Noeud depart, Noeud arrivee,Graphe g) {// on met les noeuds dans une priority queue
+    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee,Graphe g) {// on met les noeuds dans une priority queue
 
 
-        ArrayList<Noeud> chemin = new ArrayList();
+        ArrayList<Vec2> chemin = new ArrayList();
 
 
         PriorityQueue<Noeud> pq = new PriorityQueue(g.getNoeudsurtable(), new ComparaNoeud());
@@ -121,7 +121,7 @@ import java.util.PriorityQueue;
         noeudCourant = arrivee;
         while (noeudCourant != depart && chemin.size()<100) {
             noeudCourant = noeudCourant.noeudPrecedent;
-            chemin.add(noeudCourant);
+            chemin.add(noeudCourant.position);
         }
         return chemin;
     }
@@ -133,7 +133,7 @@ import java.util.PriorityQueue;
      * @param indice l'indice de la liste précédente
      * @return la liste des noeuds intermédiaires pour éviter l'obstacle
      */
-    public ArrayList<Noeud> actGraphe(Vec2 position, ObstacleCircular detecte, ArrayList<Noeud> chemin, int indice)
+    public ArrayList<Vec2> actGraphe(Vec2 position, ObstacleCircular detecte, ArrayList<Noeud> chemin, int indice)
     {
         //on veut une copie de ini et de fin
         Noeud ini=new Noeud(chemin.get(indice));

@@ -25,6 +25,7 @@ import pathfinder.Graphe;
 import pathfinder.Noeud;
 import pathfinder.Pathfinding;
 import scripts.ScriptManager;
+import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
 import utils.Log;
@@ -60,7 +61,7 @@ public class JUnit_Pathfinding extends JUnit_Test{
     }
 
 
-    @Test
+
     public void iniTable() throws Exception
     {
 
@@ -73,18 +74,19 @@ public class JUnit_Pathfinding extends JUnit_Test{
 
         Graphe graphe= new Graphe(log,config,T);
 
-        ArrayList<Noeud> aff= pf.Astarfoulah(graphe.getlNoeuds().get(1),graphe.getlNoeuds().get(20),graphe);
+        ArrayList<Vec2> aff= pf.Astarfoulah(graphe.getlNoeuds().get(1),graphe.getlNoeuds().get(20),graphe);
         log.debug(aff);
-        for (Noeud x:aff) {
-            System.out.println(x.indice+" "+x.position.x+" "+x.position.y);
-        }
+
 
     }
 
 
-    //@Test
+    @Test
     public void testClickedPF() throws Exception
-    {
+    {Table T = container.getService(Table.class);
+        Pathfinding pf=new Pathfinding(log,config,T);
+
+        Graphe graphe= new Graphe(log,config,T);
         while(true)
         {
             if(win.getMouse().hasClicked())
@@ -92,7 +94,7 @@ public class JUnit_Pathfinding extends JUnit_Test{
                 // try
                 // {
                 long start = System.currentTimeMillis();
-                // TODO  win.getPanel().drawArrayList(pf.Astarfoulah(win.getMouse().getLeftClickPosition(), win.getMouse().getRightClickPosition()));
+                win.getPanel().drawArrayList(pf.Astarfoulah(win.getMouse().getLeftClickPosition(), win.getMouse().getRightClickPosition(),graphe));
                 long end = System.currentTimeMillis();
                 System.out.println("time elapsed : " + (end - start));
                 // }
