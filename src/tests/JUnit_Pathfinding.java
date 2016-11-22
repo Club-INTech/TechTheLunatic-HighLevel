@@ -61,7 +61,7 @@ public class JUnit_Pathfinding extends JUnit_Test{
     }
 
 
-
+/**
     public void iniTable() throws Exception
     {
 
@@ -78,7 +78,7 @@ public class JUnit_Pathfinding extends JUnit_Test{
         log.debug(aff);
 
 
-    }
+    }*/
 
 
     @Test
@@ -89,15 +89,18 @@ public class JUnit_Pathfinding extends JUnit_Test{
         Graphe graphe= new Graphe(log,config,T);
         while(true)
         {
-            if(win.getMouse().hasClicked())
-            {
-                // try
-                // {
-                long start = System.currentTimeMillis();
-                win.getPanel().drawArrayList(pf.Astarfoulah(win.getMouse().getLeftClickPosition(), win.getMouse().getRightClickPosition(),graphe));
-                long end = System.currentTimeMillis();
-                System.out.println("time elapsed : " + (end - start));
-                // }
+            if(win.getMouse().hasClicked()) {
+                while (true) {
+                    if (win.getMouse().hasClicked()) {
+
+                        // try
+                        // {
+                        log.debug(win.getMouse().getLeftClickPosition() + "" + win.getMouse().getRightClickPosition());
+                        long start = System.currentTimeMillis();
+                        win.getPanel().drawArrayList(pf.Astarfoulah(win.getMouse().getLeftClickPosition(), win.getMouse().getRightClickPosition(), graphe));
+                        long end = System.currentTimeMillis();
+                        System.out.println("time elapsed : " + (end - start));
+                        // }
           /*  catch(PathNotFoundException e)
             {
                 log.debug("pas de chemin trouve entre "+win.getMouse().getLeftClickPosition()+"et"+ win.getMouse().getRightClickPosition());
@@ -106,7 +109,11 @@ public class JUnit_Pathfinding extends JUnit_Test{
             {
                 log.debug("point d'arrivée dans un obstacle");
             }*/ //TODO exceptions
-                win.getPanel().repaint();
+                        win.getPanel().repaint();
+                    } else
+                        Thread.sleep(200);
+
+                }
             }
             else
                 Thread.sleep(200);

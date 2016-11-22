@@ -53,10 +53,17 @@ import java.util.PriorityQueue;
         for (Noeud noeud1 : g.getlNoeuds())
         {
             depart.attachelien(noeud1);
+            arrivee.attachelien(noeud1);
         }
+
             for (ObstacleCircular z : a.getFixedObstacles()) {
                 for (int i = 0; i < depart.lArretes.size(); i++) {
                     if (depart.lArretes.get(i).isBloquant(z)) {
+                        i--;
+                    }
+                }
+                for (int i = 0; i < arrivee.lArretes.size(); i++) {
+                    if (arrivee.lArretes.get(i).isBloquant(z)) {
                         i--;
                     }
                 }
@@ -64,6 +71,13 @@ import java.util.PriorityQueue;
             for (ObstacleRectangular z : a.getRectangles()) {
                 for (int i = 0; i < depart.lArretes.size(); i++) {
                     if (depart.lArretes.get(i).isBloquant(z)) {
+                        i--;
+                    }
+
+
+                }
+                for (int i = 0; i < arrivee.lArretes.size(); i++) {
+                    if (arrivee.lArretes.get(i).isBloquant(z)) {
                         i--;
                     }
 
@@ -98,10 +112,7 @@ import java.util.PriorityQueue;
             noeudCourant = pq.poll();
 
 
-            while (noeudCourant.visite) {
-                noeudCourant = pq.poll();
-            }
-            noeudCourant.visite=true;
+
 
             if (noeudCourant.lArretes.size() > 0) {
                 for (Arrete aux : noeudCourant.lArretes) {
@@ -109,17 +120,19 @@ import java.util.PriorityQueue;
 
                         aux.arrivee.sommedepart = noeudCourant.sommedepart + aux.cout;
                         aux.arrivee.noeudPrecedent = noeudCourant;
+                        aux.arrivee.visite=true;
 
 
                         pq.add(aux.arrivee);
+
 
                     }
                 }
             }
 
         }
-        noeudCourant = arrivee;
-        while (noeudCourant != depart && chemin.size()<100) {
+
+        while (noeudCourant != null && noeudCourant != depart && chemin.size()<100) {
             noeudCourant = noeudCourant.noeudPrecedent;
             chemin.add(noeudCourant.position);
         }

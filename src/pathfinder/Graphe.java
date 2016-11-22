@@ -94,9 +94,9 @@ public class Graphe {
     public void initGraphe() //le graphe initial V1
     {
         //on fabrique les noeuds. On les relie TOUS. On supprime ceux bloqués. C'est sale, mais ça fait un graphe bien fourni
-        Noeud n1=new Noeud(this,new Vec2(200,200));
+       /** Noeud n1=new Noeud(this,new Vec2(200,200));
 
-        this.getlNoeuds().add(n1);
+        this.getlNoeuds().add(n1);*/
         ArrayList <Noeud> lN=new ArrayList<Noeud>();
 
         ObstacleManager a=this.table.getObstacleManager();
@@ -152,43 +152,6 @@ public class Graphe {
 
 
         }
-        //on relie tous les obstacles
-        /**for (ObstacleCircular x:a.getFixedObstacles())
-        {
-            for (ObstacleCircular x1:a.getFixedObstacles())
-            {
-                x.relieObstacle(x1,this,this.n,this.ecart);
-
-            }
-
-
-
-        }
-        for (ObstacleRectangular x:a.getRectangles())
-        {
-            for (ObstacleCircular x1:a.getFixedObstacles())
-            {
-                x1.relieObstacle(x,this,this.n,this.ecart);
-
-            }
-
-        }
-        // On détruit tous ceux qui sont bloqués
-        for (Noeud x:this.getlNoeuds())
-        {
-            for(Arrete y:x.lArretes)
-            {
-                for (ObstacleCircular z:a.getFixedObstacles())
-                {
-                    y.isBloquant(z);
-                }
-                for (ObstacleRectangular z:a.getRectangles())
-                {
-                    y.isBloquant(z);
-                }
-            }
-        }
-         */
 
     /**
      * Surcharge de l'initialiseur: construit un sous-graphe à partir de
