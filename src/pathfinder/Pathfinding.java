@@ -53,7 +53,9 @@ import java.util.PriorityQueue;
         for (Noeud noeud1 : g.getlNoeuds())
         {
             depart.attachelien(noeud1);
+            noeud1.attachelien(depart);
             arrivee.attachelien(noeud1);
+            noeud1.attachelien(arrivee);
         }
 
             for (ObstacleCircular z : a.getFixedObstacles()) {
