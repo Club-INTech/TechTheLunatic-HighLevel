@@ -14,76 +14,85 @@ import java.util.PriorityQueue;
  * Created by shininisan on 17/11/16.
  */
  public class Pathfinding implements Service {
-    private Graphe  graphe;
-    private  Table table;
+    private Graphe graphe;
+    private Table table;
     private Config config;
-    private  Log log;
-    public Pathfinding(Log log, Config config, Table table)
-    {
-        this.log=log;
-        this.config=config;
-        this.table=table;
+    private Log log;
+
+    public Pathfinding(Log log, Config config, Table table) {
+        this.log = log;
+        this.config = config;
+        this.table = table;
 
     }
 
     public void setGraphe(Graphe graphe) {
         this.graphe = graphe;
     }
-    public Graphe getGraphe(){return this.graphe;}
+
+    public Graphe getGraphe() {
+        return this.graphe;
+    }
 
     /**
-     *
-     * @param depart noeud de depart de l'A*
+     * @param depart  noeud de depart de l'A*
      * @param arrivee noeud d'arrivée
      * @return Liste des noeuds
      */
-    public ArrayList<Noeud> Astarfoulah(Noeud depart, Noeud arrivee)
-    {// on met les noeuds dans une priority queue
+    public ArrayList<Noeud> Astarfoulah(Noeud depart, Noeud arrivee) {// on met les noeuds dans une priority queue
 
 
-        ArrayList <Noeud> chemin= new ArrayList() ;
+        ArrayList<Noeud> chemin = new ArrayList();
 
 
-        PriorityQueue<Noeud> pq = new PriorityQueue( this.graphe.getNoeudsurtable(), new ComparaNoeud());
+        PriorityQueue<Noeud> pq = new PriorityQueue(this.graphe.getNoeudsurtable(), new ComparaNoeud());
         pq.add(depart);
-        Noeud noeudCourant=new Noeud();
-        Noeud noeudPrecedent=new Noeud();
-        while(noeudCourant != arrivee || pq.size()==0)
-        {
+        depart.distheuristique(arrivee);
+        Noeud noeudCourant = new Noeud();
 
-            noeudCourant=pq.poll();
-            chemin.add(noeudCourant);
-            noeudCourant.distheuristique(arrivee);
-            log.debug(noeudCourant.indice+" taille pq :"+pq.size()+"nombre arrete de ce noeud"+noeudCourant.lArretes.size());
 
-            if(noeudPrecedent.getIndice()== -1)
-            {
+        while (noeudCourant != arrivee || pq.size() == 0) {
+            if (noeudCourant.getIndice() == -1) {
                 noeudCourant.sommedepart = 0;
             }
+            noeudCourant = pq.poll();
+
+                while (noeudCourant.visite) {
+                    noeudCourant = pq.poll();
+                }
+
+
             /**
-            else {
-                noeudCourant.sommedepart = noeudPrecedent.sommedepart;
-                log.debug(noeudCourant+" <=suivant prec =>"+noeudPrecedent);
-                if(noeudCourant != noeudPrecedent && noeudCourant.lArretes.size()>0 && noeudPrecedent.lArretes.size()>0 ){
-                    noeudCourant.sommedepart += graphe.Nazareth(noeudPrecedent, noeudCourant).cout;
+             else {
+             noeudCourant.sommedepart = noeudPrecedent.sommedepart;
+             log.debug(noeudCourant+" <=suivant prec =>"+noeudPrecedent);
+             if(noeudCourant != noeudPrecedent && noeudCourant.lArretes.size()>0 && noeudPrecedent.lArretes.size()>0 ){
+             noeudCourant.sommedepart += graphe.Nazareth(noeudPrecedent, noeudCourant).cout;
+             }
+             }
+             */if (noeudCourant.lArretes.size() > 0) {
+                for (Arrete aux : noeudCourant.lArretes) {
+                    if (! aux.arrivee.visite && aux.arrivee != noeudCourant) {
+
+                        aux.arrivee.sommedepart = noeudCourant.sommedepart + aux.cout;
+                        aux.arrivee.noeudPrecedent = noeudCourant;
+                        aux.arrivee.visite=true;
+
+                        pq.add(aux.arrivee);
+
+                    }
                 }
             }
-*/      if(noeudCourant.lArretes.size()>0) {
-            for (Arrete aux : noeudCourant.lArretes) {
-                if (aux.arrivee != noeudCourant) {
 
-                    aux.arrivee.sommedepart = noeudCourant.sommedepart + aux.cout;
-
-                    pq.add(aux.arrivee);
-
-                }
-            }
         }
-            noeudPrecedent=noeudCourant;
+        noeudCourant = arrivee;
+        while (noeudCourant != depart && chemin.size()<100) {
+            noeudCourant = noeudCourant.noeudPrecedent;
+            chemin.add(noeudCourant);
         }
-
-        return chemin;
+    return chemin;
     }
+
     /**
      *
      * @param position la position du robot

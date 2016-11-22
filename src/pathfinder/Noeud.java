@@ -15,10 +15,11 @@ public class Noeud
     public double distarrivee; // distance vers l'arrivee
     public ArrayList <Arrete> lArretes;
     public double sommedepart;
-
+    public Noeud noeudPrecedent;
     public int getIndice() {
         return indice;
     }
+    public boolean visite=false;
 
     /**
      * Constructeur Noeud vide
@@ -30,6 +31,8 @@ public class Noeud
         this.position=new Vec2();
         this.distarrivee=0;
         this.sommedepart=0;
+        this.noeudPrecedent=null;
+        this.visite=false;
     }
     /**
      * Constructeur
@@ -45,7 +48,8 @@ public class Noeud
         this.lArretes=new ArrayList<Arrete>();
         this.indice=g.getNoeudsurtable()+1;
         g.setNoeudsurtable(this.indice);
-
+        this.noeudPrecedent=null;
+        this.visite=false;
     }
 
     /**
@@ -59,6 +63,8 @@ public class Noeud
         this.distarrivee=n1.distarrivee;
         this.lArretes=n1.lArretes;
         this.sommedepart=n1.sommedepart;
+        this.noeudPrecedent=n1.noeudPrecedent;
+        this.visite=n1.visite;
     }
 
     /**
