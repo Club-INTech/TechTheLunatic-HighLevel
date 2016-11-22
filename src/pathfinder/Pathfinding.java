@@ -60,20 +60,25 @@ import java.util.PriorityQueue;
             {
                 noeudCourant.sommedepart = 0;
             }
+            /**
             else {
                 noeudCourant.sommedepart = noeudPrecedent.sommedepart;
                 log.debug(noeudCourant+" <=suivant prec =>"+noeudPrecedent);
-                if(noeudCourant != noeudPrecedent) {
+                if(noeudCourant != noeudPrecedent && noeudCourant.lArretes.size()>0 && noeudPrecedent.lArretes.size()>0 ){
                     noeudCourant.sommedepart += graphe.Nazareth(noeudPrecedent, noeudCourant).cout;
                 }
             }
-            for (Arrete aux : noeudCourant.lArretes)
-            {
-                if(!pq.contains(aux)) {
+*/      if(noeudCourant.lArretes.size()>0) {
+            for (Arrete aux : noeudCourant.lArretes) {
+                if (aux.arrivee != noeudCourant) {
+
+                    aux.arrivee.sommedepart = noeudCourant.sommedepart + aux.cout;
 
                     pq.add(aux.arrivee);
+
                 }
             }
+        }
             noeudPrecedent=noeudCourant;
         }
 

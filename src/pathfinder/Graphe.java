@@ -119,23 +119,37 @@ public class Graphe {
 
                 }
             }
-            for(Arrete y:noeud1.lArretes) {
-                for (ObstacleCircular z : a.getFixedObstacles()) {
-                    y.isBloquant(z);
 
+
+
+                for (ObstacleCircular z : a.getFixedObstacles()) {
+                    for (int i = 0; i < noeud1.lArretes.size(); i++) {
+                        if (noeud1.lArretes.get(i).isBloquant(z)) {
+                            i--;
+                        }
+
+                    }
                 }
                 for (ObstacleRectangular z : a.getRectangles()) {
-                    y.isBloquant(z);
+                    for (int i = 0; i < noeud1.lArretes.size(); i++) {
+                    if(noeud1.lArretes.get(i).isBloquant(z))
+                    {
+                        i--;
+                    }
 
 
                 }
             }
         }
-
-        for (Noeud N:lN)
-        {
-            log.debug(N.lArretes.size());
+        for (int i = 0; i < this.lNoeuds.size(); i++) {
+         if(this.lNoeuds.get(i).lArretes.size()==0)
+         {
+             this.lNoeuds.remove(this.lNoeuds.get(i));
+             i--;
+         }
         }
+
+
 
         }
         //on relie tous les obstacles

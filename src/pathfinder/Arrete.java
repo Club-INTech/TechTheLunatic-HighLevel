@@ -28,7 +28,7 @@ public class Arrete {
      * détruit le lien entre arrivee et départ
      * @param obstacle
      */
-    public void isBloquant(ObstacleCircular obstacle) // calcul de l'intersection de la ligne et des objets
+    public boolean isBloquant(ObstacleCircular obstacle) // calcul de l'intersection de la ligne et des objets
     {
 
 
@@ -42,9 +42,10 @@ public class Arrete {
                 this.depart.lArretes.remove(this);
 
                 this.arrivee.lArretes.remove(this);
+                return true;
             }
+        return false;
 
-        ;
 
         /*
         si on est update on renvoit bloquant
@@ -52,7 +53,7 @@ public class Arrete {
         pour les recangles min R pour un dégrossisage), sinon l'algo précis de traçage de ligne
         */
     }
-    public void isBloquant(ObstacleRectangular obstacle)
+    public boolean isBloquant(ObstacleRectangular obstacle)
     {
         if(obstacle.getlNoeud()[0]!=null)
         {
@@ -63,10 +64,13 @@ public class Arrete {
             Vec2 af=this.depart.position.minusNewVector(obstacle.getlNoeud()[3].position);
             if(!((ab.dot(ac) * ab.dot(ad)>=0) && (ab.dot(ad)* ab.dot(ae)>=0) && (ab.dot(ae)* ab.dot(af)>=0) ))
             {
+
                 this.depart.lArretes.remove(this.depart);
                 this.arrivee.lArretes.remove(this.arrivee);
+                return true;
             }
         }
+        return false;
     }
 
     /**
