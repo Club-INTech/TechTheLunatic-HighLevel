@@ -61,7 +61,7 @@ public class JUnit_Pathfinding extends JUnit_Test{
     }
 
 
-/**
+   // @Test
     public void iniTable() throws Exception
     {
 
@@ -78,7 +78,7 @@ public class JUnit_Pathfinding extends JUnit_Test{
         log.debug(aff);
 
 
-    }*/
+    }
 
 
     @Test
@@ -87,6 +87,16 @@ public class JUnit_Pathfinding extends JUnit_Test{
         Pathfinding pf=new Pathfinding(log,config,T);
 
         Graphe graphe= new Graphe(log,config,T);
+
+        ArrayList<Vec2> graph = new ArrayList<>();
+
+        for(Noeud n : graphe.getlNoeuds())
+        {
+            graph.add(n.position);
+        }
+
+        win.getPanel().drawGraphe(graph);
+
         while(true)
         {
             if(win.getMouse().hasClicked()) {

@@ -26,7 +26,6 @@ import java.util.PriorityQueue;
         this.config = config;
         this.table = table;
 
-
     }
 
     public void setGraphe(Graphe graphe) {
@@ -50,11 +49,12 @@ import java.util.PriorityQueue;
         Noeud arrivee = new Noeud(g, arriveeV);
         g.getlNoeuds().add(arrivee);
         ObstacleManager a = this.table.getObstacleManager();
-        for (Noeud noeud1 : g.getlNoeuds()) {
-            depart.attachelien(noeud1);
-            noeud1.attachelien(depart);
-            arrivee.attachelien(noeud1);
-            noeud1.attachelien(arrivee);
+        for (int i=0 ; i<g.getlNoeuds().size() ; i++)
+        {
+            depart.attachelien(g.getlNoeuds().get(i));
+            g.getlNoeuds().get(i).attachelien(depart);
+            arrivee.attachelien(g.getlNoeuds().get(i));
+            g.getlNoeuds().get(i).attachelien(arrivee);
         }
 
         for (ObstacleCircular z : a.getFixedObstacles()) {
@@ -98,46 +98,61 @@ import java.util.PriorityQueue;
 
 
         PriorityQueue<Noeud> pq = new PriorityQueue(g.getNoeudsurtable(), new ComparaNoeud());
-        pq.add(depart);
+        //pq.add(depart);
+        depart.noeudPrecedent = null;
+        closedlist.add(depart);
         depart.distheuristique(arrivee);
-        Noeud noeudCourant = new Noeud();
+        Noeud noeudCourant = depart;
 
 
-        while (noeudCourant != arrivee && !pq.isEmpty()) {
+        do {
             if (noeudCourant.getIndice() == -1) {
                 noeudCourant.sommedepart = 0;
             }
+
+            for (int i = 0 ; i < noeudCourant.lArretes.size() ; i++)
+            {
+
+                double b = noeudCourant.sommedepart + noeudCourant.lArretes.get(i).cout;
+                if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart < b  ) // la dernière partie fait existe dans openlist. si y a pas mieux dans Closed list non plus
+                {
+                    noeudCourant.lArretes.get(i).arrivee.sommedepart = b;
+                    pq.add(noeudCourant.lArretes.get(i).arrivee);
+                    noeudCourant.lArretes.get(i).arrivee.distheuristique(arrivee);
+                    noeudCourant.lArretes.get(i).arrivee.noeudPrecedent = noeudCourant;
+                }
+
+            }
+
             log.debug("pq size" + pq.size());
+
+            if(pq.isEmpty()) break;
+
             noeudCourant = pq.poll();
+
+            if(noeudCourant == null)
+            {
+                log.debug("NULL NODE");
+            }
+
             if (arrivee == noeudCourant) {
                 while (noeudCourant != null && chemin.size() < 100) {
+                    chemin.add(0, noeudCourant.position);
                     noeudCourant = noeudCourant.noeudPrecedent;
-                    chemin.add(noeudCourant.position);
-                    return chemin;
                 }
+                return chemin;
             }
 
-            for (Arrete aux : noeudCourant.lArretes) {
-                {
-                    double b = noeudCourant.sommedepart + aux.cout;
-                    if (!closedlist.contains(aux.arrivee) || aux.arrivee.sommedepart < b  ) // la dernière partie fait existe dans openlist. si y a pas mieux dans Closed list non plus
-                    {
-                        aux.arrivee.sommedepart = b;
-                        pq.add(aux.arrivee);
-                        aux.arrivee.noeudPrecedent = noeudCourant;
-                        aux.arrivee.visite = true;
-                    }
+
+            closedlist.add(noeudCourant);
 
 
-                }
-                closedlist.add(noeudCourant);
+        } while (noeudCourant != arrivee && !pq.isEmpty());
 
 
-            }
 
-        }
-
-return null;
+        log.debug("No path found");
+        return new ArrayList();
     }
 
 

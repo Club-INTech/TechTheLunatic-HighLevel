@@ -11,7 +11,7 @@ public class ComparaNoeud implements Comparator<Noeud> {
 
     @Override
     public int compare(Noeud noeud, Noeud t1) {
-        return (int)(noeud.sommedepart+noeud.distarrivee - t1.sommedepart+t1.distarrivee);
+        return (int)(noeud.sommedepart+noeud.distarrivee - t1.sommedepart-t1.distarrivee);
     }
 
     @Override

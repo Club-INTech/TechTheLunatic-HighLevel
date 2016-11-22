@@ -1,8 +1,6 @@
 package pathfinder;
-import smartMath.Vec2;
 
-import com.sun.org.apache.xpath.internal.functions.FuncFalse;
-import table.obstacles.Obstacle;
+import smartMath.Vec2;
 import table.obstacles.ObstacleCircular;
 import table.obstacles.ObstacleRectangular;
 
@@ -32,6 +30,7 @@ public class Arrete {
     {
 
 
+
             Vec2 da= new Vec2(depart.position.x-arrivee.position.x,depart.position.y-arrivee.position.y);
             Vec2 dc= new Vec2(depart.position.x-obstacle.getPosition().x,depart.position.y-obstacle.getPosition().y);
             double distcentre= da.dot(dc);
@@ -46,13 +45,13 @@ public class Arrete {
             }
         return false;
 
-
+    }
         /*
         si on est update on renvoit bloquant
         sinon on vérifie qu'on ne passe pas a distance radius de r pour les cercle
         pour les recangles min R pour un dégrossisage), sinon l'algo précis de traçage de ligne
         */
-    }
+
     public boolean isBloquant(ObstacleRectangular obstacle)
     {
         if(obstacle.getlNoeud()[0]!=null)

@@ -44,6 +44,7 @@ public class TablePanel extends JPanel
 	private static final long serialVersionUID = -3033815690221481964L;
 	
 	private ArrayList<Vec2> mPath;
+	private ArrayList<Vec2> mGraph;
 	private Table mTable;
 	private Robot mRobot;
 	private boolean isRobotPresent = true;
@@ -156,6 +157,14 @@ public class TablePanel extends JPanel
 	    			     6,
 	    			     6);
 	    }
+
+		for(int i = 0; i < mGraph.size(); i++)
+		{
+			g.fillOval( (mGraph.get(i).x + 1500) * this.getWidth() / 3000 - 3,
+					-mGraph.get(i).y * this.getHeight() / 2000 + this.getHeight() - 3,
+					6,
+					6);
+		}
 	    
 	    // les coordonnées des points du chemin
 	    g.setColor(Color.magenta);
@@ -177,6 +186,13 @@ public class TablePanel extends JPanel
 	public void drawArrayList(ArrayList<Vec2> path)
 	{
 		mPath = path;
+		repaint();
+	}
+
+	//permet d'afficher le graphe
+	public void drawGraphe(ArrayList<Vec2> graph)
+	{
+		mGraph = graph;
 		repaint();
 	}
 	
