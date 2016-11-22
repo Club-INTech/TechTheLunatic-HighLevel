@@ -50,54 +50,51 @@ import java.util.PriorityQueue;
         Noeud arrivee = new Noeud(g, arriveeV);
         g.getlNoeuds().add(arrivee);
         ObstacleManager a = this.table.getObstacleManager();
-        for (Noeud noeud1 : g.getlNoeuds())
-        {
+        for (Noeud noeud1 : g.getlNoeuds()) {
             depart.attachelien(noeud1);
             noeud1.attachelien(depart);
             arrivee.attachelien(noeud1);
             noeud1.attachelien(arrivee);
         }
 
-            for (ObstacleCircular z : a.getFixedObstacles()) {
-                for (int i = 0; i < depart.lArretes.size(); i++) {
-                    if (depart.lArretes.get(i).isBloquant(z)) {
-                        i--;
-                    }
-                }
-                for (int i = 0; i < arrivee.lArretes.size(); i++) {
-                    if (arrivee.lArretes.get(i).isBloquant(z)) {
-                        i--;
-                    }
+        for (ObstacleCircular z : a.getFixedObstacles()) {
+            for (int i = 0; i < depart.lArretes.size(); i++) {
+                if (depart.lArretes.get(i).isBloquant(z)) {
+                    i--;
                 }
             }
-            for (ObstacleRectangular z : a.getRectangles()) {
-                for (int i = 0; i < depart.lArretes.size(); i++) {
-                    if (depart.lArretes.get(i).isBloquant(z)) {
-                        i--;
-                    }
-
-
+            for (int i = 0; i < arrivee.lArretes.size(); i++) {
+                if (arrivee.lArretes.get(i).isBloquant(z)) {
+                    i--;
                 }
-                for (int i = 0; i < arrivee.lArretes.size(); i++) {
-                    if (arrivee.lArretes.get(i).isBloquant(z)) {
-                        i--;
-                    }
-
-
+            }
+        }
+        for (ObstacleRectangular z : a.getRectangles()) {
+            for (int i = 0; i < depart.lArretes.size(); i++) {
+                if (depart.lArretes.get(i).isBloquant(z)) {
+                    i--;
                 }
+
+
+            }
+            for (int i = 0; i < arrivee.lArretes.size(); i++) {
+                if (arrivee.lArretes.get(i).isBloquant(z)) {
+                    i--;
+                }
+
+
+            }
 
         }
-        return Astarfoulah(depart,arrivee,g);
+        return Astarfoulah(depart, arrivee, g);
     }
 
 
-
-
-
-    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee,Graphe g) {// on met les noeuds dans une priority queue
+    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe g) {// on met les noeuds dans une priority queue
 
 
         ArrayList<Vec2> chemin = new ArrayList();
+        ArrayList<Noeud> closedlist = new ArrayList();
 
 
         PriorityQueue<Noeud> pq = new PriorityQueue(g.getNoeudsurtable(), new ComparaNoeud());
@@ -106,40 +103,45 @@ import java.util.PriorityQueue;
         Noeud noeudCourant = new Noeud();
 
 
-        while (noeudCourant != arrivee && !pq.isEmpty() ) {
+        while (noeudCourant != arrivee && !pq.isEmpty()) {
             if (noeudCourant.getIndice() == -1) {
                 noeudCourant.sommedepart = 0;
             }
-            log.debug("pq size"+pq.size());
+            log.debug("pq size" + pq.size());
             noeudCourant = pq.poll();
-
-
-
-
-            if (noeudCourant.lArretes.size() > 0) {
-                for (Arrete aux : noeudCourant.lArretes) {
-                    if (! aux.arrivee.visite && aux.arrivee != noeudCourant) {
-
-                        aux.arrivee.sommedepart = noeudCourant.sommedepart + aux.cout;
-                        aux.arrivee.noeudPrecedent = noeudCourant;
-                        aux.arrivee.visite=true;
-
-
-                        pq.add(aux.arrivee);
-
-
-                    }
+            if (arrivee == noeudCourant) {
+                while (noeudCourant != null && chemin.size() < 100) {
+                    noeudCourant = noeudCourant.noeudPrecedent;
+                    chemin.add(noeudCourant.position);
+                    return chemin;
                 }
+            }
+
+            for (Arrete aux : noeudCourant.lArretes) {
+                {
+                    double b = noeudCourant.sommedepart + aux.cout;
+                    if (!closedlist.contains(aux.arrivee) || aux.arrivee.sommedepart < b  ) // la dernière partie fait existe dans openlist. si y a pas mieux dans Closed list non plus
+                    {
+                        aux.arrivee.sommedepart = b;
+                        pq.add(aux.arrivee);
+                        aux.arrivee.noeudPrecedent = noeudCourant;
+                        aux.arrivee.visite = true;
+                    }
+
+
+                }
+                closedlist.add(noeudCourant);
+
+
             }
 
         }
 
-        while (noeudCourant != null && noeudCourant != depart && chemin.size()<100) {
-            noeudCourant = noeudCourant.noeudPrecedent;
-            chemin.add(noeudCourant.position);
-        }
-        return chemin;
+return null;
     }
+
+
+
     /**
      *
      * @param position la position du robot

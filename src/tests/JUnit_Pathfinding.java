@@ -97,7 +97,8 @@ public class JUnit_Pathfinding extends JUnit_Test{
                         // {
                         log.debug(win.getMouse().getLeftClickPosition() + "" + win.getMouse().getRightClickPosition());
                         long start = System.currentTimeMillis();
-                        win.getPanel().drawArrayList(pf.Astarfoulah(win.getMouse().getLeftClickPosition(), win.getMouse().getRightClickPosition(), graphe));
+                        ArrayList<Vec2> p=pf.Astarfoulah(win.getMouse().getLeftClickPosition(), win.getMouse().getRightClickPosition(), graphe);
+                        win.getPanel().drawArrayList(p);
                         long end = System.currentTimeMillis();
                         System.out.println("time elapsed : " + (end - start));
                         // }
