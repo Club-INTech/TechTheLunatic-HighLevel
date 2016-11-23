@@ -207,15 +207,19 @@ public class ObstacleRectangular extends Obstacle
 	 * @param ecart écart minimal par rapport à l'obstacle
 	 *
 	 */
-	public Noeud[] fabriqueNoeudRelie(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
+	public ArrayList<Noeud> fabriqueNoeudRelie(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
 	{
-		Noeud[] lN=fabriqueNoeud(graphe,ecart);
-		// et on relie les noeuds
-		lN[0].attachelien(lN[1]);
-		lN[0].attachelien(lN[2]);
-		lN[3].attachelien(lN[1]);
-		lN[3].attachelien(lN[2]);
+		ArrayList<Noeud> lN=fabriqueNoeud(graphe,ecart);
+		lN.get(0).attachelien(lN.get(1));
+		lN.get(1).attachelien(lN.get(0));
+		lN.get(0).attachelien(lN.get(2));
+		lN.get(2).attachelien(lN.get(0));
 
+				// et on relie les noeuds
+		lN.get(2).attachelien(lN.get(3));
+		lN.get(3).attachelien(lN.get(2));
+		lN.get(1).attachelien(lN.get(3));
+		lN.get(3).attachelien(lN.get(1));
 
 		return lN;
 	}
@@ -226,25 +230,23 @@ public class ObstacleRectangular extends Obstacle
 	 * @param ecart ecart par rapport à l'angle
 	 * @return tableau des 4 noeuds
 	 */
-	public Noeud[] fabriqueNoeud(Graphe graphe,int ecart)
+	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe,int ecart)
 	{
 		Vec2 coinBasGauche = position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));
-		Vec2 coinHautGauche = position.plusNewVector((new Vec2(0-ecart,0+ecart)));
+		Vec2 coinHautGauche = position.plusNewVector((new Vec2(0-ecart,ecart)));
 		Vec2 coinBasDroite = position.plusNewVector((new Vec2(sizeX+ecart,-sizeY -ecart )));
 		Vec2 coinHautDroite = position.plusNewVector((new Vec2(sizeX+ecart,0-ecart)));
-		Noeud noeudBD=new Noeud(graphe,coinBasDroite);
-		Noeud noeudBG=new Noeud(graphe,coinBasGauche);
-		Noeud noeudHD=new Noeud(graphe,coinHautDroite);
-		Noeud noeudHG=new Noeud(graphe,coinHautGauche);
 
+		ArrayList<Noeud> li=new ArrayList<Noeud>();
+		li.add(new Noeud(graphe,coinBasDroite));
+		li.add(new Noeud(graphe,coinBasGauche));
+		li.add(new Noeud(graphe,coinHautDroite));
+		li.add(new Noeud(graphe,coinHautGauche));
 		// et on relie les noeuds
-		this.lNoeud[0]=noeudBD;
-		this.lNoeud[1]=noeudBG;
-		this.lNoeud[2]=noeudHD;
-		this.lNoeud[3]=noeudHG;
 
 
-		return this.lNoeud;
+
+		return li;
 	}
 
 	/**
@@ -256,8 +258,8 @@ public class ObstacleRectangular extends Obstacle
 	public void relieObstacle(ObstacleRectangular obstacle, Graphe g,int ecart)
 	{
 		int mindist=1000000000; //distance de l'obstacle à l'autre
-		Noeud[] l1=this.fabriqueNoeudRelie(g,ecart);
-		Noeud[] l2=obstacle.fabriqueNoeudRelie(g,ecart);
+		ArrayList<Noeud> l1=this.fabriqueNoeudRelie(g,ecart);
+		ArrayList<Noeud> l2=obstacle.fabriqueNoeudRelie(g,ecart);
 		Noeud nmin1=null;
 		Noeud nmin2=null;
 		for (Noeud n2:l2) {

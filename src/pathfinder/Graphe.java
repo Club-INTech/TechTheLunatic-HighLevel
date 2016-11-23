@@ -1,4 +1,7 @@
 package pathfinder;
+import smartMath.Circle;
+import smartMath.Geometry;
+import smartMath.Segment;
 import smartMath.Vec2;
 import table.Table;
 import table.obstacles.Obstacle;
@@ -108,15 +111,20 @@ public class Graphe {
                 lN.add(y);
             }
         }
-//Erreur tous les noeuds d'un cercles sont au meme endroit
+
         for (Noeud noeud1: lN)
         {
-            for (Noeud noeud2: lN)
+            for (int i=0;i<lN.size();i++)
             {
-                if(noeud1 != noeud2)
+                if(noeud1 != lN.get(i))
                 {
-                    noeud1.attachelien(noeud2);
-
+                    if (noeud1==null ||lN.get(i)==null)
+                    {
+                        log.debug("null expcept");
+                    }
+                    else {
+                        noeud1.attachelien(lN.get(i));
+                    }
                 }
             }
 
@@ -124,7 +132,8 @@ public class Graphe {
 
                 for (ObstacleCircular z : a.getFixedObstacles()) {
                     for (int i = 0; i < noeud1.lArretes.size(); i++) {
-                        if (noeud1.lArretes.get(i).isBloquant(z)) {
+
+                        if (Geometry.intersects(new Segment(noeud1.position,noeud1.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius()))) {
                             i--;
                         }
 

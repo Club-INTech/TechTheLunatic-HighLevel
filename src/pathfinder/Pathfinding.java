@@ -1,6 +1,9 @@
 package pathfinder;
 
 import container.Service;
+import smartMath.Circle;
+import smartMath.Geometry;
+import smartMath.Segment;
 import smartMath.Vec2;
 import table.Table;
 import table.obstacles.ObstacleCircular;
@@ -59,12 +62,14 @@ import java.util.PriorityQueue;
 
         for (ObstacleCircular z : a.getFixedObstacles()) {
             for (int i = 0; i < depart.lArretes.size(); i++) {
-                if (depart.lArretes.get(i).isBloquant(z)) {
+                if (Geometry.intersects(new Segment(depart.position,depart.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius())))
+                    {
                     i--;
                 }
             }
             for (int i = 0; i < arrivee.lArretes.size(); i++) {
-                if (arrivee.lArretes.get(i).isBloquant(z)) {
+                if (Geometry.intersects(new Segment(depart.position,depart.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius())))
+                {
                     i--;
                 }
             }

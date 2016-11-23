@@ -25,6 +25,8 @@ import smartMath.Circle;
 import smartMath.Segment;
 import smartMath.Vec2;
 
+import java.util.ArrayList;
+
 /**
  * Obstacle de forme circulaire.
  *
@@ -125,45 +127,54 @@ public class ObstacleCircular extends Obstacle
 	 * @param n
 	 * @param ecart
 	 */
-	public Noeud[] fabriqueNoeudRelie(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
+	public ArrayList<Noeud> fabriqueNoeudRelie(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
 	{
-		Noeud[] myList = new Noeud[n];
+		ArrayList <Noeud> myList = new ArrayList<Noeud>();
 		Noeud noeudact;
 		for (int i=0;i<n;i++)
 		{
-			Vec2 spin=new Vec2((int)(this.getRadius()*Math.cos(2*Math.PI/n)/Math.cos(Math.PI/n))+ecart, (int) (this.getRadius()*Math.sin(Math.PI*2/n)/Math.cos(Math.PI/n))+ecart);
-			noeudact=new Noeud(graphe,this.getPosition().plusNewVector(spin));
-			myList[i]=noeudact;
-			graphe.getlNoeuds().add(noeudact);
 
+			Vec2 spin=new Vec2((int)((this.getRadius()+ecart)*Math.cos(2*Math.PI*i/n)), (int) ((this.getRadius()+ecart)*Math.sin(Math.PI*2*i/n)));
+			Vec2 po=this.getPosition().plusNewVector(spin);
+			if(Math.abs(po.x)<=1500 && po.y<2000) {
+				noeudact = new Noeud(graphe, po);
+				myList.add(noeudact);
+				graphe.getlNoeuds().add(noeudact);
+			}
 			//p=h/cos(pi/n)
 			// on fait les liens
 		}
-		for (int i=0;i<n;i++)
-		{ myList[i].attachelien(myList[i%n]);
+		for (int i=0;i<graphe.getlNoeuds().size();i++)
+		{ myList.get(i).attachelien(myList.get(i%n));
 		}
 return myList;
 	}
-	public Noeud[] fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
+	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
 	{
-		Noeud[] myList = new Noeud[n];
+		ArrayList<Noeud> myList = new ArrayList<Noeud>();
 		Noeud noeudact;
 		for (int i=0;i<n;i++)
 		{
-			Vec2 spin=new Vec2((int)(this.getRadius()*Math.cos(2*Math.PI/i))+ecart, (int) (this.getRadius()*Math.sin(Math.PI*2/i))+ecart);
-			noeudact=new Noeud(graphe,this.getPosition().plusNewVector(spin));
-			myList[i]=noeudact;
-			graphe.getlNoeuds().add(noeudact);
 
-			//p=h/cos(pi/n)
-			// on fait les liens
+
+			Vec2 spin=new Vec2((int)((this.getRadius()+ecart)*Math.cos(2*Math.PI*i/n)), (int) ((this.getRadius()+ecart)*Math.sin(Math.PI*2*i/n)));
+			Vec2 po=this.getPosition().plusNewVector(spin);
+			if(Math.abs(po.x)<=1500 && po.y<2000) {
+				noeudact = new Noeud(graphe, po);
+
+				myList.add(noeudact);
+
+				graphe.getlNoeuds().add(noeudact);
+			}
 		}
 		return myList;
 	}
 
 
 	/**
-	 * relie deux obstacles circulaires après avoir fabriqués les noeuds et arrêtes autour de l'obstacle sur un graphe de manière optimale. Ne vérifie PAS qu'il n'y a pas d'objet au milieu
+	 *  relie deux obstacles circulaires après avoir fabriqués les noeuds et arrêtes autour de l'obstacle sur un graphe de manière optimale. Ne vérifie PAS qu'il n'y a pas d'objet au milieu
+
+
 	 * @param obstacle
 	 * @param g
 	 * @param n
@@ -173,8 +184,8 @@ return myList;
 	{
 		int mindist1=this.position.minusNewVector(obstacle.position).squaredLength(); //distance de l'obstacle à l'autre
 		int mindist2=this.position.minusNewVector(obstacle.position).squaredLength(); //distance de l'obstacle à l'autre
-		Noeud[] l1=this.fabriqueNoeud(g,n,ecart);
-		Noeud[] l2=obstacle.fabriqueNoeud(g,n,ecart);
+		ArrayList<Noeud> l1=this.fabriqueNoeud(g,n,ecart);
+		ArrayList<Noeud> l2=obstacle.fabriqueNoeud(g,n,ecart);
 		Noeud nmin1=null;
 		for (Noeud x:l1)
 		{
@@ -210,8 +221,8 @@ return myList;
 	public void relieObstacle(ObstacleRectangular obstacle, Graphe g,int n,int ecart)
 	{
 		int mindist=1000000000; //distance de l'obstacle à l'autre
-		Noeud[] l1=this.fabriqueNoeudRelie(g,n,ecart);
-		Noeud[] l2=obstacle.fabriqueNoeudRelie(g,ecart);
+		ArrayList<Noeud> l1=this.fabriqueNoeudRelie(g,n,ecart);
+		ArrayList<Noeud> l2=obstacle.fabriqueNoeudRelie(g,ecart);
 		Noeud nmin1=null;
 		Noeud nmin2=null;
 		for (Noeud n2:l2) {
