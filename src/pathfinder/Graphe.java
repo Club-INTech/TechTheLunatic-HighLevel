@@ -134,6 +134,7 @@ public class Graphe {
                     for (int i = 0; i < noeud1.lArretes.size(); i++) {
 
                         if (Geometry.intersects(new Segment(noeud1.position,noeud1.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius()))) {
+                            noeud1.lArretes.remove(i);
                             i--;
                         }
 

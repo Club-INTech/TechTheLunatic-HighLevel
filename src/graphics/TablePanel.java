@@ -52,6 +52,7 @@ public class TablePanel extends JPanel
 	public TablePanel(Table table, Robot robot)
 	{
 		mPath = new ArrayList<Vec2>();
+		mGraph = new ArrayList<>();
 		mTable = table;
 		mRobot = robot;
 	}
@@ -59,6 +60,7 @@ public class TablePanel extends JPanel
 	public TablePanel(Table table)
 	{
 		mPath = new ArrayList<Vec2>();
+		mGraph = new ArrayList<>();
 		mTable = table;
 		isRobotPresent = false;
 	}
