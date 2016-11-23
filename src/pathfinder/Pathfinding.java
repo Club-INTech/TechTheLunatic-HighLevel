@@ -68,7 +68,7 @@ import java.util.PriorityQueue;
                 }
             }
             for (int i = 0; i < arrivee.lArretes.size(); i++) {
-                if (Geometry.intersects(new Segment(depart.position,depart.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius())))
+                if (Geometry.intersects(new Segment(arrivee.position,arrivee.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius())))
                 {
                     i--;
                 }
