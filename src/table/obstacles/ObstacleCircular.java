@@ -146,13 +146,14 @@ public class ObstacleCircular extends Obstacle
 		}
 		for (int i=0;i<graphe.getlNoeuds().size();i++)
 		{ myList.get(i).attachelien(myList.get(i%n));
+		 myList.get(i%n).attachelien(myList.get(i));
 		}
 return myList;
 	}
 	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
 	{
 		ArrayList<Noeud> myList = new ArrayList<Noeud>();
-		Noeud noeudact;
+
 		for (int i=0;i<n;i++)
 		{
 
@@ -160,7 +161,7 @@ return myList;
 			Vec2 spin=new Vec2((int)((this.getRadius()+ecart)*Math.cos(2*Math.PI*i/n)), (int) ((this.getRadius()+ecart)*Math.sin(Math.PI*2*i/n)));
 			Vec2 po=this.getPosition().plusNewVector(spin);
 			if(Math.abs(po.x)<=1500 && po.y<2000) {
-				noeudact = new Noeud(graphe, po);
+				Noeud noeudact = new Noeud(graphe, po);
 
 				myList.add(noeudact);
 

@@ -184,6 +184,7 @@ public class Graphe {
         for (Noeud x : detecte.fabriqueNoeudRelie(this,this.n,this.ecart))// on fait les noeuds de l'obstacle, on les relie entre eux et on les relie
         {
             ini.attachelien(x);
+            x.attachelien(ini);
         }
         ini.update(detecte);// on supprime les liens que l'obstacle bouche
         //on revoit nos indices pour des raisons cosmétiques pour l'instant

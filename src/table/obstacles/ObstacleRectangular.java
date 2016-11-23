@@ -274,6 +274,7 @@ public class ObstacleRectangular extends Obstacle
 			}
 		}
 		nmin1.attachelien(nmin2);
+		nmin2.attachelien(nmin1);
 
 	}
 	
