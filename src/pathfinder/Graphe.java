@@ -25,7 +25,7 @@ public class Graphe {
 
     private ArrayList<Noeud> lNoeuds;
     private int n=8;
-    private int ecart=10;
+    private int ecart=5;
 
     public int getN() {
         return n;

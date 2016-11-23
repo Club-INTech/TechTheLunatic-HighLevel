@@ -131,10 +131,12 @@ public class ObstacleCircular extends Obstacle
 	{
 		ArrayList <Noeud> myList = new ArrayList<Noeud>();
 		Noeud noeudact;
+
+		double h=(this.getRadius()+ecart)/Math.cos(Math.PI/n);
 		for (int i=0;i<n;i++)
 		{
 
-			Vec2 spin=new Vec2((int)((this.getRadius()+ecart)*Math.cos(2*Math.PI*i/n)), (int) ((this.getRadius()+ecart)*Math.sin(Math.PI*2*i/n)));
+			Vec2 spin=new Vec2((int)(h*Math.cos(2*Math.PI*i/n)), (int) (h*Math.sin(Math.PI*2*i/n)));
 			Vec2 po=this.getPosition().plusNewVector(spin);
 			if(Math.abs(po.x)<=1500 && po.y<2000) {
 				noeudact = new Noeud(graphe, po);
@@ -153,12 +155,11 @@ return myList;
 	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
 	{
 		ArrayList<Noeud> myList = new ArrayList<Noeud>();
-
+		double h=(this.getRadius()+ecart)/Math.cos(Math.PI/n);
 		for (int i=0;i<n;i++)
 		{
 
-
-			Vec2 spin=new Vec2((int)((this.getRadius()+ecart)*Math.cos(2*Math.PI*i/n)), (int) ((this.getRadius()+ecart)*Math.sin(Math.PI*2*i/n)));
+			Vec2 spin=new Vec2((int)(h*Math.cos(2*Math.PI*i/n)), (int) (h*Math.sin(Math.PI*2*i/n)));
 			Vec2 po=this.getPosition().plusNewVector(spin);
 			if(Math.abs(po.x)<=1500 && po.y<2000) {
 				Noeud noeudact = new Noeud(graphe, po);

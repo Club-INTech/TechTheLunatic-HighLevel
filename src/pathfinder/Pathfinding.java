@@ -64,6 +64,8 @@ import java.util.PriorityQueue;
             for (int i = 0; i < depart.lArretes.size(); i++) {
                 if (Geometry.intersects(new Segment(depart.position,depart.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius())))
                     {
+                        Arrete l = g.Nazareth(depart.lArretes.get(i).arrivee,depart);
+                        depart.lArretes.get(i).arrivee.lArretes.remove(l);
                         depart.lArretes.remove(i);
 
                         i--;
@@ -72,6 +74,8 @@ import java.util.PriorityQueue;
             for (int i = 0; i < arrivee.lArretes.size(); i++) {
                 if (Geometry.intersects(new Segment(arrivee.position,arrivee.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius())))
                 {
+                    Arrete l = g.Nazareth(arrivee.lArretes.get(i).arrivee,arrivee);
+                    arrivee.lArretes.get(i).arrivee.lArretes.remove(l);
                     arrivee.lArretes.remove(i);
 
                     i--;
@@ -122,8 +126,8 @@ import java.util.PriorityQueue;
             for (int i = 0 ; i < noeudCourant.lArretes.size() ; i++)
             {
 
-                double b = noeudCourant.sommedepart + noeudCourant.lArretes.get(i).cout;
-                if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart < b  ) // la dernière partie fait existe dans openlist. si y a pas mieux dans Closed list non plus
+                double b = noeudCourant.sommedepart + noeudCourant.lArretes.get(i).cout + noeudCourant.distarrivee;
+                if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart + noeudCourant.distarrivee <b ) // la dernière partie fait existe dans openlist. si y a pas mieux dans Closed list non plus
                 {
                     noeudCourant.lArretes.get(i).arrivee.sommedepart = b;
                     pq.add(noeudCourant.lArretes.get(i).arrivee);
