@@ -21,6 +21,8 @@
 
 package graphics;
 
+import pathfinder.Arrete;
+import pathfinder.Noeud;
 import robot.Robot;
 import smartMath.Segment;
 import smartMath.Vec2;
@@ -45,6 +47,7 @@ public class TablePanel extends JPanel
 	
 	private ArrayList<Vec2> mPath;
 	private ArrayList<Vec2> mGraph;
+	private ArrayList<Vec2> mArr;
 	private Table mTable;
 	private Robot mRobot;
 	private boolean isRobotPresent = true;
@@ -53,6 +56,7 @@ public class TablePanel extends JPanel
 	{
 		mPath = new ArrayList<Vec2>();
 		mGraph = new ArrayList<>();
+		mArr = new ArrayList<>();
 		mTable = table;
 		mRobot = robot;
 	}
@@ -61,6 +65,7 @@ public class TablePanel extends JPanel
 	{
 		mPath = new ArrayList<Vec2>();
 		mGraph = new ArrayList<>();
+		mArr = new ArrayList<>();
 		mTable = table;
 		isRobotPresent = false;
 	}
@@ -167,6 +172,15 @@ public class TablePanel extends JPanel
 					6,
 					6);
 		}
+
+		g.setColor(Color.MAGENTA);
+		for(int i = 1; i+1 < mArr.size(); i++)
+		{
+			g.drawLine( (mArr.get(0).x + 1500) * this.getWidth() / 3000,
+					-mArr.get(0).y * this.getHeight() / 2000 + this.getHeight(),
+					(mArr.get(i).x + 1500) * this.getWidth() / 3000,
+					-mArr.get(i).y * this.getHeight() / 2000 + this.getHeight() );
+		}
 	    
 	    // les coordonnées des points du chemin
 	    g.setColor(Color.magenta);
@@ -196,6 +210,18 @@ public class TablePanel extends JPanel
 	{
 		mGraph = graph;
 		repaint();
+	}
+
+	//permet d'afficher les arretes d'un noeud
+	public void drawArretes(Noeud node)
+	{
+		mArr.clear();
+		mArr.add(node.position);
+
+		for(Arrete a : node.lArretes)
+		{
+			mArr.add(a.arrivee.position);
+		}
 	}
 	
 	public Table getTable()
