@@ -19,6 +19,8 @@
 
 package smartMath;
 
+import table.obstacles.ObstacleRectangular;
+
 /**
  * classe de calculs de géométrie
  * @author Etienne
@@ -51,6 +53,134 @@ public class Geometry
 		double angleMin = Math.min(angle1, angle2);
 		double angleMax = Math.max(angle1, angle2);
 		return Math.min(angleMax-angleMin, sizeOfCircle-angleMax+angleMin);
+	}
+/**
+	public static boolean intersects(Segment seg,ObstacleRectangular obstacle)
+	{
+
+		if(obstacle.getlNoeud().size() > 0)
+		{
+			Vec2 ab=seg.getA().minusNewVector(seg.getB());
+			Vec2 ac=seg.getA().minusNewVector(obstacle.getlNoeud().get(0).position);
+			Vec2 ad=seg.getA().minusNewVector(obstacle.getlNoeud().get(1).position);
+			Vec2 ae=seg.getA().minusNewVector(obstacle.getlNoeud().get(2).position);
+			Vec2 af=seg.getA().minusNewVector(obstacle.getlNoeud().get(3).position);
+			int p1=ab.dot(ac);
+			int p2=ab.dot(ad);
+			int p3=ab.dot(ae);
+			int p4=ab.dot(af);
+			boolean b1= ab.dot(ac) * ab.dot(ad)>=0;
+			boolean b2= (ab.dot(ad)* ab.dot(ae)>=0);
+			boolean b3= (ab.dot(ae)* ab.dot(af)>=0);
+
+			return (!(b1 && b2 && b3));
+
+		}
+
+		return false;
+	}*/
+
+
+// Compute the bit code for a point (x, y) using the clip rectangle
+// bounded diagonally by (xmin, ymin), and (xmax, ymax)
+
+// ASSUME THAT xmax, xmin, ymax and ymin are global constants.
+
+	public static int ComputeOutCode(double x, double y,ObstacleRectangular obs)
+
+	{
+
+		int INSIDE = 0; // 0000
+		int LEFT = 1;   // 0001
+		int RIGHT = 2;  // 0010
+		int BOTTOM = 4; // 0100
+		int TOP = 8;    // 1000
+		int code;
+		int xmin=obs.getlNoeud().get(1).position.x;
+		int xmax=obs.getlNoeud().get(0).position.x;
+		int ymin=obs.getlNoeud().get(0).position.y;
+		int ymax=obs.getlNoeud().get(1).position.y;
+		code = INSIDE;          // initialised as being inside of [[clip window]]
+
+		if (x < xmin) //         // to the left of clip window
+		{code |= LEFT;}
+		else if (x > xmax)      // to the right of clip window
+		{code |= RIGHT;}
+		if (y < ymin)           // below the clip window
+		{code |= BOTTOM;}
+		else if (y > ymax)      // above the clip window
+		{code |= TOP;}
+
+		return code;
+	}
+
+	// Cohen–Sutherland clipping algorithm clips a line from
+// P0 = (x0, y0) to P1 = (x1, y1) against a rectangle with
+// diagonal from (xmin, ymin) to (xmax, ymax).
+
+	public static boolean CohenSutherlandLineClipAndDraw(double x0, double y0, double x1, double y1,ObstacleRectangular obs) {
+
+
+		int INSIDE = 0; // 0000
+		int LEFT = 1;   // 0001
+		int RIGHT = 2;  // 0010
+		int BOTTOM = 4; // 0100
+		int TOP = 8;    // 1000
+		int xmin = obs.getlNoeud().get(1).position.x;
+		int xmax = obs.getlNoeud().get(0).position.x;
+		int ymin = obs.getlNoeud().get(0).position.y;
+		int ymax = obs.getlNoeud().get(1).position.y;
+
+		// compute outcodes for P0, P1, and whatever point lies outside the clip rectangle
+		int outcode0 = ComputeOutCode(x0, y0, obs);
+		int outcode1 = ComputeOutCode(x1, y1, obs);
+		boolean accept = false;
+
+		while (true) {
+			if ((outcode0 | outcode1) == 0) { // Bitwise OR is 0. Trivially accept and get out of loop
+				accept = true;
+				break;
+			} else if ((outcode0 & outcode1) != 0) { // Bitwise AND is not 0. Trivially reject and get out of loop
+				break;
+			} else {
+				// failed both tests, so calculate the line segment to clip
+				// from an outside point to an intersection with clip edge
+				double x = 0;
+				double y = 0;
+
+				// At least one endpoint is outside the clip rectangle; pick it.
+				int outcodeOut = outcode0 > 0 ? outcode0 : outcode1;
+
+				// Now find the intersection point;
+				// use formulas y = y0 + slope * (x - x0), x = x0 + (1 / slope) * (y - y0)
+				if ((outcodeOut & TOP) > 0) {           // point is above the clip rectangle
+					x = x0 + (x1 - x0) * (ymax - y0) / (y1 - y0);
+					y = ymax;
+				} else if ((outcodeOut & BOTTOM) != 0) { // point is below the clip rectangle
+					x = x0 + (x1 - x0) * (ymin - y0) / (y1 - y0);
+					y = ymin;
+				} else if ((outcodeOut & RIGHT) != 0) {  // point is to the right of clip rectangle
+					y = y0 + (y1 - y0) * (xmax - x0) / (x1 - x0);
+					x = xmax;
+				} else if ((outcodeOut & LEFT) != 0) {   // point is to the left of clip rectangle
+					y = y0 + (y1 - y0) * (xmin - x0) / (x1 - x0);
+					x = xmin;
+				}
+
+				// Now we move outside point to intersection point to clip
+				// and get ready for next pass.
+				if (outcodeOut == outcode0) {
+					x0 = x;
+					y0 = y;
+					outcode0 = ComputeOutCode(x0, y0, obs);
+				} else {
+					x1 = x;
+					y1 = y;
+					outcode1 = ComputeOutCode(x1, y1, obs);
+				}
+			}
+		}
+		return accept;
 	}
 
 	/**

@@ -100,57 +100,64 @@ public class Graphe {
        /** Noeud n1=new Noeud(this,new Vec2(200,200));
 
         this.getlNoeuds().add(n1);*/
-        ArrayList <Noeud> lN=new ArrayList<Noeud>();
+
 
         ObstacleManager a=this.table.getObstacleManager();
         for (ObstacleCircular x:a.getFixedObstacles())
         {
-            for (Noeud y: x.fabriqueNoeud(this,this.n,this.ecart))
+            x.fabriqueNoeud(this,this.n,this.ecart);
 
-            {
-                lN.add(y);
-            }
+
+        }
+        for (ObstacleRectangular x:a.getRectangles())
+        {
+            x.fabriqueNoeud(this, this.ecart);
         }
 
-        for (Noeud noeud1: lN)
+        for (Noeud noeud1: this.getlNoeuds())
         {
-            for (int i=0;i<lN.size();i++)
+            for (int i=0;i<this.getlNoeuds().size();i++)
             {
-                if(noeud1 != lN.get(i))
+                if(noeud1 != this.getlNoeuds().get(i))
                 {
-                    if (noeud1==null ||lN.get(i)==null)
+                    if (noeud1==null ||this.getlNoeuds().get(i)==null)
                     {
                         log.debug("null expcept");
                     }
                     else {
-                        noeud1.attachelien(lN.get(i));
-                    }
-                }
-            }
+                        //the double while
+                        int j=0;
+                        boolean creer=true;
 
+                        int nombobst= a.getFixedObstacles().size();
+                        int nombobstRec=a.getRectangles().size();
+                        while (creer && j<nombobst)  {
+                            creer= creer && !(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius()))) ;
 
+                            j++;
+                        }
+                        j=0;
+                        while (creer && j<nombobstRec)  {
 
-                for (ObstacleCircular z : a.getFixedObstacles()) {
-                    for (int i = 0; i < noeud1.lArretes.size(); i++) {
+                            creer= creer && Geometry.CohenSutherlandLineClipAndDraw(noeud1.position.x,noeud1.position.y,this.getlNoeuds().get(i).position.x,this.getlNoeuds().get(i).position.y,a.getRectangles().get(j)) ;
+                            if(!creer)
+                            {
 
-                        if (Geometry.intersects(new Segment(noeud1.position,noeud1.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius()))) {
-                            noeud1.lArretes.remove(i);
-                            i--;
+                            }
+                            j++;
                         }
 
+                        if(creer)
+                        {noeud1.attachelien(this.getlNoeuds().get(i));}
                     }
-                }
-                for (ObstacleRectangular z : a.getRectangles()) {
-                    for (int i = 0; i < noeud1.lArretes.size(); i++) {
-                    if(noeud1.lArretes.get(i).isBloquant(z))
-                    {
-                        i--;
-                    }
-
-
                 }
             }
-        }
+
+
+
+               }
+
+
         for (int i = 0; i < this.lNoeuds.size(); i++) {
          if(this.lNoeuds.get(i).lArretes.size()==0)
          {

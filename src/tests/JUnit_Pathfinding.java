@@ -25,6 +25,7 @@ import pathfinder.Graphe;
 import pathfinder.Noeud;
 import pathfinder.Pathfinding;
 import scripts.ScriptManager;
+import smartMath.Geometry;
 import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
@@ -87,7 +88,7 @@ public class JUnit_Pathfinding extends JUnit_Test{
         Pathfinding pf=new Pathfinding(log,config,T);
 
         Graphe graphe= new Graphe(log,config,T);
-
+        log.debug("codeout"+Geometry.ComputeOutCode(50,150,graphe.getTable().getObstacleManager().getRectangles().get(0)));
         ArrayList<Vec2> graph = new ArrayList<>();
 
         for(Noeud n : graphe.getlNoeuds())

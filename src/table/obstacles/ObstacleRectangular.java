@@ -42,13 +42,13 @@ public class ObstacleRectangular extends Obstacle
 	/** taille du rectangle en mm selon l'axe Y */
 	protected int sizeY;
 
-	private Noeud[] lNoeud={null,null,null,null};
+	private ArrayList<Noeud> lNoeud=new ArrayList<Noeud>();
 
-    public Noeud[] getlNoeud() {
-        return lNoeud;
-    }
+	public ArrayList<Noeud> getlNoeud() {
+		return lNoeud;
+	}
 
-    /**
+	/**
 	 *	crée un nouvel obstacle rectangulaire sur la table a la position désirée.
 	 *
 	 * @param position Positon désirée du centre du rectangle représentant l'obstacle (intersection des 2 diagonales)
@@ -232,21 +232,27 @@ public class ObstacleRectangular extends Obstacle
 	 */
 	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe,int ecart)
 	{
-		Vec2 coinBasGauche = position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));
-		Vec2 coinHautGauche = position.plusNewVector((new Vec2(0-ecart,ecart)));
-		Vec2 coinBasDroite = position.plusNewVector((new Vec2(sizeX+ecart,-sizeY -ecart )));
-		Vec2 coinHautDroite = position.plusNewVector((new Vec2(sizeX+ecart,0-ecart)));
-
-		ArrayList<Noeud> li=new ArrayList<Noeud>();
-		li.add(new Noeud(graphe,coinBasDroite));
-		li.add(new Noeud(graphe,coinBasGauche));
-		li.add(new Noeud(graphe,coinHautDroite));
-		li.add(new Noeud(graphe,coinHautGauche));
+		Vec2 coinBasGauche = this.position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));
+		Vec2 coinHautGauche = this.position.plusNewVector((new Vec2(0-ecart,ecart)));
+		Vec2 coinBasDroite = this.position.plusNewVector((new Vec2(sizeX+ecart,-sizeY -ecart )));
+		Vec2 coinHautDroite = this.position.plusNewVector((new Vec2(sizeX+ecart,0-ecart)));
+		Noeud cbd=new Noeud(graphe,coinBasDroite);
+		Noeud cbg=new Noeud(graphe,coinBasGauche);
+		Noeud chd=new Noeud(graphe,coinHautDroite);
+		Noeud chg=new Noeud(graphe,coinHautGauche);
+		graphe.getlNoeuds().add(cbd);
+		graphe.getlNoeuds().add(cbg);
+		graphe.getlNoeuds().add(chd);
+		graphe.getlNoeuds().add(chg);
+		this.lNoeud.add(cbd);
+		this.lNoeud.add(cbg);
+		this.lNoeud.add(chd);
+		this.lNoeud.add(chg);
 		// et on relie les noeuds
 
 
 
-		return li;
+		return this.lNoeud;
 	}
 
 	/**

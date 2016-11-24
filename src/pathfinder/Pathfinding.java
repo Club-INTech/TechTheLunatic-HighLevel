@@ -52,53 +52,36 @@ import java.util.PriorityQueue;
         Noeud arrivee = new Noeud(g, arriveeV);
         g.getlNoeuds().add(arrivee);
         ObstacleManager a = this.table.getObstacleManager();
-        for (int i=0 ; i<g.getlNoeuds().size() ; i++)
+
+        for (int i=0 ; i<g.getlNoeuds().size() ; i++) //Nnoeud *tcréa + Obst * Nnoeud *tremove
         {
-            depart.attachelien(g.getlNoeuds().get(i));
-            g.getlNoeuds().get(i).attachelien(depart);
-            arrivee.attachelien(g.getlNoeuds().get(i));
-            g.getlNoeuds().get(i).attachelien(arrivee);
-        }
+            int j=0;
+            boolean creerdep=true;
+            boolean creerarr=true;
+            int nombobst= a.getFixedObstacles().size();
+            int nombobstRec=a.getRectangles().size();
+            while ((creerdep||creerarr) && j<nombobst)  {
+                creerdep= creerdep && !(Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius()))) ;
+                creerarr= creerarr && !(Geometry.intersects(new Segment(arrivee.position,g.getlNoeuds().get(i).position),new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
+                j++;
+                     }
+            j=0;
+            while ((creerdep||creerarr) && j<nombobstRec)  {
+                creerdep= creerdep && Geometry.CohenSutherlandLineClipAndDraw(depart.position.x,depart.position.y, g.getlNoeuds().get(i).position.x,g.getlNoeuds().get(i).position.y,a.getRectangles().get(j)) ;
+                creerarr= creerarr && (Geometry.CohenSutherlandLineClipAndDraw(arrivee.position.x,arrivee.position.y,g.getlNoeuds().get(i).position.x,g.getlNoeuds().get(i).position.y,a.getRectangles().get(j)));
+                j++;
+            }
+            if(creerdep) {
+                depart.attachelien(g.getlNoeuds().get(i));
+                g.getlNoeuds().get(i).attachelien(depart);
+            }
+            if(creerarr){
+                    arrivee.attachelien(g.getlNoeuds().get(i));
+                    g.getlNoeuds().get(i).attachelien(arrivee);
 
-        for (ObstacleCircular z : a.getFixedObstacles()) {
-            for (int i = 0; i < depart.lArretes.size(); i++) {
-                if (Geometry.intersects(new Segment(depart.position,depart.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius())))
-                    {
-                        Arrete l = g.Nazareth(depart.lArretes.get(i).arrivee,depart);
-                        depart.lArretes.get(i).arrivee.lArretes.remove(l);
-                        depart.lArretes.remove(i);
-
-                        i--;
                 }
             }
-            for (int i = 0; i < arrivee.lArretes.size(); i++) {
-                if (Geometry.intersects(new Segment(arrivee.position,arrivee.lArretes.get(i).arrivee.position),new Circle(z.getPosition(),z.getRadius())))
-                {
-                    Arrete l = g.Nazareth(arrivee.lArretes.get(i).arrivee,arrivee);
-                    arrivee.lArretes.get(i).arrivee.lArretes.remove(l);
-                    arrivee.lArretes.remove(i);
 
-                    i--;
-                }
-            }
-        }
-        for (ObstacleRectangular z : a.getRectangles()) {
-            for (int i = 0; i < depart.lArretes.size(); i++) {
-                if (depart.lArretes.get(i).isBloquant(z)) {
-                    i--;
-                }
-
-
-            }
-            for (int i = 0; i < arrivee.lArretes.size(); i++) {
-                if (arrivee.lArretes.get(i).isBloquant(z)) {
-                    i--;
-                }
-
-
-            }
-
-        }
         return Astarfoulah(depart, arrivee, g);
     }
 
@@ -146,6 +129,10 @@ import java.util.PriorityQueue;
             if(noeudCourant == null)
             {
                 log.debug("NULL NODE");
+            }
+            for (Noeud a:g.getlNoeuds())
+            {
+                a.visite=false;
             }
 
             if (arrivee == noeudCourant) {

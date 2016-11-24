@@ -52,15 +52,17 @@ public class Arrete {
         pour les recangles min R pour un dégrossisage), sinon l'algo précis de traçage de ligne
         */
 
+
     public boolean isBloquant(ObstacleRectangular obstacle)
     {
-        if(obstacle.getlNoeud()[0]!=null)
+
+        if(obstacle.getlNoeud().size()>0)
         {
             Vec2 ab=this.depart.position.minusNewVector(this.arrivee.position);
-            Vec2 ac=this.depart.position.minusNewVector(obstacle.getlNoeud()[0].position);
-            Vec2 ad=this.depart.position.minusNewVector(obstacle.getlNoeud()[1].position);
-            Vec2 ae=this.depart.position.minusNewVector(obstacle.getlNoeud()[2].position);
-            Vec2 af=this.depart.position.minusNewVector(obstacle.getlNoeud()[3].position);
+            Vec2 ac=this.depart.position.minusNewVector(obstacle.getlNoeud().get(0).position);
+            Vec2 ad=this.depart.position.minusNewVector(obstacle.getlNoeud().get(1).position);
+            Vec2 ae=this.depart.position.minusNewVector(obstacle.getlNoeud().get(2).position);
+            Vec2 af=this.depart.position.minusNewVector(obstacle.getlNoeud().get(3).position);
             if(!((ab.dot(ac) * ab.dot(ad)>=0) && (ab.dot(ad)* ab.dot(ae)>=0) && (ab.dot(ae)* ab.dot(af)>=0) ))
             {
 
