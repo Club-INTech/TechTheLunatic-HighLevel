@@ -19,8 +19,8 @@
  *  along with it.  If not, see <http://www.gnu.org/licenses/>.
  */
 package scripts;
+//salut coucou java bien?
 
-import com.sun.xml.internal.bind.v2.TODO;
 import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.ExecuteException;
