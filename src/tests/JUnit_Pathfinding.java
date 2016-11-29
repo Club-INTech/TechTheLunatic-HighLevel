@@ -86,6 +86,14 @@ public class JUnit_Pathfinding extends JUnit_Test{
 
     public void clip()
     {
+        int addsq;
+        for (int i=0;i<10;i++)
+        {
+            for (int j=0;j<10;j++)
+            {
+                log.debug(i|j);
+            }
+        }
 
         boolean pyu=Geometry.CohenSutherlandLineClipAndDraw(new Vec2(-10,100),new Vec2(100,210),new Vec2(0,200),new Vec2(200,0));
         int x=5;

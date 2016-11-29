@@ -78,15 +78,15 @@ public class Geometry
 		code = INSIDE;          // initialised as being inside of [[clip window]]
 
 		if (pos.x < xmin) //         // to the left of clip window
-		{code += LEFT;}
+		{code |= LEFT;}
 		else if(pos.x>xmax)
 		{
-			code+=RIGHT;
+			code|=RIGHT;
 		}
 		if (pos.y < ymin)           // below the clip window
-		{code += BOTTOM;}
+		{code |= BOTTOM;}
 		else if (pos.y > ymax)      // above the clip window
-		{code += TOP;}
+		{code |= TOP;}
 
 		return code;
 	}
@@ -112,19 +112,18 @@ public class Geometry
 		// compute outcodes for P0, P1, and whatever point lies outside the clip rectangle
 		int outcode0 = ComputeOutCode(depart, hautGauche, basDroite);
 		int outcode1 = ComputeOutCode(arrivee, hautGauche, basDroite);
-		boolean accept = false;
+		boolean traverse = false;
 
 		while (true) {
-			if ((outcode0 / TOP == outcode1 / TOP) || (outcode0 / BOTTOM == outcode1 / BOTTOM)||(outcode0 / RIGHT == outcode1 / RIGHT)||(outcode0 / LEFT == outcode1 / LEFT) ) { // Bitwise OR is 0. Trivially accept and get out of loop
-				accept = true;
+			int or=(outcode0|outcode1);
+			int and=(outcode0&outcode1);
+			if ((outcode0|outcode1)==0 ) { // Bitwise OR is 0. Trivially accept and get out of loop
+				traverse = true;
 				break;
-			} else if ((outcode0 / TOP != outcode1 / TOP) && (outcode0 / BOTTOM != outcode1 / BOTTOM)&&(outcode0 / RIGHT != outcode1 / RIGHT)&&(outcode0 / LEFT != outcode1 / LEFT) ) { // Bitwise AND is not 0. Trivially reject and get out of loop
+			} else if ((outcode0&outcode1)!=0 ) { // Bitwise AND is not 0. Trivially reject and get out of loop
 				break;
 			}
-				else if(outcode0==INSIDE || outcode1==INSIDE)
-				{
-					break;
-				}
+
 			 else {
 				// failed both tests, so calculate the line segment to clip
 				// from an outside point to an intersection with clip edge
@@ -141,16 +140,16 @@ public class Geometry
 
 				// Now find the intersection point;
 				// use formulas y = y0 + slope * (x - x0), x = x0 + (1 / slope) * (y - y0)
-				if ((outcodeOut/TOP==1) ) {           // point is above the clip rectangle
+				if ((outcodeOut&TOP)>0 ) {           // point is above the clip rectangle
 					x = x0 + (x1 - x0) * (ymax - y0) / (y1 - y0);
 					y = ymax;
-				} else if ((outcodeOut /BOTTOM ==1) ) { // point is below the clip rectangle
+				} else if ((outcodeOut &BOTTOM)>0 ) { // point is below the clip rectangle
 					x = x0 + (x1 - x0) * (ymin - y0) / (y1 - y0);
 					y = ymin;
-				} else if (outcodeOut / RIGHT == 1) {  // point is to the right of clip rectangle
+				} else if ((outcodeOut & RIGHT)>0) {  // point is to the right of clip rectangle
 					y = y0 + (y1 - y0) * (xmax - x0) / (x1 - x0);
 					x = xmax;
-				} else if ((outcodeOut / LEFT) == 1) {   // point is to the left of clip rectangle
+				} else if ((outcodeOut & LEFT) > 0) {   // point is to the left of clip rectangle
 					y = y0 + (y1 - y0) * (xmin - x0) / (x1 - x0);
 					x = xmin;
 				}
@@ -168,7 +167,7 @@ public class Geometry
 				}
 			}
 		}
-		return accept;
+		return traverse;
 	}
 
 	/**

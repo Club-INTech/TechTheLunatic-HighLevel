@@ -69,8 +69,8 @@ import java.util.PriorityQueue;
         g.getlNoeuds().add(depart);
         Noeud arrivee = new Noeud(g, arriveeV);
         g.getlNoeuds().add(arrivee);
-        ObstacleManager a = this.table.getObstacleManager();
 
+         ObstacleManager a = this.table.getObstacleManager();
         for (int i=0 ; i<g.getlNoeuds().size() ; i++) //Nnoeud *tcréa + Obst * Nnoeud *tremove
         {
             int j=0;
@@ -85,9 +85,21 @@ import java.util.PriorityQueue;
                      }
             j=0;
             while ((creerdep||creerarr) && j<nombobstRec)  {
-                creerdep= creerdep && Geometry.CohenSutherlandLineClipAndDraw(depart.position,g.getlNoeuds().get(i).position, a.getRectangles().get(j).getlNoeud().get(3).position,a.getRectangles().get(j).getlNoeud().get(0).position) ;
-                creerarr= creerarr && Geometry.CohenSutherlandLineClipAndDraw(arrivee.position,g.getlNoeuds().get(i).position, a.getRectangles().get(j).getlNoeud().get(3).position,a.getRectangles().get(j).getlNoeud().get(0).position) ;
-                        j++;
+                creerdep= creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(1).position));
+                creerdep= creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+                creerdep= creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(2).position));
+                creerdep= creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(2).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+                creerdep= creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(2).position));
+                creerdep= creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+
+                creerarr= creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(1).position));
+                creerarr= creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+                creerarr= creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(2).position));
+                creerarr= creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(2).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+                creerarr= creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(2).position));
+                creerarr= creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+
+                j++;
             }
             if(creerdep) {
                 depart.attachelien(g.getlNoeuds().get(i));
@@ -128,7 +140,7 @@ import java.util.PriorityQueue;
             {
 
                 double b = noeudCourant.sommedepart + noeudCourant.lArretes.get(i).cout + noeudCourant.distarrivee;
-                if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart + noeudCourant.distarrivee <b ) // la dernière partie fait existe dans openlist. si y a pas mieux dans Closed list non plus
+                if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart + noeudCourant.lArretes.get(i).arrivee.distarrivee<b ) // la dernière partie fait existe dans openlist. si y a pas mieux dans Closed list non plus
                 {
                     noeudCourant.lArretes.get(i).arrivee.sommedepart = b;
                     pq.add(noeudCourant.lArretes.get(i).arrivee);
