@@ -21,6 +21,7 @@ package container;
 
 import enums.ThreadName;
 import exceptions.ContainerException;
+import threads.AbstractThread;
 import threads.ThreadExit;
 import threads.dataHandlers.ThreadSerial;
 import utils.Config;
@@ -47,6 +48,9 @@ public class Container implements Service
 {
 	// liste des services déjà instanciés. Contient au moins Config et Log. Les autres services appelables seront présents quand ils auront été appelés
 	private HashMap<String, Service> instanciedServices = new HashMap<String, Service>();
+
+	//liste des threads instanciés
+	private HashMap<String, AbstractThread> instanciedThreads = new HashMap<>();
 	
 	private boolean threadsStarted = false;
 	
@@ -250,7 +254,9 @@ public class Container implements Service
 			  Si l'objet existe déjà, on le renvoie
 			 */			
 			if(instanciedServices.containsKey(classe.getSimpleName()))
+			{
 				return (S) instanciedServices.get(classe.getSimpleName());
+			}
 			
 			/*
 			  Détection de dépendances circulaires
@@ -275,7 +281,9 @@ public class Container implements Service
 			  On suppose qu'il n'y a chaque fois qu'un seul constructeur pour cette classe
 			 */
 			if(classe.getConstructors().length > 1)
+			{
 				throw new ContainerException(classe.getSimpleName()+" a plusieurs constructeurs !");
+			}
 
 			Constructor<S> constructeur = (Constructor<S>) classe.getDeclaredConstructors()[0];
 			Class<Service>[] param = (Class<Service>[]) constructeur.getParameterTypes();
@@ -285,7 +293,9 @@ public class Container implements Service
 			 */
 			Object[] paramObject = new Object[param.length];
 			for(int i = 0; i < param.length; i++)
+			{
 				paramObject[i] = getServiceDisplay(classe, param[i], stack);
+			}
 
 			/*
 			  Instanciation et sauvegarde
@@ -294,6 +304,14 @@ public class Container implements Service
 			S s = constructeur.newInstance(paramObject);
 			constructeur.setAccessible(false); // on revient à l'état d'origine !
 			instanciedServices.put(classe.getSimpleName(), (Service) s);
+
+			/*
+			  S'il s'agit d'un thread (hors ThreadSerial), on l'ajoute à la liste des threads instanciés
+			 */
+			if(s instanceof AbstractThread && !(s instanceof ThreadSerial))
+			{
+				instanciedThreads.put(classe.getSimpleName(), (AbstractThread)s);
+			}
 			
 			/*
 			  Mise à jour de la config
@@ -351,6 +369,17 @@ public class Container implements Service
 		log.debug("Démarrage des threads fini");
 		threadsStarted = true;
 
+	}
+
+	/**
+	 * Démarre tous les threads instanciés
+	 */
+	public void startInstanciedThreads() throws InterruptedException
+	{
+		for(AbstractThread t : instanciedThreads.values())
+		{
+			t.start();
+		}
 	}
 	
 	/**
