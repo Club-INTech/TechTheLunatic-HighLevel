@@ -20,8 +20,8 @@
  */
 package scripts;
 //salut coucou java bien?
+//NON JAVA PAS !
 
-import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
