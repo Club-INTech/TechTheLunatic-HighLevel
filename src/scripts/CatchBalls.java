@@ -20,8 +20,6 @@
  */
 
 package scripts;
-//salut coucou java bien?
-//NON JAVA PAS !
 
 import exceptions.BadVersionException;
 import exceptions.ExecuteException;
@@ -60,7 +58,7 @@ public class CatchBalls extends AbstractScript {
      *
      */
 
-    // TODO : prendre en compte le cratère considéré (4 différents sur la table)
+    // TODO : prendre en compte le cratère considéré (4 différents sur la table
 
     @Override
     public void execute(int versionToExecute, GameState stateToConsider, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException
@@ -74,9 +72,11 @@ public class CatchBalls extends AbstractScript {
 
                 //aller jusqu'au cratère considéré
 
-                //déployer la pelleteuse
+                //Preparer la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
 
-                //faire tourner la pelleteuse
+                //déployer la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+
+                //faire tourner la pelleteuse (jusqu'à ~150 ou 200°)
 
                 //s'éloigner du cratère
 
