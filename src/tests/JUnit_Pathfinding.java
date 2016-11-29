@@ -1,4 +1,3 @@
-package tests;
 /*
  * Copyright (c) 2016, INTech.
  *
@@ -18,6 +17,8 @@ package tests;
  *  along with it.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package tests;
+
 import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +30,6 @@ import smartMath.Geometry;
 import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
-import table.obstacles.ObstacleRectangular;
 import utils.Log;
 
 import java.util.ArrayList;
