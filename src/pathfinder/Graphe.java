@@ -97,10 +97,6 @@ public class Graphe {
     public void initGraphe() //le graphe initial V1
     {
         //on fabrique les noeuds. On les relie TOUS. On supprime ceux bloqués. C'est sale, mais ça fait un graphe bien fourni
-       /** Noeud n1=new Noeud(this,new Vec2(200,200));
-
-        this.getlNoeuds().add(n1);*/
-
 
         ObstacleManager a=this.table.getObstacleManager();
         for (ObstacleCircular x:a.getFixedObstacles())
@@ -122,7 +118,7 @@ public class Graphe {
                 {
                     if (noeud1==null ||this.getlNoeuds().get(i)==null)
                     {
-                        log.debug("null expcept");
+                        log.debug("null except");
                     }
                     else {
                         //the double while
@@ -139,7 +135,7 @@ public class Graphe {
                         j=0;
                         while (creer && j<nombobstRec)  {
 
-                            creer= creer && Geometry.CohenSutherlandLineClipAndDraw(noeud1.position.x,noeud1.position.y,this.getlNoeuds().get(i).position.x,this.getlNoeuds().get(i).position.y,a.getRectangles().get(j)) ;
+                            creer= creer && Geometry.CohenSutherlandLineClipAndDraw(noeud1.position,this.getlNoeuds().get(i).position,a.getRectangles().get(j).getlNoeud().get(3).position,a.getRectangles().get(j).getlNoeud().get(0).position) ;
                             if(!creer)
                             {
 

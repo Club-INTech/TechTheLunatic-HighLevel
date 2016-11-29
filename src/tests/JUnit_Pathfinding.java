@@ -29,6 +29,7 @@ import smartMath.Geometry;
 import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
+import table.obstacles.ObstacleRectangular;
 import utils.Log;
 
 import java.util.ArrayList;
@@ -82,14 +83,20 @@ public class JUnit_Pathfinding extends JUnit_Test{
     }
 
 
+
+    public void clip()
+    {
+
+        boolean pyu=Geometry.CohenSutherlandLineClipAndDraw(new Vec2(-10,100),new Vec2(100,210),new Vec2(0,200),new Vec2(200,0));
+        int x=5;
+    }
     @Test
     public void testClickedPF() throws Exception
     {Table T = container.getService(Table.class);
         Pathfinding pf=new Pathfinding(log,config,T);
 
         Graphe graphe= new Graphe(log,config,T);
-        log.debug("codeout"+Geometry.ComputeOutCode(50,150,graphe.getTable().getObstacleManager().getRectangles().get(0)));
-        ArrayList<Vec2> graph = new ArrayList<>();
+         ArrayList<Vec2> graph = new ArrayList<>();
 
         for(Noeud n : graphe.getlNoeuds())
         {

@@ -67,9 +67,9 @@ import java.util.PriorityQueue;
                      }
             j=0;
             while ((creerdep||creerarr) && j<nombobstRec)  {
-                creerdep= creerdep && Geometry.CohenSutherlandLineClipAndDraw(depart.position.x,depart.position.y, g.getlNoeuds().get(i).position.x,g.getlNoeuds().get(i).position.y,a.getRectangles().get(j)) ;
-                creerarr= creerarr && (Geometry.CohenSutherlandLineClipAndDraw(arrivee.position.x,arrivee.position.y,g.getlNoeuds().get(i).position.x,g.getlNoeuds().get(i).position.y,a.getRectangles().get(j)));
-                j++;
+                creerdep= creerdep && Geometry.CohenSutherlandLineClipAndDraw(depart.position,g.getlNoeuds().get(i).position, a.getRectangles().get(j).getlNoeud().get(3).position,a.getRectangles().get(j).getlNoeud().get(0).position) ;
+                creerarr= creerarr && Geometry.CohenSutherlandLineClipAndDraw(arrivee.position,g.getlNoeuds().get(i).position, a.getRectangles().get(j).getlNoeud().get(3).position,a.getRectangles().get(j).getlNoeud().get(0).position) ;
+                        j++;
             }
             if(creerdep) {
                 depart.attachelien(g.getlNoeuds().get(i));

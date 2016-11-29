@@ -232,18 +232,21 @@ public class ObstacleRectangular extends Obstacle
 	 */
 	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe,int ecart)
 	{
-		Vec2 coinBasGauche = this.position.plusNewVector((new Vec2(0-ecart,-sizeY-ecart)));
-		Vec2 coinHautGauche = this.position.plusNewVector((new Vec2(0-ecart,ecart)));
-		Vec2 coinBasDroite = this.position.plusNewVector((new Vec2(sizeX+ecart,-sizeY -ecart )));
-		Vec2 coinHautDroite = this.position.plusNewVector((new Vec2(sizeX+ecart,0-ecart)));
-		Noeud cbd=new Noeud(graphe,coinBasDroite);
-		Noeud cbg=new Noeud(graphe,coinBasGauche);
-		Noeud chd=new Noeud(graphe,coinHautDroite);
-		Noeud chg=new Noeud(graphe,coinHautGauche);
+		Vec2 hautgauche= new Vec2(this.position.x-ecart,this.position.y+ecart);
+		Vec2 basdroite= new Vec2(this.position.x+ecart+this.sizeX,this.position.y-ecart-sizeY);
+		Vec2 hautdroite=new Vec2(this.position.x+ecart+this.sizeX,this.position.y+ecart);
+		Vec2 basgauche=new Vec2(this.position.x-ecart,this.position.y-ecart-sizeY);
+
+		Noeud cbd=new Noeud(graphe,basdroite);
+		Noeud cbg=new Noeud(graphe,basgauche);
+		Noeud chd=new Noeud(graphe,hautdroite);
+		Noeud chg=new Noeud(graphe,hautgauche);
+
 		graphe.getlNoeuds().add(cbd);
 		graphe.getlNoeuds().add(cbg);
 		graphe.getlNoeuds().add(chd);
 		graphe.getlNoeuds().add(chg);
+
 		this.lNoeud.add(cbd);
 		this.lNoeud.add(cbg);
 		this.lNoeud.add(chd);
