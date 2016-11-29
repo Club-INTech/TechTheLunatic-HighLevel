@@ -34,7 +34,7 @@ import java.util.ArrayList;
 public class ObstacleRectangular extends Obstacle
 {
 	/** Positon du centre du rectangle représentant l'obstacle (intersection des 2 diagonales)*/
-	protected Vec2 positon;
+	//protected Vec2 position;
 	
 	/** taille du rectangle en mm selon l'axe X */
 	protected int sizeX;
@@ -232,10 +232,11 @@ public class ObstacleRectangular extends Obstacle
 	 */
 	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe,int ecart)
 	{
-		Vec2 hautgauche= new Vec2(this.position.x-ecart,this.position.y+ecart);
-		Vec2 basdroite= new Vec2(this.position.x+ecart+this.sizeX,this.position.y-ecart-sizeY);
-		Vec2 hautdroite=new Vec2(this.position.x+ecart+this.sizeX,this.position.y+ecart);
-		Vec2 basgauche=new Vec2(this.position.x-ecart,this.position.y-ecart-sizeY);
+
+		Vec2 hautgauche= new Vec2(this.position.x-this.sizeX/2 -ecart,this.position.y+sizeY/2+ecart);
+		Vec2 basdroite= new Vec2(this.position.x+this.sizeX/2 +ecart,this.position.y-sizeY/2 -ecart);
+		Vec2 hautdroite=new Vec2(this.position.x+this.sizeX/2 +ecart,this.position.y+sizeY/2+ecart);
+		Vec2 basgauche=new Vec2(this.position.x-this.sizeX/2-ecart,this.position.y-sizeY/2-ecart);
 
 		Noeud cbd=new Noeud(graphe,basdroite);
 		Noeud cbg=new Noeud(graphe,basgauche);
