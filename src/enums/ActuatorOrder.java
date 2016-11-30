@@ -41,7 +41,14 @@ public enum ActuatorOrder
 	MONTLHERY("montlhery"),
 	
 	// TODO : rajouter les actionneurs (AX-12, moteurs...)
-	
+
+	// Rangement de la pelleteuse
+	BRAPELREL("brapelrel"),
+
+	// Déploiement de la pelleteuse
+	BRAPELDEP("brapeldep"),
+
+
 	STOP("stop");
 
 	/**

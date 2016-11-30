@@ -21,6 +21,7 @@
 
 package scripts;
 
+import enums.ActuatorOrder;
 import exceptions.BadVersionException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
@@ -75,6 +76,8 @@ public class CatchBalls extends AbstractScript {
                 //Preparer la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
 
                 //déployer la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+
+                stateToConsider.robot.useActuator(ActuatorOrder.BRAPELDEP, false);
 
                 //faire tourner la pelleteuse (jusqu'à ~150 ou 200°)
 
