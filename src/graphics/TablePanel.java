@@ -58,6 +58,7 @@ public class TablePanel extends JPanel
 		mPath = new ArrayList<Vec2>();
 		mGraph = new ArrayList<>();
 		mArr = new ArrayList<>();
+		mNodes = new ArrayList<>();
 		mTable = table;
 		mRobot = robot;
 	}
