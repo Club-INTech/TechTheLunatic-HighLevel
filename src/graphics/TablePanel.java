@@ -48,6 +48,7 @@ public class TablePanel extends JPanel
 	private ArrayList<Vec2> mPath;
 	private ArrayList<Vec2> mGraph;
 	private ArrayList<Vec2> mArr;
+	private ArrayList<Noeud> mNodes;
 	private Table mTable;
 	private Robot mRobot;
 	private boolean isRobotPresent = true;
@@ -173,6 +174,19 @@ public class TablePanel extends JPanel
 					6);
 		}
 
+        g.setColor(Color.MAGENTA);
+
+        for(Noeud n : mNodes)
+        {
+            for(Arrete a : n.lArretes)
+            {
+                g.drawLine( (a.depart.position.x + 1500) * this.getWidth() / 3000,
+                        -a.depart.position.y * this.getHeight() / 2000 + this.getHeight(),
+                        (a.arrivee.position.x + 1500) * this.getWidth() / 3000,
+                        -a.arrivee.position.y * this.getHeight() / 2000 + this.getHeight() );
+            }
+        }
+
 		g.setColor(Color.MAGENTA);
 		for(int i = 1; i+1 < mArr.size(); i++)
 		{
@@ -223,6 +237,11 @@ public class TablePanel extends JPanel
 			mArr.add(a.arrivee.position);
 		}
 	}
+
+	public void drawLinesGraph(ArrayList<Noeud> nodes)
+    {
+        mNodes = nodes;
+    }
 	
 	public Table getTable()
 	{

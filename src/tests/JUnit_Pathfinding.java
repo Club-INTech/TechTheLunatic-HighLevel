@@ -100,7 +100,8 @@ public class JUnit_Pathfinding extends JUnit_Test{
     }
     @Test
     public void testClickedPF() throws Exception
-    {Table T = container.getService(Table.class);
+    {
+        Table T = container.getService(Table.class);
         Pathfinding pf=new Pathfinding(log,config,T);
 
         Graphe graphe= new Graphe(log,config,T);
@@ -112,6 +113,7 @@ public class JUnit_Pathfinding extends JUnit_Test{
         }
 
         win.getPanel().drawGraphe(graph);
+        win.getPanel().drawLinesGraph(graphe.getlNoeuds());
 
         while(true)
         {
