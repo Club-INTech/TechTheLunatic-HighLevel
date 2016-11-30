@@ -77,7 +77,7 @@ public class CatchBalls extends AbstractScript {
 
                 //déployer la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
 
-                stateToConsider.robot.useActuator(ActuatorOrder.BRAPELDEP, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, false);
 
                 //faire tourner la pelleteuse (jusqu'à ~150 ou 200°)
 

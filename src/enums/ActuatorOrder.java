@@ -43,10 +43,10 @@ public enum ActuatorOrder
 	// TODO : rajouter les actionneurs (AX-12, moteurs...)
 
 	// Rangement de la pelleteuse
-	BRAPELREL("brapelrel"),
+	REPLIER_PELLETEUSE("brapelrel"),
 
 	// Déploiement de la pelleteuse
-	BRAPELDEP("brapeldep"),
+	DEPLOYER_PELLETEUSE("brapeldep"),
 
 
 	STOP("stop");
