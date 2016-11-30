@@ -144,6 +144,19 @@ public class Graphe {
                         j=0;
                         int nombobst= a.getFixedObstacles().size();
                         int nombobstRec=a.getRectangles().size();
+
+                        ArrayList<Segment> lineObstacles = a.getLines();
+
+                        //On vérifie l'intersection avec les lignes
+                        for(int k=0 ; k<lineObstacles.size() ; k++)
+                        {
+                            if(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), lineObstacles.get(k)))
+                            {
+                                creer = false;
+                                break;
+                            }
+                        }
+
                         while (creer && j<nombobst)  {
                             creer= creer && !(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius()))) ;
 
