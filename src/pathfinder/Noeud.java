@@ -48,8 +48,8 @@ public class Noeud
         this.indice =-1;
         this.lArretes=new ArrayList<Arrete>();
         this.position=new Vec2();
-        this.distarrivee=0;
-        this.sommedepart=0;
+        this.distarrivee=100000000;
+        this.sommedepart=100000000;
         this.noeudPrecedent=null;
         this.visite=false;
     }
@@ -63,8 +63,8 @@ public class Noeud
     {
 
         this.position=position;
-        this.distarrivee=0;
-        this.sommedepart=0;
+        this.distarrivee=100000000;
+        this.sommedepart=100000000;
         this.lArretes=new ArrayList<Arrete>();
         this.indice=g.getNoeudsurtable()+1;
         g.setNoeudsurtable(this.indice);

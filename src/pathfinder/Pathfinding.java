@@ -128,6 +128,7 @@ import java.util.PriorityQueue;
         depart.noeudPrecedent = null;
         closedlist.add(depart);
         depart.distheuristique(arrivee);
+        depart.sommedepart=0;
         Noeud noeudCourant = depart;
 
 
@@ -140,14 +141,14 @@ import java.util.PriorityQueue;
             {
                 noeudCourant.lArretes.get(i).arrivee.distheuristique(arrivee);
                 double b = noeudCourant.sommedepart + noeudCourant.lArretes.get(i).cout ;
-                if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart + noeudCourant.lArretes.get(i).arrivee.distarrivee<b + noeudCourant.distarrivee ) // la dernière partie fait existe dans openlist. si y a pas mieux dans Closed list non plus
+                    if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart>b  ) // la dernière partie fait existe dans openlist. si y a pas mieux dans Closed list non plus
                 {
 
                     noeudCourant.lArretes.get(i).arrivee.sommedepart = b;
-
-                    pq.add(noeudCourant.lArretes.get(i).arrivee);
                     noeudCourant.lArretes.get(i).arrivee.distheuristique(arrivee);
                     noeudCourant.lArretes.get(i).arrivee.noeudPrecedent = noeudCourant;
+                    pq.add(noeudCourant.lArretes.get(i).arrivee);
+
                 }
 
             }
