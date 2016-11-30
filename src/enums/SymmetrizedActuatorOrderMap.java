@@ -37,8 +37,11 @@ public class SymmetrizedActuatorOrderMap
      */
     public SymmetrizedActuatorOrderMap()
     {
-    	// exemple : mCorrespondenceMap.put(ActuatorOrder.CLOSE_DOOR, ActuatorOrder.CLOSE_DOOR_LEFT);
-    	// TODO : ajouter les ordres symétriques
+    	// exemple : mCorrespondenceMap.put(ActuatorOrder.CLOSE_DOOR_RIGHT, ActuatorOrder.CLOSE_DOOR_LEFT);
+    	// TODO : ajouter les ordres symétriques*
+
+        mCorrespondenceMap.put(ActuatorOrder.DEPLOYER_PELLETEUSE, ActuatorOrder.DEPLOYER_PELLETEUSE);
+        mCorrespondenceMap.put(ActuatorOrder.REPLIER_PELLETEUSE, ActuatorOrder.REPLIER_PELLETEUSE);
     }
     
     /**
