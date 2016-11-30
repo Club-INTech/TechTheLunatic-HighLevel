@@ -61,6 +61,7 @@ public class Noeud
 
     public Noeud(Graphe g, Vec2 position)
     {
+
         this.position=position;
         this.distarrivee=0;
         this.sommedepart=0;
@@ -93,7 +94,9 @@ public class Noeud
      */
     public void attachelien(Noeud autre)
     {
-        this.lArretes.add(new Arrete(this,autre));
+       Arrete b=new Arrete(this,autre);
+        b.calcCout();
+        this.lArretes.add(b);
         //autre.lArretes.add(new Arrete(autre,this));
 
 

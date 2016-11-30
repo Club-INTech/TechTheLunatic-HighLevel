@@ -161,7 +161,7 @@ return myList;
 
 			Vec2 spin=new Vec2((int)(h*Math.cos(2*Math.PI*i/n)), (int) (h*Math.sin(Math.PI*2*i/n)));
 			Vec2 po=this.getPosition().plusNewVector(spin);
-			if(Math.abs(po.x)<=1500 && po.y<2000) {
+			if(Math.abs(po.x)<=1500 && po.y<=2000 && po.y>=0) {
 				Noeud noeudact = new Noeud(graphe, po);
 
 				myList.add(noeudact);
