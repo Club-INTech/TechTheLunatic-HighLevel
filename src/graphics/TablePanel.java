@@ -145,26 +145,6 @@ public class TablePanel extends JPanel
 		    			(int)((position.x + 200*Math.cos(orientation) + 1500) * this.getWidth() / 3000),
 		    			(int)(-(position.y + 200*Math.sin(orientation)) * this.getHeight() / 2000 + this.getHeight()));
 	    }
-	    
-	    // un chemin
-	    g.setColor(Color.blue);
-	    for(int i = 0; i+1 < mPath.size(); i++)
-	    {
-	    	g.drawLine( (mPath.get(i).x + 1500) * this.getWidth() / 3000, 
-	    			    -mPath.get(i).y * this.getHeight() / 2000 + this.getHeight(),
-	    			    (mPath.get(i+1).x + 1500) * this.getWidth() / 3000,
-	    			    -mPath.get(i+1).y * this.getHeight() / 2000 + this.getHeight() );
-	    }
-	    
-	    // les points du chemin
-	    g.setColor(Color.cyan);
-	    for(int i = 0; i < mPath.size(); i++)
-	    {
-	    	g.fillOval( (mPath.get(i).x + 1500) * this.getWidth() / 3000 - 3,
-	    			    -mPath.get(i).y * this.getHeight() / 2000 + this.getHeight() - 3,
-	    			     6,
-	    			     6);
-	    }
 
 		for(int i = 0; i < mGraph.size(); i++)
 		{
@@ -195,9 +175,29 @@ public class TablePanel extends JPanel
 					(mArr.get(i).x + 1500) * this.getWidth() / 3000,
 					-mArr.get(i).y * this.getHeight() / 2000 + this.getHeight() );
 		}
+
+        // un chemin
+        g.setColor(Color.yellow);
+        for(int i = 0; i+1 < mPath.size(); i++)
+        {
+            g.drawLine( (mPath.get(i).x + 1500) * this.getWidth() / 3000,
+                    -mPath.get(i).y * this.getHeight() / 2000 + this.getHeight(),
+                    (mPath.get(i+1).x + 1500) * this.getWidth() / 3000,
+                    -mPath.get(i+1).y * this.getHeight() / 2000 + this.getHeight() );
+        }
+
+        // les points du chemin
+        g.setColor(Color.yellow);
+        for(int i = 0; i < mPath.size(); i++)
+        {
+            g.fillOval( (mPath.get(i).x + 1500) * this.getWidth() / 3000 - 3,
+                    -mPath.get(i).y * this.getHeight() / 2000 + this.getHeight() - 3,
+                    6,
+                    6);
+        }
 	    
 	    // les coordonnées des points du chemin
-	    g.setColor(Color.magenta);
+	    g.setColor(Color.BLUE);
 	    for(int i = 0; i < mPath.size(); i++)
 	    {
 	    	g.drawString(mPath.get(i).x + ", " + mPath.get(i).y, 

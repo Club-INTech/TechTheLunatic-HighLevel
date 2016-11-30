@@ -113,7 +113,8 @@ public class JUnit_Pathfinding extends JUnit_Test{
         }
 
         win.getPanel().drawGraphe(graph);
-        win.getPanel().drawLinesGraph(graphe.getlNoeuds());
+
+        win.getPanel().drawLinesGraph(graphe.getlNoeuds()); // Commenter cette ligne pour ne plus afficher les liens du graphe
 
         while(true)
         {
