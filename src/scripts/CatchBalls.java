@@ -38,7 +38,7 @@ import java.util.ArrayList;
 /**
  * Script pour ramasser les balles dans un cratère avec la pelleteuse
  *
- * @author Gaelle on 29/11/16.
+ * @author Gaelle, tic-tac
  */
 
 public class CatchBalls extends AbstractScript {
@@ -74,15 +74,14 @@ public class CatchBalls extends AbstractScript {
                 //aller jusqu'au cratère considéré
 
                 //Preparer la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
+                stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
 
                 //déployer la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-
                 stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, false);
 
                 //faire tourner la pelleteuse (jusqu'à ~150 ou 200°)
-
-                //s'éloigner du cratère
-
+                stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, false);
 
             }
         }

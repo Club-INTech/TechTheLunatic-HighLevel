@@ -19,6 +19,8 @@
 
 package enums;
 
+import tests.container.A;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,8 +42,18 @@ public class SymmetrizedActuatorOrderMap
     	// exemple : mCorrespondenceMap.put(ActuatorOrder.CLOSE_DOOR_RIGHT, ActuatorOrder.CLOSE_DOOR_LEFT);
     	// TODO : ajouter les ordres symétriques*
 
+    //Bras Pelleteuse
+
         mCorrespondenceMap.put(ActuatorOrder.DEPLOYER_PELLETEUSE, ActuatorOrder.DEPLOYER_PELLETEUSE);
         mCorrespondenceMap.put(ActuatorOrder.REPLIER_PELLETEUSE, ActuatorOrder.REPLIER_PELLETEUSE);
+        mCorrespondenceMap.put(ActuatorOrder.MED_PELLETEUSE, ActuatorOrder.MED_PELLETEUSE);
+
+    //Pelle
+
+        mCorrespondenceMap.put(ActuatorOrder.PRET_PELLE, ActuatorOrder.PRET_PELLE);
+        mCorrespondenceMap.put(ActuatorOrder.TIENT_PELLE, ActuatorOrder.TIENT_PELLE);
+        mCorrespondenceMap.put(ActuatorOrder.LIVRE_PELLE, ActuatorOrder.LIVRE_PELLE);
+
     }
     
     /**

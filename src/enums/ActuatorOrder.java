@@ -42,12 +42,25 @@ public enum ActuatorOrder
 	
 	// TODO : rajouter les actionneurs (AX-12, moteurs...)
 
+	//		3 POSITIONS DES BRAS DE LA PELLETEUSE 		 //
 	// Rangement de la pelleteuse
-	REPLIER_PELLETEUSE("brapelrel"),
+	REPLIER_PELLETEUSE("bpr"),
 
 	// Déploiement de la pelleteuse
-	DEPLOYER_PELLETEUSE("brapeldep"),
+	DEPLOYER_PELLETEUSE("bpd"),
 
+	// Position intermédiaire de la pelleteuse, pour rotations de la pelle
+	MED_PELLETEUSE("bpi"),
+
+	//		3 POSITIONS DE LA PELLE		  //
+	// Position avant prise de boules
+	PRET_PELLE("ppd"),
+
+	// Position intermédiaire de la pelle, maintient les boules
+	TIENT_PELLE("ppi"),
+
+	//Position de livraison de boules de la pelle
+	LIVRE_PELLE("ppf"),
 
 	STOP("stop");
 
