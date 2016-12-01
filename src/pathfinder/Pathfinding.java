@@ -58,20 +58,23 @@ import java.util.PriorityQueue;
     }
 
     /**
-     * @param departV  noeud de depart de l'A*
-     * @param arriveeV noeud d'arrivée
-     * @return Liste des noeuds
+     * L'algorithme créer deux noeuds sur l'arrivée et le début, relie a tous les points accessibles, et lance Astarfoullah
+     * @param departV la position de début du pathfinding
+     * @param arriveeV la position d'arrivée
+     * @param g le graphe sur lequel on travaille
+     * @return une arrayliste des positions intermédiaires
      */
-    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV, Graphe g) {// on met les noeuds dans une priority queue
+    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV, Graphe g) {
 
-
+        //on crée les noeuds et on récupère les obstacles
         Noeud depart = new Noeud(g, departV);
         g.getlNoeuds().add(depart);
         Noeud arrivee = new Noeud(g, arriveeV);
         g.getlNoeuds().add(arrivee);
+        ObstacleManager a = this.table.getObstacleManager();
 
-         ObstacleManager a = this.table.getObstacleManager();
-        for (int i=0 ; i<g.getlNoeuds().size() ; i++) //Nnoeud *tcréa + Obst * Nnoeud *tremove
+
+        for (int i=0 ; i<g.getlNoeuds().size() ; i++) //On vérifie que ça n'intersecte ni les obstacles circulaires ni ca
         {
             int j=0;
             boolean creerdep=true;
@@ -182,22 +185,27 @@ import java.util.PriorityQueue;
                     int p=depart.lArretes.get(j).arrivee.lArretes.size();
                     for (int i = 0; i < p; i++) {
 
-                        if (depart.lArretes.get(j).arrivee.lArretes.get(i).arrivee == depart) {
+                        if (depart.lArretes.get(j).arrivee!=depart &&  depart.lArretes.get(j).arrivee.lArretes.get(i).arrivee == depart) {
                             depart.lArretes.get(j).arrivee.lArretes.remove(depart.lArretes.get(j).arrivee.lArretes.get(i));
                             i--;
                             p--;
+
                         }
+
+                        //p=depart.lArretes.get(j).arrivee.lArretes.size();
                     }
                 }
                 for (int j=0; j<arrivee.lArretes.size();j++) {
                     int p=arrivee.lArretes.get(j).arrivee.lArretes.size();
                     for (int i = 0; i < p; i++) {
 
-                        if (arrivee.lArretes.get(j).arrivee.lArretes.get(i).arrivee == arrivee) {
+                        if (arrivee.lArretes.get(j).arrivee!=arrivee && arrivee.lArretes.get(j).arrivee.lArretes.get(i).arrivee == arrivee) {
                             arrivee.lArretes.get(j).arrivee.lArretes.remove(arrivee.lArretes.get(j).arrivee.lArretes.get(i));
                             i--;
                             p--;
+
                         }
+//                        p=arrivee.lArretes.get(j).arrivee.lArretes.size();
                     }
                 }
 
