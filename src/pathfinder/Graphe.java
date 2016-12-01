@@ -118,10 +118,16 @@ public class Graphe {
                         int nombobstRec=a.getRectangles().size();
 
                         ArrayList<Segment> lineObstacles = a.getLines();
+                        //si on est en dehors du graphe
+                        if(Math.abs(noeud1.position.x)>1500-a.mRobotRadius || noeud1.position.y<a.mRobotRadius || noeud1.position.y>2000-a.mRobotRadius)
+                        {
+                            creer=false;
+                        }
 
                         //On vérifie l'intersection avec les lignes
                         for(int k=0 ; k<lineObstacles.size() ; k++)
                         {
+
                             if(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), lineObstacles.get(k)))
                             {
                                 creer = false;
@@ -130,23 +136,34 @@ public class Graphe {
                         }
 
                         while (creer && j<nombobst)  {
-                            creer= creer && !(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius()))) ;
-
+                            if(a.getFixedObstacles().get(j).isInObstacle(noeud1.position)||a.getFixedObstacles().get(j).isInObstacle(this.getlNoeuds().get(i).position))
+                            {
+                              creer=false;
+                            }
+                            else
+                            {
+                                creer = creer && !(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
+                            }
                             j++;
                         }
                         j=0;
-                        while (creer && j<nombobstRec)  {
+                        while (creer && j<nombobstRec) {
+                            if (a.getRectangles().get(j).isInObstacle(noeud1.position) || a.getRectangles().get(j).isInObstacle(this.getlNoeuds().get(i).position))
+                            {
+                                creer=false;
+                            }
+                            else {
 
-                            creer= creer && !Geometry.intersects(new Segment(noeud1.position,this.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(1).position)) ;
-                            creer= creer && !Geometry.intersects(new Segment(noeud1.position,this.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(3).position)) ;
-                            creer= creer && !Geometry.intersects(new Segment(noeud1.position,this.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(2).position)) ;
-                            creer= creer && !Geometry.intersects(new Segment(noeud1.position,this.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(2).position,a.getRectangles().get(j).getlNoeud().get(3).position)) ;
-                            creer= creer && !Geometry.intersects(new Segment(noeud1.position,this.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(2).position)) ;
-                            creer= creer && !Geometry.intersects(new Segment(noeud1.position,this.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(3).position)) ;
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(1).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(3).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(2).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(2).position, a.getRectangles().get(j).getlNoeud().get(3).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(2).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(3).position));
 
-                            j++;
+                                j++;
+                            }
                         }
-
                         if(creer)
                         {noeud1.attachelien(this.getlNoeuds().get(i));}
                     }
