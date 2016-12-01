@@ -73,7 +73,16 @@ import java.util.PriorityQueue;
         g.getlNoeuds().add(arrivee);
         ObstacleManager a = this.table.getObstacleManager();
 
-
+        if(     Math.abs(departV.x)>1500-a.mRobotRadius ||
+                Math.abs(arriveeV.x)>1500-a.mRobotRadius ||
+                departV.y< a.mRobotRadius ||
+                departV.y>2000-a.mRobotRadius ||
+                arriveeV.y<a.mRobotRadius ||
+                arriveeV.y>2000-a.mRobotRadius)
+        {
+            log.debug("Retourne sur la table connard");
+            return new ArrayList();
+        }
         for (int i=0 ; i<g.getlNoeuds().size() ; i++) //On vérifie que ça n'intersecte ni les obstacles circulaires ni ca
         {
             int j=0;
@@ -81,14 +90,45 @@ import java.util.PriorityQueue;
             boolean creerarr=true;
             int nombobst= a.getFixedObstacles().size();
             int nombobstRec=a.getRectangles().size();
+
+
             // on arrete les boucles si on voit que l'on ne doit créer ni un lien vers l'arrivée ni vers le début
             while ((creerdep||creerarr) && j<nombobst)  {
+                if(a.getFixedObstacles().get(j).isInObstacle(departV))
+                {
+                    creerdep=false;
+                }
+                if(a.getFixedObstacles().get(j).isInObstacle(arriveeV))
+                {
+                    creerarr=false;
+                }
+                if(a.getFixedObstacles().get(j).isInObstacle(g.getlNoeuds().get(i).position))
+                {
+                    creerdep=false;
+                    creerarr=false;
+                }
+
                 creerdep= creerdep && !(Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius()))) ;
                 creerarr= creerarr && !(Geometry.intersects(new Segment(arrivee.position,g.getlNoeuds().get(i).position),new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
                 j++;
                      }
             j=0;
             while ((creerdep||creerarr) && j<nombobstRec)  {
+                if(a.getRectangles().get(j).isInObstacle(departV))
+                {
+                    creerdep=false;
+                }
+                if(a.getRectangles().get(j).isInObstacle(arriveeV))
+                {
+                    creerarr=false;
+                }
+                if(a.getRectangles().get(j).isInObstacle(g.getlNoeuds().get(i).position))
+                {
+                    creerdep=false;
+                    creerarr=false;
+                }
+
+
                 creerdep= creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(1).position));
                 creerdep= creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(3).position));
                 creerdep= creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(2).position));
@@ -230,7 +270,42 @@ import java.util.PriorityQueue;
 
 
 
+
         log.debug("No path found");
+
+        //on supprime les liens dans le sens retour liés au départ
+        for (int j=0; j<depart.lArretes.size();j++) {
+            int p=depart.lArretes.get(j).arrivee.lArretes.size();
+            for (int i = 0; i < p; i++) {
+
+                if (depart.lArretes.get(j).arrivee!=depart &&  depart.lArretes.get(j).arrivee.lArretes.get(i).arrivee == depart) { // Il peut arriver que le noeud créer un lien vers lui même, on vérifie donc que ce n'est pas le cas
+                    depart.lArretes.get(j).arrivee.lArretes.remove(depart.lArretes.get(j).arrivee.lArretes.get(i));
+                    i--;
+                    p--;
+
+                }
+
+
+            }
+        }
+        //on supprime les liens dans le sens retour liés à l'arrivée
+        for (int j=0; j<arrivee.lArretes.size();j++) {
+            int p=arrivee.lArretes.get(j).arrivee.lArretes.size();
+            for (int i = 0; i < p; i++) {
+
+                if (arrivee.lArretes.get(j).arrivee!=arrivee && arrivee.lArretes.get(j).arrivee.lArretes.get(i).arrivee == arrivee) {
+                    arrivee.lArretes.get(j).arrivee.lArretes.remove(arrivee.lArretes.get(j).arrivee.lArretes.get(i));
+                    i--;
+                    p--;
+
+                }
+
+            }
+        }
+
+        //On détache le noeud de départ et d'arrivée
+        g.getlNoeuds().remove(depart);
+        g.getlNoeuds().remove(arrivee);
         return new ArrayList<Vec2>();
     }
 
