@@ -62,6 +62,23 @@ public enum ActuatorOrder
 	//Position de livraison de boules de la pelle
 	LIVRE_PELLE("ppf"),
 
+	//		3 POSITIONS DES ATTRAPE-MODULES		//
+	// Position repliée
+	PRET_ATTRAPE_M("pam"),
+
+	// Position Retour (pour laisser passer la calle)
+	RETOUR_ATTRAPE_M("ram"),
+
+	// Position Post-livraison
+	LIVRE_ATTRAPE_M("lam"),
+
+	//		2 POSITIONS DES CALLAGES-MODULES	//
+	// Positions repliée
+	REPLI_CALLE("rca"),
+
+	// Positions calle
+	LIVRE_CALLE("lca"),
+
 	STOP("stop");
 
 	/**
