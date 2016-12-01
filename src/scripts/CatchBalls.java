@@ -93,10 +93,6 @@ public class CatchBalls extends AbstractScript {
 
             if(versionToExecute ==1) {
 
-                //aller jusqu'au cratère considéré (-720,1450)
-
-                //TODO
-
 
 
                 //s'orienter face au cratère
@@ -137,10 +133,13 @@ public class CatchBalls extends AbstractScript {
     @Override
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException
     {
-        if (version == 0 || version == 1 )
+        if (version == 0 )
         {
-            // modification possible selon l'envergure du robot new Vec2(1135,1600)
             return new Circle(robotPosition);
+        }
+        else if (version == 1) {
+            return new Circle(new Vec2(-720,1450));
+
         }
 
         else
