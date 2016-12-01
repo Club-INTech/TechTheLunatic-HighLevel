@@ -50,6 +50,10 @@ public class Vec2
 		x = 0;
 		y = 0;
 	}
+	public boolean isNull()
+	{
+		return (this.x==0 && this.y==0);
+	}
 
 	/**
 	 * Construit un vecteur à partir de ses coordonnées cartésiennes

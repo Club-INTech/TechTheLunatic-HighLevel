@@ -122,7 +122,7 @@ public class ObstacleManager
 */
 
 		//fusées
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(-350, 40), 80 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(-350, 40), 40 + mRobotRadius));
 		mFixedObstacles.add(new ObstacleCircular(new Vec2(350, 40), 40 + mRobotRadius));
 		mFixedObstacles.add(new ObstacleCircular(new Vec2(-1460, 1350), 40 + mRobotRadius));
 		mFixedObstacles.add(new ObstacleCircular(new Vec2(1460, 1350), 40 + mRobotRadius));

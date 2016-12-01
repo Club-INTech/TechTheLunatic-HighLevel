@@ -163,16 +163,46 @@ import java.util.PriorityQueue;
             {
                 log.debug("NULL NODE");
             }
-            for (Noeud a:g.getlNoeuds())
-            {
-                a.visite=false;
-            }
+
 
             if (arrivee == noeudCourant) {
                 while (noeudCourant != null && chemin.size() < 100) {
                     chemin.add(0, noeudCourant.position);
                     noeudCourant = noeudCourant.noeudPrecedent;
                 }
+                for (Noeud a:g.getlNoeuds()) //on réinitialise les noeuds
+                {
+
+                    a.sommedepart=100000000;
+                    a.noeudPrecedent=null;
+
+                }
+
+                for (int j=0; j<depart.lArretes.size();j++) {
+                    int p=depart.lArretes.get(j).arrivee.lArretes.size();
+                    for (int i = 0; i < p; i++) {
+
+                        if (depart.lArretes.get(j).arrivee.lArretes.get(i).arrivee == depart) {
+                            depart.lArretes.get(j).arrivee.lArretes.remove(depart.lArretes.get(j).arrivee.lArretes.get(i));
+                            i--;
+                            p--;
+                        }
+                    }
+                }
+                for (int j=0; j<arrivee.lArretes.size();j++) {
+                    int p=arrivee.lArretes.get(j).arrivee.lArretes.size();
+                    for (int i = 0; i < p; i++) {
+
+                        if (arrivee.lArretes.get(j).arrivee.lArretes.get(i).arrivee == arrivee) {
+                            arrivee.lArretes.get(j).arrivee.lArretes.remove(arrivee.lArretes.get(j).arrivee.lArretes.get(i));
+                            i--;
+                            p--;
+                        }
+                    }
+                }
+
+                g.getlNoeuds().remove(depart);
+                g.getlNoeuds().remove(arrivee);
                 return chemin;
             }
 

@@ -38,7 +38,7 @@ public class Noeud
     public int getIndice() {
         return indice;
     }
-    public boolean visite=false;
+
 
     /**
      * Constructeur Noeud vide
@@ -51,7 +51,7 @@ public class Noeud
         this.distarrivee=100000000;
         this.sommedepart=100000000;
         this.noeudPrecedent=null;
-        this.visite=false;
+
     }
     /**
      * Constructeur
@@ -69,7 +69,7 @@ public class Noeud
         this.indice=g.getNoeudsurtable()+1;
         g.setNoeudsurtable(this.indice);
         this.noeudPrecedent=null;
-        this.visite=false;
+
     }
 
     /**
@@ -84,19 +84,20 @@ public class Noeud
         this.lArretes=n1.lArretes;
         this.sommedepart=n1.sommedepart;
         this.noeudPrecedent=n1.noeudPrecedent;
-        this.visite=n1.visite;
+
     }
 
     /**
-     * Crée l'arête entre this et le noeud fourni
-     * Fabrique également le lien dans l'autre sens
+     * Crée l'arête entre this et le noeud fourni dans un seul sens
+
      * @param autre Noeud destination
      */
-    public void attachelien(Noeud autre)
+    public Arrete attachelien(Noeud autre)
     {
        Arrete b=new Arrete(this,autre);
         b.calcCout();
         this.lArretes.add(b);
+        return b;
         //autre.lArretes.add(new Arrete(autre,this));
 
 
