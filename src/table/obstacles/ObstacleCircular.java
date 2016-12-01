@@ -121,37 +121,14 @@ public class ObstacleCircular extends Obstacle
 	 * @see table.obstacles.Obstacle#toString()
 	 */
 
+
 	/**
-	 * Ajoute sur le graphe n noeud autour du cercle délimitant l'obstacle
-	 * @param graphe
-	 * @param n
-	 * @param ecart
+	 * Créer les noeuds autour de l'obstacle en commençant à 0 sur un cercle trigonométrique usuel radians puis tous les 2kpi/n
+	 * @param graphe le graphe sur lequel on doit créer les noeuds
+	 * @param n le nombre de noeud à créer autour de l'obstacle circulaire
+	 * @param ecart écart par rapport a la distance minimale
+	 * @return liste des noeuds crées
 	 */
-	public ArrayList<Noeud> fabriqueNoeudRelie(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
-	{
-		ArrayList <Noeud> myList = new ArrayList<Noeud>();
-		Noeud noeudact;
-
-		double h=(this.getRadius()+ecart)/Math.cos(Math.PI/n);
-		for (int i=0;i<n;i++)
-		{
-
-			Vec2 spin=new Vec2((int)(h*Math.cos(2*Math.PI*i/n)), (int) (h*Math.sin(Math.PI*2*i/n)));
-			Vec2 po=this.getPosition().plusNewVector(spin);
-			if(Math.abs(po.x)<=1500 && po.y<2000) {
-				noeudact = new Noeud(graphe, po);
-				myList.add(noeudact);
-				graphe.getlNoeuds().add(noeudact);
-			}
-			//p=h/cos(pi/n)
-			// on fait les liens
-		}
-		for (int i=0;i<graphe.getlNoeuds().size();i++)
-		{ myList.get(i).attachelien(myList.get(i%n));
-		 myList.get(i%n).attachelien(myList.get(i));
-		}
-return myList;
-	}
 	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
 	{
 		ArrayList<Noeud> myList = new ArrayList<Noeud>();
@@ -171,78 +148,6 @@ return myList;
 		}
 		return myList;
 	}
-
-
-	/**
-	 *  relie deux obstacles circulaires après avoir fabriqués les noeuds et arrêtes autour de l'obstacle sur un graphe de manière optimale. Ne vérifie PAS qu'il n'y a pas d'objet au milieu
-
-
-	 * @param obstacle
-	 * @param g
-	 * @param n
-	 * @param ecart
-	 */
-	public void relieObstacle(ObstacleCircular obstacle, Graphe g,int n,int ecart)
-	{
-		int mindist1=this.position.minusNewVector(obstacle.position).squaredLength(); //distance de l'obstacle à l'autre
-		int mindist2=this.position.minusNewVector(obstacle.position).squaredLength(); //distance de l'obstacle à l'autre
-		ArrayList<Noeud> l1=this.fabriqueNoeud(g,n,ecart);
-		ArrayList<Noeud> l2=obstacle.fabriqueNoeud(g,n,ecart);
-		Noeud nmin1=null;
-		for (Noeud x:l1)
-		{
-			int calc=x.position.minusNewVector(obstacle.position).squaredLength();
-			if(calc<mindist1)
-			{
-				mindist1=calc;
-				nmin1=x;
-
-			}
-		}
-		Noeud nmin2=null;
-		for (Noeud x:l2)
-		{
-			int calc=x.position.minusNewVector(this.position).squaredLength();
-			if(calc<mindist2)
-			{
-				mindist2=calc;
-				nmin2=x;
-
-			}
-		}
-		nmin1.attachelien(nmin2);
-
-	}
-	/**
-	 * relie un obstacle circulaire, un rectangulaire sur un graphe après avoir fabriqués les noeuds et arrêtes autour de l'obstacle de manière optimale. Ne vérifie PAS qu'il n'y a pas d'objet au milieu
-	 * @param obstacle
-	 * @param g
-	 * @param n
-	 * @param ecart
-	 */
-	public void relieObstacle(ObstacleRectangular obstacle, Graphe g,int n,int ecart)
-	{
-		int mindist=1000000000; //distance de l'obstacle à l'autre
-		ArrayList<Noeud> l1=this.fabriqueNoeudRelie(g,n,ecart);
-		ArrayList<Noeud> l2=obstacle.fabriqueNoeudRelie(g,ecart);
-		Noeud nmin1=null;
-		Noeud nmin2=null;
-		for (Noeud n2:l2) {
-			for (Noeud x : l1) {
-				int calc = x.position.minusNewVector(n2.position).squaredLength();
-				if (calc < mindist) {
-					mindist = calc;
-					nmin1 = x;
-					nmin2=n2;
-
-				}
-			}
-		}
-		nmin1.attachelien(nmin2);
-
-	}
-
-
 
 
 	public String toString()

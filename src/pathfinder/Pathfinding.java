@@ -81,6 +81,7 @@ import java.util.PriorityQueue;
             boolean creerarr=true;
             int nombobst= a.getFixedObstacles().size();
             int nombobstRec=a.getRectangles().size();
+            // on arrete les boucles si on voit que l'on ne doit créer ni un lien vers l'arrivée ni vers le début
             while ((creerdep||creerarr) && j<nombobst)  {
                 creerdep= creerdep && !(Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius()))) ;
                 creerarr= creerarr && !(Geometry.intersects(new Segment(arrivee.position,g.getlNoeuds().get(i).position),new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
@@ -118,16 +119,22 @@ import java.util.PriorityQueue;
         return Astarfoulah(depart, arrivee, g);
     }
 
+    /**
+     *  A star
+     * @param depart Noeud de départ
+     * @param arrivee Noeud d'arrivée
+     * @param g graphe
+     * @return Liste de vec2 des points de passage
+     */
+    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe g) {
 
-    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe g) {// on met les noeuds dans une priority queue
 
+        ArrayList<Vec2> chemin = new ArrayList<>();
+        ArrayList<Noeud> closedlist = new ArrayList<>();
 
-        ArrayList<Vec2> chemin = new ArrayList();
-        ArrayList<Noeud> closedlist = new ArrayList();
+        //on stocke dedans les noeuds qu'on rencontre, comparaNoeud est l'heuristique
+        PriorityQueue<Noeud> pq = new PriorityQueue(g.getlNoeuds().size(), new ComparaNoeud());
 
-
-        PriorityQueue<Noeud> pq = new PriorityQueue(g.getNoeudsurtable(), new ComparaNoeud());
-        //pq.add(depart);
         depart.noeudPrecedent = null;
         closedlist.add(depart);
         depart.distheuristique(arrivee);
@@ -136,44 +143,42 @@ import java.util.PriorityQueue;
 
 
         do {
-            if (noeudCourant.getIndice() == -1) {
-                noeudCourant.sommedepart = 0;
-            }
-
-            for (int i = 0 ; i < noeudCourant.lArretes.size() ; i++)
+            if(noeudCourant==null)
             {
-                noeudCourant.lArretes.get(i).arrivee.distheuristique(arrivee);
+                log.debug("noeudCourant est null");
+                return null;
+            }
+            for (int i = 0 ; i < noeudCourant.lArretes.size() ; i++) // on parcourt les arrêtes de noeudCourant
+            {
+                noeudCourant.lArretes.get(i).arrivee.distheuristique(arrivee);//on actualise la distance à l'arrivée
                 double b = noeudCourant.sommedepart + noeudCourant.lArretes.get(i).cout ;
-                    if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart>b  ) // la dernière partie fait existe dans openlist. si y a pas mieux dans Closed list non plus
+                    if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart>b  ) // On vérifie qu'il n'est pas dans la closedList ou que on a déjà trouvé mieux
                 {
 
+                    //on modifie la sommedepuis le départ et le noeud précédent, puis on ajoute a la priorityQueue
                     noeudCourant.lArretes.get(i).arrivee.sommedepart = b;
-                    noeudCourant.lArretes.get(i).arrivee.distheuristique(arrivee);
+
                     noeudCourant.lArretes.get(i).arrivee.noeudPrecedent = noeudCourant;
                     pq.add(noeudCourant.lArretes.get(i).arrivee);
+
 
                 }
 
             }
 
-            log.debug("pq size" + pq.size());
+
 
             if(pq.isEmpty()) break;
 
             noeudCourant = pq.poll();
 
-            if(noeudCourant == null)
-            {
-                log.debug("NULL NODE");
-            }
 
-
-            if (arrivee == noeudCourant) {
+            if (arrivee == noeudCourant) { // on reconstruit le chemin (limité à 100 au cas où il y a des boucles)
                 while (noeudCourant != null && chemin.size() < 100) {
                     chemin.add(0, noeudCourant.position);
                     noeudCourant = noeudCourant.noeudPrecedent;
                 }
-                for (Noeud a:g.getlNoeuds()) //on réinitialise les noeuds
+                for (Noeud a:g.getlNoeuds()) //on réinitialise les noeuds pour le suivant
                 {
 
                     a.sommedepart=100000000;
@@ -181,20 +186,22 @@ import java.util.PriorityQueue;
 
                 }
 
+                //on supprime les liens dans le sens retour liés au départ
                 for (int j=0; j<depart.lArretes.size();j++) {
                     int p=depart.lArretes.get(j).arrivee.lArretes.size();
                     for (int i = 0; i < p; i++) {
 
-                        if (depart.lArretes.get(j).arrivee!=depart &&  depart.lArretes.get(j).arrivee.lArretes.get(i).arrivee == depart) {
+                        if (depart.lArretes.get(j).arrivee!=depart &&  depart.lArretes.get(j).arrivee.lArretes.get(i).arrivee == depart) { // Il peut arriver que le noeud créer un lien vers lui même, on vérifie donc que ce n'est pas le cas
                             depart.lArretes.get(j).arrivee.lArretes.remove(depart.lArretes.get(j).arrivee.lArretes.get(i));
                             i--;
                             p--;
 
                         }
 
-                        //p=depart.lArretes.get(j).arrivee.lArretes.size();
+
                     }
                 }
+                //on supprime les liens dans le sens retour liés à l'arrivée
                 for (int j=0; j<arrivee.lArretes.size();j++) {
                     int p=arrivee.lArretes.get(j).arrivee.lArretes.size();
                     for (int i = 0; i < p; i++) {
@@ -205,10 +212,11 @@ import java.util.PriorityQueue;
                             p--;
 
                         }
-//                        p=arrivee.lArretes.get(j).arrivee.lArretes.size();
+
                     }
                 }
 
+                //On détache le noeud de départ et d'arrivée
                 g.getlNoeuds().remove(depart);
                 g.getlNoeuds().remove(arrivee);
                 return chemin;
@@ -218,46 +226,17 @@ import java.util.PriorityQueue;
             closedlist.add(noeudCourant);
 
 
-        } while (noeudCourant != arrivee && !pq.isEmpty());
+        } while (!pq.isEmpty());
 
 
 
         log.debug("No path found");
-        return new ArrayList();
-    }
-
-
-
-    /**
-     *
-     * @param position la position du robot
-     * @param detecte l'obstacle détecté
-     * @param chemin la liste des Noeuds que le robot était censé suivre
-     * @param indice l'indice de la liste précédente
-     * @return la liste des noeuds intermédiaires pour éviter l'obstacle
-     */
-    public ArrayList<Vec2> actGraphe(Vec2 position, ObstacleCircular detecte, ArrayList<Noeud> chemin, int indice)
-    {
-        //on veut une copie de ini et de fin
-        Noeud ini=new Noeud(chemin.get(indice));
-        Noeud fin=new Noeud(chemin.get(indice+1));
-
-        ini.position=position;
-        // on supprime les liens inutiles et actualise les valeurs on rajoute les noeuds de l'obstacles, on relie
-
-        ini.lArretes.add(new Arrete(ini,fin));
-        // on crée un nouveau graphe, en recopiant les arêtes du noeud précédent, actualisant les valeurs
-        Graphe sousg=new Graphe(this.log,this.config,this.table);
-
-        sousg.initGraphe(position,detecte,ini,fin);
-        return this.Astarfoulah(ini,fin,sousg);
-
-
+        return new ArrayList<Vec2>();
     }
 
     @Override
     public void updateConfig()
     {
-        //TODO charger la config
+
     }
 }

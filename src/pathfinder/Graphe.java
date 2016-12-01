@@ -37,7 +37,6 @@ public class Graphe {
     private  Table table;
     private Config config;
     private  Log log;
-    private int noeudsurtable;
 
     private ArrayList<Noeud> lNoeuds;
     private int n=8;
@@ -55,13 +54,6 @@ public class Graphe {
         return ecart;
     }
 
-    public void setNoeudsurtable(int noeudsurtable) {
-        this.noeudsurtable = noeudsurtable;
-    }
-
-    public int getNoeudsurtable() {
-        return noeudsurtable;
-    }
 
     public ArrayList<Noeud> getlNoeuds() {
         return lNoeuds;
@@ -70,38 +62,18 @@ public class Graphe {
 
 
 
-
-    /**
-     *
-     * @param t1 Le noeud dans lequel t2 se trouve potentiellement
-     * @param t2 Le noeud à chercher
-     * @return L'Arrete qui relie t1 et t2
-     */
-    public Arrete Nazareth(Noeud t1, Noeud t2)
-    {
-       for (Arrete x :t1.lArretes)
-       {
-           if(x.arrivee.equals(t2))
-           {
-               return x;
-           }
-       }
-
-        return null;
-    }
-
     /**
      * Constructeur standard du graphe
-     * @param log
-     * @param config
-     * @param table
+     * @param log log
+     * @param config config
+     * @param table table
      */
     public Graphe(Log log, Config config, Table table)
 {
     this.log=log;
     this.config=config;
     this.table=table;
-    this.noeudsurtable=0;
+
 
     this.lNoeuds=new ArrayList<Noeud>();
     initGraphe();
@@ -126,7 +98,7 @@ public class Graphe {
             x.fabriqueNoeud(this, this.ecart);
         }
         int j=0;
-        boolean creer=true;
+
         for (Noeud noeud1: this.getlNoeuds())
         {
             for (int i=0;i<this.getlNoeuds().size();i++)
@@ -138,9 +110,9 @@ public class Graphe {
                         log.debug("null except");
                     }
                     else {
-                        //the double while
 
-                        creer=true;
+
+                        boolean creer=true;
                         j=0;
                         int nombobst= a.getFixedObstacles().size();
                         int nombobstRec=a.getRectangles().size();
@@ -171,10 +143,7 @@ public class Graphe {
                             creer= creer && !Geometry.intersects(new Segment(noeud1.position,this.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(2).position,a.getRectangles().get(j).getlNoeud().get(3).position)) ;
                             creer= creer && !Geometry.intersects(new Segment(noeud1.position,this.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(2).position)) ;
                             creer= creer && !Geometry.intersects(new Segment(noeud1.position,this.getlNoeuds().get(i).position),new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(3).position)) ;
-                            if(!creer)
-                            {
 
-                            }
                             j++;
                         }
 
@@ -200,50 +169,6 @@ public class Graphe {
 
 
         }
-
-    /**
-     * Surcharge de l'initialiseur: construit un sous-graphe à partir de
-     * @param position du robot
-     * @param detecte l'obstacle détecté
-     * @param ini le noeud où était le robot avant la détection
-     * @param fin le noeud vers lequel se dirige le robot
-     */
-    public void initGraphe(Vec2 position,ObstacleCircular detecte, Noeud ini,Noeud fin)
-    {
-
-
-        for (Arrete x:ini.lArretes)
-        {
-            x.calcCout();
-        }
-        //on ajoute les noeuds dans le sous graphe
-        this.lNoeuds.add(ini);
-        this.lNoeuds.add(fin);
-
-        for (Noeud x : detecte.fabriqueNoeudRelie(this,this.n,this.ecart))// on fait les noeuds de l'obstacle, on les relie entre eux et on les relie
-        {
-            ini.attachelien(x);
-            x.attachelien(ini);
-        }
-        ini.update(detecte);// on supprime les liens que l'obstacle bouche
-        //on revoit nos indices pour des raisons cosmétiques pour l'instant
-        this.reorder();
-
-
-    }
-
-    /**
-     * réharmonise le nombre de noeud sur la table d'un graphe et leur indice
-     */
-    public void reorder()
-    {
-        for (int i=0;i<this.lNoeuds.size();i++)
-        {
-            this.lNoeuds.get(i).indice=i;
-            this.noeudsurtable=this.getlNoeuds().size();
-        }
-    }
-
 
 
 }

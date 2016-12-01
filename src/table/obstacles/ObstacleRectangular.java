@@ -259,33 +259,5 @@ public class ObstacleRectangular extends Obstacle
 		return this.lNoeud;
 	}
 
-	/**
-	 * Fabrique et relie les noeuds de obstacle deux obstacles entre eux via leur noeud le plus proche l'un de l'autre
-	 * @param obstacle Obstacle à relier
-	 * @param g graphe sur lequelon travaille
-	 * @param ecart ecart
-	 */
-	public void relieObstacle(ObstacleRectangular obstacle, Graphe g,int ecart)
-	{
-		int mindist=1000000000; //distance de l'obstacle à l'autre
-		ArrayList<Noeud> l1=this.fabriqueNoeudRelie(g,ecart);
-		ArrayList<Noeud> l2=obstacle.fabriqueNoeudRelie(g,ecart);
-		Noeud nmin1=null;
-		Noeud nmin2=null;
-		for (Noeud n2:l2) {
-			for (Noeud x : l1) {
-				int calc = x.position.minusNewVector(n2.position).squaredLength();
-				if (calc < mindist) {
-					mindist = calc;
-					nmin1 = x;
-					nmin2=n2;
 
-				}
-			}
-		}
-		nmin1.attachelien(nmin2);
-		nmin2.attachelien(nmin1);
-
-	}
-	
 }
