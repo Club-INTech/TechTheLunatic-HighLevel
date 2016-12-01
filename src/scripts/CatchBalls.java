@@ -111,7 +111,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, false);
 
                 // reculer
-                stateToConsider.robot.useActuator(ActuatorOrder.MOVE_BACKWARD, false);
+                stateToConsider.robot.moveLengthwise(-100);
 
 
 
