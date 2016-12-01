@@ -24,6 +24,7 @@ package scripts;
 import enums.ActuatorOrder;
 import enums.Speed;
 import exceptions.BadVersionException;
+import exceptions.BlockedActuatorException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
 import hook.Hook;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 
 /**
  * Script pour ramasser les balles dans un cratère avec la pelleteuse
+ *
  * Version 0: robot déjà placé, il ramasse juste les balles
  * Version 1: ramassage dans le cratère juste devant la zone de départ, avec pathfinding
  *
@@ -47,7 +49,8 @@ import java.util.ArrayList;
 public class CatchBalls extends AbstractScript {
 
 
-    public CatchBalls(HookFactory hookFactory, Config config, Log log) {
+    public CatchBalls(HookFactory hookFactory, Config config, Log log)
+    {
         super(hookFactory, config, log);
 
         versions = new Integer[]{0,1};
@@ -65,7 +68,7 @@ public class CatchBalls extends AbstractScript {
     // TODO : prendre en compte le cratère considéré (4 différents sur la table)
 
     @Override
-    public void execute(int versionToExecute, GameState stateToConsider, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException
+    public void execute(int versionToExecute, GameState stateToConsider, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException
     {
 
 
@@ -90,7 +93,7 @@ public class CatchBalls extends AbstractScript {
 
             if(versionToExecute ==1) {
 
-                //aller jusqu'au cratère considéré (740,540)
+                //aller jusqu'au cratère considéré (-720,1450)
 
                 //TODO
 
@@ -148,7 +151,7 @@ public class CatchBalls extends AbstractScript {
     }
 
     @Override
-    public void finalize(GameState state, Exception e)
+    public void finalize(GameState state, Exception e) throws UnableToMoveException
     {
         log.debug("Exception " + e + "dans CatchBalls : Lancement du Finalize !");
         state.robot.setBasicDetection(false);

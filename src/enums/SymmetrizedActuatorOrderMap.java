@@ -19,8 +19,6 @@
 
 package enums;
 
-import tests.container.A;
-
 import java.util.HashMap;
 import java.util.Map;
 
