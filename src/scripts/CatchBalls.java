@@ -22,6 +22,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
@@ -37,6 +38,8 @@ import java.util.ArrayList;
 
 /**
  * Script pour ramasser les balles dans un cratère avec la pelleteuse
+ * Version 0: robot déjà placé, il ramasse juste les balles
+ * Version 1: ramassage dans le cratère juste devant la zone de départ, avec pathfinding
  *
  * @author Gaelle, tic-tac
  */
@@ -47,7 +50,7 @@ public class CatchBalls extends AbstractScript {
     public CatchBalls(HookFactory hookFactory, Config config, Log log) {
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0};
+        versions = new Integer[]{0,1};
     }
 
 
@@ -59,7 +62,7 @@ public class CatchBalls extends AbstractScript {
      *
      */
 
-    // TODO : prendre en compte le cratère considéré (4 différents sur la table
+    // TODO : prendre en compte le cratère considéré (4 différents sur la table)
 
     @Override
     public void execute(int versionToExecute, GameState stateToConsider, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException
@@ -71,7 +74,7 @@ public class CatchBalls extends AbstractScript {
 
             if(versionToExecute == 0) {
 
-                //aller jusqu'au cratère considéré
+
 
                 //Preparer la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
@@ -82,6 +85,35 @@ public class CatchBalls extends AbstractScript {
 
                 //faire tourner la pelleteuse (jusqu'à ~150 ou 200°)
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, false);
+
+            }
+
+            if(versionToExecute ==1) {
+
+                //aller jusqu'au cratère considéré (740,540)
+
+                //TODO
+
+
+
+                //s'orienter face au cratère
+                stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                stateToConsider.robot.turn(0);
+
+                //Preparer la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
+                stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
+
+                //déployer la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, false);
+
+                //faire tourner la pelleteuse (jusqu'à ~150 ou 200°)
+                stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, false);
+
+                // reculer
+                stateToConsider.robot.useActuator(ActuatorOrder.MOVE_BACKWARD, false);
+
+
 
             }
         }
@@ -102,7 +134,7 @@ public class CatchBalls extends AbstractScript {
     @Override
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException
     {
-        if (version == 0)
+        if (version == 0 || version == 1 )
         {
             // modification possible selon l'envergure du robot new Vec2(1135,1600)
             return new Circle(robotPosition);
