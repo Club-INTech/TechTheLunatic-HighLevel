@@ -81,6 +81,13 @@ public enum ActuatorOrder
 	// Positions calle
 	LIVRE_CALLE("lca"),
 
+					//		2 POSITIONS DE L'ASCENCEUR-MODULES   //
+	// Position basse
+	BAISSE_ASC("bas"),
+
+	// Position haute
+	LEVE_ASC("las"),
+
 	STOP("stop");
 
 	/**

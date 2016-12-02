@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 /**
  * Script pour prendre les modules et les stocker
+ * Version 1 : Pour la fusé de la zone de départ
+ * Version 2 : Pour la fusé pret du cratere
  *
  * @author Rem
  */
@@ -44,26 +46,33 @@ public class CatchModule extends AbstractScript {
                 // Se placer devant une fusée dans la bonne position
                 actualState.robot.turn(Math.PI, hooksToConsider,true,false);
 
-                for (int i=0; i<4; i++){
+            }
 
-                    // Attrape le module
-                    actualState.robot.useActuator(ActuatorOrder.LIVRE_ATTRAPE_M, false);
+            else if(versionToExecute == 1){
 
-                    // Va en position intermédiaire pour laisser passer le bras de la calle
-                    actualState.robot.useActuator(ActuatorOrder.RETOUR_ATTRAPE_M, false);
+                actualState.robot.turn(3*Math.PI/2, hooksToConsider,true,false);
+            }
 
-                    // Calle le module dans le Stockage vertical
-                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
-                    actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_M,false);
-                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
+            for (int i=0; i<4; i++) {
 
-                    if (i!=3) {
+                // Attrape le module
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_ATTRAPE_M, false);
 
-                        // Monte la plaque
+                // Va en position intermédiaire pour laisser passer le bras de la calle
+                actualState.robot.useActuator(ActuatorOrder.RETOUR_ATTRAPE_M, false);
 
-                        // Baisse la plaque
+                // Calle le module dans le Stockage vertical
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
+                actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_M, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
 
-                    }
+                if (i != 3) {
+
+                    // Monte la plaque
+                    actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, false);
+
+                    // Baisse la plaque
+                    actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
 
                 }
             }
@@ -86,6 +95,12 @@ public class CatchModule extends AbstractScript {
 
             return new Circle(new Vec2(-350,1780));
         }
+
+        else if (version == 1){
+
+            return new Circle(new Vec2(-1280,650));
+        }
+
         else{
             log.debug("erreur : mauvaise version de script");
             throw new BadVersionException();
