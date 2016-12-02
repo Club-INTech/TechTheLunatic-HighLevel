@@ -94,13 +94,18 @@ import java.util.PriorityQueue;
 
             // on arrete les boucles si on voit que l'on ne doit créer ni un lien vers l'arrivée ni vers le début
             while ((creerdep||creerarr) && j<nombobst)  {
-                if(a.getFixedObstacles().get(j).isInObstacle(departV))
+                if(a.getFixedObstacles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
                 {
-                    creerdep=false;
+                    log.debug("depart dans obstacle");
+                    Vec2 w=a.getFixedObstacles().get(j).noeudProche(departV).position;
+                     ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV,g);
+                    aRenvoyer.add(0,w);
+                    return aRenvoyer;
                 }
                 if(a.getFixedObstacles().get(j).isInObstacle(arriveeV))
                 {
                     creerarr=false;
+                    log.debug("U  stupid or somethin'?");
                 }
                 if(a.getFixedObstacles().get(j).isInObstacle(g.getlNoeuds().get(i).position))
                 {
@@ -114,12 +119,17 @@ import java.util.PriorityQueue;
                      }
             j=0;
             while ((creerdep||creerarr) && j<nombobstRec)  {
-                if(a.getRectangles().get(j).isInObstacle(departV))
+                if(a.getRectangles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
                 {
-                    creerdep=false;
+                    log.debug("depart dans obstacle");
+                    Vec2 w=a.getRectangles().get(j).noeudProche(departV).position;
+                    ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV,g);
+                    aRenvoyer.add(0,w);
+                    return aRenvoyer;
                 }
                 if(a.getRectangles().get(j).isInObstacle(arriveeV))
                 {
+                    log.debug("U  stupid or somethin'?");
                     creerarr=false;
                 }
                 if(a.getRectangles().get(j).isInObstacle(g.getlNoeuds().get(i).position))

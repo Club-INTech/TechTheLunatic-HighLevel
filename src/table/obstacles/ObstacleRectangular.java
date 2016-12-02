@@ -259,5 +259,27 @@ public class ObstacleRectangular extends Obstacle
 		return this.lNoeud;
 	}
 
+	/**
+	 * renvoie le noeud le plus proche de pointInCentre
+	 * @param pointInCentre le point
+	 * @return le noeud
+	 */
+	public Noeud noeudProche(Vec2 pointInCentre)
+	{
+		float distmin=Integer.MAX_VALUE;
+		Noeud noeudMin=null;
+		for (Noeud x:this.lNoeud)
+		{
+			float a=pointInCentre.distance(x.position);
+			if (a<distmin)
+			{
+				distmin=a;
+				noeudMin=x;
+			}
+		}
+
+		return noeudMin;
+	}
+
 
 }

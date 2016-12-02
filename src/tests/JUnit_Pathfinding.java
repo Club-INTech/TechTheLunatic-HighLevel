@@ -26,6 +26,7 @@ import pathfinder.Graphe;
 import pathfinder.Noeud;
 import pathfinder.Pathfinding;
 import scripts.ScriptManager;
+import smartMath.Circle;
 import smartMath.Geometry;
 import smartMath.Vec2;
 import strategie.GameState;
@@ -82,7 +83,11 @@ public class JUnit_Pathfinding extends JUnit_Test{
 
     }
 
-
+public void horscercle()
+{
+    Vec2 p=Geometry.pointExterieur(new Vec2(50,100),new Circle(new Vec2(100,100),100));
+    log.debug(p);
+}
 
     public void clip()
     {

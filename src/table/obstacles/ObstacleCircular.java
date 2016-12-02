@@ -37,6 +37,7 @@ public class ObstacleCircular extends Obstacle
 	
 	/** rayon en mm de cet obstacle */
 	protected int radius=0;
+	private ArrayList<Noeud> lNoeud;
 	
 	/**
 	 * crée un nouvel obstacle de forme circulaire a la position et a la taille spécifiée.
@@ -49,6 +50,7 @@ public class ObstacleCircular extends Obstacle
 		super(position);
 		this.radius = radius;
 	}
+
 	
 	/* (non-Javadoc)
 	 * @see table.obstacles.Obstacle#clone()
@@ -80,6 +82,28 @@ public class ObstacleCircular extends Obstacle
 	{
 		other.position = position;
 		other.radius = radius;
+	}
+
+	/**
+	 * Peut faire null pointer exception si on vérifie pas que la liste des noeuds n'est pas vide
+	 * @param pointInCentre
+	 * @return
+	 */
+	public Noeud noeudProche(Vec2 pointInCentre)
+	{
+		float distmin=Integer.MAX_VALUE;
+		Noeud noeudMin=null;
+		for (Noeud x:this.lNoeud)
+		{
+			float a=pointInCentre.distance(x.position);
+			if (a<distmin)
+			{
+				distmin=a;
+				noeudMin=x;
+			}
+		}
+
+		return noeudMin;
 	}
 
 	/**
@@ -146,6 +170,8 @@ public class ObstacleCircular extends Obstacle
 				graphe.getlNoeuds().add(noeudact);
 			}
 		}
+		this.lNoeud=myList;
+
 		return myList;
 	}
 

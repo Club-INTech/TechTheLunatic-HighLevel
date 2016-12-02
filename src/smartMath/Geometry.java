@@ -19,8 +19,6 @@
 
 package smartMath;
 
-import table.obstacles.ObstacleRectangular;
-
 /**
  * classe de calculs de géométrie
  * @author Etienne
@@ -231,9 +229,50 @@ public class Geometry
 			&& ((double)segment.getB().x - (double)segment.getA().x)*((double)circle.center.x - (double)segment.getA().x) + ((double)segment.getB().y - (double)segment.getA().y)*((double)circle.center.y - (double)segment.getA().y) >= 0
 			&& ((double)segment.getA().x - (double)segment.getB().x)*((double)circle.center.x - (double)segment.getB().x) + ((double)segment.getA().y - (double)segment.getB().y)*((double)circle.center.y - (double)segment.getB().y) >= 0;
 	}
-	
-	
-	
+
+	/**
+	 * Retourne le point a l'extérieur du cercle en continuant la ligne droite depuis le centre du cercle
+	 * @param pointDansCercle le point dans le cercle (attention cela n'est pas vérifié)
+	 * @param circle le cercle
+	 * @return la nouvelle position du point
+	 */
+	public static Vec2 pointExterieurv1(Vec2 pointDansCercle, Circle circle)
+	{
+		if(pointDansCercle.x>circle.center.x)
+		{
+			double x2=circle.radius/Math.sqrt(1+(circle.center.x-pointDansCercle.x)/(circle.center.y-pointDansCercle.y)*(circle.center.x-pointDansCercle.x)/(circle.center.y-pointDansCercle.y));
+			Vec2 aAjouter=new Vec2((int)x2,(int)x2*(circle.center.y-pointDansCercle.y)/(circle.center.x-pointDansCercle.x));
+			return circle.getCenter().plusNewVector(aAjouter);
+		}
+		else if(pointDansCercle.x<circle.center.x)
+		{
+
+			double x2=circle.radius/Math.sqrt(1+(circle.center.x-pointDansCercle.x)/(circle.center.y-pointDansCercle.y)*(circle.center.x-pointDansCercle.x)/(circle.center.y-pointDansCercle.y));
+			Vec2 aAjouter=new Vec2((int)x2,(int)x2*(circle.center.y-pointDansCercle.y)/(circle.center.x-pointDansCercle.x));
+			return circle.getCenter().minusNewVector(aAjouter);
+		}
+	 else
+		{
+			return circle.getCenter().plusNewVector(new Vec2(0,(int)circle.radius));
+		}
+	}
+	/**
+	 * Retourne le point a l'extérieur du cercle en continuant la ligne droite depuis le centre du cercle
+	 * @param pointDansCercle le point dans le cercle
+	 * @param circle le cercle
+	 * @return la nouvelle position du point
+	 */
+	public static Vec2 pointExterieur(Vec2 pointDansCercle, Circle circle) {
+		if (!circle.containCircle(pointDansCercle))
+		{
+			return(pointDansCercle);
+		}
+
+
+
+	return circle.center.plusNewVector(new Vec2((int) (circle.radius*(pointDansCercle.x-circle.center.x)/pointDansCercle.distance(circle.center)),(int) (circle.radius*(pointDansCercle.y-circle.center.y)/pointDansCercle.distance(circle.center))));
+	}
+
 	/**
 	 * 
 	 * @param segment1
