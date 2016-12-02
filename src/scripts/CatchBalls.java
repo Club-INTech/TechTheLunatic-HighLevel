@@ -37,6 +37,8 @@ import utils.Log;
 
 import java.util.ArrayList;
 
+//TODO: cf le todo du haut de Putballs
+
 /**
  * Script pour ramasser les balles dans un cratère avec la pelleteuse
  *
@@ -98,7 +100,7 @@ public class CatchBalls extends AbstractScript {
                 //s'orienter face au cratère
                 stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 stateToConsider.robot.turn(0);
-
+                    //TODO : le robot devrait avancer un peu pour se caler sur la zone de départ, pour prendre en compte sa taille dans le déplacement le menant là
                 //Preparer la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
                 stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
@@ -110,7 +112,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, false);
 
                 // reculer
-                stateToConsider.robot.moveLengthwise(-100);
+                stateToConsider.robot.moveLengthwise(-100); //TODO:distance?
 
 
 

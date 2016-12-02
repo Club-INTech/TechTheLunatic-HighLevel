@@ -16,6 +16,9 @@ import utils.Log;
 
 import java.util.ArrayList;
 
+//TODO:la version 0 va être une version de test du proto sans base roulante, la 1 une version avec base roulante
+//TODO: en supposant que le robot est placé à un point près de la zone de livraison(à quelques centimètres, donc doit tourner et avancer un peu)
+
 /** Script permettant de livrer les boules déjà prises, dans la zone de départ ou sur le robot secondaire
  *
  * Version 0: suppose que le robot est déjà placé, en attendant un pathfinding !
@@ -46,28 +49,17 @@ public class PutBalls extends AbstractScript
         try{
             if (versionToExecute==0)
             {
-
-                //éventuellement, s'oriente vers la zone de livraison
-                //actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                //actualState.robot.turn(-Math.PI/2);             //TODO: bon angle?
-
-                //Se caler contre la zone de livraison
-
-
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, false);
 
                 //rotation de la pelle jusqu'à la position de livraison
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, false);
 
-                //éventuellement, attendre le temps que les boules tombent (en millisecondes)
-                     //actualstate.robot.sleep(1000);
+                //éventuellement, attendre le temps que les boules tombent (en millisecondes) en fonction des tests
+                     //actualstate.robot.sleep(1000); TODO:plutot utiliser le waitforcompletion
 
                 //lever les bras jusqu'à la position intermédiaire
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-
-                //Reculer un peu
-                actualState.robot.moveLengthwise(-150);  //TODO: distance ?
 
                 //tourner la pelle jusqu'à la position initiale
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
@@ -81,8 +73,11 @@ public class PutBalls extends AbstractScript
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 //TODO:Quelle position pour le robot secondaire?
 
-                //Se caler contre la zone de livraison
+                //orientation
+                actualState.robot.turn(-Math.PI);
 
+                //Se caler contre la zone de livraison
+                //TODO:mesures par rapport à envergure du robot pour déterminer la position d'entrée et distance à avancer
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, false);
@@ -97,7 +92,7 @@ public class PutBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
                 //Reculer un peu
-                actualState.robot.moveLengthwise(-150);  //TODO: distance ?
+                actualState.robot.moveLengthwise(-150);  //TODO: distance ? la longueur des bras avec pelle dépliée?
 
                 //tourner la pelle jusqu'à la position initiale
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
@@ -105,12 +100,11 @@ public class PutBalls extends AbstractScript
                 //monter les bras le plus haut \o/
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
-
             }
         }
         catch(Exception e)
         {
-            log.critical("Robot ou actionneur bloqué dans la version 0 de PutBalls");
+            log.critical("Robot ou actionneur bloqué dans PutBalls"); //TODO: faire exceptions pour mouvements ET actionneurs séparémment
             finalize(actualState, e);
         }
     }
@@ -118,6 +112,10 @@ public class PutBalls extends AbstractScript
     @Override
     public int remainingScoreOfVersion(int version, GameState state)
     {
+
+        //TODO: si on considère que l'action est complètement successfull, on a 5 boules au moins(pour une version
+        //TODO:utilisée dans un petit cratère, donc 5*3=15 points obtenus par cette action
+
         int score = 0;
         return score;
     }

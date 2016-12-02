@@ -42,7 +42,9 @@ public enum ActuatorOrder
 	
 	// TODO : rajouter les actionneurs (AX-12, moteurs...)
 
-	//		3 POSITIONS DES BRAS DE LA PELLETEUSE 		 //
+	// TODO : Ajouter des durées pour les actions qui prennent du temps(selon les tests qu'on fera)
+
+					//		3 POSITIONS DES BRAS DE LA PELLETEUSE 		 //
 	// Rangement de la pelleteuse
 	REPLIER_PELLETEUSE("bpr"),
 
@@ -52,7 +54,7 @@ public enum ActuatorOrder
 	// Position intermédiaire de la pelleteuse, pour rotations de la pelle
 	MED_PELLETEUSE("bpi"),
 
-	//		3 POSITIONS DE LA PELLE		  //
+					//		3 POSITIONS DE LA PELLE		  //
 	// Position avant prise de boules
 	PRET_PELLE("ppd"),
 
@@ -62,7 +64,7 @@ public enum ActuatorOrder
 	//Position de livraison de boules de la pelle
 	LIVRE_PELLE("ppf"),
 
-	//		3 POSITIONS DES ATTRAPE-MODULES		//
+					//		3 POSITIONS DES ATTRAPE-MODULES		//
 	// Position repliée
 	PRET_ATTRAPE_M("pam"),
 
@@ -72,7 +74,7 @@ public enum ActuatorOrder
 	// Position Post-livraison
 	LIVRE_ATTRAPE_M("lam"),
 
-	//		2 POSITIONS DES CALLAGES-MODULES	//
+					//		2 POSITIONS DES CALLAGES-MODULES	//
 	// Positions repliée
 	REPLI_CALLE("rca"),
 
