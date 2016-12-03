@@ -20,7 +20,6 @@
 package pathfinder;
 
 import smartMath.Vec2;
-import table.obstacles.ObstacleCircular;
 
 import java.util.ArrayList;
 
@@ -87,7 +86,7 @@ public class Noeud
      */
     public Arrete attachelien(Noeud autre)
     {
-       Arrete b=new Arrete(this,autre);
+        Arrete b=new Arrete(this,autre);
         b.calcCout();
         this.lArretes.add(b);
         return b;
