@@ -33,6 +33,7 @@ public class ComparaNoeud implements Comparator<Noeud> {
      * @param t1 le second noeud
      * @return la soustraction des deux comprenant la distance  l'arrivée
      */
+
     @Override
     public int compare(Noeud noeud, Noeud t1) {
         return (int)(noeud.sommedepart+noeud.distarrivee - t1.sommedepart-t1.distarrivee);

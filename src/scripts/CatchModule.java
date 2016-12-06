@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 /**
  * Script pour prendre les modules et les stocker
+ * Version 1 : Pour la fusé de la zone de départ
+ * Version 2 : Pour la fusé pret du cratere
  *
  * @author Rem
  */
@@ -41,29 +43,47 @@ public class CatchModule extends AbstractScript {
 
             if(versionToExecute == 0){
 
-                // Se placer devant une fusée dans la bonne position
-                actualState.robot.turn(Math.PI, hooksToConsider,true,false);
+                // Se place dans la bonne direction
+                actualState.robot.turn(0, hooksToConsider,false,false);
 
-                for (int i=0; i<4; i++){
+                // Avance pour arriver devant la fusé
+                actualState.robot.moveLengthwise(350, hooksToConsider);
 
-                    // Attrape le module
-                    actualState.robot.useActuator(ActuatorOrder.LIVRE_ATTRAPE_M, false);
+                // Déploie l'attrape-module
+                actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_M0, true);
 
-                    // Va en position intermédiaire pour laisser passer le bras de la calle
-                    actualState.robot.useActuator(ActuatorOrder.RETOUR_ATTRAPE_M, false);
+            }
 
-                    // Calle le module dans le Stockage vertical
-                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
-                    actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_M,false);
-                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
+            else if(versionToExecute == 1){
 
-                    if (i!=3) {
+                // Fait une manoeuvre pour arriver à la bonne position sans risque de toucher un obstacle
+                actualState.robot.turn(Math.acos(0.6)-Math.PI, hooksToConsider,true,false);
+                actualState.robot.moveLengthwise(250, hooksToConsider);
+                actualState.robot.turn(Math.PI/2, hooksToConsider,false,false);
+                actualState.robot.moveLengthwise(250, hooksToConsider);
 
-                        // Monte la plaque
+            }
 
-                        // Baisse la plaque
+            for (int i=0; i<4; i++) {
 
-                    }
+                // Attrape le module
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_M, true);
+
+                // Va en position intermédiaire pour laisser passer le bras de la calle
+                actualState.robot.useActuator(ActuatorOrder.INTER_ATTRAPE_M, true);
+
+                // Calle le module dans le Stockage vertical
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
+                actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_M1, true);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
+
+                if (i != 3) {
+
+                    // Monte la plaque
+                    actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+
+                    // Baisse la plaque
+                    actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
 
                 }
             }
@@ -84,8 +104,14 @@ public class CatchModule extends AbstractScript {
 
         if (version == 0){
 
-            return new Circle(new Vec2(-350,1780));
+            return new Circle(new Vec2(0,1774));
         }
+
+        else if (version == 1){
+
+            return new Circle(new Vec2(-1074,650));
+        }
+
         else{
             log.debug("erreur : mauvaise version de script");
             throw new BadVersionException();
