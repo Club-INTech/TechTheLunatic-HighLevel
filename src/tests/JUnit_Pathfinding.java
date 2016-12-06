@@ -64,29 +64,12 @@ public class JUnit_Pathfinding extends JUnit_Test{
     }
 
 
-   // @Test
-    public void iniTable() throws Exception
-    {
 
-        log.debug("JUnit_Pathfinding.iniTable()");
-        Table T = container.getService(Table.class);
-        //La position de depart est mise dans le updateConfig()
-
-
-        Pathfinding pf=new Pathfinding(log,config,T);
-
-        Graphe graphe= new Graphe(log,config,T);
-
-        ArrayList<Vec2> aff= pf.Astarfoulah(graphe.getlNoeuds().get(1),graphe.getlNoeuds().get(20),graphe);
-        log.debug(aff);
-
-
-    }
-
+@Test
 public void horscercle()
 {
-    Vec2 p=Geometry.pointExterieur(new Vec2(50,100),new Circle(new Vec2(100,100),100));
-    log.debug(p);
+    log.debug(Geometry.pointProche(new Vec2(-200,-200),new Circle(new Vec2(0,0),100)));
+
 }
 
     public void clip()
@@ -103,13 +86,13 @@ public void horscercle()
         boolean pyu=Geometry.CohenSutherlandLineClipAndDraw(new Vec2(-10,100),new Vec2(100,210),new Vec2(0,200),new Vec2(200,0));
         int x=5;
     }
-    @Test
+
     public void testClickedPF() throws Exception
     {
         Table T = container.getService(Table.class);
-        Pathfinding pf=new Pathfinding(log,config,T);
+        Pathfinding pf=container.getService(Pathfinding.class);
 
-        Graphe graphe= new Graphe(log,config,T);
+        Graphe graphe= pf.getGraphe();
          ArrayList<Vec2> graph = new ArrayList<>();
 
         for(Noeud n : graphe.getlNoeuds())
@@ -136,7 +119,7 @@ public void horscercle()
                     if (!dep.isNull() && !arr.isNull())  {
                         log.debug(win.getMouse().getLeftClickPosition() + "" + win.getMouse().getRightClickPosition());
                         long start = System.currentTimeMillis();
-                        ArrayList<Vec2> p = pf.Astarfoulah(dep, arr, graphe);
+                        ArrayList<Vec2> p = pf.Astarfoulah(dep, arr);
                         win.getPanel().drawArrayList(p);
                         long end = System.currentTimeMillis();
                         System.out.println("time elapsed : " + (end - start));

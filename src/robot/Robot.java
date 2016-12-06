@@ -25,7 +25,9 @@ import exceptions.ConfigPropertyNotFoundException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
+import pathfinder.Pathfinding;
 import smartMath.Circle;
+import smartMath.Geometry;
 import smartMath.Vec2;
 import table.Table;
 import utils.Config;
@@ -55,6 +57,8 @@ public class Robot implements Service
 
 	/**la position du robot*/
 	protected Vec2 position;
+
+	protected Pathfinding pathfinding;
 
 	/** l'orientation du robot*/
 	protected double orientation;
@@ -91,10 +95,12 @@ public class Robot implements Service
 	 * @param log fichier de log
 	 * @param serialWrapper protocole communication série
 	 */
-	private Robot(Locomotion deplacements, Config config, Log log, SerialWrapper serialWrapper)
+	private Robot(Locomotion deplacements, Config config, Log log, SerialWrapper serialWrapper,Pathfinding pathfinding)
  	{
+
 		this.config = config;
 		this.log = log;
+		this.pathfinding=pathfinding;
 		this.serialWrapper = serialWrapper;
 		this.mLocomotion = deplacements;
 		updateConfig();
@@ -350,16 +356,18 @@ public class Robot implements Service
     }
 
     /**
-     * deplace le robot vers le point du cercle donnné le plus proche, en evitant les obstacles. (appel du pathfinding)
+     * deplace le robot vers le point du cercle donnné le plus proche, en évitant les obstacles. (appel du pathfinding)
      * methode bloquante : l'execution ne se termine que lorsque le robot est arrive
      * @param aim le cercle ou l'on veut se rendre
      * @param hooksToConsider the hooks to consider
-     * @param table la table sur laquell on est sensé se déplacer
-     * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
+     * @param table la table sur laquelle on est sensé se déplacer
+     * @throws UnableToMoveException lorsque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
      */
     public void moveToCircle(Circle aim, ArrayList<Hook> hooksToConsider, Table table) throws UnableToMoveException
     {
-        // TODO : à coder après la création du PathFinding
+		Vec2 aimPosition= Geometry.pointProche(this.position,aim);
+		this.pathfinding.Astarfoulah(this.getPosition(),aimPosition);
+
     }
 
 	/**

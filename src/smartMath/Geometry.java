@@ -229,7 +229,16 @@ public class Geometry
 			&& ((double)segment.getB().x - (double)segment.getA().x)*((double)circle.center.x - (double)segment.getA().x) + ((double)segment.getB().y - (double)segment.getA().y)*((double)circle.center.y - (double)segment.getA().y) >= 0
 			&& ((double)segment.getA().x - (double)segment.getB().x)*((double)circle.center.x - (double)segment.getB().x) + ((double)segment.getA().y - (double)segment.getB().y)*((double)circle.center.y - (double)segment.getB().y) >= 0;
 	}
+	public static Vec2 pointProche(Vec2 pointHorsCercle, Circle circle) {
+		if (circle.containCircle(pointHorsCercle))
+		{
+			return(pointHorsCercle);
+		}
 
+
+
+		return pointHorsCercle.minusNewVector(new Vec2((int) ((pointHorsCercle.distance(circle.center)-circle.radius)*(pointHorsCercle.x-circle.center.x)/pointHorsCercle.distance(circle.center)),(int) ((pointHorsCercle.distance(circle.center)-circle.radius)*(pointHorsCercle.y-circle.center.y)/pointHorsCercle.distance(circle.center))));
+	}
 	/**
 	 * Retourne le point a l'extérieur du cercle en continuant la ligne droite depuis le centre du cercle
 	 * @param pointDansCercle le point dans le cercle (attention cela n'est pas vérifié)
@@ -262,6 +271,8 @@ public class Geometry
 	 * @param circle le cercle
 	 * @return la nouvelle position du point
 	 */
+
+
 	public static Vec2 pointExterieur(Vec2 pointDansCercle, Circle circle) {
 		if (!circle.containCircle(pointDansCercle))
 		{
