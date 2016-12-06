@@ -57,10 +57,9 @@ public class CatchModule extends AbstractScript {
             else if(versionToExecute == 1){
 
                 // Fait une manoeuvre pour arriver à la bonne position sans risque de toucher un obstacle
-                actualState.robot.turn(Math.acos(0.6)-Math.PI, hooksToConsider,true,false);
+                actualState.robot.turn(Math.PI/2-Math.acos(0.8), hooksToConsider,true,false);
                 actualState.robot.moveLengthwise(250, hooksToConsider);
                 actualState.robot.turn(Math.PI/2, hooksToConsider,false,false);
-                actualState.robot.moveLengthwise(250, hooksToConsider);
 
             }
 
@@ -109,7 +108,7 @@ public class CatchModule extends AbstractScript {
 
         else if (version == 1){
 
-            return new Circle(new Vec2(-1074,650));
+            return new Circle(new Vec2(-1124,850));
         }
 
         else{
