@@ -25,7 +25,6 @@ import smartMath.Geometry;
 import smartMath.Segment;
 import smartMath.Vec2;
 import table.Table;
-import table.obstacles.ObstacleCircular;
 import table.obstacles.ObstacleManager;
 import utils.Config;
 import utils.Log;
