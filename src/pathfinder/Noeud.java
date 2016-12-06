@@ -65,7 +65,7 @@ public class Noeud
     }
 
     /**
-     * Ctor de copy
+     * Constructeur de copy
      * @param n1 noeud à copier
      */
     public Noeud (Noeud n1)
@@ -80,7 +80,7 @@ public class Noeud
     }
 
     /**
-     * Crée l'arête entre this et le noeud fourni dans un seul sens
+     * Créée l'arête entre this et le noeud fourni dans un seul sens
 
      * @param autre Noeud destination
      */
