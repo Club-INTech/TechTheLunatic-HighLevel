@@ -24,7 +24,7 @@ import table.obstacles.ObstacleCircular;
 
 import java.util.ArrayList;
 
-// TODO la liste potentielle des scripts à lancer.
+
 public class Noeud
 {
 

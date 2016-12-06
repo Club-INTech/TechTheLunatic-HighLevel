@@ -42,10 +42,11 @@ import java.util.PriorityQueue;
     private Config config;
     private Log log;
 
-    public Pathfinding(Log log, Config config, Table table) {
+    private Pathfinding(Log log, Config config, Table table) {
         this.log = log;
         this.config = config;
         this.table = table;
+        this.graphe=new Graphe(log,config,table);
 
     }
 
@@ -61,11 +62,10 @@ import java.util.PriorityQueue;
      * L'algorithme créer deux noeuds sur l'arrivée et le début, relie a tous les points accessibles, et lance Astarfoullah
      * @param departV la position de début du pathfinding
      * @param arriveeV la position d'arrivée
-     * @param g le graphe sur lequel on travaille
-     * @return une arrayliste des positions intermédiaires
+      * @return une arrayliste des positions intermédiaires
      */
-    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV, Graphe g) {
-
+    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV) {
+       Graphe g=this.graphe;
         //on crée les noeuds et on récupère les obstacles
         Noeud depart = new Noeud(g, departV);
         g.getlNoeuds().add(depart);
@@ -98,7 +98,7 @@ import java.util.PriorityQueue;
                 {
                     log.debug("depart dans obstacle");
                     Vec2 w=a.getFixedObstacles().get(j).noeudProche(departV).position;
-                     ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV,g);
+                     ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV);
                     aRenvoyer.add(0,w);
                     return aRenvoyer;
                 }
@@ -123,7 +123,7 @@ import java.util.PriorityQueue;
                 {
                     log.debug("depart dans obstacle");
                     Vec2 w=a.getRectangles().get(j).noeudProche(departV).position;
-                    ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV,g);
+                    ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV);
                     aRenvoyer.add(0,w);
                     return aRenvoyer;
                 }
