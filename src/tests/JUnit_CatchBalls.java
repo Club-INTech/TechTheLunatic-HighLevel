@@ -1,9 +1,11 @@
-package tests
+package tests;
 
 import enums.Speed;
-import enums.ScriptNames
+import enums.ScriptNames;
 import hook.Hook;
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
