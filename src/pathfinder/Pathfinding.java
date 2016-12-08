@@ -20,6 +20,7 @@
 package pathfinder;
 
 import container.Service;
+import exceptions.Locomotion.PointInObstacleException;
 import smartMath.Circle;
 import smartMath.Geometry;
 import smartMath.Segment;
@@ -63,7 +64,7 @@ import java.util.PriorityQueue;
      * @param arriveeV la position d'arrivée
       * @return une arrayliste des positions intermédiaires
      */
-    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV) {
+    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV) throws PointInObstacleException {
        Graphe g=this.graphe;
         //on crée les noeuds et on récupère les obstacles
         Noeud depart = new Noeud(g, departV);
@@ -105,6 +106,7 @@ import java.util.PriorityQueue;
                 {
                     creerarr=false;
                     log.debug("U  stupid or somethin'?");
+                    throw new PointInObstacleException(arriveeV);
                 }
                 if(a.getFixedObstacles().get(j).isInObstacle(g.getlNoeuds().get(i).position))
                 {
@@ -175,7 +177,7 @@ import java.util.PriorityQueue;
      * @param g graphe
      * @return Liste de vec2 des points de passage
      */
-    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe g) {
+    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe g) throws PointInObstacleException{
 
 
         ArrayList<Vec2> chemin = new ArrayList<>();

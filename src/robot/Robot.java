@@ -22,6 +22,7 @@ package robot;
 import container.Service;
 import enums.*;
 import exceptions.ConfigPropertyNotFoundException;
+import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
@@ -348,7 +349,7 @@ public class Robot implements Service
      * @param table la table sur laquelle le robot se deplace
      * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
      */
-    public void moveToLocation(Vec2 aim, ArrayList<Hook> hooksToConsider, Table table) throws  UnableToMoveException
+    public void moveToLocation(Vec2 aim, ArrayList<Hook> hooksToConsider, Table table) throws  UnableToMoveException,PointInObstacleException
     {
         log.debug("appel de Robot.moveToLocation(" + aim + "," + hooksToConsider + "," + table + ")");
         //On crée bêtement un cercle de rayon nul pour lancer moveToCircle, sachant que la position de ce cercle est extraite pour le pathDiniDing (et après on dit qu'à INTech on code comme des porcs...)
@@ -363,10 +364,10 @@ public class Robot implements Service
      * @param table la table sur laquelle on est sensé se déplacer
      * @throws UnableToMoveException lorsque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
      */
-    public void moveToCircle(Circle aim, ArrayList<Hook> hooksToConsider, Table table) throws UnableToMoveException
-    {
+    public void moveToCircle(Circle aim, ArrayList<Hook> hooksToConsider, Table table) throws UnableToMoveException, PointInObstacleException {
 		Vec2 aimPosition= Geometry.pointProche(this.position,aim);
-		this.pathfinding.Astarfoulah(this.getPosition(),aimPosition);
+
+		this.followPath(this.pathfinding.Astarfoulah(this.getPosition(),aimPosition),hooksToConsider);
 
     }
 
