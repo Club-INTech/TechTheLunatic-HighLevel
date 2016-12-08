@@ -96,8 +96,8 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 Vec2 posCratere= new Vec2(-850,1460);   //Centre du cratère
                 Vec2 posRobot=stateToConsider.robot.getPosition();           //Position du robot
-                double angle = Math.acos(posRobot.x-posCratere.x/(posRobot.distance(posCratere))); //angle absolu du vecteur (robot,centre_cratère)
-                stateToConsider.robot.turn(-angle); //rotation vers le cratère
+                double angle = Math.atan2(posCratere.x-posRobot.x, posCratere.y-posRobot.y);  //angle du vecteur (robot,centre_cratère) par rapp axe Ox
+                stateToConsider.robot.turn(Math.PI-angle); //rotation vers le cratère
 
                     //TODO : le robot devrait avancer un peu pour se caler sur la zone de départ, pour prendre en compte sa taille dans le déplacement le menant là
 
