@@ -26,7 +26,7 @@ import java.util.ArrayList;
  *
  * @author tic-tac
  */
-public class PutBalls extends AbstractScript
+public class DropBalls extends AbstractScript
 {
     /**
      * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -36,7 +36,7 @@ public class PutBalls extends AbstractScript
      * @param config      le fichier de config a partir duquel le script pourra se configurer
      * @param log         le système de log qu'utilisera le script
      */
-    protected PutBalls(HookFactory hookFactory, Config config, Log log)
+    protected DropBalls(HookFactory hookFactory, Config config, Log log)
     {
         super(hookFactory, config, log);
 
