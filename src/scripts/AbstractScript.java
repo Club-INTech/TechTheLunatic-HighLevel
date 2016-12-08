@@ -23,6 +23,7 @@ import container.Service;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ExecuteException;
+import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
@@ -78,8 +79,7 @@ public abstract class AbstractScript implements Service
 	 * @throws SerialConnexionException s'il y a un problème de communication avec une des cartes électroniques
 	 * @throws ExecuteException
 	 */
-	public void goToThenExec(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws UnableToMoveException, BadVersionException, SerialConnexionException, ExecuteException, BlockedActuatorException
-	{
+	public void goToThenExec(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws UnableToMoveException, BadVersionException, SerialConnexionException, ExecuteException, BlockedActuatorException, PointInObstacleException {
 		// va jusqu'au point d'entrée de la version demandée
 		log.debug("Lancement de " + this + " version " + versionToExecute);
 		try 
@@ -92,8 +92,8 @@ public abstract class AbstractScript implements Service
 			log.debug("Catch de "+e+" Impossible de goToThenExec : abandon d'exec, throw de "+e);
 			throw e;
 		}
-		
-		
+
+
 		// exécute la version demandée
 		execute(versionToExecute, actualState, hooksToConsider);
 	}

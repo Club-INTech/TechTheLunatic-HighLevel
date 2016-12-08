@@ -20,6 +20,7 @@
 package tests;
 
 import exceptions.ContainerException;
+import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.Locomotion.UnexpectedObstacleOnPathException;
 import exceptions.serial.SerialConnexionException;
@@ -286,8 +287,7 @@ public class JUnit_Sensors extends JUnit_Test
 	
 	
    // @Test
-	public void testCapteurDeplacement() throws SerialConnexionException
-	{
+	public void testCapteurDeplacement() throws SerialConnexionException, PointInObstacleException {
     	matchSetUp(state.robot, false);
     	try 
     	{

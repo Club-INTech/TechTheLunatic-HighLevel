@@ -20,6 +20,7 @@
 package tests;
 
 import container.Container;
+import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
@@ -112,7 +113,7 @@ public abstract class JUnit_Test
 		robot.setPosition(Table.entryPosition);
 	}
 	
-	public void returnToEntryPosition(GameState state) throws UnableToMoveException
+	public void returnToEntryPosition(GameState state) throws UnableToMoveException, PointInObstacleException
 	{
 		state.robot.moveToLocation(new Vec2(Table.entryPosition.x-100, Table.entryPosition.y),new ArrayList<Hook>(), state.table);
 		state.robot.turn(Math.PI);
