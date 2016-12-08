@@ -20,6 +20,7 @@
 package tests;
 
 import enums.Speed;
+import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
 import hook.Hook;
 import org.junit.After;
@@ -57,8 +58,7 @@ public class JUnit_Speed extends JUnit_Test {
 	}
 
 	@Test
-	public void test() throws UnableToMoveException
-	{
+	public void test() throws UnableToMoveException, PointInObstacleException {
 		robot.moveLengthwise(250);
 		
 		for (Speed speed : Speed.values())
