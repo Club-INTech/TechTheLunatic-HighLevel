@@ -16,12 +16,11 @@ import utils.Log;
 
 import java.util.ArrayList;
 
-//TODO:la version 0 va être une version de test du proto sans base roulante, la 1 une version avec base roulante
 //TODO: en supposant que le robot est placé à un point près de la zone de livraison(à quelques centimètres, donc doit tourner et avancer un peu)
 
 /** Script permettant de livrer les boules déjà prises, dans la zone de départ ou sur le robot secondaire
  *
- * Version 0: suppose que le robot est déjà placé, en attendant un pathfinding !
+ * Version 0: suppose que le robot est déjà placé, sans la base roulante
  * Version 1: Va vers la zone de départ, face au robot secondaire, livre les boules.
  *
  * @author tic-tac
@@ -71,10 +70,11 @@ public class DropBalls extends AbstractScript
             {
                 //Se déplacer vers la zone de départ (considérer les 2 zones possibles?), face au robot secondaire.
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
                 //TODO:Quelle position pour le robot secondaire?
 
                 //orientation
-                actualState.robot.turn(-Math.PI);
+                actualState.robot.turn(-Math.PI/2);
 
                 //Se caler contre la zone de livraison
                 //TODO:mesures par rapport à envergure du robot pour déterminer la position d'entrée et distance à avancer
@@ -123,16 +123,11 @@ public class DropBalls extends AbstractScript
     @Override
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException
     {
-        if (version == 0)
+        if (version == 0 || version == 1) //Le robot va aller livrer depuis la position de départ du robot, où qu'il soit
         {
             // modification possible selon l'envergure du robot new Vec2(1135,1600)
             return new Circle(robotPosition);
         }
-
-        else if (version == 1) {
-            return new Circle(new Vec2(-1300, 1460));
-        }
-
         else
         {
             log.debug("erreur : mauvaise version de script");
