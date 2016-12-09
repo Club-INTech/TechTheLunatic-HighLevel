@@ -30,7 +30,7 @@ public class CatchModule extends AbstractScript {
     protected CatchModule(HookFactory hookFactory, Config config, Log log) {
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0};
+        versions = new Integer[]{0,1};
     }
 
     // TODO : Ajouter des waitForCompletions pour les actions et prendre en compte la fusée considérée
@@ -47,7 +47,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.turn(0, hooksToConsider,false,false);
 
                 // Avance pour arriver devant la fusé
-                actualState.robot.moveLengthwise(350, hooksToConsider);
+                actualState.robot.moveLengthwise(250, hooksToConsider);
 
                 // Déploie l'attrape-module
                 actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_M0, true);
@@ -103,12 +103,12 @@ public class CatchModule extends AbstractScript {
 
         if (version == 0){
 
-            return new Circle(new Vec2(0,1774));
+            return new Circle(new Vec2(100,226));
         }
 
         else if (version == 1){
 
-            return new Circle(new Vec2(-1124,850));
+            return new Circle(new Vec2(1124,1150));
         }
 
         else{
