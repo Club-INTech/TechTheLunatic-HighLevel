@@ -37,7 +37,8 @@ import utils.Log;
  * 			|-1500,0           		 0,0       				1500,0|
  *          -------------------------------------------------------
  *          
- * (0,0) = base lunaire
+ * (0,0) = entre les deux zones de départ
+ * (0,2000) = Base Lunaire
  */
 
 /**
