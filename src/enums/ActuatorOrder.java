@@ -91,6 +91,13 @@ public enum ActuatorOrder
 	// Position haute
 	LEVE_ASC("las"),
 
+					//		2 POSITIONS DU LARGAGE DE MODULE	//
+	// Position de repos
+	REPOS_MODULE("rem"),
+
+	// Position de poussée
+	POUSSE_MODULE("pom"),
+
 	STOP("stop");
 
 	/**
