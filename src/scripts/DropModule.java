@@ -1,5 +1,6 @@
 package scripts;
 
+import enums.Speed;
 import enums.ActuatorOrder;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
@@ -42,7 +43,7 @@ public class DropModule extends AbstractScript{
 
                 // Manoeuvre pour se caller contre le depose-module
                 actualState.robot.turn(-Math.PI, hooksToConsider, false, false);
-                actualState.robot.moveLengthwise(-80, hooksToConsider, false);
+                actualState.robot.moveLengthwise(-100, hooksToConsider, true, true, Speed.SLOW_ALL);
 
                 for(int i=0; i<3; i++){
 
@@ -51,19 +52,23 @@ public class DropModule extends AbstractScript{
                     actualState.robot.useActuator(ActuatorOrder.REPOS_MODULE, false);
 
                     // Manoeuvre degeu pour se décaler
-                    actualState.robot.moveLengthwise(80, hooksToConsider, false, false);
+                    actualState.robot.moveLengthwise(80, hooksToConsider, false);
                     actualState.robot.turn(-Math.PI + Math.asin(150 / 190), hooksToConsider, false, false);
-                    actualState.robot.moveLengthwise(190, hooksToConsider, false, false);
+                    actualState.robot.moveLengthwise(190, hooksToConsider, false);
                     actualState.robot.turn(-Math.PI, hooksToConsider, false,false);
-                    actualState.robot.moveLengthwise(-197, hooksToConsider,false, false);
+
+                    // Callage contre le depose-module
+                    actualState.robot.moveLengthwise(-300, hooksToConsider,true, false, Speed.SLOW_ALL);
                 }
 
                 // Monte le dernier module et le drop
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
-                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
+                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_MODULE, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_MODULE, false);
 
+                // Se décale de depose-module
+                actualState.robot.moveLengthwise(-100, hooksToConsider, false);
             }
         }
         catch(Exception e) {
@@ -83,14 +88,15 @@ public class DropModule extends AbstractScript{
             return new Circle(new Vec2(1170,1080));
         }
         else {
-            return new Circle(new Vec2(1170, 1080));
+            log.debug("mauvaise version de script");
+            throw new BadVersionException();
         }
     }
 
     @Override
     public void finalize(GameState state, Exception e) throws UnableToMoveException
     {
-        log.debug("Exception " + e + "dans CatchBalls : Lancement du Finalize !");
+        log.debug("Exception " + e + "dans DropModule : Lancement du Finalize !");
         state.robot.setBasicDetection(false);
     }
 
