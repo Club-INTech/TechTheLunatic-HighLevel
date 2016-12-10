@@ -33,7 +33,7 @@ public class CatchModule extends AbstractScript {
         versions = new Integer[]{0,1};
     }
 
-    // TODO : Ajouter des waitForCompletions pour les actions et prendre en compte la fusée considérée
+    // TODO : Ajouter des waitForCompletions pour les actions
 
     @Override
     public void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws UnableToMoveException, ExecuteException, SerialConnexionException, BlockedActuatorException {
@@ -57,7 +57,7 @@ public class CatchModule extends AbstractScript {
             else if(versionToExecute == 1){
 
                 // Fait une manoeuvre pour arriver à la bonne position sans risque de toucher un obstacle
-                actualState.robot.turn(Math.PI/2-Math.acos(0.8), hooksToConsider,true,false);
+                actualState.robot.turn(Math.PI/2-Math.acos(0.8), hooksToConsider,false,false);
                 actualState.robot.moveLengthwise(250, hooksToConsider);
                 actualState.robot.turn(Math.PI/2, hooksToConsider,false,false);
 
@@ -120,7 +120,7 @@ public class CatchModule extends AbstractScript {
     @Override
     public void finalize(GameState state, Exception e) throws UnableToMoveException
     {
-        log.debug("Exception " + e + "dans CatchBalls : Lancement du Finalize !");
+        log.debug("Exception " + e + "dans CatchModule : Lancement du Finalize !");
         state.robot.setBasicDetection(false);
     }
 
