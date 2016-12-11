@@ -52,17 +52,17 @@ public enum ActuatorOrder
 	DEPLOYER_PELLETEUSE("bpd"),
 
 	// Position intermédiaire de la pelleteuse, pour rotations de la pelle
-	MED_PELLETEUSE("bpi"),
+	MED_PELLETEUSE("bpm"),
 
 					//		3 POSITIONS DE LA PELLE		  //
 	// Position avant prise de boules
-	PRET_PELLE("ppd"),
+	PRET_PELLE("pd"),
 
 	// Position intermédiaire de la pelle, maintient les boules
-	TIENT_PELLE("ppi"),
+	TIENT_PELLE("pm"),
 
 	//Position de livraison de boules de la pelle
-	LIVRE_PELLE("ppf"),
+	LIVRE_PELLE("pf"),
 
 					//		4 POSITIONS DES ATTRAPE-MODULES		//
 	// Position de repos / de livraison
