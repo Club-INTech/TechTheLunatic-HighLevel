@@ -37,7 +37,7 @@ import utils.Log;
 
 import java.util.ArrayList;
 
-//TODO: cf le todo du haut de Putballs
+//TODO: cf le todo du haut de DropBalls
 
 /**
  * Script pour ramasser les balles dans un cratère avec la pelleteuse

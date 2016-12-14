@@ -104,7 +104,7 @@ public class DropBalls extends AbstractScript
         }
         catch(Exception e)
         {
-            log.critical("Robot ou actionneur bloqué dans PutBalls"); //TODO: faire exceptions pour mouvements ET actionneurs séparémment
+            log.critical("Robot ou actionneur bloqué dans DropBalls"); //TODO: faire exceptions pour mouvements ET actionneurs séparémment
             finalize(actualState, e);
         }
     }
@@ -138,7 +138,7 @@ public class DropBalls extends AbstractScript
     @Override
     public void finalize(GameState state, Exception e) throws UnableToMoveException
     {
-        log.debug("Exception " + e +"dans PutBalls : Lancement du finalize !");
+        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
         state.robot.setBasicDetection(false);
     }
 
