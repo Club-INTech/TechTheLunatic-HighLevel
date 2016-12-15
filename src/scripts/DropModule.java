@@ -19,8 +19,8 @@ import java.util.ArrayList;
 
 /**
  * Script pour deposer les modules
- * Version 1 : Pour la zone de côté
- * Version 2 : Pour la zone centrale
+ * Version 1 : Pour la zone de côté droit
+ * Version 2 : Pour la zone de côté gauche
  *
  * @author Rem
  */
@@ -39,37 +39,54 @@ public class DropModule extends AbstractScript{
         try
         {
 
-            if(versionToExecute==0){
+            if(versionToExecute==0) {
 
                 // Manoeuvre pour se caller contre le depose-module
                 actualState.robot.turn(-Math.PI, hooksToConsider, false, false);
+            }
+            else {
+
                 actualState.robot.moveLengthwise(-100, hooksToConsider, true, true, Speed.SLOW_ALL);
+            }
 
-                for(int i=0; i<3; i++){
+            for (int i = 0; i < 3; i++) {
 
-                    // Drop un module
-                    actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                    actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-
-                    // Manoeuvre degueu pour se décaler
-                    actualState.robot.moveLengthwise(80, hooksToConsider, false);
-                    actualState.robot.turn(-Math.PI + Math.asin(150 / 190), hooksToConsider, false, false);
-                    actualState.robot.moveLengthwise(190, hooksToConsider, false);
-                    actualState.robot.turn(-Math.PI, hooksToConsider, false,false);
-
-                    // Callage contre le depose-module
-                    actualState.robot.moveLengthwise(-300, hooksToConsider,true, false, Speed.SLOW_ALL);
-                }
-
-                // Monte le dernier module et le drop
-                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
-                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                // Drop un module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
-                // Se décale de depose-module
-                actualState.robot.moveLengthwise(-100, hooksToConsider, false);
+                // Manoeuvre degueu pour se décaler
+                actualState.robot.moveLengthwise(80, hooksToConsider, false);
+
+                // Bon discord tu vas geuler mais j'avais la flemme
+                if (versionToExecute==0) {
+                    actualState.robot.turn(-Math.PI + Math.asin(150 / 190), hooksToConsider, false, false);
+                }
+                else{
+                    actualState.robot.turn(Math.asin(150 / 190), hooksToConsider, false, false);
+                }
+                actualState.robot.moveLengthwise(190, hooksToConsider, false);
+
+                if (versionToExecute==0) {
+                    actualState.robot.turn(-Math.PI, hooksToConsider, false, false);
+                }
+                else{
+                    actualState.robot.turn(0, hooksToConsider, false, false);
+                }
+
+                // Callage contre le depose-module
+                actualState.robot.moveLengthwise(-300, hooksToConsider, true, false, Speed.SLOW_ALL);
             }
+
+            // Monte le dernier module et le drop
+            actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+            actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+            actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+            actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
+            // Se décale de depose-module
+            actualState.robot.moveLengthwise(-100, hooksToConsider, false);
+
         }
         catch(Exception e) {
             finalize(actualState, e);
@@ -86,6 +103,10 @@ public class DropModule extends AbstractScript{
         if(version==0){
 
             return new Circle(new Vec2(1170,1080));
+        }
+        else if(version==1){
+
+            return new Circle(new Vec2(-1170,1080));
         }
         else {
             log.debug("mauvaise version de script");
