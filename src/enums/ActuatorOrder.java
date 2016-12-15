@@ -31,7 +31,9 @@ public enum ActuatorOrder
 	// Syntaxe: NOM_METHODE("protocole_serie") Cette syntaxe suppose que l'action prends une seconde pour s'exécuter
 	// Syntaxe alternative: NOM_METHODE("protocole_serie", durée actions)
 	// exemple : MOVE_FORWARD("av")
-	
+
+
+
 	// Consignes avancer / reculer
 	MOVE_FORWARD("av"),
 	MOVE_BACKWARD("rc"),
@@ -67,7 +69,7 @@ public enum ActuatorOrder
 					//		4 ORDRES DES ATTRAPE-MODULES	//
 
 // Côté Droit
-	REPOS_ATTRAPE_D("amf"),
+	REPOS_ATTRAPE_D("amf"), //TODO: finir de prendre en compte les deux côtés
 
 	// Position intermédiaire (pour laisser passer la calle)
 	INTER_ATTRAPE_D("amm"),
