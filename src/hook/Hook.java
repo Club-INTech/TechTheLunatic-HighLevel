@@ -104,4 +104,3 @@ abstract public class Hook
 	}
 
 }
-

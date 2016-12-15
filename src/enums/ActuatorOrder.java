@@ -79,7 +79,13 @@ public enum ActuatorOrder
 	PRET_ATTRAPE_D1("amd"),
 
 //Côté gauche
+	REPOS_ATTRAPE_G("am0"),
 
+	INTER_ATTRAPE_G("am1"),
+
+	PRET_ATTRAPE_G0("am2"),
+
+	PRET_ATTRAPE_G1("am3"),
 
 					//		2 POSITIONS DES CALLAGES-MODULES	//
 
