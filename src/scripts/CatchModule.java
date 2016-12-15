@@ -50,7 +50,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.moveLengthwise(250, hooksToConsider);
 
                 // Déploie l'attrape-module
-                actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_M0, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
             }
 
@@ -66,14 +66,14 @@ public class CatchModule extends AbstractScript {
             for (int i=0; i<4; i++) {
 
                 // Attrape le module
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_M, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
                 // Va en position intermédiaire pour laisser passer le bras de la calle
-                actualState.robot.useActuator(ActuatorOrder.INTER_ATTRAPE_M, true);
+                actualState.robot.useActuator(ActuatorOrder.INTER_ATTRAPE_D, true);
 
                 // Calle le module dans le Stockage vertical
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
-                actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_M1, true);
+                actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_D1, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
 
                 if (i != 3) {

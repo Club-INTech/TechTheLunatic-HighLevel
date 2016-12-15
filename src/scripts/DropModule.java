@@ -48,10 +48,10 @@ public class DropModule extends AbstractScript{
                 for(int i=0; i<3; i++){
 
                     // Drop un module
-                    actualState.robot.useActuator(ActuatorOrder.POUSSE_MODULE, true);
-                    actualState.robot.useActuator(ActuatorOrder.REPOS_MODULE, false);
+                    actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
-                    // Manoeuvre degeu pour se décaler
+                    // Manoeuvre degueu pour se décaler
                     actualState.robot.moveLengthwise(80, hooksToConsider, false);
                     actualState.robot.turn(-Math.PI + Math.asin(150 / 190), hooksToConsider, false, false);
                     actualState.robot.moveLengthwise(190, hooksToConsider, false);
@@ -64,8 +64,8 @@ public class DropModule extends AbstractScript{
                 // Monte le dernier module et le drop
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_MODULE, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_MODULE, false);
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
                 // Se décale de depose-module
                 actualState.robot.moveLengthwise(-100, hooksToConsider, false);

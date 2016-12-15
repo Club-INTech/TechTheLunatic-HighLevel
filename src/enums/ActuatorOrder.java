@@ -64,39 +64,44 @@ public enum ActuatorOrder
 	//Position de livraison de boules de la pelle
 	LIVRE_PELLE("pf"),
 
-					//		4 POSITIONS DES ATTRAPE-MODULES		//
-	// Position de repos / de livraison
-	REPOS_ATTRAPE_M("ram"),
+					//		4 ORDRES DES ATTRAPE-MODULES	//
+
+// Côté Droit
+	REPOS_ATTRAPE_D("amf"),
 
 	// Position intermédiaire (pour laisser passer la calle)
-	INTER_ATTRAPE_M("iam"),
+	INTER_ATTRAPE_D("amm"),
 
 	// Position avant livraison avec temps d'attente réel
-	PRET_ATTRAPE_M0("pa0"),
+	PRET_ATTRAPE_D0("amd"),
 
 	// Position avant livraison avec temps d'attente adaptée au script
-	PRET_ATTRAPE_M1("pa1"),
+	PRET_ATTRAPE_D1("amd"),
+
+//Côté gauche
+
 
 					//		2 POSITIONS DES CALLAGES-MODULES	//
+
 	// Positions repliée
-	REPLI_CALLE("rca"),
+	REPLI_CALLE("cmd"),
 
 	// Positions calle
-	LIVRE_CALLE("lca"),
+	LIVRE_CALLE("cmf"),
 
-					//		2 POSITIONS DE L'ASCENCEUR-MODULES   //
+					//		2 POSITIONS DE L'ASCENCEUR  //
 	// Position basse
-	BAISSE_ASC("bas"),
+	BAISSE_ASC("asb"),
 
 	// Position haute
-	LEVE_ASC("las"),
+	LEVE_ASC("asl"),
 
-					//		2 POSITIONS DU LARGAGE DE MODULE	//
+					//		2 POSITIONS DU LARGUE MODULE	//
 	// Position de repos
-	REPOS_MODULE("rem"),
+	REPOS_LARGUEUR("lmd"),
 
 	// Position de poussée
-	POUSSE_MODULE("pom"),
+	POUSSE_LARGUEUR("lmf"),
 
 	STOP("stop");
 
