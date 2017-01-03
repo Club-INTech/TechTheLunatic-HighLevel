@@ -30,6 +30,9 @@ public enum ScriptNames
 {
    CATCH_BALLS,
     DROP_BALLS,
+    CATCH_MODULE,
+    DROP_MODULE,
+
 
 	// exemple : CLOSE_DOORS,
 	// TODO : Rajouter les noms des scripts 
