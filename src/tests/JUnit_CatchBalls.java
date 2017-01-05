@@ -34,7 +34,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(Math.PI);
-        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         //container.getService(ServiceNames.THREAD_INTERFACE);
@@ -49,7 +49,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         {
             //On execute le script
             log.debug("Ramassage des balles");
-            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(0, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
         }
         catch(Exception e)
         {

@@ -51,45 +51,37 @@ public enum ActuatorOrder
 	REPLIER_PELLETEUSE("bpr"),
 
 	// Déploiement de la pelleteuse
-	DEPLOYER_PELLETEUSE("bpd"),
+	DEPLOYER_PELLETEUSE("bpd",1),
 
 	// Position intermédiaire de la pelleteuse, pour rotations de la pelle
-	MED_PELLETEUSE("bpm"),
+	MED_PELLETEUSE("bpm",1),
 
 					//		3 POSITIONS DE LA PELLE		  //
 	// Position avant prise de boules
-	PRET_PELLE("pd"),
+	PRET_PELLE("pd",1),
 
 	// Position intermédiaire de la pelle, maintient les boules
-	TIENT_PELLE("pm"),
+	TIENT_PELLE("pm",2),
 
 	//Position de livraison de boules de la pelle
-	LIVRE_PELLE("pf"),
+	LIVRE_PELLE("pf",2),
 
 					//		4 ORDRES DES ATTRAPE-MODULES	//
 
-// Côté Droit
-	REPOS_ATTRAPE_D("amf"), //TODO: finir de prendre en compte les deux côtés
+			// Côté Droit
+	//Position avant prise
+	REPOS_ATTRAPE_D("amdd"),
 
-	// Position intermédiaire (pour laisser passer la calle)
-	INTER_ATTRAPE_D("amm"),
+	// Position de livraison
+	PREND_MODULE_D("amdf"),
 
-	// Position avant livraison avec temps d'attente réel
-	PRET_ATTRAPE_D0("amd"),
+			//Côté gauche
+	REPOS_ATTRAPE_G("amgd"),
 
-	// Position avant livraison avec temps d'attente adaptée au script
-	PRET_ATTRAPE_D1("amd"),
+	PREND_MODULE_G("amgf"),
 
-//Côté gauche
-	REPOS_ATTRAPE_G("am0"),
 
-	INTER_ATTRAPE_G("am1"),
-
-	PRET_ATTRAPE_G0("am2"),
-
-	PRET_ATTRAPE_G1("am3"),
-
-					//		2 POSITIONS DES CALLAGES-MODULES	//
+					//		2 POSITIONS DES CALLAGES-MODULES(les marteaux)	//
 
 	// Positions repliée
 	REPLI_CALLE("cmd"),

@@ -102,14 +102,14 @@ public class CatchBalls extends AbstractScript {
                     //TODO : le robot devrait avancer un peu pour se caler sur la zone de départ, pour prendre en compte sa taille dans le déplacement le menant là
 
                 //Preparer la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
-                stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-                stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 //déployer la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 //faire tourner la pelleteuse (jusqu'à ~150 ou 200°)
-                stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, true);
 
                 // reculer
                 stateToConsider.robot.moveLengthwise(-130); //TODO:distance? Attention au bord avec

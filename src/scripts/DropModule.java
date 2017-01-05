@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 /**
  * Script pour deposer les modules
+ * Version 0 : ???
  * Version 1 : Pour la zone de côté droit
  * Version 2 : Pour la zone de côté gauche
  *

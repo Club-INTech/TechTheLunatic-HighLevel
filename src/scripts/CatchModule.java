@@ -18,7 +18,8 @@ import java.util.ArrayList;
 
 /**
  * Script pour prendre les modules et les stocker
- * Version 1 : Pour la fusé de la zone de départ
+ * Version 0 : Pour la fusée de la zone de départ par la gauche
+ * Version 1 : Pour la fusé de la zone de départ par la droite
  * Version 2 : Pour la fusé pret du cratere
  *
  * @author Rem
@@ -49,7 +50,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.moveLengthwise(250, hooksToConsider);
 
                 // Déploie l'attrape-module
-                actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_D0, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
 
             } else if (versionToExecute == 1) {
 
@@ -60,7 +61,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.moveLengthwise(250, hooksToConsider);
 
                 // Déploie l'attrape-module
-                actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_G0, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
             }
             else if (versionToExecute == 2) {
@@ -77,20 +78,19 @@ public class CatchModule extends AbstractScript {
                 for (int i = 0; i < 4; i++) {
 
                     // Attrape le module
-                    actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                    actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
 
-                    // Va en position intermédiaire pour laisser passer le bras de la calle
-                    actualState.robot.useActuator(ActuatorOrder.INTER_ATTRAPE_D, true);
+                    // recule l'attrape module pour laisser passer le bras de la calle
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
 
                     // Calle le module dans le Stockage vertical
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
-                    actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_D1, true);
                     actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
 
                     if (i != 3) {
 
                         // Monte la plaque
-                        actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+                        actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, false);
 
                         // Baisse la plaque
                         actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
@@ -102,15 +102,15 @@ public class CatchModule extends AbstractScript {
             else {
                 for (int i = 0; i < 4; i++) {
 
-                    // Attrape le module
-                    actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
 
-                    // Va en position intermédiaire pour laisser passer le bras de la calle
-                    actualState.robot.useActuator(ActuatorOrder.INTER_ATTRAPE_G, true);
+                    // Attrape le module
+                    actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
+
+                    // recule l'attrape module pour laisser passer le bras de la calle
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
                     // Calle le module dans le Stockage vertical
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
-                    actualState.robot.useActuator(ActuatorOrder.PRET_ATTRAPE_G1, true);
                     actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
 
                     if (i != 3) {
