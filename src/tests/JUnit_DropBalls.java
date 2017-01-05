@@ -32,10 +32,9 @@ public class JUnit_DropBalls extends JUnit_Test
 
         //La position de depart est mise dans le updateConfig() //TODO
         mRobot.updateConfig();
-
         mRobot.robot.setPosition(Table.entryPosition);
-
-
+        mRobot.robot.setOrientation(Math.PI);
+        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         //container.getService(ServiceNames.THREAD_INTERFACE);
