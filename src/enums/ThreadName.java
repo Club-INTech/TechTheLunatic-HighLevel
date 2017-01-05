@@ -23,7 +23,6 @@ import threads.AbstractThread;
 import threads.ThreadTimer;
 import threads.dataHandlers.ThreadEvents;
 import threads.dataHandlers.ThreadSensor;
-import threads.dataHandlers.ThreadSerial;
 
 /**
  * Tous les threads à instancier au début du match. Utilisé par le container
@@ -37,8 +36,9 @@ public enum ThreadName
 	//BALISES(ThreadBalises.class),
 	EVENTS(ThreadEvents.class),
 	SENSOR(ThreadSensor.class),
-	SERIAL(ThreadSerial.class);
-	
+	// SERIAL(ThreadSerial.class); NE PAS DECOMMENTER ! LE THREAD SERIAL N'EST PAS UN THREAD CLASSIQUE !
+	;
+
 	public Class<? extends AbstractThread> c;
 	
 	private ThreadName(Class<? extends AbstractThread> c)

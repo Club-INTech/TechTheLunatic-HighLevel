@@ -204,6 +204,8 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      */
     public  void checkSerial()
     {
+        System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyUSB0:/dev/ttyUSB1:/dev/ttyUSB2");
+
         Enumeration<?> ports = CommPortIdentifier.getPortIdentifiers();
         while (ports.hasMoreElements())
         {
