@@ -57,6 +57,11 @@ public class ScriptManager implements Service
 		this.config = config;
 		
 		// exemple: instanciedScripts[ScriptNames.CLOSE_DOORS.ordinal()] = new CloseDoors(factory, config, log);
+		instanciedScripts[ScriptNames.CATCH_BALLS.ordinal()] = new CatchBalls(factory, config, log);
+		instanciedScripts[ScriptNames.DROP_BALLS.ordinal()] = new DropBalls(factory, config, log);
+		instanciedScripts[ScriptNames.CATCH_MODULE.ordinal()] = new CatchModule(factory, config, log);
+		instanciedScripts[ScriptNames.DROP_MODULE.ordinal()] = new CatchModule(factory, config, log);
+
 		//TODO instancier les scripts
 	}
 	

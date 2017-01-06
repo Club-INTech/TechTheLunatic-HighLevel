@@ -1,5 +1,6 @@
 package tests;
 
+import enums.ActuatorOrder;
 import enums.ScriptNames;
 import enums.Speed;
 import hook.Hook;
@@ -36,6 +37,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         mRobot.robot.setOrientation(Math.PI);
         mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
+        mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
         //container.getService(ServiceNames.THREAD_INTERFACE);
         //container.startInstanciedThreads();
@@ -49,7 +51,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         {
             //On execute le script
             log.debug("Ramassage des balles");
-            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(0, mRobot, emptyList);
         }
         catch(Exception e)
         {

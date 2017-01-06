@@ -49,22 +49,22 @@ public class DropBalls extends AbstractScript
             if (versionToExecute==0)
             {
                 //abaisser les bras au plus bas
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, false);
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 //rotation de la pelle jusqu'à la position de livraison
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
 
                 //éventuellement, attendre le temps que les boules tombent (en millisecondes) en fonction des tests
                      //actualstate.robot.sleep(1000); TODO:plutot utiliser le waitforcompletion
 
                 //lever les bras jusqu'à la position intermédiaire
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
                 //tourner la pelle jusqu'à la position initiale
-                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
+                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 //monter les bras le plus haut \o/
-                actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
             }
             else if (versionToExecute==1)
             {
