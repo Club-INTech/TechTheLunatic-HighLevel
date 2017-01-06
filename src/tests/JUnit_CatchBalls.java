@@ -42,16 +42,6 @@ public class JUnit_CatchBalls extends JUnit_Test
         //container.getService(ServiceNames.THREAD_INTERFACE);
         //container.startInstanciedThreads();
     }
-@Test
-public  void testlength() {
-    try {
-
-
-        mRobot.robot.moveLengthwise(200);
-    } catch (Exception e) {
-        log.debug("suce");
-    }
-}
 
     @Test
     public void catchThoseBalls()
@@ -61,7 +51,8 @@ public  void testlength() {
         {
             //On execute le script
             log.debug("Ramassage des balles");
-            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(0, mRobot, emptyList);
+            //scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
+            mR
         }
         catch(Exception e)
         {

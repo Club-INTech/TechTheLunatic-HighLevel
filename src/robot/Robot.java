@@ -365,7 +365,8 @@ public class Robot implements Service
      * @throws UnableToMoveException lorsque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
      */
     public void moveToCircle(Circle aim, ArrayList<Hook> hooksToConsider, Table table) throws UnableToMoveException, PointInObstacleException {
-		Vec2 aimPosition= Geometry.pointProche(this.position,aim);
+		aim.radius+=20;
+		  Vec2 aimPosition= Geometry.pointProche(this.position,aim);
 
 		this.followPath(this.pathfinding.Astarfoulah(this.getPosition(),aimPosition),hooksToConsider);
 
