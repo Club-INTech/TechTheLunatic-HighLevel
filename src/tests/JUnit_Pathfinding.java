@@ -143,8 +143,7 @@ public void horscercle()
 
     }
 /*
-angle = Math.acos(rayon/distance(OA));
-Vec2 JeanMichel = new Vec2(rayon*Math.cos(angle), rayon*Math.asin(angle)) // vecteur OM
+
 */
 
 /**

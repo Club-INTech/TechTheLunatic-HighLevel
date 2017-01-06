@@ -42,6 +42,16 @@ public class JUnit_CatchBalls extends JUnit_Test
         //container.getService(ServiceNames.THREAD_INTERFACE);
         //container.startInstanciedThreads();
     }
+@Test
+public  void testlength() {
+    try {
+
+
+        mRobot.robot.moveLengthwise(200);
+    } catch (Exception e) {
+        log.debug("suce");
+    }
+}
 
     @Test
     public void catchThoseBalls()

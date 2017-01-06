@@ -27,9 +27,11 @@ import smartMath.Segment;
 import smartMath.Vec2;
 import table.Table;
 import table.obstacles.ObstacleManager;
+import table.obstacles.ObstacleProximity;
 import utils.Config;
 import utils.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -320,7 +322,87 @@ import java.util.PriorityQueue;
         g.getlNoeuds().remove(arrivee);
         return new ArrayList<Vec2>();
     }
+public ArrayList<Vec2> ennemiDetecte(Vec2 posRobot,Vec2 cible)
+{
+    ObstacleManager a = this.table.getObstacleManager();
 
+    //creerNoeudoptimal();
+    ObstacleProximity ennemi=table.getObstacleManager().getMobileObstacles().get(0);
+
+    double angle = Math.acos(ennemi.getRadius()/posRobot.distance(ennemi.getPosition()));
+    Vec2 jeanMichel = new Vec2((int)(ennemi.getRadius()*Math.cos(angle)), (int) (ennemi.getRadius()*Math.asin(angle)));
+    Vec2 m=ennemi.getPosition().plusNewVector(jeanMichel);
+
+    double angleArrivee = Math.acos(ennemi.getRadius()/cible.distance(ennemi.getPosition()));
+    Vec2 jeanMichelArrivee = new Vec2((int)(ennemi.getRadius()*Math.cos(angle)), (int) (ennemi.getRadius()*Math.asin(angle)));
+    Vec2 m2=ennemi.getPosition().plusNewVector(jeanMichelArrivee);
+
+    Vec2 k=Geometry.intersection(new Segment(posRobot,m),new Segment(cible,m2));
+
+    boolean creedepart=true;
+    boolean creearrivee=true;
+    int j=0;
+    int nbObstCirc=a.getFixedObstacles().size();
+    int nbObstRect=a.getRectangles().size();
+    Segment segdep=new Segment(posRobot,k);
+    Segment segarr=new Segment(k,cible);
+    while(creearrivee && creedepart && j< nbObstCirc)
+    {
+        creearrivee= !(a.getFixedObstacles().get(j).isInObstacle(cible));
+        creedepart= !(a.getFixedObstacles().get(j).isInObstacle(k));
+
+        creedepart= creedepart && !(Geometry.intersects(segdep, new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius()))) ;
+        creearrivee= creearrivee && !(Geometry.intersects(segarr,new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
+
+        j++;
+    }
+j=0;
+    while(creearrivee && creedepart && j< nbObstRect)
+    {
+        creearrivee= !(a.getRectangles().get(j).isInObstacle(cible));
+        creedepart= !(a.getRectangles().get(j).isInObstacle(k));
+
+        creedepart= creedepart && !Geometry.intersects(segdep,new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(1).position));
+        creedepart= creedepart && !Geometry.intersects(segdep,new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+        creedepart= creedepart && !Geometry.intersects(segdep,new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(2).position));
+        creedepart= creedepart && !Geometry.intersects(segdep,new Segment(a.getRectangles().get(j).getlNoeud().get(2).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+        creedepart= creedepart && !Geometry.intersects(segdep,new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(2).position));
+        creedepart= creedepart && !Geometry.intersects(segdep,new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+
+        creearrivee= creearrivee && !Geometry.intersects(segarr,new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(1).position));
+        creearrivee= creearrivee && !Geometry.intersects(segarr,new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+        creearrivee= creearrivee && !Geometry.intersects(segarr,new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(2).position));
+        creearrivee= creearrivee && !Geometry.intersects(segarr,new Segment(a.getRectangles().get(j).getlNoeud().get(2).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+        creearrivee= creearrivee && !Geometry.intersects(segarr,new Segment(a.getRectangles().get(j).getlNoeud().get(1).position,a.getRectangles().get(j).getlNoeud().get(2).position));
+        creearrivee= creearrivee && !Geometry.intersects(segarr,new Segment(a.getRectangles().get(j).getlNoeud().get(0).position,a.getRectangles().get(j).getlNoeud().get(3).position));
+
+        j++;
+    }
+if(creearrivee && creedepart)
+{
+    // vecteur OM
+
+    // si aucun des deux pointsest pas dans un obstacle et que aucun des deux traits intersecte avec un obstacle
+    // on le renvoie
+    // Sinon on tente de décaler l'obstacle
+    //sinon on refait le graphe
+    ArrayList <Vec2> renvoi= new ArrayList<Vec2>();
+    renvoi.add(k);
+return  renvoi;}
+    else
+{
+    this.graphe.initGraphe();
+    try {
+        return Astarfoulah(posRobot, cible);
+    }
+    catch (PointInObstacleException e)
+    {
+
+    }
+
+}
+return new ArrayList<Vec2>();
+}
     @Override
     public void updateConfig()
     {
