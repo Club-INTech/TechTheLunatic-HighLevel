@@ -99,7 +99,7 @@ import java.util.PriorityQueue;
                     log.debug("depart dans obstacle");
                     Vec2 w=a.getFixedObstacles().get(j).noeudProche(departV).position;
                      ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV);
-                    aRenvoyer.add(0,w);
+                    aRenvoyer.add(0,departV);
                     return aRenvoyer;
                 }
                 if(a.getFixedObstacles().get(j).isInObstacle(arriveeV))
@@ -125,13 +125,14 @@ import java.util.PriorityQueue;
                     log.debug("depart dans obstacle");
                     Vec2 w=a.getRectangles().get(j).noeudProche(departV).position;
                     ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV);
-                    aRenvoyer.add(0,w);
+                    aRenvoyer.add(0,departV);
                     return aRenvoyer;
                 }
                 if(a.getRectangles().get(j).isInObstacle(arriveeV))
                 {
                     log.debug("U  stupid or somethin'?");
                     creerarr=false;
+                    throw new PointInObstacleException(arriveeV);
                 }
                 if(a.getRectangles().get(j).isInObstacle(g.getlNoeuds().get(i).position))
                 {

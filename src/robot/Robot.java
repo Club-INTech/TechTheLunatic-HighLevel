@@ -131,7 +131,7 @@ public class Robot implements Service
 	/**
 	 * Utiliser un actuateur par l'ordre fourni
 	 * Peut être bloquante le temps de faire l'action
-	 * @param order l'order
+	 * @param order l'ordre
 	 * @param waitForCompletion si on attends un temps prédéfini pendant l'action
 	 * @throws SerialConnexionException
 	 */

@@ -40,7 +40,7 @@ public class Graphe {
 
     private ArrayList<Noeud> lNoeuds;
     private int n=8;
-    private int ecart=10;
+    private int ecart=20;
 
     public int getN() {
         return n;
@@ -87,6 +87,9 @@ public class Graphe {
         //on fabrique les noeuds. On les relie TOUS. On supprime ceux bloqués. C'est sale, mais ça fait un graphe bien fourni
 
         ObstacleManager a=this.table.getObstacleManager();
+        //Pour sortir
+
+
         for (ObstacleCircular x:a.getFixedObstacles())
         {
             x.fabriqueNoeud(this,this.n,this.ecart);
