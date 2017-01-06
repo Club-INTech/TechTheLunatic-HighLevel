@@ -96,6 +96,11 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      */
     private final boolean printLLDebug = true;
 
+    /**
+     * Booléen d'initialisation série
+     */
+    private static boolean init = false;
+
 
     //=================BUFFERS LinkedList<String>=======================
 
@@ -149,8 +154,12 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         else
             this.out = null;
 
-        checkSerial();
-        createSerial();
+        if(!init)
+        {
+            init = true;
+            checkSerial();
+            createSerial();
+        }
     }
 
     /**
@@ -204,8 +213,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      */
     public  void checkSerial()
     {
-        System.setProperty("gnu.io.rxtx.SerialPorts", "/dev/ttyUSB0:/dev/ttyUSB1:/dev/ttyUSB2");
-
         Enumeration<?> ports = CommPortIdentifier.getPortIdentifiers();
         while (ports.hasMoreElements())
         {
