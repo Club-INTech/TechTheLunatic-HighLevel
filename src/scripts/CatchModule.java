@@ -31,7 +31,7 @@ public class CatchModule extends AbstractScript {
     protected CatchModule(HookFactory hookFactory, Config config, Log log) {
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0,1};
+        versions = new Integer[]{0,1,2};
     }
 
     // TODO : Ajouter des waitForCompletions pour les actions
@@ -50,7 +50,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.moveLengthwise(250, hooksToConsider);
 
                 // Déploie l'attrape-module
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
             } else if (versionToExecute == 1) {
 
@@ -61,7 +61,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.moveLengthwise(250, hooksToConsider);
 
                 // Déploie l'attrape-module
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
 
             }
             else if (versionToExecute == 2) {
@@ -84,8 +84,8 @@ public class CatchModule extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
 
                     // Calle le module dans le Stockage vertical
-                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
-                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
+                   // actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, true);
+                   // actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
 
                     if (i != 3) {
 
@@ -110,8 +110,8 @@ public class CatchModule extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
                     // Calle le module dans le Stockage vertical
-                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
-                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
+                  //  actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
+                  //  actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
 
                     if (i != 3) {
 

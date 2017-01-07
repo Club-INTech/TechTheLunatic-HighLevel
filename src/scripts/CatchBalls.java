@@ -88,7 +88,9 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
-                stateToConsider.robot.moveLengthwise(100);
+
+
+
             }
 
             if(versionToExecute ==1) {
