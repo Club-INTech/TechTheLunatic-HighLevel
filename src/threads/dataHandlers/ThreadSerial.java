@@ -369,6 +369,13 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         log.critical("='( , envoi de "+inputLines[i]+" envoi du message a nouveau");
                         communiquer(messages, nb_lignes_reponse); // On retente
                     }
+
+                    if(this.debug)
+                    {
+                        out.write("\t"+inputLines[i]);
+                        out.newLine();
+                        out.flush();
+                    }
                 }
             }
             catch (Exception e)
