@@ -7,7 +7,10 @@ import hook.Hook;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import robot.Locomotion;
 import scripts.ScriptManager;
+import smartMath.Circle;
+import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
 
@@ -51,8 +54,10 @@ public class JUnit_CatchBalls extends JUnit_Test
         {
             //On execute le script
             log.debug("Ramassage des balles");
-            //scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
-            mR
+           // mRobot.robot.moveToCircle(new Circle(new Vec2(850,540), 400),emptyList,mRobot.table);
+           scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(0, mRobot, emptyList);
+
+        //mRobot.robot.moveLengthwise(100);
         }
         catch(Exception e)
         {

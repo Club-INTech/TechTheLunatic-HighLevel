@@ -138,7 +138,7 @@ public class CatchBalls extends AbstractScript {
             return new Circle(robotPosition);
         }
         else if (version == 1) {
-            return new Circle(new Vec2(850,540), 235); //Pour avoir de la marge j'ai mit 85(rayon du cratère)+150(~demi largeur du robot?)
+            return new Circle(new Vec2(850,540), 400); //Pour avoir de la marge j'ai mit 85(rayon du cratère)+150(~demi largeur du robot?)
         }
         else
         {

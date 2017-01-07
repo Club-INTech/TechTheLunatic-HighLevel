@@ -87,6 +87,15 @@ public void horscercle()
         boolean pyu=Geometry.CohenSutherlandLineClipAndDraw(new Vec2(-10,100),new Vec2(100,210),new Vec2(0,200),new Vec2(200,0));
         int x=5;
     }
+    /*
+    @Test
+    public void testcircle()
+    {
+        Circle x=new Circle(new Vec2(0,500),100);
+        Vec2 p=Geometry.pointProche(new Vec2(100,100),x);
+        log.debug(p);
+
+    }*/
     @Test
     public void testClickedPF() throws Exception
     {

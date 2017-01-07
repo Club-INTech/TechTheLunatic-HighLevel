@@ -82,7 +82,7 @@ import java.util.PriorityQueue;
                 arriveeV.y<a.mRobotRadius ||
                 arriveeV.y>2000-a.mRobotRadius)
         {
-            log.debug("Retourne sur la table connard");
+            log.debug("Retourne sur la table connard"+arriveeV);
             return new ArrayList();
         }
         for (int i=0 ; i<g.getlNoeuds().size() ; i++) //On vérifie que ça n'intersecte ni les obstacles circulaires ni ca
