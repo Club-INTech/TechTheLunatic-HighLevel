@@ -307,6 +307,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             throw new SerialConnexionException();
         synchronized(serialPort)
         {
+            standardBuffer.clear();
             String inputLines[] = new String[nb_lignes_reponse];
             boolean ignoredOrderForLogging = !this.debug || this.ignoredOrders.contains(messages[0]);
             try
