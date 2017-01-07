@@ -122,7 +122,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     public final char[] debugHeader = {0x02, 0x20};
 
-    //==================INGORED ORDERS FOR LOGGING=======================
+    //==================IGNORED ORDERS FOR LOGGING=======================
 
     private final ArrayList<String> ignoredOrders = new ArrayList<String>(){{
         //add("f");
