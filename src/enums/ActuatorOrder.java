@@ -48,13 +48,13 @@ public enum ActuatorOrder
 
 					//		3 POSITIONS DES BRAS DE LA PELLETEUSE 		 //
 	// Rangement de la pelleteuse
-	REPLIER_PELLETEUSE("bpr",1000),
+	REPLIER_PELLETEUSE("bpr",600),
 
 	// Déploiement de la pelleteuse
-	DEPLOYER_PELLETEUSE("bpd",1500),
+	DEPLOYER_PELLETEUSE("bpd",800),
 
 	// Position intermédiaire de la pelleteuse, pour rotations de la pelle
-	MED_PELLETEUSE("bpm",1500),
+	MED_PELLETEUSE("bpm",800),
 
 					//		3 POSITIONS DE LA PELLE		  //
 	// Position avant prise de boules
@@ -73,12 +73,12 @@ public enum ActuatorOrder
 	REPOS_ATTRAPE_D("amdd"),
 
 	// Position de livraison
-	PREND_MODULE_D("amdf"),
+	PREND_MODULE_D("amfd"),
 
 			//Côté gauche
-	REPOS_ATTRAPE_G("amgd"),
+	REPOS_ATTRAPE_G("amdg"),
 
-	PREND_MODULE_G("amgf"),
+	PREND_MODULE_G("amfg"),
 
 
 					//		2 POSITIONS DES CALLAGES-MODULES(les marteaux)	//
