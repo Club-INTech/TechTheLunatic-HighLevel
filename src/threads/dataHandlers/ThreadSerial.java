@@ -122,7 +122,15 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     public final char[] debugHeader = {0x02, 0x20};
 
+    //==================IGNORED ORDERS FOR LOGGING=======================
+
+    private final ArrayList<String> ignoredOrders = new ArrayList<String>(){{
+        //add("f");
+        //add("?xy0");
+    }};
+
     //===================================================================
+
 
     /**
      * Construit une connexion série
@@ -300,6 +308,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         synchronized(serialPort)
         {
             String inputLines[] = new String[nb_lignes_reponse];
+            boolean ignoredOrderForLogging = !this.debug || this.ignoredOrders.contains(messages[0]);
             try
             {
                 for (String m : messages)
@@ -310,7 +319,8 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     output.flush();
 
                     output.write(m.getBytes());
-                    if(this.debug) 
+
+                    if(!ignoredOrderForLogging)
                     {
                         out.write(m);
                         out.newLine();
@@ -370,7 +380,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         communiquer(messages, nb_lignes_reponse); // On retente
                     }
 
-                    if(this.debug)
+                    if(!ignoredOrderForLogging)
                     {
                         out.write("\t"+inputLines[i]);
                         out.newLine();
