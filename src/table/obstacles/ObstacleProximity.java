@@ -19,7 +19,11 @@
 
 package table.obstacles;
 
+import pathfinder.Graphe;
+import pathfinder.Noeud;
 import smartMath.Vec2;
+
+import java.util.ArrayList;
 
 /**
  * Obstacles détectés par capteurs de proximité (ultrasons et infrarouges).
@@ -90,6 +94,28 @@ public class ObstacleProximity extends ObstacleCircular
 	public ObstacleProximity clone()
 	{
 		return new ObstacleProximity(position.clone(), getRadius(), lifetime);
+	}
+
+	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe, int n, int ecart)
+	{
+		ArrayList<Noeud> myList = new ArrayList<Noeud>();
+		double h=(this.getRadius()+ecart)/Math.cos(Math.PI/n);
+		for (int i=0;i<n;i++)
+		{
+
+			Vec2 spin=new Vec2((int)(h*Math.cos(2*Math.PI*i/n)), (int) (h*Math.sin(Math.PI*2*i/n)));
+			Vec2 po=this.getPosition().plusNewVector(spin);
+			if(Math.abs(po.x)<=1500 && po.y<=2000 && po.y>=0) {
+				Noeud noeudact = new Noeud(graphe, po);
+
+				myList.add(noeudact);
+
+				graphe.getlNoeuds().add(noeudact);
+			}
+		}
+		this.lNoeud=myList;
+		//
+		return myList;
 	}
 	
 	public long getOutDatedTime()

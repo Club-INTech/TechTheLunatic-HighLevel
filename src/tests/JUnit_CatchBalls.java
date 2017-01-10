@@ -10,6 +10,7 @@ import org.junit.Test;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
+import threads.dataHandlers.ThreadEvents;
 
 import java.util.ArrayList;
 
@@ -41,8 +42,8 @@ public class JUnit_CatchBalls extends JUnit_Test
         mRobot.robot.turn(7*Math.PI/8);
         mRobot.robot.moveLengthwise(100);
 
-        //container.getService(ServiceNames.THREAD_INTERFACE);
-        //container.startInstanciedThreads();
+        container.getService(ThreadEvents.class);
+        container.startInstanciedThreads();
     }
 
     @Test

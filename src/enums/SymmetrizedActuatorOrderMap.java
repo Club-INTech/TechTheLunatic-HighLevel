@@ -66,8 +66,8 @@ public class SymmetrizedActuatorOrderMap
  *		   *|___________________|*
  */
     //Attrape-Module
-        mCorrespondenceMap.put(ActuatorOrder.REPLI_CALLE, ActuatorOrder.REPLI_CALLE);
-        mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE, ActuatorOrder.LIVRE_CALLE);
+        //mCorrespondenceMap.put(ActuatorOrder.REPLI_CALLE, ActuatorOrder.REPLI_CALLE);
+        //mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE, ActuatorOrder.LIVRE_CALLE);
 
         mCorrespondenceMap.put(ActuatorOrder.BAISSE_ASC, ActuatorOrder.BAISSE_ASC);
         mCorrespondenceMap.put(ActuatorOrder.BAISSE_ASC, ActuatorOrder.BAISSE_ASC);

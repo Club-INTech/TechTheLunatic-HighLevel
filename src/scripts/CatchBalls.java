@@ -87,8 +87,6 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
-                stateToConsider.robot.moveLengthwise(-300);
-
             }
 
             if(versionToExecute ==1) {
@@ -113,7 +111,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, true);
 
                 // reculer
-                stateToConsider.robot.moveLengthwise(-130); //TODO:distance? Attention au bord avec
+               // stateToConsider.robot.moveLengthwise(-130); //TODO:distance? Attention au bord avec
 
             }
         }
@@ -138,7 +136,7 @@ public class CatchBalls extends AbstractScript {
             return new Circle(robotPosition);
         }
         else if (version == 1) {
-            return new Circle(new Vec2(850,540), 235); //Pour avoir de la marge j'ai mit 85(rayon du cratère)+150(~demi largeur du robot?)
+            return new Circle(new Vec2(850,540), 400); //Pour avoir de la marge j'ai mit 85(rayon du cratère)+150(~demi largeur du robot?)
         }
         else
         {

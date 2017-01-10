@@ -31,6 +31,7 @@ public class Arrete {
     public Noeud arrivee;
     public double cout;
     public boolean isUpdated= true;
+    public int timeToLive=-1;
 
     public Arrete(Noeud n1, Noeud n2)
     {
@@ -39,6 +40,14 @@ public class Arrete {
         this.cout=0;
         this.calcCout();
 
+    }
+    public Arrete(Noeud n1, Noeud n2,int TTL)
+    {
+        depart=n1;
+        arrivee=n2;
+        this.cout=0;
+        this.calcCout();
+        this.timeToLive=TTL;
     }
 
     /**

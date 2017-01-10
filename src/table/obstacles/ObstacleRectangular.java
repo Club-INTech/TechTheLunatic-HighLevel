@@ -237,22 +237,42 @@ public class ObstacleRectangular extends Obstacle
 		Vec2 basdroite= new Vec2(this.position.x+this.sizeX/2 +ecart,this.position.y-sizeY/2 -ecart);
 		Vec2 hautdroite=new Vec2(this.position.x+this.sizeX/2 +ecart,this.position.y+sizeY/2+ecart);
 		Vec2 basgauche=new Vec2(this.position.x-this.sizeX/2-ecart,this.position.y-sizeY/2-ecart);
+		Vec2 gauchemilieu= new Vec2(this.position.x-this.sizeX/2 -ecart,this.position.y);
+		Vec2 basmilieu= new Vec2(this.position.x,this.position.y-sizeY/2 -ecart);
+		Vec2 hautmilieu=new Vec2(this.position.x ,this.position.y+sizeY/2+ecart);
+		Vec2 droitemilieu=new Vec2(this.position.x+this.sizeX/2+ecart,this.position.y);
 
 		Noeud cbd=new Noeud(graphe,basdroite);
 		Noeud cbg=new Noeud(graphe,basgauche);
 		Noeud chd=new Noeud(graphe,hautdroite);
 		Noeud chg=new Noeud(graphe,hautgauche);
 
+		Noeud gm=new Noeud(graphe,gauchemilieu);
+		Noeud bm=new Noeud(graphe,basmilieu);
+		Noeud hm=new Noeud(graphe,hautmilieu);
+		Noeud dm=new Noeud(graphe,droitemilieu);
+
+
 		graphe.getlNoeuds().add(cbd);
 		graphe.getlNoeuds().add(cbg);
 		graphe.getlNoeuds().add(chd);
 		graphe.getlNoeuds().add(chg);
 
+// BIEN METTRE LES NOEUDS DU MILIEU APRES CEUX DU HAUT
+		graphe.getlNoeuds().add(gm);
+		graphe.getlNoeuds().add(bm);
+		graphe.getlNoeuds().add(hm);
+		graphe.getlNoeuds().add(dm);
+
 		this.lNoeud.add(cbd);
 		this.lNoeud.add(cbg);
 		this.lNoeud.add(chd);
 		this.lNoeud.add(chg);
-		// et on relie les noeuds
+		this.lNoeud.add(gm);
+		this.lNoeud.add(bm);
+		this.lNoeud.add(hm);
+		this.lNoeud.add(dm);
+
 
 
 

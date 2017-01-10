@@ -1,7 +1,7 @@
 package tests;
 
-import enums.Speed;
 import enums.ScriptNames;
+import enums.Speed;
 import hook.Hook;
 import org.junit.After;
 import org.junit.Before;
@@ -9,6 +9,7 @@ import org.junit.Test;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
+import threads.dataHandlers.ThreadEvents;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,8 @@ public class JUnit_DropBalls extends JUnit_Test
         mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
+        container.getService(ThreadEvents.class);
+        container.startInstanciedThreads();
         //container.getService(ServiceNames.THREAD_INTERFACE);
         //container.startInstanciedThreads();
     }

@@ -22,6 +22,7 @@ package table.obstacles;
 import pathfinder.Graphe;
 import pathfinder.Noeud;
 import smartMath.Circle;
+import smartMath.Geometry;
 import smartMath.Segment;
 import smartMath.Vec2;
 
@@ -37,7 +38,7 @@ public class ObstacleCircular extends Obstacle
 	
 	/** rayon en mm de cet obstacle */
 	protected int radius=0;
-	private ArrayList<Noeud> lNoeud;
+	protected ArrayList<Noeud> lNoeud;
 	
 	/**
 	 * crée un nouvel obstacle de forme circulaire a la position et a la taille spécifiée.
@@ -173,6 +174,58 @@ public class ObstacleCircular extends Obstacle
 		this.lNoeud=myList;
 
 		return myList;
+	}
+
+	public void fabriqueNoeudRelie(Graphe graphe,int n,int ecart) //fabrique n noeuds et les ajoute au grahe et les renvoie
+	{
+		lNoeud = new ArrayList<Noeud>();
+
+		Noeud noeudact;
+		double h = (this.getRadius() + ecart) / Math.cos(Math.PI / n);
+		for (int i = 0; i < n; i++) {
+
+			Vec2 spin = new Vec2((int) (h * Math.cos(2 * Math.PI * i / n)), (int) (h * Math.sin(Math.PI * 2 * i / n)));
+			Vec2 po = this.getPosition().plusNewVector(spin);
+			if (Math.abs(po.x) <= 1500 && po.y < 2000) {
+				noeudact = new Noeud(graphe, po);
+				lNoeud.add(noeudact);
+				graphe.getlNoeuds().add(noeudact);
+			}
+			//p=h/cos(pi/n)
+			// on fait les liens
+		}
+		for (int i = 0; i < graphe.getlNoeuds().size(); i++) {
+			lNoeud.get(i).attachelien(lNoeud.get(i % n));
+			lNoeud.get(i % n).attachelien(lNoeud.get(i));
+		}
+
+	}
+	//on decale l'Obstacle mobile à newPos
+	public void deplaceObstacle(Vec2 newPos,Graphe g)
+	{
+		Vec2 decalage=newPos.minusNewVector(position);
+		this.position=newPos;
+
+		for(int i=0; i<lNoeud.size();i++) // On décale
+		{
+			lNoeud.get(i).position.minus(decalage);
+
+		}
+		for (int i=0; i<g.getlNoeuds().size();i++)// On lance une actualisation des temps de vie sur tous les noeuds du graphe
+		{
+			lNoeud.get(i).actuTTL();
+		}
+		for(int i=0; i<lNoeud.size();i++) // On décale
+		{
+			for (int j=0; j<g.getlNoeuds().size();j++)// On lance une actualisation des temps de vie sur tous les noeuds du graphe
+			{
+
+			}
+		}
+		//On refabrique les liens avec un TTL de 1
+
+
+
 	}
 
 

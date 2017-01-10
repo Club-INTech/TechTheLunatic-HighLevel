@@ -19,6 +19,7 @@
 
 package tests;
 
+import exceptions.Locomotion.PointInObstacleException;
 import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,7 +66,7 @@ public class JUnit_Pathfinding extends JUnit_Test{
 
 
 
-@Test
+
 public void horscercle()
 {
     log.debug(Geometry.pointProche(new Vec2(-200,-200),new Circle(new Vec2(0,0),100)));
@@ -86,7 +87,16 @@ public void horscercle()
         boolean pyu=Geometry.CohenSutherlandLineClipAndDraw(new Vec2(-10,100),new Vec2(100,210),new Vec2(0,200),new Vec2(200,0));
         int x=5;
     }
+    /*
+    @Test
+    public void testcircle()
+    {
+        Circle x=new Circle(new Vec2(0,500),100);
+        Vec2 p=Geometry.pointProche(new Vec2(100,100),x);
+        log.debug(p);
 
+    }*/
+    @Test
     public void testClickedPF() throws Exception
     {
         Table T = container.getService(Table.class);
@@ -119,10 +129,13 @@ public void horscercle()
                     if (!dep.isNull() && !arr.isNull())  {
                         log.debug(win.getMouse().getLeftClickPosition() + "" + win.getMouse().getRightClickPosition());
                         long start = System.currentTimeMillis();
-                        ArrayList<Vec2> p = pf.Astarfoulah(dep, arr);
-                        win.getPanel().drawArrayList(p);
+
+                            ArrayList<Vec2> p = pf.Astarfoulah(dep, arr);
+
+
                         long end = System.currentTimeMillis();
                         System.out.println("time elapsed : " + (end - start));
+                        win.getPanel().drawArrayList(p);
                         // }
                         //TODO exceptions
                         win.getPanel().repaint();
@@ -138,9 +151,9 @@ public void horscercle()
 
 
     }
+/*
 
-
-
+*/
 
 /**
  * Created by shininisan on 17/11/16.

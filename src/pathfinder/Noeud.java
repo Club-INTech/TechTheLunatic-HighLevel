@@ -34,6 +34,7 @@ public class Noeud
     public double sommedepart;
     public Noeud noeudPrecedent;
 
+
     /**
      * Constructeur Noeud vide
      */
@@ -63,6 +64,7 @@ public class Noeud
         this.noeudPrecedent=null;
 
     }
+
 
     /**
      * Constructeur de copy
@@ -101,6 +103,22 @@ public class Noeud
         this.distarrivee=  this.position.minusNewVector(arrivee.position).length();
     }
 
+    /**
+     * Enlève 1 au TTL de chaque arrête et supprime celles qui sont à 0.
+     */
+    public void actuTTL()
+    {
+        for (int i=0;i<lArretes.size();i++)
+    {
+        lArretes.get(i).timeToLive--;
+        if(lArretes.get(i).timeToLive==0)
+        {
+            this.lArretes.remove(i);
+        }
+
+    }
+
+    }
 
 
 }

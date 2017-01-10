@@ -131,7 +131,7 @@ public class Robot implements Service
 	/**
 	 * Utiliser un actuateur par l'ordre fourni
 	 * Peut être bloquante le temps de faire l'action
-	 * @param order l'order
+	 * @param order l'ordre
 	 * @param waitForCompletion si on attends un temps prédéfini pendant l'action
 	 * @throws SerialConnexionException
 	 */
@@ -365,7 +365,8 @@ public class Robot implements Service
      * @throws UnableToMoveException lorsque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
      */
     public void moveToCircle(Circle aim, ArrayList<Hook> hooksToConsider, Table table) throws UnableToMoveException, PointInObstacleException {
-		Vec2 aimPosition= Geometry.pointProche(this.position,aim);
+
+		  Vec2 aimPosition= Geometry.pointProche(this.position,aim);
 
 		this.followPath(this.pathfinding.Astarfoulah(this.getPosition(),aimPosition),hooksToConsider);
 
