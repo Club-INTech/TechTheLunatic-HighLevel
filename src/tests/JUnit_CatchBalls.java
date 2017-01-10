@@ -31,14 +31,14 @@ public class JUnit_CatchBalls extends JUnit_Test
         super.setUp();
         log.debug("JUnit_DeplacementsTest.setUp()");
         mRobot = container.getService(GameState.class);
-
         //La position de depart est mise dans le updateConfig() //TODO
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(Math.PI);
         mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
-        mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+        mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+        mRobot.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
         mRobot.robot.turn(7*Math.PI/8);
         mRobot.robot.moveLengthwise(700);
 
@@ -55,6 +55,7 @@ public class JUnit_CatchBalls extends JUnit_Test
             //On execute le script
             log.debug("Ramassage des balles");
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(1,mRobot, emptyList);
         }
         catch(Exception e)
         {

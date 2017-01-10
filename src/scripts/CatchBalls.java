@@ -113,6 +113,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, true);
 
                 // reculer
+                stateToConsider.robot.moveLengthwise(-200);
                // stateToConsider.robot.moveLengthwise(-130); //TODO:distance? Attention au bord avec
 
             }

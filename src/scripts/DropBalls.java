@@ -78,6 +78,7 @@ public class DropBalls extends AbstractScript
 
                 //Se caler contre la zone de livraison
                 //TODO:mesures par rapport à envergure du robot pour déterminer la position d'entrée et distance à avancer
+                actualState.robot.moveLengthwise(440);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -126,7 +127,7 @@ public class DropBalls extends AbstractScript
         if (version == 0 || version == 1) //Le robot va aller livrer depuis la position de départ du robot, où qu'il soit
         {
             // modification possible selon l'envergure du robot new Vec2(1135,1600)
-            return new Circle(robotPosition);
+            return new Circle(new Vec2(1050,1000));
         }
         else
         {
