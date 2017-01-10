@@ -77,7 +77,6 @@ public class CatchBalls extends AbstractScript {
             if(versionToExecute == 0) {
 
                 //Preparer la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
-                stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 //déployer la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
@@ -87,6 +86,8 @@ public class CatchBalls extends AbstractScript {
                 //TODO:changer les waitForCompletion de tient pelle et autres
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+
+                stateToConsider.robot.moveLengthwise(-300);
 
             }
 
