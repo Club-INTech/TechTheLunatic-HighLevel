@@ -54,8 +54,7 @@ public class DropBalls extends AbstractScript
                 //rotation de la pelle jusqu'à la position de livraison
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
 
-                //éventuellement, attendre le temps que les boules tombent (en millisecondes) en fonction des tests
-                     //actualstate.robot.sleep(1000); TODO:plutot utiliser le waitforcompletion
+                //TODO:calibrer le waitforcompletion pour que toute les boules soient tombées avant de lancer le prochain ordre
 
                 //lever les bras jusqu'à la position intermédiaire
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -77,7 +76,7 @@ public class DropBalls extends AbstractScript
                 actualState.robot.turn(-Math.PI/2);
 
                 //Se caler contre la zone de livraison
-                //TODO:mesures par rapport à envergure du robot pour déterminer la position d'entrée et distance à avancer
+                actualState.robot.moveLengthwise(400);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -99,6 +98,9 @@ public class DropBalls extends AbstractScript
 
                 //monter les bras le plus haut \o/
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+
+                // Recule pour se décaler de l'obstacle
+                actualState.robot.moveLengthwise(-400);
 
             }
         }
@@ -126,7 +128,7 @@ public class DropBalls extends AbstractScript
         if (version == 0 || version == 1) //Le robot va aller livrer depuis la position de départ du robot, où qu'il soit
         {
             // modification possible selon l'envergure du robot new Vec2(1135,1600)
-            return new Circle(robotPosition);
+            return new Circle(new Vec2(1050,950));
         }
         else
         {

@@ -69,7 +69,7 @@ public enum ActuatorOrder
 	//Position de livraison de boules de la pelle
 	LIVRE_PELLE("pf",1000),
 
-					//		4 ORDRES DES ATTRAPE-MODULES	//
+					//		6 ORDRES DES ATTRAPE-MODULES (3 droites, 3 gauches (et vive le MODEM))	//
 
 			// Côté Droit
 	//Position avant prise

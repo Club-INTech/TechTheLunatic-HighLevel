@@ -1,25 +1,19 @@
 package tests;
 
-import enums.ScriptNames;
+import enums.ActuatorOrder;
 import enums.Speed;
-import hook.Hook;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
-import threads.dataHandlers.ThreadEvents;
-
-import java.util.ArrayList;
-
+import tests.JUnit_Test;
 
 /**
- * teste le dépot des boules
- * @author tic-tac
- *
+ * Created by tic-tac on 06/01/17.
  */
-public class JUnit_DropBalls extends JUnit_Test
+public class JUnit_TestLength extends JUnit_Test
 {
     private GameState mRobot;
     private ScriptManager scriptManager;
@@ -35,30 +29,23 @@ public class JUnit_DropBalls extends JUnit_Test
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(0);
-        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
+        mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
-        container.getService(ThreadEvents.class);
-        container.startInstanciedThreads();
         //container.getService(ServiceNames.THREAD_INTERFACE);
         //container.startInstanciedThreads();
     }
 
     @Test
-    public void dropThoseBalls()
-    {
-        ArrayList<Hook> emptyList = new ArrayList<Hook>();
-        try
-        {
-            //On execute le script
-            log.debug("Ramassage des balles");
-            scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(0, mRobot, emptyList);
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
+    public  void testlength() {
+        try {
 
+
+            mRobot.robot.moveLengthwise(200);
+        } catch (Exception e) {
+            log.debug("suce");
+        }
     }
 
     @After

@@ -83,6 +83,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 //faire tourner la pelleteuse (jusqu'à ~150 ou 200°) => prend les boules
+
                 //TODO:changer les waitForCompletion de tient pelle et autres
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
@@ -94,8 +95,10 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 Vec2 posCratere= new Vec2(850,540);   //Centre du cratère
                 Vec2 posRobot=stateToConsider.robot.getPosition();           //Position du robot
-                double angle = Math.atan2(posCratere.x-posRobot.x, posCratere.y-posRobot.y);  //angle du vecteur (robot,centre_cratère) par rapp axe Ox
+                Vec2 vec = new Vec2(posCratere.x-posRobot.x, posCratere.y-posRobot.y);
+                double angle= vec.angle();  //angle du vecteur (robot,centre_cratère) par rapp axe Ox
                 stateToConsider.robot.turn(angle); //rotation vers le cratère
+                stateToConsider.robot.moveLengthwise(100);
 
                     //TODO : le robot devrait avancer un peu pour se caler sur la zone de départ, pour prendre en compte sa taille dans le déplacement le menant là
 
@@ -110,6 +113,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
                 // reculer
+                stateToConsider.robot.moveLengthwise(-110);
                // stateToConsider.robot.moveLengthwise(-130); //TODO:distance? Attention au bord avec
 
             }
@@ -135,7 +139,7 @@ public class CatchBalls extends AbstractScript {
             return new Circle(robotPosition);
         }
         else if (version == 1) {
-            return new Circle(new Vec2(850,540), 400); //Pour avoir de la marge j'ai mit 85(rayon du cratère)+150(~demi largeur du robot?)
+            return new Circle(new Vec2(850,540), 300); //Pour avoir de la marge j'ai mit 85(rayon du cratère)+150(~demi largeur du robot?)
         }
         else
         {
