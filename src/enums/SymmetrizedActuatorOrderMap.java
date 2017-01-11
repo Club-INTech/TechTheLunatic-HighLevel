@@ -55,7 +55,7 @@ public class SymmetrizedActuatorOrderMap
     //Pelle
 
         mCorrespondenceMap.put(ActuatorOrder.PRET_PELLE, ActuatorOrder.PRET_PELLE);
-        mCorrespondenceMap.put(ActuatorOrder.TIENT_PELLE, ActuatorOrder.TIENT_PELLE);
+        mCorrespondenceMap.put(ActuatorOrder.PREND_PELLE, ActuatorOrder.PREND_PELLE);
         mCorrespondenceMap.put(ActuatorOrder.LIVRE_PELLE, ActuatorOrder.LIVRE_PELLE);
 
 /*			 ___________________
@@ -64,8 +64,10 @@ public class SymmetrizedActuatorOrderMap
  *		   *|___________________|*
  */
     //Attrape-Module
-        //mCorrespondenceMap.put(ActuatorOrder.REPLI_CALLE, ActuatorOrder.REPLI_CALLE);
-        //mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE, ActuatorOrder.LIVRE_CALLE);
+        mCorrespondenceMap.put(ActuatorOrder.REPLI_CALLE_D, ActuatorOrder.REPLI_CALLE_G);
+        mCorrespondenceMap.put(ActuatorOrder.REPLI_CALLE_G, ActuatorOrder.REPLI_CALLE_D);
+        mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE_G, ActuatorOrder.LIVRE_CALLE_D);
+        mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE_D, ActuatorOrder.LIVRE_CALLE_G);
 
         mCorrespondenceMap.put(ActuatorOrder.BAISSE_ASC, ActuatorOrder.BAISSE_ASC);
 

@@ -83,8 +83,9 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 //faire tourner la pelleteuse (jusqu'à ~150 ou 200°) => prend les boules
-                //TODO:calibrer les waitForCompletion de tient pelle et autres
-                stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, true);
+
+                //TODO:changer les waitForCompletion de tient pelle et autres
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
             }
 
@@ -109,7 +110,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 //faire tourner la pelleteuse (jusqu'à ~150 ou 200°)
-                stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
                 // reculer
                 stateToConsider.robot.moveLengthwise(-150);
