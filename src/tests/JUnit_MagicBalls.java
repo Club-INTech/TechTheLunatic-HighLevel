@@ -14,14 +14,11 @@ import threads.dataHandlers.ThreadEvents;
 
 import java.util.ArrayList;
 
-
 /**
- * teste le ramassage des balles par la version 0 du script
- * @author gaelle
- *
+ * Tests les 2 scripts l'un après l'autre ! (c'est plus propre que d'appeler les 2 JUnits l'un après l'autre)
+ * @autor Rem
  */
-public class JUnit_CatchBalls extends JUnit_Test
-{
+public class JUnit_MagicBalls extends JUnit_Test {
     private GameState mRobot;
     private ScriptManager scriptManager;
 
@@ -31,7 +28,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         super.setUp();
         log.debug("JUnit_DeplacementsTest.setUp()");
         mRobot = container.getService(GameState.class);
-        //La position de depart est mise dans la Table
+        //La position de depart est mise dans la Table (l'updtate config va la chercher)
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(Math.PI);
@@ -54,8 +51,8 @@ public class JUnit_CatchBalls extends JUnit_Test
         {
             //On execute le script
             log.debug("Ramassage des balles");
-
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(1, mRobot, emptyList);
         }
         catch(Exception e)
         {

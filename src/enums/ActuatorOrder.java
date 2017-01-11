@@ -89,12 +89,12 @@ public enum ActuatorOrder
 					//		2 POSITIONS DES CALLAGES-MODULES(les marteaux)	//
 
 	// Position haute
-	REPLI_CALL_D("cmdd"),
+	REPLI_CALLE_D("cmdd"),
 	// Position basse
 	LIVRE_CALLE_D("cmfd"),
 
 	// Position haute
-	REPLI_CALL_G("cmdg"),
+	REPLI_CALLE_G("cmdg"),
 
 	// Position basse
 	LIVRE_CALLE_G("cmfg"),

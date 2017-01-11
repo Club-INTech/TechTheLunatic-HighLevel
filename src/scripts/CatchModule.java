@@ -34,7 +34,7 @@ public class CatchModule extends AbstractScript {
         versions = new Integer[]{0,1,2};
     }
 
-    // TODO : Ajouter des waitForCompletions pour les actions
+    // TODO : Calibrer les waitForCompletions, notamment ceux qui ne représentent pas le temps réel de l'action (LIVRE_CALLE_G et peut-être BAISSE_ASC)
 
     @Override
     public void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws UnableToMoveException, ExecuteException, SerialConnexionException, BlockedActuatorException {
@@ -49,7 +49,9 @@ public class CatchModule extends AbstractScript {
                 // Avance pour arriver devant la fusé
                 actualState.robot.moveLengthwise(250, hooksToConsider);
 
-                // Déploie l'attrape-module
+                // Déploie l'attrape-module et la calle-bisou
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
             } else if (versionToExecute == 1) {
@@ -60,7 +62,9 @@ public class CatchModule extends AbstractScript {
                 // Avance pour arriver devant la fusé
                 actualState.robot.moveLengthwise(250, hooksToConsider);
 
-                // Déploie l'attrape-module
+                // Déploie l'attrape-module et la calle-bisou
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
 
             }
@@ -71,6 +75,11 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.moveLengthwise(250, hooksToConsider);
                 actualState.robot.turn(Math.PI / 2, hooksToConsider, false, false);
 
+                // Déploie l'attrape-module et la calle-bisou
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+
             }
 
             if (versionToExecute == 0 || versionToExecute == 2) {
@@ -78,22 +87,29 @@ public class CatchModule extends AbstractScript {
                 for (int i = 0; i < 4; i++) {
 
                     // Attrape le module
-                    actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
 
-                    // recule l'attrape module pour laisser passer le bras de la calle
-                    actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
+                    // Recule l'attrape module pour laisser passer le bras de la calle
+                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
 
-                    // Calle le module dans le Stockage vertical
-                   // actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, true);
-                   // actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
+                    // Calle le module dans l'ascenceur
+                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+
+                    // Repli l'attrape-module
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D,true);
+
+                    // Repli les calles
+                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
 
                     if (i != 3) {
 
                         // Monte la plaque
-                        actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, false);
+                        actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
                         // Baisse la plaque
-                        actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
+                        actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
 
                     }
                 }
@@ -102,16 +118,22 @@ public class CatchModule extends AbstractScript {
             else {
                 for (int i = 0; i < 4; i++) {
 
-
                     // Attrape le module
                     actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
                     // recule l'attrape module pour laisser passer le bras de la calle
                     actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
-                    // Calle le module dans le Stockage vertical
-                  //  actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE, false);
-                  //  actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE, false);
+                    // Calle le module dans l'ascenceur
+                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+
+                    // Repli l'attrape-module
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G,true);
+
+                    // Repli les calles
+                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
+                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
 
                     if (i != 3) {
 
@@ -119,7 +141,7 @@ public class CatchModule extends AbstractScript {
                         actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
                         // Baisse la plaque
-                        actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
+                        actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
 
                     }
                 }
