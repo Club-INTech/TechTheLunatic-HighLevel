@@ -54,6 +54,8 @@ public class JUnit_CatchBalls extends JUnit_Test
             log.debug("Ramassage des balles");
            // mRobot.robot.moveToCircle(new Circle(new Vec2(850,540), 400),emptyList,mRobot.table);
            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(0, mRobot, emptyList);
+            log.debug("Livraison des balles");
+            scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(0, mRobot, emptyList);
 
         //mRobot.robot.moveLengthwise(100);
         }
@@ -63,7 +65,6 @@ public class JUnit_CatchBalls extends JUnit_Test
         }
 
     }
-
     @After
     public void finish()
     {
