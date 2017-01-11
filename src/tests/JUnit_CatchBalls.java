@@ -54,6 +54,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         {
             //On execute le script
             log.debug("Ramassage des balles");
+
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
         }
         catch(Exception e)
@@ -62,7 +63,6 @@ public class JUnit_CatchBalls extends JUnit_Test
         }
 
     }
-
     @After
     public void finish()
     {

@@ -72,11 +72,16 @@ public enum ActuatorOrder
 	//Position avant prise
 	REPOS_ATTRAPE_D("amdd"),
 
+	//Position d'évitement de la cale
+	MID_ATTRAPE_D("ammd"),
+
 	// Position de livraison
 	PREND_MODULE_D("amfd"),
 
 			//Côté gauche
 	REPOS_ATTRAPE_G("amdg"),
+
+	MID_ATTRAPE_G("ammg"),
 
 	PREND_MODULE_G("amfg"),
 
