@@ -99,6 +99,9 @@ public class DropBalls extends AbstractScript
                 //monter les bras le plus haut \o/
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
+                // Recule pour se décaler de l'obstacle
+                actualState.robot.moveLengthwise(-400);
+
             }
         }
         catch(Exception e)

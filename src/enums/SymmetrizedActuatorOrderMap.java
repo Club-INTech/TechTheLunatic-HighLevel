@@ -19,8 +19,6 @@
 
 package enums;
 
-import tests.container.A;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,10 +68,16 @@ public class SymmetrizedActuatorOrderMap
         //mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE, ActuatorOrder.LIVRE_CALLE);
 
         mCorrespondenceMap.put(ActuatorOrder.BAISSE_ASC, ActuatorOrder.BAISSE_ASC);
-        mCorrespondenceMap.put(ActuatorOrder.BAISSE_ASC, ActuatorOrder.BAISSE_ASC);
 
         mCorrespondenceMap.put(ActuatorOrder.REPOS_LARGUEUR, ActuatorOrder.REPOS_LARGUEUR);
         mCorrespondenceMap.put(ActuatorOrder.POUSSE_LARGUEUR, ActuatorOrder.POUSSE_LARGUEUR);
+
+        mCorrespondenceMap.put(ActuatorOrder.REPLI_CALLE_D, ActuatorOrder.REPLI_CALLE_G);
+        mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE_D, ActuatorOrder.LIVRE_CALLE_G);
+
+        mCorrespondenceMap.put(ActuatorOrder.REPOS_ATTRAPE_D, ActuatorOrder.REPOS_ATTRAPE_G);
+        mCorrespondenceMap.put(ActuatorOrder.MID_ATTRAPE_D, ActuatorOrder.MID_ATTRAPE_G);
+        mCorrespondenceMap.put(ActuatorOrder.PREND_MODULE_D, ActuatorOrder.PREND_MODULE_G);
 
     }
     
