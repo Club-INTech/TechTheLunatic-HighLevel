@@ -83,7 +83,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 //faire tourner la pelleteuse (jusqu'à ~150 ou 200°) => prend les boules
-                //TODO:changer les waitForCompletion de tient pelle et autres
+                //TODO:calibrer les waitForCompletion de tient pelle et autres
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
@@ -95,8 +95,8 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 Vec2 posCratere= new Vec2(850,540);   //Centre du cratère
                 Vec2 posRobot=stateToConsider.robot.getPosition();           //Position du robot
-                Vec2 vec = new Vec2(posCratere.x-posRobot.x, posCratere.y-posRobot.y);  //angle du vecteur (robot,centre_cratère) par rapp axe Ox
-                double angle= vec.angle();
+                Vec2 vec = new Vec2(posCratere.x-posRobot.x, posCratere.y-posRobot.y);
+                double angle= vec.angle();  //angle du vecteur (robot,centre_cratère) par rapp axe Ox
                 stateToConsider.robot.turn(angle); //rotation vers le cratère
                 stateToConsider.robot.moveLengthwise(100);
 
@@ -113,7 +113,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_PELLE, true);
 
                 // reculer
-                stateToConsider.robot.moveLengthwise(-200);
+                stateToConsider.robot.moveLengthwise(-110);
                // stateToConsider.robot.moveLengthwise(-130); //TODO:distance? Attention au bord avec
 
             }
