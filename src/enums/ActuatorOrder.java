@@ -61,7 +61,10 @@ public enum ActuatorOrder
 	PRET_PELLE("pd",1000),
 
 	// Position intermédiaire de la pelle, maintient les boules
-	TIENT_PELLE("pm",1500),
+	PREND_PELLE("pm",1500),
+
+	//Pos de déplacement avec les boules	
+	TIENT_BOULES("pt",1500),
 
 	//Position de livraison de boules de la pelle
 	LIVRE_PELLE("pf",1000),
@@ -89,12 +92,12 @@ public enum ActuatorOrder
 					//		2 POSITIONS DES CALLAGES-MODULES(les marteaux)	//
 
 	// Position haute
-	REPLI_CALL_D("cmdd"),
+	REPLI_CALLE_D("cmdd"),
 	// Position basse
 	LIVRE_CALLE_D("cmfd"),
 
 	// Position haute
-	REPLI_CALL_G("cmdg"),
+	REPLI_CALLE_G("cmdg"),
 
 	// Position basse
 	LIVRE_CALLE_G("cmfg"),
