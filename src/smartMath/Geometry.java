@@ -265,6 +265,8 @@ public class Geometry
 			return circle.getCenter().plusNewVector(new Vec2(0,(int)circle.radius));
 		}
 	}
+
+
 	/**
 	 * Retourne le point a l'extérieur du cercle en continuant la ligne droite depuis le centre du cercle
 	 * @param pointDansCercle le point dans le cercle
@@ -283,6 +285,25 @@ public class Geometry
 
 	return circle.center.plusNewVector(new Vec2((int) (circle.radius*(pointDansCercle.x-circle.center.x)/pointDansCercle.distance(circle.center)),(int) (circle.radius*(pointDansCercle.y-circle.center.y)/pointDansCercle.distance(circle.center))));
 	}
+	public static Vec2 pointExterieur(Vec2 pointDansCercle, PartialCircle circle) {
+		Vec2 pex=pointExterieur(pointDansCercle,(Circle) circle);
+		double theta=Math.atan(( (circle.center.x-pex.x)/(circle.center.y-pex.y)));
+		if (theta<circle.getAngleDebut())
+		{
+			return new Vec2((int) (Math.cos(circle.getAngleDebut())*circle.radius+ circle.center.x),(int)(Math.sin(circle.getAngleDebut())*circle.radius+ circle.center.y));
+
+				}
+		else if	(theta<circle.getAngleFin())
+		{
+			return new Vec2((int) (Math.cos(circle.getAngleFin())*circle.radius+ circle.center.x),(int)(Math.sin(circle.getAngleFin())*circle.radius+ circle.center.y));
+
+		}
+		else
+		{
+			return pex;
+		}
+
+}
 
 	/**
 	 * 
