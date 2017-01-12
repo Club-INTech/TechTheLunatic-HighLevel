@@ -93,11 +93,18 @@ public enum ActuatorOrder
 
 	// Position haute
 	REPLI_CALLE_D("cmdd"),
+
+	//Position repos
+	REPOS_CALLE_D("cmmd"),
+
 	// Position basse
 	LIVRE_CALLE_D("cmfd"),
 
 	// Position haute
 	REPLI_CALLE_G("cmdg"),
+
+	//Poition de repos
+	REPOS_CALLE_G("cmmg"),
 
 	// Position basse
 	LIVRE_CALLE_G("cmfg"),
