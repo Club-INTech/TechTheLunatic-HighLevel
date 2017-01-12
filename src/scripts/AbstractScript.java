@@ -30,6 +30,7 @@ import hook.Hook;
 import hook.types.HookFactory;
 import smartMath.Circle;
 import smartMath.Vec2;
+import smartMath.Geometry;
 import strategie.GameState;
 import utils.Config;
 import utils.Log;
@@ -86,6 +87,7 @@ public abstract class AbstractScript implements Service
 		{
 			if(!actualState.robot.getPosition().equals(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPosition()).getCenter()))
 				actualState.robot.moveToCircle(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPositionFast()), hooksToConsider, actualState.table);
+				log.debug("Point d'entrée du script" + Geometry.pointProche(actualState.robot.getPosition(), entryPosition(versionToExecute, actualState.robot.getRobotRadius(), actualState.robot.getPositionFast())));
 		}
 		catch (UnableToMoveException e)
 		{
