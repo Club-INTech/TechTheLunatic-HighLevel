@@ -26,10 +26,14 @@ package smartMath;
 public class Circle {
 
 	/** Position du centre du cercle*/
-	public Vec2 center;
+	private Vec2 center;
 	
 	/** Rayon du cercle*/
-	public double radius;
+	private double radius;
+
+	/** Etendu de l'arc de cercle (en absolue et dans le sens trigo)*/
+	private double angleStart = 0;
+	private double angleEnd = 2*Math.PI;
 	
 	/**
 	 * construit un cercle à partir de son centre et rayon
@@ -53,12 +57,39 @@ public class Circle {
 	}
 
 	/**
+	 * construit un arc de cercle à partir de son rayon, son centre et son étendue
+	 * @param center le centre
+	 * @param radius le rayon en mm
+	 * @param angleStart l'angle du début de l'arc
+	 * @param angleEnd l'angle de fin de l'arc
+	 */
+	public Circle(Vec2 center, double radius, double angleStart, double angleEnd)
+	{
+		this.center=center;
+		this.radius=radius;
+		this.angleStart=angleStart;
+		this.angleEnd=angleEnd;
+	}
+
+	/**
 	 * Getter de center
 	 * @return le centre du cercle (position en mm)
 	 */
 	public Vec2 getCenter()
 	{
 		return this.center;
+	}
+
+	public double getRadius() {
+		return radius;
+	}
+
+	public double getAngleStart() {
+		return angleStart;
+	}
+
+	public double getAngleEnd() {
+		return angleEnd;
 	}
 
 	/**
