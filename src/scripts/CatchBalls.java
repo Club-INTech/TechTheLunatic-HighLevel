@@ -114,6 +114,7 @@ public class CatchBalls extends AbstractScript {
 
                 //"lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras", RIP King Julian
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
                 // reculer
                 stateToConsider.robot.moveLengthwise(-150);

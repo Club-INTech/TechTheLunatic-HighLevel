@@ -128,7 +128,7 @@ public class DropBalls extends AbstractScript
         if (version == 0 || version == 1) //Le robot va aller livrer depuis la position de départ du robot, où qu'il soit
         {
             // modification possible selon l'envergure du robot new Vec2(1135,1600)
-            return new Circle(new Vec2(1100,950));
+            return new Circle(new Vec2(1120,950));
         }
         else
         {
