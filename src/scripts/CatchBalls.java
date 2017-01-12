@@ -44,8 +44,9 @@ import java.util.ArrayList;
  *
  * Version 0: robot déjà placé, il ramasse juste les balles (pour tests sans base roulante)
  * Version 1: ramassage dans un cratère proche de la zone de départ(l'autre petit cratère est plus teshenique)
+ * Version 2: ramassage dans le cratère derrière la base lunaire
  *
- * @author Gaelle, tic-tac
+ * @author Gaelle, tic-tac, Rem
  */
 
 public class CatchBalls extends AbstractScript {
@@ -74,50 +75,53 @@ public class CatchBalls extends AbstractScript {
     {
         try
         {
-            if(versionToExecute == 0) {
+            if(versionToExecute == 1){
+                stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
 
-                //Preparer la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
-                stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+                // Calcule de l'angle pour se diriger vers le centre du robot
+                Vec2 posCratere= new Vec2(850, 540);
+                Vec2 posRobot=stateToConsider.robot.getPosition();
+                Vec2 vec = new Vec2(posCratere.x-posRobot.x, posCratere.y-posRobot.y);
+                double angle= vec.angle();
 
-                //déployer la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
-
-                //faire tourner la pelleteuse (jusqu'à ~150 ou 200°) => prend les boules
-
-                //TODO:changer les waitForCompletion de tient pelle et autres
-                stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
-
+                // Manoeuvre pour se diriger vers le cratère
+                stateToConsider.robot.turn(angle);
+                stateToConsider.robot.moveLengthwise(120);
             }
 
-            if(versionToExecute ==1) {
-
-                //s'orienter face au cratère
+            else if(versionToExecute == 2){
                 stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                Vec2 posCratere= new Vec2(850,540);   //Centre du cratère
-                Vec2 posRobot=stateToConsider.robot.getPosition();           //Position du robot
+
+                // Même chose qu'à la version 1
+                Vec2 posCratere= new Vec2(430, 1870);
+                Vec2 posRobot=stateToConsider.robot.getPosition();
                 Vec2 vec = new Vec2(posCratere.x-posRobot.x, posCratere.y-posRobot.y);
-                double angle= vec.angle();  //angle du vecteur (robot,centre_cratère) par rapp axe Ox
-                stateToConsider.robot.turn(angle); //rotation vers le cratère
-                stateToConsider.robot.moveLengthwise(120);
+                double angle= vec.angle();
 
-                    //TODO : le robot devrait avancer un peu pour se caler sur la zone de départ, pour prendre en compte sa taille dans le déplacement le menant là
+                stateToConsider.robot.turn(angle);
+                stateToConsider.robot.moveLengthwise(450);
+            }
 
-                //Preparer la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
-                stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
-                stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+            // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
+            stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+            stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
-                //déployer la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+            // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+            stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
-                //faire tourner la pelleteuse (jusqu'à ~150 ou 200°)
-                stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
+            // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
+            stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
-                //"lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras", RIP King Julian
-                stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
+            // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
+            stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
+            stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
-                // reculer
-                stateToConsider.robot.moveLengthwise(-150);
-
+            // Recule du cratère
+            if (versionToExecute == 1){
+                stateToConsider.robot.moveLengthwise(-130);
+            }
+            if (versionToExecute == 2){
+                stateToConsider.robot.moveLengthwise(-480);
             }
         }
         catch(Exception e)
@@ -140,8 +144,10 @@ public class CatchBalls extends AbstractScript {
         {
             return new Circle(robotPosition);
         }
-        else if (version == 1) {
-            return new Circle(new Vec2(850,540), 320); //Pour avoir de la marge j'ai mit 85(rayon du cratère)+150(~demi largeur du robot?)
+        else if (version == 1)
+        {
+            int r = ray + 110;
+            return new Circle(new Vec2(850,540), r, -Math.PI/2, Math.PI);
         }
         else
         {

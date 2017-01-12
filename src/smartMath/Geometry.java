@@ -218,26 +218,44 @@ public class Geometry
 	public static boolean intersects(Segment segment, Circle circle)
 	{
 		// TODO : expliquer l'algo (TOO MANY CASTS EXCEPTION)
-		double area = ((double)circle.center.x - (double)segment.getA().x)*((double)segment.getB().y - (double)segment.getA().y) - ((double)circle.center.y - (double)segment.getA().y)*((double)segment.getB().x - (double)segment.getA().x);
-		double distA = ((double)segment.getA().x - (double)circle.center.x)*((double)segment.getA().x - (double)circle.center.x) + ((double)segment.getA().y - (double)circle.center.y)*((double)segment.getA().y - (double)circle.center.y);
-		double distB = ((double)segment.getB().x - (double)circle.center.x)*((double)segment.getB().x - (double)circle.center.x) + ((double)segment.getB().y - (double)circle.center.y)*((double)segment.getB().y - (double)circle.center.y);
-		if(distA >= circle.radius * circle.radius && distB < circle.radius * circle.radius || distA < circle.radius * circle.radius && distB >= circle.radius * circle.radius)
+		double area = ((double)circle.getCenter().x - (double)segment.getA().x)*((double)segment.getB().y - (double)segment.getA().y) - ((double)circle.getCenter().y - (double)segment.getA().y)*((double)segment.getB().x - (double)segment.getA().x);
+		double distA = ((double)segment.getA().x - (double)circle.getCenter().x)*((double)segment.getA().x - (double)circle.getCenter().x) + ((double)segment.getA().y - (double)circle.getCenter().y)*((double)segment.getA().y - (double)circle.getCenter().y);
+		double distB = ((double)segment.getB().x - (double)circle.getCenter().x)*((double)segment.getB().x - (double)circle.getCenter().x) + ((double)segment.getB().y - (double)circle.getCenter().y)*((double)segment.getB().y - (double)circle.getCenter().y);
+		if(distA >= circle.getRadius() * circle.getRadius() && distB < circle.getRadius() * circle.getRadius() || distA < circle.getRadius() * circle.getRadius() && distB >= circle.getRadius() * circle.getRadius())
 			return true;
-		return distA >= circle.radius * circle.radius
-			&& distB >= circle.radius * circle.radius
-			&& area * area / (((double)segment.getB().x - (double)segment.getA().x)*((double)segment.getB().x - (double)segment.getA().x)+((double)segment.getB().y - (double)segment.getA().y)*((double)segment.getB().y - (double)segment.getA().y)) <= circle.radius * circle.radius
-			&& ((double)segment.getB().x - (double)segment.getA().x)*((double)circle.center.x - (double)segment.getA().x) + ((double)segment.getB().y - (double)segment.getA().y)*((double)circle.center.y - (double)segment.getA().y) >= 0
-			&& ((double)segment.getA().x - (double)segment.getB().x)*((double)circle.center.x - (double)segment.getB().x) + ((double)segment.getA().y - (double)segment.getB().y)*((double)circle.center.y - (double)segment.getB().y) >= 0;
+		return distA >= circle.getRadius() * circle.getRadius()
+			&& distB >= circle.getRadius() * circle.getRadius()
+			&& area * area / (((double)segment.getB().x - (double)segment.getA().x)*((double)segment.getB().x - (double)segment.getA().x)+((double)segment.getB().y - (double)segment.getA().y)*((double)segment.getB().y - (double)segment.getA().y)) <= circle.getRadius() * circle.getRadius()
+			&& ((double)segment.getB().x - (double)segment.getA().x)*((double)circle.getCenter().x - (double)segment.getA().x) + ((double)segment.getB().y - (double)segment.getA().y)*((double)circle.getCenter().y - (double)segment.getA().y) >= 0
+			&& ((double)segment.getA().x - (double)segment.getB().x)*((double)circle.getCenter().x - (double)segment.getB().x) + ((double)segment.getA().y - (double)segment.getB().y)*((double)circle.getCenter().y - (double)segment.getB().y) >= 0;
 	}
+
 	public static Vec2 pointProche(Vec2 pointHorsCercle, Circle circle) {
-		if (circle.containCircle(pointHorsCercle))
-		{
-			return(pointHorsCercle);
+		if (circle.containCircle(pointHorsCercle)) {
+			return (pointHorsCercle);
 		}
+		Vec2 vec = new Vec2(circle.getCenter().x - pointHorsCercle.x, circle.getCenter().y - pointHorsCercle.y);
 
+		if (vec.angle() >= circle.getAngleStart() && vec.angle() <= circle.getAngleEnd()) {
+			return pointHorsCercle.minusNewVector(new Vec2((int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.x - circle.getCenter().x) / pointHorsCercle.distance(circle.getCenter())), (int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.y - circle.getCenter().y) / pointHorsCercle.distance(circle.getCenter()))));
+		}
+		else {
+			double r = circle.getRadius();
+			double xStart = r*Math.cos(circle.getAngleStart());
+			double yStart = r*Math.sin(circle.getAngleStart());
+			Vec2 circleCenterStart = new Vec2((int) xStart, (int) yStart);
 
+			double xEnd = r*Math.cos(circle.getAngleEnd());
+			double yEnd = r*Math.sin(circle.getAngleEnd());
+			Vec2 circleCenterEnd = new Vec2((int) xEnd, (int) yEnd);
 
-		return pointHorsCercle.minusNewVector(new Vec2((int) ((pointHorsCercle.distance(circle.center)-circle.radius)*(pointHorsCercle.x-circle.center.x)/pointHorsCercle.distance(circle.center)),(int) ((pointHorsCercle.distance(circle.center)-circle.radius)*(pointHorsCercle.y-circle.center.y)/pointHorsCercle.distance(circle.center))));
+			if (circle.getCenter().plusNewVector(circleCenterStart).distance(pointHorsCercle) >= circle.getCenter().plusNewVector(circleCenterEnd).distance(pointHorsCercle)){
+				return circleCenterEnd;
+			}
+			else{
+				return circleCenterStart;
+			}
+		}
 	}
 	/**
 	 * Retourne le point a l'extérieur du cercle en continuant la ligne droite depuis le centre du cercle
@@ -247,22 +265,22 @@ public class Geometry
 	 */
 	public static Vec2 pointExterieurv1(Vec2 pointDansCercle, Circle circle)
 	{
-		if(pointDansCercle.x>circle.center.x)
+		if(pointDansCercle.x>circle.getCenter().x)
 		{
-			double x2=circle.radius/Math.sqrt(1+(circle.center.x-pointDansCercle.x)/(circle.center.y-pointDansCercle.y)*(circle.center.x-pointDansCercle.x)/(circle.center.y-pointDansCercle.y));
-			Vec2 aAjouter=new Vec2((int)x2,(int)x2*(circle.center.y-pointDansCercle.y)/(circle.center.x-pointDansCercle.x));
+			double x2=circle.getRadius()/Math.sqrt(1+(circle.getCenter().x-pointDansCercle.x)/(circle.getCenter().y-pointDansCercle.y)*(circle.getCenter().x-pointDansCercle.x)/(circle.getCenter().y-pointDansCercle.y));
+			Vec2 aAjouter=new Vec2((int)x2,(int)x2*(circle.getCenter().y-pointDansCercle.y)/(circle.getCenter().x-pointDansCercle.x));
 			return circle.getCenter().plusNewVector(aAjouter);
 		}
-		else if(pointDansCercle.x<circle.center.x)
+		else if(pointDansCercle.x<circle.getCenter().x)
 		{
 
-			double x2=circle.radius/Math.sqrt(1+(circle.center.x-pointDansCercle.x)/(circle.center.y-pointDansCercle.y)*(circle.center.x-pointDansCercle.x)/(circle.center.y-pointDansCercle.y));
-			Vec2 aAjouter=new Vec2((int)x2,(int)x2*(circle.center.y-pointDansCercle.y)/(circle.center.x-pointDansCercle.x));
+			double x2=circle.getRadius()/Math.sqrt(1+(circle.getCenter().x-pointDansCercle.x)/(circle.getCenter().y-pointDansCercle.y)*(circle.getCenter().x-pointDansCercle.x)/(circle.getCenter().y-pointDansCercle.y));
+			Vec2 aAjouter=new Vec2((int)x2,(int)x2*(circle.getCenter().y-pointDansCercle.y)/(circle.getCenter().x-pointDansCercle.x));
 			return circle.getCenter().minusNewVector(aAjouter);
 		}
 	 else
 		{
-			return circle.getCenter().plusNewVector(new Vec2(0,(int)circle.radius));
+			return circle.getCenter().plusNewVector(new Vec2(0,(int)circle.getRadius()));
 		}
 	}
 
@@ -281,29 +299,8 @@ public class Geometry
 			return(pointDansCercle);
 		}
 
-
-
-	return circle.center.plusNewVector(new Vec2((int) (circle.radius*(pointDansCercle.x-circle.center.x)/pointDansCercle.distance(circle.center)),(int) (circle.radius*(pointDansCercle.y-circle.center.y)/pointDansCercle.distance(circle.center))));
+		return circle.getCenter().plusNewVector(new Vec2((int) (circle.getRadius()*(pointDansCercle.x-circle.getCenter().x)/pointDansCercle.distance(circle.getCenter())),(int) (circle.getRadius()*(pointDansCercle.y-circle.getCenter().y)/pointDansCercle.distance(circle.getCenter()))));
 	}
-	public static Vec2 pointExterieur(Vec2 pointDansCercle, PartialCircle circle) {
-		Vec2 pex=pointExterieur(pointDansCercle,(Circle) circle);
-		double theta=Math.atan(( (circle.center.x-pex.x)/(circle.center.y-pex.y)));
-		if (theta<circle.getAngleDebut())
-		{
-			return new Vec2((int) (Math.cos(circle.getAngleDebut())*circle.radius+ circle.center.x),(int)(Math.sin(circle.getAngleDebut())*circle.radius+ circle.center.y));
-
-				}
-		else if	(theta<circle.getAngleFin())
-		{
-			return new Vec2((int) (Math.cos(circle.getAngleFin())*circle.radius+ circle.center.x),(int)(Math.sin(circle.getAngleFin())*circle.radius+ circle.center.y));
-
-		}
-		else
-		{
-			return pex;
-		}
-
-}
 
 	/**
 	 * 
