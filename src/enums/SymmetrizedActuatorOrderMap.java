@@ -69,6 +69,7 @@ public class SymmetrizedActuatorOrderMap
         mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE_G, ActuatorOrder.LIVRE_CALLE_D);
         mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE_D, ActuatorOrder.LIVRE_CALLE_G);
 
+        mCorrespondenceMap.put(ActuatorOrder.LEVE_ASC, ActuatorOrder.LEVE_ASC);
         mCorrespondenceMap.put(ActuatorOrder.BAISSE_ASC, ActuatorOrder.BAISSE_ASC);
 
         mCorrespondenceMap.put(ActuatorOrder.REPOS_LARGUEUR, ActuatorOrder.REPOS_LARGUEUR);

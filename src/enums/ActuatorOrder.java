@@ -104,10 +104,10 @@ public enum ActuatorOrder
 
 					//		2 POSITIONS DE L'ASCENCEUR  //
 	// Position basse
-	BAISSE_ASC("asb"),
+	BAISSE_ASC("asdown"),
 
 	// Position haute
-	LEVE_ASC("asl"),
+	LEVE_ASC("asup"),
 
 					//		2 POSITIONS DU LARGUE MODULE	//
 	// Position de repos
