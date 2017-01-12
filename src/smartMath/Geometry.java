@@ -236,7 +236,8 @@ public class Geometry
 		}
 		Vec2 vec = new Vec2(circle.getCenter().x - pointHorsCercle.x, circle.getCenter().y - pointHorsCercle.y);
 
-		if (vec.angle() >= circle.getAngleStart() && vec.angle() <= circle.getAngleEnd()) {
+		if (vec.angle() >= circle.getAngleStart() && vec.angle() <= circle.getAngleEnd()) // La condition qui foire...
+		{
 			return pointHorsCercle.minusNewVector(new Vec2((int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.x - circle.getCenter().x) / pointHorsCercle.distance(circle.getCenter())), (int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.y - circle.getCenter().y) / pointHorsCercle.distance(circle.getCenter()))));
 		}
 		else {
@@ -250,10 +251,10 @@ public class Geometry
 			Vec2 circleCenterEnd = new Vec2((int) xEnd, (int) yEnd);
 
 			if (circle.getCenter().plusNewVector(circleCenterStart).distance(pointHorsCercle) >= circle.getCenter().plusNewVector(circleCenterEnd).distance(pointHorsCercle)){
-				return circleCenterEnd;
+				return circleCenterEnd.plusNewVector(circle.getCenter());
 			}
 			else{
-				return circleCenterStart;
+				return circleCenterStart.plusNewVector(circle.getCenter());
 			}
 		}
 	}

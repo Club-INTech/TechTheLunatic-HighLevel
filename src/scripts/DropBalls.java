@@ -68,7 +68,7 @@ public class DropBalls extends AbstractScript
             else if (versionToExecute==1)
             {
                 //Se déplacer vers la zone de départ (considérer les 2 zones possibles?), face au robot secondaire.
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
 
                 //TODO:Quelle position pour le robot secondaire?
 
@@ -100,7 +100,7 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
                 // Recule pour se décaler de l'obstacle
-                actualState.robot.moveLengthwise(-400);
+                actualState.robot.moveLengthwise(-300);
 
             }
         }

@@ -37,7 +37,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
         mRobot.robot.turn(13*Math.PI/16);
         mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
         mRobot.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
-        mRobot.robot.moveLengthwise(500);
+        mRobot.robot.moveLengthwise(400);
 
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();

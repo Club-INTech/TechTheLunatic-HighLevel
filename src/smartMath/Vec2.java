@@ -262,7 +262,7 @@ public class Vec2
 		if(this.y<0)
 			signe=-2;
 
-		return Math.abs(signe*Math.PI+Math.acos(this.x / this.length()));
+		return signe*Math.PI+Math.acos(this.x / this.length());
 	}
 
     /**

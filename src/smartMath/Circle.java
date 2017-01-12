@@ -32,8 +32,8 @@ public class Circle {
 	private double radius;
 
 	/** Etendu de l'arc de cercle (en absolue et dans le sens trigo)*/
-	private double angleStart = 0;
-	private double angleEnd = 2*Math.PI;
+	private double angleStart;
+	private double angleEnd;
 	
 	/**
 	 * construit un cercle à partir de son centre et rayon
@@ -44,6 +44,8 @@ public class Circle {
 	{
 		this.center=center;
 		this.radius=radius;
+		this.angleStart=0;
+		this.angleEnd=2*Math.PI;
 	}
 
 	/**
@@ -54,6 +56,8 @@ public class Circle {
 	{
 		this.center=center;
 		this.radius=0;
+		this.angleStart=0;
+		this.angleEnd=0;
 	}
 
 	/**
