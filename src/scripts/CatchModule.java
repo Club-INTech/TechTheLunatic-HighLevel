@@ -41,7 +41,15 @@ public class CatchModule extends AbstractScript {
 
         try {
 
-            if (versionToExecute == 0) {
+            if (versionToExecute == 0){
+
+                // Déploie l'attrape-module et la calle-bisou
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+            }
+
+            if (versionToExecute == 1) {
 
                 // Se place dans la bonne direction
                 actualState.robot.turn(0, hooksToConsider, false, false);
@@ -54,7 +62,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
-            } else if (versionToExecute == 1) {
+            } else if (versionToExecute == 2) {
 
                 // Se place dans la bonne direction
                 actualState.robot.turn(Math.PI, hooksToConsider, false, false);
@@ -68,7 +76,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
 
             }
-            else if (versionToExecute == 2) {
+            else if (versionToExecute == 3) {
 
                 // Fait une manoeuvre pour arriver à la bonne position sans risque de toucher un obstacle
                 actualState.robot.turn(Math.PI / 2 - Math.acos(0.8), hooksToConsider, false, false);
@@ -82,7 +90,7 @@ public class CatchModule extends AbstractScript {
 
             }
 
-            if (versionToExecute == 0 || versionToExecute == 2) {
+            if (versionToExecute == 0 || versionToExecute == 1 || versionToExecute == 3) {
 
                 for (int i = 0; i < 4; i++) {
 
@@ -162,17 +170,21 @@ public class CatchModule extends AbstractScript {
         @Override
         public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException {
 
-            if (version == 0){
-
+            if (version == 0)
+            {
+                return new Circle(robotPosition);
+            }
+            else if (version == 1)
+            {
                 return new Circle(new Vec2(100,226));
             }
 
-            else if (version == 1){
-
+            else if (version == 2)
+            {
                 return new Circle(new Vec2(600,226));
             }
 
-            else if (version == 2){
+            else if (version == 3){
 
                 return new Circle(new Vec2(1124,1150));
             }

@@ -84,7 +84,7 @@ public abstract class AbstractScript implements Service
 		log.debug("Lancement de " + this + " version " + versionToExecute);
 		try 
 		{
-			if(!actualState.robot.getPosition().equals(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPosition()).center))
+			if(!actualState.robot.getPosition().equals(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPosition()).getCenter()))
 				actualState.robot.moveToCircle(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPositionFast()), hooksToConsider, actualState.table);
 		}
 		catch (UnableToMoveException e)
