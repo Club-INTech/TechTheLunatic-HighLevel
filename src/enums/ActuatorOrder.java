@@ -73,48 +73,48 @@ public enum ActuatorOrder
 
 			// Côté Droit
 	//Position avant prise
-	REPOS_ATTRAPE_D("amdd"),
+	REPOS_ATTRAPE_D("amdd",2000),
 
 	//Position d'évitement de la cale
-	MID_ATTRAPE_D("ammd"),
+	MID_ATTRAPE_D("ammd",2000),
 
 	// Position de livraison
-	PREND_MODULE_D("amfd"),
+	PREND_MODULE_D("amfd",2000),
 
 			//Côté gauche
-	REPOS_ATTRAPE_G("amdg"),
+	REPOS_ATTRAPE_G("amdg",2000),
 
-	MID_ATTRAPE_G("ammg"),
+	MID_ATTRAPE_G("ammg",2000),
 
-	PREND_MODULE_G("amfg"),
+	PREND_MODULE_G("amfg",2000),
 
 
 					//		2 POSITIONS DES CALLAGES-MODULES(les marteaux)	//
 
-	// Position haute
-	REPLI_CALLE_D("cmdd"),
+	// Position haut
+	REPLI_CALLE_D("cmdd",2000),
 
 	//Position repos
-	REPOS_CALLE_D("cmmd"),
+	REPOS_CALLE_D("cmmd",2000),
 
 	// Position basse
-	LIVRE_CALLE_D("cmfd"),
+	LIVRE_CALLE_D("cmfd",2000),
 
-	// Position haute
-	REPLI_CALLE_G("cmdg"),
+	// Position haut
+	REPLI_CALLE_G("cmdg",2000),
 
 	//Poition de repos
-	REPOS_CALLE_G("cmmg"),
+	REPOS_CALLE_G("cmmg",2000),
 
 	// Position basse
-	LIVRE_CALLE_G("cmfg"),
+	LIVRE_CALLE_G("cmfg",2000),
 
 					//		2 POSITIONS DE L'ASCENCEUR  //
 	// Position basse
-	BAISSE_ASC("asdown"),
+	BAISSE_ASC("asdown",1500),
 
 	// Position haute
-	LEVE_ASC("asup"),
+	LEVE_ASC("asup",1500),
 
 					//		2 POSITIONS DU LARGUE MODULE	//
 	// Position de repos
