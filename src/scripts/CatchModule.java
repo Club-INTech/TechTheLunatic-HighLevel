@@ -18,9 +18,12 @@ import java.util.ArrayList;
 
 /**
  * Script pour prendre les modules et les stocker
- * Version 0 : Pour la fusée de la zone de départ par la gauche
- * Version 1 : Pour la fusé de la zone de départ par la droite
- * Version 2 : Pour la fusé pret du cratere
+ * Version 0 : Version immobile avec le bras droit
+ * Version 1 : Pour la fusée de la zone de départ par la gauche
+ * Version 2 : Pour la fusé de la zone de départ par la droite
+ * Version 3 : Pour la fusé pret du cratere
+ * Version 4 : Pour le module près de la zone de départ
+ * Version 5 : Pour le module près de la base lunaire
  *
  * @author Rem
  */
@@ -31,7 +34,7 @@ public class CatchModule extends AbstractScript {
     protected CatchModule(HookFactory hookFactory, Config config, Log log) {
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0,1,2};
+        versions = new Integer[]{0,1,2,3};
     }
 
     // TODO : Calibrer les waitForCompletions, notamment ceux qui ne représentent pas le temps réel de l'action (LIVRE_CALLE_G et peut-être BAISSE_ASC)
@@ -52,10 +55,10 @@ public class CatchModule extends AbstractScript {
             if (versionToExecute == 1) {
 
                 // Se place dans la bonne direction
-                actualState.robot.turn(0, hooksToConsider, false, false);
+                actualState.robot.turn(0);
 
                 // Avance pour arriver devant la fusé
-                actualState.robot.moveLengthwise(250, hooksToConsider);
+                actualState.robot.moveLengthwise(250);
 
                 // Déploie l'attrape-module et la calle-bisou
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
@@ -68,7 +71,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.turn(Math.PI, hooksToConsider, false, false);
 
                 // Avance pour arriver devant la fusé
-                actualState.robot.moveLengthwise(250, hooksToConsider);
+                actualState.robot.moveLengthwise(250);
 
                 // Déploie l'attrape-module et la calle-bisou
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
@@ -79,14 +82,25 @@ public class CatchModule extends AbstractScript {
             else if (versionToExecute == 3) {
 
                 // Fait une manoeuvre pour arriver à la bonne position sans risque de toucher un obstacle
-                actualState.robot.turn(Math.PI / 2 - Math.acos(0.8), hooksToConsider, false, false);
-                actualState.robot.moveLengthwise(250, hooksToConsider);
-                actualState.robot.turn(Math.PI / 2, hooksToConsider, false, false);
+                actualState.robot.turn(Math.PI / 2 - Math.acos(0.8));
+                actualState.robot.moveLengthwise(250);
+                actualState.robot.turn(Math.PI / 2);
 
                 // Déploie l'attrape-module et la calle-bisou
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+            }
+            else if (versionToExecute == 4){
+
+                // Manoeuvre
+                actualState.robot.turn(Math.PI);
+                actualState.robot.moveLengthwise(-500);
+
+                // Déploiement
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
 
             }
 
@@ -178,15 +192,20 @@ public class CatchModule extends AbstractScript {
             {
                 return new Circle(new Vec2(100,226));
             }
-
             else if (version == 2)
             {
-                return new Circle(new Vec2(600,226));
+                return new Circle(new Vec2(600,226));  // Dans un obstacle...
             }
-
-            else if (version == 3){
-
+            else if (version == 3)
+            {
                 return new Circle(new Vec2(1124,1150));
+            }
+            else if (version == 4)
+            {
+                return new Circle(new Vec2(400,700));  //TODO bien mesurer le x
+            }
+            else if (version == 5){
+                return new Circle(new Vec2(0,0)); //TODO trouver la position, et faire un script hybride en mélangeant CatchBalls/Module
             }
 
             else{

@@ -86,7 +86,7 @@ public class CatchBalls extends AbstractScript {
 
                 // Manoeuvre pour se diriger vers le cratère
                 stateToConsider.robot.turn(angle);
-                stateToConsider.robot.moveLengthwise(110);
+                stateToConsider.robot.moveLengthwise(100);
             }
 
             else if(versionToExecute == 2){
@@ -118,7 +118,7 @@ public class CatchBalls extends AbstractScript {
 
             // Recule du cratère
             if (versionToExecute == 1){
-                stateToConsider.robot.moveLengthwise(-130);
+                stateToConsider.robot.moveLengthwise(-120);
             }
             if (versionToExecute == 2){
                 stateToConsider.robot.moveLengthwise(-480);
@@ -146,8 +146,7 @@ public class CatchBalls extends AbstractScript {
         }
         else if (version == 1)
         {
-            int r = ray + 130;
-            return new Circle(new Vec2(850,540), r, 0, Math.PI/2);
+            return new Circle(new Vec2(850,540), ray + 120, 0, Math.PI/2);
         }
         else
         {
