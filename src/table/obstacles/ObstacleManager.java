@@ -128,8 +128,8 @@ public class ObstacleManager
 		mFixedObstacles.add(new ObstacleCircular(new Vec2(1460, 1350), 40 + mRobotRadius));
 
 		//cratères
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(-850, 540), 95 + mRobotRadius));
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(850, 540), 110 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(-850, 540), 120 + mRobotRadius));
+		mFixedObstacles.add(new ObstacleCircular(new Vec2(850, 540), 120 + mRobotRadius));
 		mFixedObstacles.add(new ObstacleCircular(new Vec2(-1500, 2000), 510 + mRobotRadius));
 		mFixedObstacles.add(new ObstacleCircular(new Vec2(1500, 2000), 510 + mRobotRadius));
 
