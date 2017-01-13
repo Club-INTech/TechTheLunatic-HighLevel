@@ -101,6 +101,11 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      */
     private static boolean init = false;
 
+    /**
+     * Booléen de statut de la série
+     */
+    private boolean serialReady = false;
+
 
     //=================BUFFERS LinkedList<String>=======================
 
@@ -265,6 +270,20 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             System.out.println("Carte sur: " + connectedSerial);
 
             this.initialize(connectedSerial, baudrate);
+
+            if(this.isAlive())  //S'il est vivant, on le tue
+            {
+                ThreadSerial.shutdown = true;
+
+                try
+                {
+                    this.join();
+                }
+                catch (InterruptedException e) {}
+
+                ThreadSerial.shutdown = false;
+            }
+
             this.start();
             return;
         }
@@ -305,6 +324,14 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     {
         if(shutdown)
             throw new SerialConnexionException();
+
+        if(!serialReady) log.warning("Order " + messages[0] + " in waiting due to not-ready serial.");
+
+        while(!serialReady)
+        {
+            Sleep.sleep(5);
+        }
+
         synchronized(serialPort)
         {
             standardBuffer.clear();
@@ -528,6 +555,8 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     {
         String buffer;
         Thread.currentThread().setPriority(8);
+        this.serialReady = true;
+        log.debug("ThreadSerial started");
         while(!shutdown)
         {
             try
@@ -570,7 +599,45 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             catch (IOException e)
             {
                 e.printStackTrace();
+                log.critical("ThreadSerial is shutdown, no serial until restart.");
+                this.serialReady = false;
+                restartSerial();
+                return;
             }
+        }
+
+        this.serialReady = false;
+        log.critical("ThreadSerial is shutdown, no serial until restart.");
+    }
+
+    /**
+     * Relance complètement la série, lancé en cas de mauvaise réception
+     */
+    private void restartSerial()
+    {
+        log.warning("Restarting serial...");
+        try
+        {
+            this.connectedSerial.clear();
+            this.input.close();
+            this.output.close();
+            this.port_name = "";
+            this.serialPort.close();
+
+            checkSerial();
+            createSerial();
+        }
+        catch (SerialLookoutException e)
+        {
+            e.printStackTrace();
+
+            log.critical("No card found, restarting...");
+
+            restartSerial();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
         }
     }
 

@@ -47,9 +47,9 @@ public class CatchModule extends AbstractScript {
             if (versionToExecute == 0){
 
                 // Déploie l'attrape-module et la calle-bisou
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
+                //actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
             }
 
             if (versionToExecute == 1) {
@@ -58,12 +58,12 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.turn(0);
 
                 // Avance pour arriver devant la fusé
-                actualState.robot.moveLengthwise(250);
+                actualState.robot.moveLengthwise(270);
 
                 // Déploie l'attrape-module et la calle-bisou
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
+                //actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
 
             } else if (versionToExecute == 2) {
 
@@ -71,7 +71,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.turn(Math.PI, hooksToConsider, false, false);
 
                 // Avance pour arriver devant la fusé
-                actualState.robot.moveLengthwise(250);
+                actualState.robot.moveLengthwise(270);
 
                 // Déploie l'attrape-module et la calle-bisou
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
@@ -123,6 +123,7 @@ public class CatchModule extends AbstractScript {
 
                     // Repli les calles
                     actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                     actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
 
                     if (i != 3) {
@@ -190,11 +191,11 @@ public class CatchModule extends AbstractScript {
             }
             else if (version == 1)
             {
-                return new Circle(new Vec2(100,226));
+                return new Circle(new Vec2(80,255));
             }
             else if (version == 2)
             {
-                return new Circle(new Vec2(600,226));  // Dans un obstacle...
+                return new Circle(new Vec2(620,255));  // Dans un obstacle...
             }
             else if (version == 3)
             {
