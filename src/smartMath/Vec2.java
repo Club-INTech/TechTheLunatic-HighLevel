@@ -259,11 +259,17 @@ public class Vec2
 		if(this.squaredLength() == 0)
 			return 0;
 
-		if(this.y<0 && this.x<0) {
+		if(this.y<0 && this.x<0){
 			return -Math.PI + Math.atan(this.y/this.x);
 		}
 		else if(this.y>0 && this.x<0){
 			return Math.PI + Math.atan(this.y/this.x);
+		}
+		else if(x==0 && y>0){
+			return Math.PI/2;
+		}
+		else if(x==0 && y<0) {
+			return -Math.PI / 2;
 		}
 		else{
 			return Math.atan(this.y/this.x);
