@@ -230,16 +230,26 @@ public class Geometry
 			&& ((double)segment.getA().x - (double)segment.getB().x)*((double)circle.getCenter().x - (double)segment.getB().x) + ((double)segment.getA().y - (double)segment.getB().y)*((double)circle.getCenter().y - (double)segment.getB().y) >= 0;
 	}
 
+	/**
+	 *
+	 * @param pointHorsCercle
+	 * @param circle
+	 * @return le point de l'arc de cercle le plus proche de pointHorsCercle
+	 */
 	public static Vec2 pointProche(Vec2 pointHorsCercle, Circle circle) {
 		if (circle.containCircle(pointHorsCercle)) {
 			return (pointHorsCercle);
 		}
-		Vec2 vec = new Vec2(circle.getCenter().x - pointHorsCercle.x, circle.getCenter().y - pointHorsCercle.y);
+		Vec2 vec = new Vec2(- circle.getCenter().x + pointHorsCercle.x,
+				- circle.getCenter().y + pointHorsCercle.y);
 
-		if (vec.angle() >= circle.getAngleStart() && vec.angle() <= circle.getAngleEnd()) // La condition qui foire...
+		// Si la direction donnée par le vecteur pointHorsCercle intersecte l'arc de cercle, on a le point avec un simple Thalès
+		if (vec.angle() >= circle.getAngleStart() && vec.angle() <= circle.getAngleEnd())
 		{
 			return pointHorsCercle.minusNewVector(new Vec2((int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.x - circle.getCenter().x) / pointHorsCercle.distance(circle.getCenter())), (int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.y - circle.getCenter().y) / pointHorsCercle.distance(circle.getCenter()))));
 		}
+
+		// Sinon, on doit choisir entre le point du début de l'arc de cercle et celui de fin
 		else {
 			double r = circle.getRadius();
 			double xStart = r*Math.cos(circle.getAngleStart());
