@@ -65,7 +65,7 @@ import java.util.PriorityQueue;
      * @param arriveeV la position d'arrivée
       * @return une arrayliste des positions intermédiaires
      */
-    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV) throws PointInObstacleException {
+    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV, double robotOrientation) throws PointInObstacleException {
        Graphe g=this.graphe;
         //on crée les noeuds et on récupère les obstacles
         Noeud depart = new Noeud(g, departV);
@@ -74,18 +74,42 @@ import java.util.PriorityQueue;
         g.getlNoeuds().add(arrivee);
         ObstacleManager a = this.table.getObstacleManager();
 
-        if(Math.abs(departV.x)>1500-a.mRobotRadius ||
-                arriveeV.y<a.mRobotRadius ||
-                arriveeV.y>2000-a.mRobotRadius)
+        if (Math.abs(departV.x)>1500-a.mRobotRadius ||
+                Math.abs(departV.y-1000) > 1000 - a.mRobotRadius)
         {
-            log.debug("Retourne sur la table connard => Point de départ "+departV);
+            log.debug("Retourne sur la table connard => Point de départ " + departV);
 
+            // Cas "simple", où le robot est perpendiculaire au côté de la table sur lequel il est bloqué (ya pas d'obstacle derriere, faut pas déconner)
+            if (departV.y < a.mRobotRadius && Math.abs(robotOrientation)>Math.PI/4 && Math.abs(robotOrientation)<3*Math.PI/4)
+            {
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.x, a.mRobotRadius + 1), arriveeV, robotOrientation);
+                newPath.add(0, departV);
+                return newPath;
+            }
+            else if (departV.y > 2000-a.mRobotRadius && Math.abs(robotOrientation)>Math.PI/4 && Math.abs(robotOrientation)<3*Math.PI/4)
+            {
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.x, 1999-a.mRobotRadius), arriveeV, robotOrientation);
+                newPath.add(0, departV);
+                return newPath;
+            }
+            else if (Math.abs(departV.x)>1500-a.mRobotRadius && Math.abs(robotOrientation)<Math.PI/4 && Math.abs(robotOrientation)>3*Math.PI/4)
+            {
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2((1500-a.mRobotRadius)*departV.x/Math.abs(departV.x), departV.y), arriveeV, robotOrientation);
+                newPath.add(0, departV);
+                return newPath;
+            }
+
+            // TODO Cas bien plus compliqués, où le robot est tangent au côté de la table sur lequel il est bloqué : Ici il faut gérer les possibles obstacles...
+
+            else if (departV.y < a.mRobotRadius && Math.abs(robotOrientation)<Math.PI/4 && Math.abs(robotOrientation)>3*Math.PI/4)
+            {
+
+            }
         }
 
-        else if(
-                Math.abs(arriveeV.x)>1500-a.mRobotRadius ||
-                        arriveeV.y<a.mRobotRadius ||
-                        arriveeV.y>2000-a.mRobotRadius)
+        if(Math.abs(arriveeV.x)>1500-a.mRobotRadius ||
+                arriveeV.y<a.mRobotRadius ||
+                arriveeV.y>2000-a.mRobotRadius)
         {
             log.debug("Je ne quitterai pas cette table => Point d'arrivée "+arriveeV);
             return new ArrayList();
@@ -106,7 +130,7 @@ import java.util.PriorityQueue;
                 {
                     log.debug("depart dans obstacle");
                     Vec2 w=a.getFixedObstacles().get(j).noeudProche(departV).position;
-                     ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV);
+                     ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV, robotOrientation);
                     aRenvoyer.add(0,departV);
                     return aRenvoyer;
                 }
@@ -132,7 +156,7 @@ import java.util.PriorityQueue;
                 {
                     log.debug("depart dans obstacle");
                     Vec2 w=a.getRectangles().get(j).noeudProche(departV).position;
-                    ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV);
+                    ArrayList<Vec2> aRenvoyer=Astarfoulah(w,arriveeV, robotOrientation);
                     aRenvoyer.add(0,departV);
                     return aRenvoyer;
                 }
@@ -328,7 +352,9 @@ import java.util.PriorityQueue;
         g.getlNoeuds().remove(arrivee);
         return new ArrayList<Vec2>();
     }
-public ArrayList<Vec2> ennemiDetecte(Vec2 posRobot,Vec2 cible)
+
+    // TODO : savoir à quoi sert cette méthode
+public ArrayList<Vec2> ennemiDetecte(Vec2 posRobot,Vec2 cible, double robotOrientation)
 {
     ObstacleManager a = this.table.getObstacleManager();
 
@@ -399,7 +425,7 @@ return  renvoi;}
 {
     this.graphe.initGraphe();
     try {
-        return Astarfoulah(posRobot, cible);
+        return Astarfoulah(posRobot, cible, robotOrientation);
     }
     catch (PointInObstacleException e)
     {
