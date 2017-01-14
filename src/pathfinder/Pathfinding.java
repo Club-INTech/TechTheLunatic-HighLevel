@@ -31,7 +31,6 @@ import table.obstacles.ObstacleProximity;
 import utils.Config;
 import utils.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -75,16 +74,23 @@ import java.util.PriorityQueue;
         g.getlNoeuds().add(arrivee);
         ObstacleManager a = this.table.getObstacleManager();
 
-        if(     Math.abs(departV.x)>1500-a.mRobotRadius ||
-                Math.abs(arriveeV.x)>1500-a.mRobotRadius ||
-                departV.y< a.mRobotRadius ||
-                departV.y>2000-a.mRobotRadius ||
+        if(Math.abs(departV.x)>1500-a.mRobotRadius ||
                 arriveeV.y<a.mRobotRadius ||
                 arriveeV.y>2000-a.mRobotRadius)
         {
-            log.debug("Retourne sur la table connard"+arriveeV);
+            log.debug("Retourne sur la table connard => Point de départ "+departV);
+
+        }
+
+        else if(
+                Math.abs(arriveeV.x)>1500-a.mRobotRadius ||
+                        arriveeV.y<a.mRobotRadius ||
+                        arriveeV.y>2000-a.mRobotRadius)
+        {
+            log.debug("Je ne quitterai pas cette table => Point d'arrivée "+arriveeV);
             return new ArrayList();
         }
+
         for (int i=0 ; i<g.getlNoeuds().size() ; i++) //On vérifie que ça n'intersecte ni les obstacles circulaires ni ca
         {
             int j=0;
