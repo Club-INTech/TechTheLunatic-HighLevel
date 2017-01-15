@@ -383,7 +383,7 @@ public class Locomotion implements Service
             moveToPointException(aim, hooks, true, mur, turnOnly, mustDetect);
             isRobotMovingForward=false;
     	}
-    	else //if(strategy == DirectionStrategy.FASTEST)
+    	else if(strategy == DirectionStrategy.FASTEST)
     	{
     		// Calcul du moyen le plus rapide (on se sert d'un calcul de produit scalaire)
 	        Vec2 delta = aim.clone();

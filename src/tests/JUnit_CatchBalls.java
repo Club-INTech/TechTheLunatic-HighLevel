@@ -37,7 +37,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         mRobot.robot.setOrientation(Math.PI);
         mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
-        mRobot.robot.turn(8*Math.PI/8);
+        mRobot.robot.turn(7*Math.PI/8);
         mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
         mRobot.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
         mRobot.robot.moveLengthwise(400);
