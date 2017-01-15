@@ -88,7 +88,7 @@ import java.util.PriorityQueue;
             }
             else if (departV.y > 2000-a.mRobotRadius && Math.abs(robotOrientation)>Math.PI/4 && Math.abs(robotOrientation)<3*Math.PI/4)
             {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.x, 1999-a.mRobotRadius), arriveeV, robotOrientation);
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.x, 2000-a.mRobotRadius), arriveeV, robotOrientation);
                 newPath.add(0, departV);
                 return newPath;
             }
@@ -103,7 +103,7 @@ import java.util.PriorityQueue;
 
             else if (departV.y < a.mRobotRadius && Math.abs(robotOrientation)<Math.PI/4 && Math.abs(robotOrientation)>3*Math.PI/4)
             {
-
+                double marge = Math.acos(a.getmRobotLenght()/2*a.mRobotRadius)-Math.acos(departV.y/a.mRobotRadius);
             }
         }
 
@@ -439,5 +439,14 @@ return new ArrayList<Vec2>();
     public void updateConfig()
     {
 
+    }
+    /**
+     * Methode qui donne, à partir d'une position et d'une direction, la distance qu'il y a entre la position et l'obstacle le plus proche
+     * @param pos la position (celle du robot enfaite...)
+     * @param orient l'orientation vers laquelle on prévoit d'envoyer le robot
+     * @autor Rem
+     */
+    private int distanceToObstacle(Vec2 pos, double orient){
+       return 0;
     }
 }

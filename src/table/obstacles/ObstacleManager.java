@@ -66,6 +66,9 @@ public class ObstacleManager
 	private int defaultObstacleRadius;
 	//le rayon de notre robot
 	public int mRobotRadius;
+	//les dimensions réels de notre robot
+	private int mRobotLenght;
+	private int getmRobotWidth;
 	
 	// TODO virer : juste du debugg / interface graphique
 	private int radiusDetectionDisc=0;
@@ -225,8 +228,15 @@ public class ObstacleManager
     	addObstacle(position,defaultObstacleRadius, defaultLifetime);
     }
 
-    
-    /**
+	public int getmRobotLenght() {
+		return mRobotLenght;
+	}
+
+	public int getGetmRobotWidth() {
+		return getmRobotWidth;
+	}
+
+	/**
      * Ajoute un obstacle sur la table a la position spécifiée, du rayon specifie (de type obstacleProximity)
      *
      * @param position position ou ajouter l'obstacle
@@ -693,6 +703,8 @@ public class ObstacleManager
 		try 
 		{
 			mRobotRadius = Integer.parseInt(config.getProperty("rayon_robot"));
+			mRobotLenght = Integer.parseInt(config.getProperty("longueur_robot"));
+			getmRobotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
 		    defaultObstacleRadius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
 		}
 	    catch (ConfigPropertyNotFoundException e)
