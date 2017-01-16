@@ -26,6 +26,8 @@ import smartMath.Geometry;
 import smartMath.Segment;
 import smartMath.Vec2;
 import table.Table;
+import table.obstacles.Obstacle;
+import table.obstacles.ObstacleCircular;
 import table.obstacles.ObstacleManager;
 import table.obstacles.ObstacleProximity;
 import utils.Config;
@@ -63,6 +65,7 @@ import java.util.PriorityQueue;
      * L'algorithme créer deux noeuds sur l'arrivée et le début, relie a tous les points accessibles, et lance Astarfoullah
      * @param departV la position de début du pathfinding
      * @param arriveeV la position d'arrivée
+     * @param robotOrientation l'orientation du robot sur la position de départ
       * @return une arrayliste des positions intermédiaires
      */
     public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV, double robotOrientation) throws PointInObstacleException {
@@ -447,6 +450,27 @@ return new ArrayList<Vec2>();
      * @autor Rem
      */
     private int distanceToObstacle(Vec2 pos, double orient){
-       return 0;
+
+        double testX = 2000*Math.cos(orient);
+        double testY = 2000*Math.sin(orient);
+        Vec2 test = new Vec2((int)testX, (int)testY);
+        Vec2 center = new Vec2();
+        Vec2 dis = new Vec2();
+        int dist;
+        double disX = Math.cos(orient);
+        double disY = Math.sin(orient);
+        double distf;
+
+        int radius;
+        int minDistance;
+        for (Obstacle o : table.getObstacleManager().getFixedObstacles()){
+            center.set(o.getPosition());
+            dist = center.dot(test)/2000;
+            dis.set(new Vec2(dist*(int)disX, dist*(int)disY));
+            if (o instanceof ObstacleCircular && dis.distance(center)<((ObstacleCircular) o).getRadius()){
+                distf = Math.sqrt(2);
+            }
+        }
+        return 0;
     }
 }

@@ -275,7 +275,5 @@ public class Vec2
         return new Vec2((int)(this.x * Math.cos(angle) - this.y * Math.sin(angle)),
                 (int)(this.x * Math.sin(angle) + this.y * Math.cos(angle)));
     }
-
-	
 }
 
