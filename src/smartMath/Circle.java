@@ -44,8 +44,8 @@ public class Circle {
 	{
 		this.center=center;
 		this.radius=radius;
-		this.angleStart=0;
-		this.angleEnd=2*Math.PI;
+		this.angleStart = -Math.PI;
+		this.angleEnd = Math.PI;
 	}
 
 	/**

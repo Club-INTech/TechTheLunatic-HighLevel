@@ -244,21 +244,15 @@ public class Geometry
 				- circle.getCenter().y + pointHorsCercle.y);
 
 		// Si la direction donnée par le vecteur pointHorsCercle intersecte l'arc de cercle, on a le point avec un simple Thalès
-		if (vec.angle() >= circle.getAngleStart() && vec.angle() <= circle.getAngleEnd())
+		if (vec.a >= circle.getAngleStart() && vec.a <= circle.getAngleEnd())
 		{
 			return pointHorsCercle.minusNewVector(new Vec2((int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.x - circle.getCenter().x) / pointHorsCercle.distance(circle.getCenter())), (int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.y - circle.getCenter().y) / pointHorsCercle.distance(circle.getCenter()))));
 		}
 
 		// Sinon, on doit choisir entre le point du début de l'arc de cercle et celui de fin
 		else {
-			double r = circle.getRadius();
-			double xStart = r*Math.cos(circle.getAngleStart());
-			double yStart = r*Math.sin(circle.getAngleStart());
-			Vec2 circleCenterStart = new Vec2((int) xStart, (int) yStart);
-
-			double xEnd = r*Math.cos(circle.getAngleEnd());
-			double yEnd = r*Math.sin(circle.getAngleEnd());
-			Vec2 circleCenterEnd = new Vec2((int) xEnd, (int) yEnd);
+			Vec2 circleCenterStart = new Vec2(circle.getRadius(), circle.getAngleStart());
+			Vec2 circleCenterEnd = new Vec2(circle.getRadius(), circle.getAngleEnd());
 
 			if (circle.getCenter().plusNewVector(circleCenterStart).distance(pointHorsCercle) >= circle.getCenter().plusNewVector(circleCenterEnd).distance(pointHorsCercle)){
 				return circleCenterEnd.plusNewVector(circle.getCenter());
