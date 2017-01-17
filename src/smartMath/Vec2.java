@@ -293,14 +293,44 @@ public class Vec2
 		return signe*Math.PI + Math.atan2(this.y, this.x);
 	}
 
-    /**
-     * Tourne le vecteur d'un angle donné et le renvoie sous forme d'un nouveau vecteur (original inchangé)
-     * @param angle l'angle en radians
-     * @return le nouveau vecteur
-     */
-    public Vec2 turnNewVector(double angle)
-    {
-        return new Vec2(r, a + angle);
-    }
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+		r = this.length();
+		a = this.angle();
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+		r = this.length();
+		a = this.angle();
+	}
+
+	public double getR() {
+		return r;
+	}
+
+	public void setR(double r) {
+		this.r = r;
+		x = (int) (r*Math.cos(a));
+		y = (int) (r*Math.sin(a));
+	}
+
+	public double getA() {
+		return a;
+	}
+
+	public void setA(double a) {
+		this.a = a;
+		x = (int) (r*Math.cos(a));
+		y = (int) (r*Math.sin(a));
+	}
 }
 

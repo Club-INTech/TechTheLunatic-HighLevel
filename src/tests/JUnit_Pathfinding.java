@@ -19,7 +19,6 @@
 
 package tests;
 
-import exceptions.Locomotion.PointInObstacleException;
 import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
@@ -130,7 +129,7 @@ public void horscercle()
                         log.debug(win.getMouse().getLeftClickPosition() + "" + win.getMouse().getRightClickPosition());
                         long start = System.currentTimeMillis();
 
-                            ArrayList<Vec2> p = pf.Astarfoulah(dep, arr);
+                            ArrayList<Vec2> p = pf.Astarfoulah(dep, arr, Math.PI);
 
 
                         long end = System.currentTimeMillis();
