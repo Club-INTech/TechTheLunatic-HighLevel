@@ -81,7 +81,8 @@ public class Pathfinding implements Service {
                 Math.abs(departV.getY() - 1000) > 1000 - a.mRobotRadius) {
             log.debug("Retourne sur la table connard => Point de départ " + departV);
 
-            // Cas "simple", où le robot est perpendiculaire au côté de la table sur lequel il est bloqué (ya pas d'obstacle derriere, faut pas déconner)
+            // Cas "simple", où le robot est perpendiculaire au côté de la table sur lequel il est bloqué
+            // Il recule/avance juste pour rentrer dans la table (ya pas d'obstacle derriere, faut pas déconner)
 
             if (departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) > Math.PI / 4 && Math.abs(robotOrientation) < 3 * Math.PI / 4) {
                 ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), a.mRobotRadius + 1), arriveeV, robotOrientation);
@@ -130,7 +131,7 @@ public class Pathfinding implements Service {
                 return newPath;
             }
 
-            else if (Math.abs(departV.getX())<1500-a.mRobotRadius && Math.abs(robotOrientation) < 3*Math.PI/4 && Math.abs(robotOrientation) > Math.PI/4)
+            else if (Math.abs(departV.getX())>1500-a.mRobotRadius && Math.abs(robotOrientation) < 3*Math.PI/4 && Math.abs(robotOrientation) > Math.PI/4)
             {
                 int sens = Math.abs(departV.getX())/departV.getX();
                 double marge = Math.acos(a.getmRobotLenght() / 2*a.mRobotRadius) - Math.acos(departV.getY() / 2*a.mRobotRadius);
@@ -156,11 +157,26 @@ public class Pathfinding implements Service {
             }
         }
 
+        // Si tel est son souhait, on l'amene hors de la table... Mais en passant par un point faisant en sorte qu'il arrive perpendiculairement
+        // au bord de la table : on appelle Astarfoulah sur le point dans la table le plus proche du point d'arrivée hors-table
         if (Math.abs(arriveeV.getX()) > 1500 - a.mRobotRadius ||
                 arriveeV.getY() < a.mRobotRadius ||
                 arriveeV.getY() > 2000 - a.mRobotRadius) {
-            log.debug("Je ne quitterai pas cette table => Point d'arrivée " + arriveeV);
-            return new ArrayList();
+            log.debug("Je ne quitterai pas cette table sans une bonne raison ! => Point d'arrivée " + arriveeV);
+            if (Math.abs(arriveeV.getX())>1500-a.mRobotRadius)
+            {
+                int sens = Math.abs(arriveeV.getX())/arriveeV.getX();
+                Vec2 newArriveeV = new Vec2(sens*(1500-a.mRobotRadius), arriveeV.getY());
+                ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
+                newPath.add(newPath.size(),arriveeV);
+                return newPath;
+            }
+            else{
+                int sens = Math.abs(arriveeV.getY()-1000)/(arriveeV.getY()-1000);
+                Vec2 newArriveeV = new Vec2(arriveeV.getX(), 1000+sens*(1000-a.mRobotRadius));
+                ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
+                newPath.add(newPath.size(), arriveeV);
+            }
         }
 
         for (int i = 0; i < g.getlNoeuds().size(); i++) //On vérifie que ça n'intersecte ni les obstacles circulaires ni ca
