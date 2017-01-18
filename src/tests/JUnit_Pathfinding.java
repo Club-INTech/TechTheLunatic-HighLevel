@@ -110,16 +110,12 @@ public void horscercle()
         }
 
         win.getPanel().drawGraphe(graph);
-
         win.getPanel().drawLinesGraph(graphe.getlNoeuds()); // Commenter cette ligne pour ne plus afficher les liens du graphe
         Vec2 dep=null;
         Vec2 arr=null;
         while(true)
         {
             if(win.getMouse().hasClicked()) {
-
-
-
                     dep = win.getMouse().getLeftClickPosition();
                     arr = win.getMouse().getRightClickPosition();
                 log.debug(dep+"bkd"+arr);

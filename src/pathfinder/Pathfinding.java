@@ -162,20 +162,26 @@ public class Pathfinding implements Service {
         if (Math.abs(arriveeV.getX()) > 1500 - a.mRobotRadius ||
                 arriveeV.getY() < a.mRobotRadius ||
                 arriveeV.getY() > 2000 - a.mRobotRadius) {
-            log.debug("Je ne quitterai pas cette table sans une bonne raison ! => Point d'arrivée " + arriveeV);
+            log.debug("Je ne quitterai pas cette table sans une bonne raison ! => Point d'arrivée " + arriveeV + "\n" + "Bon, d'accord...");
             if (Math.abs(arriveeV.getX())>1500-a.mRobotRadius)
             {
                 int sens = Math.abs(arriveeV.getX())/arriveeV.getX();
                 Vec2 newArriveeV = new Vec2(sens*(1500-a.mRobotRadius), arriveeV.getY());
+
                 ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
+                arriveeV.setX(sens*(1500-a.getmRobotLenght()/2));
                 newPath.add(newPath.size(),arriveeV);
                 return newPath;
             }
-            else{
+            if (Math.abs(arriveeV.getY()-1000)>1000 - a.mRobotRadius)
+            {
                 int sens = Math.abs(arriveeV.getY()-1000)/(arriveeV.getY()-1000);
                 Vec2 newArriveeV = new Vec2(arriveeV.getX(), 1000+sens*(1000-a.mRobotRadius));
+
                 ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
+                arriveeV.setY(1000 + sens*(1000-a.getmRobotLenght()/2));
                 newPath.add(newPath.size(), arriveeV);
+                return newPath;
             }
         }
 
@@ -192,7 +198,7 @@ public class Pathfinding implements Service {
             while ((creerdep || creerarr) && j < nombobst) {
                 if (a.getFixedObstacles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
                 {
-                    log.debug("depart dans obstacle");
+                    log.debug("Depart dans obstacle");
                     Vec2 w = a.getFixedObstacles().get(j).noeudProche(departV).position;
                     ArrayList<Vec2> aRenvoyer = Astarfoulah(w, arriveeV, robotOrientation);
                     aRenvoyer.add(0, departV);
@@ -216,7 +222,7 @@ public class Pathfinding implements Service {
             while ((creerdep || creerarr) && j < nombobstRec) {
                 if (a.getRectangles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
                 {
-                    log.debug("depart dans obstacle");
+                    log.debug("Depart dans obstacle");
                     Vec2 w = a.getRectangles().get(j).noeudProche(departV).position;
                     ArrayList<Vec2> aRenvoyer = Astarfoulah(w, arriveeV, robotOrientation);
                     aRenvoyer.add(0, departV);
