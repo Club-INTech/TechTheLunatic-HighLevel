@@ -114,6 +114,7 @@ public class ObstacleRectangular extends Obstacle
 	 * Vérifie si le point donné est dans l'obstacle
 	 * @param point le point à tester
 	 */
+	@Override
 	public boolean isInObstacle(Vec2 point)
 	{
 		return point.getX() <= position.getX() + (sizeX / 2)

@@ -110,6 +110,7 @@ public class ObstacleCircular extends Obstacle
 	 * Vérifie si le point donné est dans l'obstacle
 	 * @param point le point à tester
 	 */
+	@Override
 	public boolean isInObstacle(Vec2 point)
 	{
 		return ((Segment.squaredLength(point, position) < radius*radius));
