@@ -39,16 +39,16 @@ public class Vec2
 {
 
 	/** Abscisse x*/
-	public int x;
+	private int x;
 	
 	/** Ordonnée y*/
-	public int y;
+	private int y;
 
 	/** Rayon r */
-	public double r;
+	private double r;
 
 	/** Angle a, entre -pi et pi */
-	public double a;
+	private double a;
 	
 	/** Constructeur d'un vecteur nul */
 	public Vec2()
