@@ -28,25 +28,21 @@ public class Noeud
 {
 
     public Vec2 position;
-
     public double distarrivee; // distance vers l'arrivee
     public ArrayList <Arrete> lArretes;
     public double sommedepart;
     public Noeud noeudPrecedent;
-
 
     /**
      * Constructeur Noeud vide
      */
     public Noeud()
     {
-
         this.lArretes=new ArrayList<Arrete>();
         this.position=new Vec2();
         this.distarrivee=100000000;
         this.sommedepart=100000000;
         this.noeudPrecedent=null;
-
     }
     /**
      * Constructeur
@@ -56,13 +52,11 @@ public class Noeud
 
     public Noeud(Graphe g, Vec2 position)
     {
-
         this.position=position;
         this.distarrivee=100000000;
         this.sommedepart=100000000;
         this.lArretes=new ArrayList<Arrete>();
         this.noeudPrecedent=null;
-
     }
 
 
@@ -73,12 +67,10 @@ public class Noeud
     public Noeud (Noeud n1)
     {
         this.position=n1.position;
-
         this.distarrivee=n1.distarrivee;
         this.lArretes=n1.lArretes;
         this.sommedepart=n1.sommedepart;
         this.noeudPrecedent=n1.noeudPrecedent;
-
     }
 
     /**
@@ -109,16 +101,13 @@ public class Noeud
     public void actuTTL()
     {
         for (int i=0;i<lArretes.size();i++)
-    {
-        lArretes.get(i).timeToLive--;
-        if(lArretes.get(i).timeToLive==0)
         {
-            this.lArretes.remove(i);
+            lArretes.get(i).timeToLive--;
+            if(lArretes.get(i).timeToLive==0)
+            {
+                this.lArretes.remove(i);
+            }
+
         }
-
     }
-
-    }
-
-
 }

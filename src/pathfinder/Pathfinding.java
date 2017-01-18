@@ -175,7 +175,7 @@ public class Pathfinding implements Service {
                     return aRenvoyer;
                 }
                 if (a.getRectangles().get(j).isInObstacle(arriveeV)) {
-                    log.debug("U  stupid or somethin'?");
+                    log.debug("U  stupid or somethin'? => Arrivée dans un obstacle :"+arriveeV);
                     creerarr = false;
                     throw new PointInObstacleException(arriveeV);
                 }
@@ -250,23 +250,17 @@ public class Pathfinding implements Service {
                 double b = noeudCourant.sommedepart + noeudCourant.lArretes.get(i).cout;
                 if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart > b) // On vérifie qu'il n'est pas dans la closedList ou que on a déjà trouvé mieux
                 {
-
                     //on modifie la sommedepuis le départ et le noeud précédent, puis on ajoute a la priorityQueue
                     noeudCourant.lArretes.get(i).arrivee.sommedepart = b;
 
                     noeudCourant.lArretes.get(i).arrivee.noeudPrecedent = noeudCourant;
                     pq.add(noeudCourant.lArretes.get(i).arrivee);
-
-
                 }
-
             }
-
 
             if (pq.isEmpty()) break;
 
             noeudCourant = pq.poll();
-
 
             if (arrivee == noeudCourant) { // on reconstruit le chemin (limité à 100 au cas où il y a des boucles)
                 while (noeudCourant != null && chemin.size() < 100) {
@@ -292,10 +286,9 @@ public class Pathfinding implements Service {
                             p--;
 
                         }
-
-
                     }
                 }
+
                 //on supprime les liens dans le sens retour liés à l'arrivée
                 for (int j = 0; j < arrivee.lArretes.size(); j++) {
                     int p = arrivee.lArretes.get(j).arrivee.lArretes.size();
@@ -305,9 +298,7 @@ public class Pathfinding implements Service {
                             arrivee.lArretes.get(j).arrivee.lArretes.remove(arrivee.lArretes.get(j).arrivee.lArretes.get(i));
                             i--;
                             p--;
-
                         }
-
                     }
                 }
 
@@ -337,10 +328,9 @@ public class Pathfinding implements Service {
                     p--;
 
                 }
-
-
             }
         }
+
         //on supprime les liens dans le sens retour liés à l'arrivée
         for (int j = 0; j < arrivee.lArretes.size(); j++) {
             int p = arrivee.lArretes.get(j).arrivee.lArretes.size();
@@ -352,7 +342,6 @@ public class Pathfinding implements Service {
                     p--;
 
                 }
-
             }
         }
 

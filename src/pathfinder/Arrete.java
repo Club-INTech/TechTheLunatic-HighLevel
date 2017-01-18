@@ -21,7 +21,6 @@ package pathfinder;
 
 import smartMath.Vec2;
 import table.obstacles.ObstacleCircular;
-import table.obstacles.ObstacleRectangular;
 
 /**
  * Created by shininisan on 19/10/16.
@@ -59,15 +58,14 @@ public class Arrete {
 
 
 
-            Vec2 da= new Vec2(depart.position.x-arrivee.position.x,depart.position.y-arrivee.position.y);
-            Vec2 dc= new Vec2(depart.position.x-obstacle.getPosition().x,depart.position.y-obstacle.getPosition().y);
+            Vec2 da= new Vec2(depart.position.getX()-arrivee.position.getX(),depart.position.getY()-arrivee.position.getY());
+            Vec2 dc= new Vec2(depart.position.getX()-obstacle.getPosition().getX(),depart.position.getY()-obstacle.getPosition().getY());
             double distcentre= (double)(da.dot(dc))/dc.length();
             //... découverte de la fonction isinobstacle
             if (Math.abs(distcentre)< obstacle.getRadius())
             {
                 // on le détache de ses noeuds
                 this.depart.lArretes.remove(this);
-
                 this.arrivee.lArretes.remove(this);
                 return true;
             }
@@ -80,6 +78,6 @@ public class Arrete {
      */
     public void calcCout()
     {
-        this.cout=new Vec2 (this.depart.position.x-this.arrivee.position.x,this.depart.position.y-this.arrivee.position.y).length();
+        this.cout=new Vec2 (this.depart.position.getX()-this.arrivee.position.getX(),this.depart.position.getY()-this.arrivee.position.getY()).length();
     }
 }

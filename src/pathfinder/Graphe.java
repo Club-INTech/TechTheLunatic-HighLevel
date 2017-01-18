@@ -22,7 +22,6 @@ package pathfinder;
 import smartMath.Circle;
 import smartMath.Geometry;
 import smartMath.Segment;
-import smartMath.Vec2;
 import table.Table;
 import table.obstacles.ObstacleCircular;
 import table.obstacles.ObstacleManager;
@@ -122,7 +121,7 @@ public class Graphe {
 
                         ArrayList<Segment> lineObstacles = a.getLines();
                         //si on est en dehors du graphe
-                        if(Math.abs(noeud1.position.x)>1500-a.mRobotRadius || noeud1.position.y<a.mRobotRadius || noeud1.position.y>2000-a.mRobotRadius)
+                        if(Math.abs(noeud1.position.getX())>1500-a.mRobotRadius || noeud1.position.getY()<a.mRobotRadius || noeud1.position.getY()>2000-a.mRobotRadius)
                         {
                             creer=false;
                         }
@@ -192,7 +191,3 @@ public class Graphe {
 
 
 }
-
-
-
-
