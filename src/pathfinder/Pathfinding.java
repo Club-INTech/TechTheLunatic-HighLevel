@@ -78,30 +78,30 @@ public class Pathfinding implements Service {
         g.getlNoeuds().add(arrivee);
         ObstacleManager a = this.table.getObstacleManager();
 
-        if (Math.abs(departV.x) > 1500 - a.mRobotRadius ||
-                Math.abs(departV.y - 1000) > 1000 - a.mRobotRadius) {
+        if (Math.abs(departV.getX()) > 1500 - a.mRobotRadius ||
+                Math.abs(departV.getY() - 1000) > 1000 - a.mRobotRadius) {
             log.debug("Retourne sur la table connard => Point de départ " + departV);
 
             // Cas "simple", où le robot est perpendiculaire au côté de la table sur lequel il est bloqué (ya pas d'obstacle derriere, faut pas déconner)
-            if (departV.y < a.mRobotRadius && Math.abs(robotOrientation) > Math.PI / 4 && Math.abs(robotOrientation) < 3 * Math.PI / 4) {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.x, a.mRobotRadius + 1), arriveeV, robotOrientation);
+            if (departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) > Math.PI / 4 && Math.abs(robotOrientation) < 3 * Math.PI / 4) {
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), a.mRobotRadius + 1), arriveeV, robotOrientation);
                 newPath.add(0, departV);
                 return newPath;
-            } else if (departV.y > 2000 - a.mRobotRadius && Math.abs(robotOrientation) > Math.PI / 4 && Math.abs(robotOrientation) < 3 * Math.PI / 4) {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.x, 2000 - a.mRobotRadius), arriveeV, robotOrientation);
+            } else if (departV.getY() > 2000 - a.mRobotRadius && Math.abs(robotOrientation) > Math.PI / 4 && Math.abs(robotOrientation) < 3 * Math.PI / 4) {
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), 2000 - a.mRobotRadius), arriveeV, robotOrientation);
                 newPath.add(0, departV);
                 return newPath;
-            } else if (Math.abs(departV.x) > 1500 - a.mRobotRadius && Math.abs(robotOrientation) < Math.PI / 4 && Math.abs(robotOrientation) > 3 * Math.PI / 4) {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2((1500 - a.mRobotRadius) * departV.x / Math.abs(departV.x), departV.y), arriveeV, robotOrientation);
+            } else if (Math.abs(departV.getX()) > 1500 - a.mRobotRadius && Math.abs(robotOrientation) < Math.PI / 4 && Math.abs(robotOrientation) > 3 * Math.PI / 4) {
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2((1500 - a.mRobotRadius) * departV.getX() / Math.abs(departV.getX()), departV.getY()), arriveeV, robotOrientation);
                 newPath.add(0, departV);
                 return newPath;
             }
 
             // TODO Cas bien plus compliqués, où le robot est tangent au côté de la table sur lequel il est bloqué : Ici il faut gérer les possibles obstacles...
 
-            else if (departV.y < a.mRobotRadius && Math.abs(robotOrientation) < Math.PI / 4 && Math.abs(robotOrientation) > 3 * Math.PI / 4) {
-                double marge = Math.acos(a.getmRobotLenght() / 2 * a.mRobotRadius) - Math.acos(departV.y / a.mRobotRadius);
-                double radius = (a.mRobotRadius - departV.y) / Math.sin(marge);
+            else if (departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) < Math.PI / 4 && Math.abs(robotOrientation) > 3 * Math.PI / 4) {
+                double marge = Math.acos(a.getmRobotLenght() / 2 * a.mRobotRadius) - Math.acos(departV.getY() / a.mRobotRadius);
+                double radius = (a.mRobotRadius - departV.getY()) / Math.sin(marge);
                 Vec2 vecPropoFW = new Vec2(radius, Math.PI - marge);
                 Vec2 vecPropoBW = new Vec2(radius, marge);
 
@@ -124,9 +124,9 @@ public class Pathfinding implements Service {
             }
         }
 
-        if (Math.abs(arriveeV.x) > 1500 - a.mRobotRadius ||
-                arriveeV.y < a.mRobotRadius ||
-                arriveeV.y > 2000 - a.mRobotRadius) {
+        if (Math.abs(arriveeV.getX()) > 1500 - a.mRobotRadius ||
+                arriveeV.getY() < a.mRobotRadius ||
+                arriveeV.getY() > 2000 - a.mRobotRadius) {
             log.debug("Je ne quitterai pas cette table => Point d'arrivée " + arriveeV);
             return new ArrayList();
         }
@@ -451,7 +451,7 @@ public class Pathfinding implements Service {
      */
     private boolean isInObstacle(Vec2 propo) {
         for (Obstacle o : table.getObstacleManager().getFixedObstacles()) {
-            if (o instanceof ObstacleCircular && ((ObstacleCircular) o).getRadius() > o.getPosition().minusNewVector(propo).r) {
+            if (o instanceof ObstacleCircular && ((ObstacleCircular) o).getRadius() > o.getPosition().minusNewVector(propo).getR()) {
                 return true;
             }
         }

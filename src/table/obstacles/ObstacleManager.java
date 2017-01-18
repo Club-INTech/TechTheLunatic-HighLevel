@@ -247,13 +247,13 @@ public class ObstacleManager
     public synchronized void addObstacle(final Vec2 position, final int radius, final int lifetime)
     {
     	//vérification que l'on ne détecte pas un obstacle "normal"
-    	if (position.x>-1500+mRobotRadius+100 && position.x<1500-mRobotRadius-100 && position.y>mRobotRadius+100 && position.y<2000-mRobotRadius-100 //hors de la table
-                && !( Geometry.isBetween(position.x, -250, 250) && Geometry.isBetween(position.y, 600, 1500)) //C'est la vitre
-                && !( Geometry.isBetween(position.x, -800, 800) && Geometry.isBetween(position.y, 1650, 2000)) //château de sable
-				&& !( Geometry.isBetween(position.x, 700, 1000) && Geometry.isBetween(position.y, 950, 1250)) //château de sable tapis
-				&& !( Geometry.isBetween(position.x, 0, 600) && Geometry.isBetween(position.y, 800, 1300)) //Notre zone de depose
-				&& !( Geometry.isBetween(position.x, -1000, -700) && Geometry.isBetween(position.y, 950, 1250)) //château de sable tapis adv
-				&& !( Geometry.isBetween(position.x, 800, 1500) && Geometry.isBetween(position.y, 500, 1800)) //tapis
+    	if (position.getX()>-1500+mRobotRadius+100 && position.getX()<1500-mRobotRadius-100 && position.getY()>mRobotRadius+100 && position.getY()<2000-mRobotRadius-100 //hors de la table
+                && !( Geometry.isBetween(position.getX(), -250, 250) && Geometry.isBetween(position.getY(), 600, 1500)) //C'est la vitre
+                && !( Geometry.isBetween(position.getX(), -800, 800) && Geometry.isBetween(position.getY(), 1650, 2000)) //château de sable
+				&& !( Geometry.isBetween(position.getX(), 700, 1000) && Geometry.isBetween(position.getY(), 950, 1250)) //château de sable tapis
+				&& !( Geometry.isBetween(position.getX(), 0, 600) && Geometry.isBetween(position.getY(), 800, 1300)) //Notre zone de depose
+				&& !( Geometry.isBetween(position.getX(), -1000, -700) && Geometry.isBetween(position.getY(), 950, 1250)) //château de sable tapis adv
+				&& !( Geometry.isBetween(position.getX(), 800, 1500) && Geometry.isBetween(position.getY(), 500, 1800)) //tapis
 				)
     	{
     		boolean isThereAnObstacleIntersecting=false;
@@ -388,8 +388,8 @@ public class ObstacleManager
     	for(int i=0; i<mMobileObstacles.size(); i++)
     	{
     		if ((radius+mMobileObstacles.get(i).radius)*(radius+mMobileObstacles.get(i).radius)
-    			 > (discCenter.x-mMobileObstacles.get(i).getPosition().x)*(discCenter.x-mMobileObstacles.get(i).getPosition().x)
-    			 + (discCenter.y-mMobileObstacles.get(i).getPosition().y)*(discCenter.y-mMobileObstacles.get(i).getPosition().y))
+    			 > (discCenter.getX()-mMobileObstacles.get(i).getPosition().getX())*(discCenter.getX()-mMobileObstacles.get(i).getPosition().getX())
+    			 + (discCenter.getY()-mMobileObstacles.get(i).getPosition().getY())*(discCenter.getY()-mMobileObstacles.get(i).getPosition().getY()))
     		{
     			log.debug("Disque obstructed avec l'obstacle "+mMobileObstacles.get(i).getPosition()+"de rayon"+mMobileObstacles.get(i).radius);
     			log.debug("Disque en "+discCenter+" de rayon "+radius);
@@ -428,8 +428,8 @@ public class ObstacleManager
 	     	//trouve l'ennemi le plus proche parmis les obstacles confirmés
 	    	for(int i=0; i<mMobileObstacles.size(); i++)
 	    	{
-	    		Vec2 ennemyRelativeCoords = new Vec2((mMobileObstacles.get(i).position.x - position.x), 
-	    											  mMobileObstacles.get(i).position.y - position.y);
+	    		Vec2 ennemyRelativeCoords = new Vec2((mMobileObstacles.get(i).position.getX() - position.getX()), 
+	    											  mMobileObstacles.get(i).position.getY() - position.getY());
 	    		if(direction.dot(ennemyRelativeCoords) > 0)
 	    		{
 		    		squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength(); 
@@ -445,8 +445,8 @@ public class ObstacleManager
 	    	// (et remplace la distance a l'ennemi le plus proche d'un ennemi confirmé par une distance a un ennemi non confirmé s'il est plus proche)
 	    	for(int i=0; i<mUntestedMobileObstacles.size(); i++)
 	    	{
-	    		Vec2 ennemyRelativeCoords = new Vec2((mUntestedMobileObstacles.get(i).position.x - position.x), 
-	    											  mUntestedMobileObstacles.get(i).position.y - position.y);
+	    		Vec2 ennemyRelativeCoords = new Vec2((mUntestedMobileObstacles.get(i).position.getX() - position.getX()), 
+	    											  mUntestedMobileObstacles.get(i).position.getY() - position.getY());
 	    		if(direction.dot(ennemyRelativeCoords) > 0)
 	    		{
 		    		squaredDistanceToEnemyUntested = ennemyRelativeCoords.squaredLength(); 
@@ -531,12 +531,12 @@ public class ObstacleManager
     	if(obstacle instanceof ObstacleCircular)
     	{
     		ObstacleCircular obstacleCircular = (ObstacleCircular)obstacle;
-    		return (pos.x-obstacleCircular.position.x)*(pos.x-obstacleCircular.position.x)+(pos.y-obstacleCircular.position.y)*(pos.y-obstacleCircular.position.y)<obstacleCircular.radius*obstacleCircular.radius;
+    		return (pos.getX()-obstacleCircular.position.getX())*(pos.getX()-obstacleCircular.position.getX())+(pos.getY()-obstacleCircular.position.getY())*(pos.getY()-obstacleCircular.position.getY())<obstacleCircular.radius*obstacleCircular.radius;
     	}
     	if(obstacle instanceof ObstacleRectangular)
     	{
     		ObstacleRectangular obstacleRectangular = (ObstacleRectangular)obstacle;
-	    	return pos.x<(obstacleRectangular.position.x-(obstacleRectangular.sizeX/2)) || pos.x>(obstacleRectangular.position.x+(obstacleRectangular.sizeX/2)) || pos.y<(obstacleRectangular.position.y-(obstacleRectangular.sizeY/2)) || pos.y>(obstacleRectangular.position.y+(obstacleRectangular.sizeY/2));
+	    	return pos.getX()<(obstacleRectangular.position.getX()-(obstacleRectangular.sizeX/2)) || pos.getX()>(obstacleRectangular.position.getX()+(obstacleRectangular.sizeX/2)) || pos.getY()<(obstacleRectangular.position.getY()-(obstacleRectangular.sizeY/2)) || pos.getY()>(obstacleRectangular.position.getY()+(obstacleRectangular.sizeY/2));
     	}
     	else
     		throw new IllegalArgumentException();
@@ -625,7 +625,7 @@ public class ObstacleManager
     
     public boolean isEnnemyInCone(Vec2 positionEnnemy, Vec2 position, double detectionRadius, double orientation, double detectionAngle, int ennemyRay) 
     {
-    	double ennemyAngle = Math.atan2(positionEnnemy.x - position.x, positionEnnemy.y - position.y);
+    	double ennemyAngle = Math.atan2(positionEnnemy.getX() - position.getX(), positionEnnemy.getY() - position.getY());
 		
 		// si le centre de l'obstacle est dans le cone 
 		// ou 
@@ -633,11 +633,11 @@ public class ObstacleManager
 		// ou
 		// si on interesecte avec le coté droit
 		Segment coteGaucheCone = new Segment(position, 
-				new Vec2( position.x + (int)(detectionRadius*Math.cos(orientation + detectionAngle/2)), 
-						  position.y + (int)(detectionRadius*Math.sin(orientation + detectionAngle/2)) ) );
+				new Vec2( position.getX() + (int)(detectionRadius*Math.cos(orientation + detectionAngle/2)), 
+						  position.getY() + (int)(detectionRadius*Math.sin(orientation + detectionAngle/2)) ) );
 		Segment coteDroitCone = new Segment(position, 
-				new Vec2( position.x + (int)(detectionRadius*Math.cos(orientation - detectionAngle/2)), 
-						  position.y + (int)(detectionRadius*Math.sin(orientation - detectionAngle/2)) ) );
+				new Vec2( position.getX() + (int)(detectionRadius*Math.cos(orientation - detectionAngle/2)), 
+						  position.getY() + (int)(detectionRadius*Math.sin(orientation - detectionAngle/2)) ) );
 		
 		return (ennemyAngle < (orientation + detectionAngle/2)
 	    && ennemyAngle > (orientation - detectionAngle/2)
@@ -670,8 +670,8 @@ public class ObstacleManager
     {
     	for(int i=0; i<mMobileObstacles.size(); i++)
     	{ 
-    		if( (   (position.x-mMobileObstacles.get(i).getPosition().x)*(position.x-mMobileObstacles.get(i).getPosition().x)
-    	    	+   (position.y-mMobileObstacles.get(i).getPosition().y)*(position.y-mMobileObstacles.get(i).getPosition().y) ) 
+    		if( (   (position.getX()-mMobileObstacles.get(i).getPosition().getX())*(position.getX()-mMobileObstacles.get(i).getPosition().getX())
+    	    	+   (position.getY()-mMobileObstacles.get(i).getPosition().getY())*(position.getY()-mMobileObstacles.get(i).getPosition().getY()) )
     	    	<=( (mRobotRadius+mMobileObstacles.get(i).radius)*(mRobotRadius+mMobileObstacles.get(i).radius)) ) 	    	
     			mMobileObstacles.remove(mMobileObstacles.get(i));
     	}
@@ -686,8 +686,8 @@ public class ObstacleManager
     public void removeFixedObstaclesInDisc(Vec2 position, int radius)
     {
     	for(int i=0; i<mFixedObstacles.size(); i++)
-    		if((position.x-mFixedObstacles.get(i).getPosition().x)*(position.x-mFixedObstacles.get(i).getPosition().x)
-    		 + (position.y-mFixedObstacles.get(i).getPosition().y)*(position.y-mFixedObstacles.get(i).getPosition().y)
+    		if((position.getX()-mFixedObstacles.get(i).getPosition().getX())*(position.getX()-mFixedObstacles.get(i).getPosition().getX())
+    		 + (position.getY()-mFixedObstacles.get(i).getPosition().getY())*(position.getY()-mFixedObstacles.get(i).getPosition().getY())
     		 <= mRobotRadius*mRobotRadius)
     			mFixedObstacles.remove(mFixedObstacles.get(i));
     }

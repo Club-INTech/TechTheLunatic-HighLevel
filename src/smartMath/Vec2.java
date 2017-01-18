@@ -293,6 +293,10 @@ public class Vec2
 		return signe*Math.PI + Math.atan2(this.y, this.x);
 	}
 
+	/**
+	 * Tous les setters et getters parce private :p
+	 */
+
 	public int getX() {
 		return x;
 	}

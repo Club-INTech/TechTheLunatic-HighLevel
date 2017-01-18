@@ -113,8 +113,8 @@ public class Circle {
 	 */
 	public boolean containCircle(Vec2 point)
 	{
-		double dx=point.x-this.center.x;
-		double dy=point.y-this.center.y;
+		double dx=point.getX()-this.center.getX();
+		double dy=point.getY()-this.center.getY();
 		return (dx*dx+dy*dy)==(radius*radius);
 	}
 }

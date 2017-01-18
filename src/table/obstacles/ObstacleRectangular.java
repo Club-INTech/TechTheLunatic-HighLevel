@@ -104,8 +104,8 @@ public class ObstacleRectangular extends Obstacle
 	public ArrayList<Segment> getSegments()
 	{
 		ArrayList<Segment> segments = new ArrayList<Segment>();
-		segments.add(new Segment(new Vec2(position.x + sizeX/2 , position.y + sizeY/2), new Vec2(position.x - sizeX/2 , position.y - sizeY/2)));
-		segments.add(new Segment(new Vec2(position.x + sizeX/2 , position.y - sizeY/2), new Vec2(position.x - sizeX/2 , position.y + sizeY/2)));
+		segments.add(new Segment(new Vec2(position.getX() + sizeX/2 , position.getY() + sizeY/2), new Vec2(position.getX() - sizeX/2 , position.getY() - sizeY/2)));
+		segments.add(new Segment(new Vec2(position.getX() + sizeX/2 , position.getY() - sizeY/2), new Vec2(position.getX() - sizeX/2 , position.getY() + sizeY/2)));
 
 		return segments;
 	}
@@ -116,10 +116,10 @@ public class ObstacleRectangular extends Obstacle
 	 */
 	public boolean isInObstacle(Vec2 point)
 	{
-		return point.x <= position.x + (sizeX / 2)
-				&& point.x >= position.x - (sizeX / 2)
-				&& point.y <= position.y + (sizeY / 2)
-				&& point.y >= position.y - (sizeY / 2);
+		return point.getX() <= position.getX() + (sizeX / 2)
+				&& point.getX() >= position.getX() - (sizeX / 2)
+				&& point.getY() <= position.getY() + (sizeY / 2)
+				&& point.getY() >= position.getY() - (sizeY / 2);
 	}
 	
 	/**
@@ -166,30 +166,30 @@ public class ObstacleRectangular extends Obstacle
 		Vec2 coinHautDroite = position.plusNewVector((new Vec2(sizeX,0)));
 		
 		// si le point fourni est dans les quarts-de-plans n°2,4,6 ou 8
-		if(in.x < coinBasGauche.x && in.y < coinBasGauche.y)
+		if(in.getX() < coinBasGauche.getX() && in.getY() < coinBasGauche.getY())
 			return in.squaredDistance(coinBasGauche);
 		
-		else if(in.x < coinHautGauche.x && in.y > coinHautGauche.y)
+		else if(in.getX() < coinHautGauche.getX() && in.getY() > coinHautGauche.getY())
 			return in.squaredDistance(coinHautGauche);
 		
-		else if(in.x > coinBasDroite.x && in.y < coinBasDroite.y)
+		else if(in.getX() > coinBasDroite.getX() && in.getY() < coinBasDroite.getY())
 			return in.squaredDistance(coinBasDroite);
 
-		else if(in.x > coinHautDroite.x && in.y > coinHautDroite.y)
+		else if(in.getX() > coinHautDroite.getX() && in.getY() > coinHautDroite.getY())
 			return in.squaredDistance(coinHautDroite);
 
 		// Si le point fourni est dans les demi-bandes n°1,3,5,ou 7
-		if(in.x > coinHautDroite.x)
-			return (in.x - coinHautDroite.x)*(in.x - coinHautDroite.x);
+		if(in.getX() > coinHautDroite.getX())
+			return (in.getX() - coinHautDroite.getX())*(in.getX() - coinHautDroite.getX());
 		
-		else if(in.x < coinBasGauche.x)
-			return (in.x - coinBasGauche.x)*(in.x - coinBasGauche.x);
+		else if(in.getX() < coinBasGauche.getX())
+			return (in.getX() - coinBasGauche.getX())*(in.getX() - coinBasGauche.getX());
 
-		else if(in.y > coinHautDroite.y)
-			return (in.y - coinHautDroite.y)*(in.y - coinHautDroite.y);
+		else if(in.getY() > coinHautDroite.getY())
+			return (in.getY() - coinHautDroite.getY())*(in.getY() - coinHautDroite.getY());
 		
-		else if(in.y < coinBasGauche.y)
-			return (in.y - coinBasGauche.y)*(in.y - coinBasGauche.y);
+		else if(in.getY() < coinBasGauche.getY())
+			return (in.getY() - coinBasGauche.getY())*(in.getY() - coinBasGauche.getY());
 
 		// Sinon, on est dans l'obstacle
 		return 0f;
@@ -233,14 +233,14 @@ public class ObstacleRectangular extends Obstacle
 	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe,int ecart)
 	{
 
-		Vec2 hautgauche= new Vec2(this.position.x-this.sizeX/2 -ecart,this.position.y+sizeY/2+ecart);
-		Vec2 basdroite= new Vec2(this.position.x+this.sizeX/2 +ecart,this.position.y-sizeY/2 -ecart);
-		Vec2 hautdroite=new Vec2(this.position.x+this.sizeX/2 +ecart,this.position.y+sizeY/2+ecart);
-		Vec2 basgauche=new Vec2(this.position.x-this.sizeX/2-ecart,this.position.y-sizeY/2-ecart);
-		Vec2 gauchemilieu= new Vec2(this.position.x-this.sizeX/2 -ecart,this.position.y);
-		Vec2 basmilieu= new Vec2(this.position.x,this.position.y-sizeY/2 -ecart);
-		Vec2 hautmilieu=new Vec2(this.position.x ,this.position.y+sizeY/2+ecart);
-		Vec2 droitemilieu=new Vec2(this.position.x+this.sizeX/2+ecart,this.position.y);
+		Vec2 hautgauche= new Vec2(this.position.getX()-this.sizeX/2 -ecart,this.position.getY()+sizeY/2+ecart);
+		Vec2 basdroite= new Vec2(this.position.getX()+this.sizeX/2 +ecart,this.position.getY()-sizeY/2 -ecart);
+		Vec2 hautdroite=new Vec2(this.position.getX()+this.sizeX/2 +ecart,this.position.getY()+sizeY/2+ecart);
+		Vec2 basgauche=new Vec2(this.position.getX()-this.sizeX/2-ecart,this.position.getY()-sizeY/2-ecart);
+		Vec2 gauchemilieu= new Vec2(this.position.getX()-this.sizeX/2 -ecart,this.position.getY());
+		Vec2 basmilieu= new Vec2(this.position.getX(),this.position.getY()-sizeY/2 -ecart);
+		Vec2 hautmilieu=new Vec2(this.position.getX() ,this.position.getY()+sizeY/2+ecart);
+		Vec2 droitemilieu=new Vec2(this.position.getX()+this.sizeX/2+ecart,this.position.getY());
 
 		Noeud cbd=new Noeud(graphe,basdroite);
 		Noeud cbg=new Noeud(graphe,basgauche);
