@@ -81,7 +81,7 @@ public class CatchBalls extends AbstractScript {
                 // Calcule de l'angle pour se diriger vers le centre du robot
                 Vec2 posCratere= new Vec2(850, 540);
                 Vec2 posRobot=stateToConsider.robot.getPosition();
-                Vec2 vec = new Vec2(posCratere.x-posRobot.x, posCratere.y-posRobot.y);
+                Vec2 vec = new Vec2(posCratere.getX()-posRobot.getX(), posCratere.getY()-posRobot.getY());
                 double angle= vec.angle();
 
                 // Manoeuvre pour se diriger vers le cratère
@@ -95,7 +95,7 @@ public class CatchBalls extends AbstractScript {
                 // Même chose qu'à la version 1
                 Vec2 posCratere= new Vec2(430, 1870);
                 Vec2 posRobot=stateToConsider.robot.getPosition();
-                Vec2 vec = new Vec2(posCratere.x-posRobot.x, posCratere.y-posRobot.y);
+                Vec2 vec = new Vec2(posCratere.getX()-posRobot.getX(), posCratere.getY()-posRobot.getY());
                 double angle= vec.angle();
 
                 stateToConsider.robot.turn(angle);

@@ -53,7 +53,7 @@ public class DisplayTable extends JPanel {
 
 		public Point(Vec2 p, Color couleur)
 		{
-			this(p.x, p.y, couleur);
+			this(p.getX(), p.getY(), couleur);
 		}
 	}
 	
@@ -174,8 +174,8 @@ public class DisplayTable extends JPanel {
 		double a = h.delta / 2;
 		double c = h.p1.distance(h.p2) / 2;
 		double b = Math.sqrt(c*c - a*a);
-		Vec2 centre =  new Vec2((h.p1.x + h.p2.x) / 2, (h.p1.y + h.p2.y) / 2);
-		double angle = Math.atan2(h.p2.y - h.p1.y, h.p2.x - h.p1.x);
+		Vec2 centre =  new Vec2((h.p1.getX() + h.p2.getX()) / 2, (h.p1.getY() + h.p2.getY()) / 2);
+		double angle = Math.atan2(h.p2.getY() - h.p1.getY(), h.p2.getX() - h.p1.getX());
 		double cos = Math.cos(angle);
 		double sin = Math.sin(angle);
 		Point last = null, point;
@@ -184,8 +184,8 @@ public class DisplayTable extends JPanel {
 			double x = -a*Math.cosh(i/1000);
 			double y = b*Math.sinh(i/1000);
 			Vec2 p = new Vec2((int)(cos*x-sin*y), (int)(sin*x+cos*y));
-			p.x += centre.x;
-			p.y += centre.y;
+			p.setX(centre.getX());
+			p.setY(centre.getY());
 			point = new Point(p, Couleur.NOIR.couleur);
 			if(last != null)
 				drawLine(g, last, point);
@@ -248,7 +248,7 @@ public class DisplayTable extends JPanel {
 		if(p == null)
 			return;
 
-		if(p.x >= -1500 && p.x <= 1500 && p.y >= 0 && p.y <= 2000 && indiceListe >= 0 && indiceListe < nbListe)
+		if(p.getX() >= -1500 && p.getX() <= 1500 && p.getY() >= 0 && p.getY() <= 2000 && indiceListe >= 0 && indiceListe < nbListe)
 		{
 			points[indiceListe].add(new Point(p, couleur));
 			repaint();

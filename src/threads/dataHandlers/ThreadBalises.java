@@ -156,7 +156,7 @@ public class ThreadBalises extends AbstractThread
         long timestamp;
         long lastSignalDebug = System.currentTimeMillis();
         serialPort.notifyOnDataAvailable(false);
-        updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
+        updatePermissions(robot.getPositionFast().getX(), robot.getPositionFast().getY());
         while(true)
         {
 
@@ -178,7 +178,7 @@ public class ThreadBalises extends AbstractThread
             if(wrote[0] && wrote[1] && wrote[2])
             {
                 wrote[0] = false; wrote[1] = false; wrote[2] = false;
-                updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
+                updatePermissions(robot.getPositionFast().getX(), robot.getPositionFast().getY());
 
                 if(extremeLateness())
                 {
@@ -190,7 +190,7 @@ public class ThreadBalises extends AbstractThread
                     out.write(timestamps[CANAL_1]+";"+timestamps[CANAL_2]+";"+timestamps[INT]);
                     out.newLine();
                     out.flush();
-                    outpos.write(robot.getPositionFast().x+"\t"+robot.getPositionFast().y);
+                    outpos.write(robot.getPositionFast().getX()+"\t"+robot.getPositionFast().getY());
                     outpos.newLine();
                     outpos.flush();
 
@@ -370,7 +370,7 @@ public class ThreadBalises extends AbstractThread
                 for(byte i=0 ; i<3 ; i++)
                     if(i!=no)
                         wrote[i]=false;
-                updatePermissions(robot.getPositionFast().x, robot.getPositionFast().y);
+                updatePermissions(robot.getPositionFast().getX(), robot.getPositionFast().getY());
                 log.debug("LATE "+no);
             }
         }
@@ -434,8 +434,8 @@ public class ThreadBalises extends AbstractThread
 
         for(int i=0 ; i<filter.size() ; i++)
         {
-            x += filter.get(i).x;
-            y += filter.get(i).y;
+            x += filter.get(i).getX();
+            y += filter.get(i).getY();
         }
 
         return new Vec2((int)(x/filter.size()), (int)(y/filter.size()));
