@@ -104,6 +104,7 @@ public class Pathfinding implements Service {
             // Si l'un est dans un obstacle, on vérifie l'autre; si les deux sont dans des obstacles, on prend les deux successivement,
             // et on rappelle Astarfoulah avec le nouveau vecteur de départ.
             // Evidemment, si l'angle marge est trop petit, ca peut ne pas fonctionner : mais sans trajectoire courbe, ce cas est improbable...
+
             else if ((departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) < Math.PI / 4 && Math.abs(robotOrientation) > 3 * Math.PI / 4) ||
                     (2000 - departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) < Math.PI/4 && Math.abs(robotOrientation) > 3*Math.PI/4 ))
             {
@@ -159,6 +160,7 @@ public class Pathfinding implements Service {
 
         // Si tel est son souhait, on l'amene hors de la table... Mais en passant par un point faisant en sorte qu'il arrive perpendiculairement
         // au bord de la table : on appelle Astarfoulah sur le point dans la table le plus proche du point d'arrivée hors-table
+
         if (Math.abs(arriveeV.getX()) > 1500 - a.mRobotRadius ||
                 arriveeV.getY() < a.mRobotRadius ||
                 arriveeV.getY() > 2000 - a.mRobotRadius) {
@@ -208,16 +210,7 @@ public class Pathfinding implements Service {
             boolean creerarr = true;
             int nombobst = a.getFixedObstacles().size();
             int nombobstRec = a.getRectangles().size();
-
-
-            // on arrete les boucles si on voit que l'on ne doit créer ni un lien vers l'arrivée ni vers le début
-            while ((creerdep || creerarr) && j < nombobst) {
-
-
-                creerdep = creerdep && !(Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
-                creerarr = creerarr && !(Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
-                j++;
-            }
+            
             j = 0;
             while ((creerdep || creerarr) && j < nombobstRec) {
 
