@@ -56,14 +56,10 @@ public class JUnit_Pathfinding extends JUnit_Test{
     public void setUp() throws Exception
     {
         super.setUp();
-
         log = container.getService(Log.class);
         table = container.getService(Table.class);
         win = new Window(table);
-
         pf = container.getService(Pathfinding.class);
-
-
 
        // log.debug("JUnit_DeplacementsTest.setUp()");
 
@@ -106,7 +102,7 @@ public void horscercle()
     }*/
 
     @Test
-    public void testClickedPF() throws Exception
+    /* public void testClickedPF() throws Exception
     {
         //Table T = container.getService(Table.class);
         //Pathfinding pf=container.getService(Pathfinding.class);
@@ -147,12 +143,11 @@ public void horscercle()
                     } else {
                         Thread.sleep(200);
 
-                }
-                    } else
-                        Thread.sleep(200);
-
-                }
+                    }
+                } else
+                    Thread.sleep(200);
             }
+        }*/
 
     public void testrandom() throws Exception
     {

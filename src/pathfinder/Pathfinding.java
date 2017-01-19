@@ -70,8 +70,9 @@ public class Pathfinding implements Service {
      * @return une arrayliste des positions intermédiaires
      */
     public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV, double robotOrientation) throws PointInObstacleException {
-        // On récupère les obstacles
+        // On récupère les obstacles et on s'assure que l'orientation du robot soit entre -pi et pi
         ObstacleManager a = this.table.getObstacleManager();
+        robotOrientation = robotOrientation%Math.PI;
 
         // Si le point de départ est hors de la table
         if (Math.abs(departV.getX()) > 1500 - a.mRobotRadius ||
@@ -81,7 +82,7 @@ public class Pathfinding implements Service {
             // Cas "simple", où le robot est perpendiculaire au côté de la table sur lequel il est bloqué
             // Il recule/avance juste pour rentrer dans la table (ya pas d'obstacle derriere, faut pas déconner)
 
-            if (departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) > Math.PI/4 && Math.abs(robotOrientation) < 3 * Math.PI/4) {
+            if (departV.getY() < a.mRobotRadius && (Math.abs(robotOrientation) > Math.PI/4 && Math.abs(robotOrientation) < 3 * Math.PI/4)) {
                 ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), a.mRobotRadius + 1), arriveeV, robotOrientation);
                 newPath.add(0, departV);
                 return newPath;
@@ -89,7 +90,7 @@ public class Pathfinding implements Service {
                 ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), 2000 - a.mRobotRadius), arriveeV, robotOrientation);
                 newPath.add(0, departV);
                 return newPath;
-            } else if (Math.abs(departV.getX()) > 1500 - a.mRobotRadius && Math.abs(robotOrientation) < Math.PI / 4 && Math.abs(robotOrientation) > 3 * Math.PI / 4) {
+            } else if (Math.abs(departV.getX()) > 1500 - a.mRobotRadius && (Math.abs(robotOrientation) < Math.PI / 4 || Math.abs(robotOrientation) > 3 * Math.PI / 4)) {
                 ArrayList<Vec2> newPath = Astarfoulah(new Vec2((1500 - a.mRobotRadius) * departV.getX() / Math.abs(departV.getX()), departV.getY()), arriveeV, robotOrientation);
                 newPath.add(0, departV);
                 return newPath;
@@ -102,8 +103,8 @@ public class Pathfinding implements Service {
             // et on rappelle Astarfoulah avec le nouveau vecteur de départ.
             // Evidemment, si l'angle marge est trop petit, ca peut ne pas fonctionner : mais sans trajectoire courbe, ce cas est improbable...
 
-            else if ((departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) < Math.PI/4 && Math.abs(robotOrientation) > 3*Math.PI/4) ||
-                    (2000 - departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) < Math.PI/4 && Math.abs(robotOrientation) > 3*Math.PI/4 ))
+            else if ((departV.getY() < a.mRobotRadius && (Math.abs(robotOrientation) < Math.PI/4 || Math.abs(robotOrientation) > 3*Math.PI/4)) ||
+                    (2000 - departV.getY() < a.mRobotRadius && (Math.abs(robotOrientation) < Math.PI/4 || Math.abs(robotOrientation) > 3*Math.PI/4 )))
             {
                 int sens = Math.abs(departV.getY()-1000)/(departV.getY()-1000);
                 double marge = Math.acos(a.getmRobotLenght() / 2 * a.mRobotRadius) - Math.acos(departV.getY() / 2*a.mRobotRadius);
