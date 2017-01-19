@@ -101,7 +101,7 @@ public class ObstacleRectangular extends Obstacle
 	/**
 	 * Renvoie les Segments des diagonales du rectangle
 	 */
-	public ArrayList<Segment> getSegments()
+	public ArrayList<Segment> getDiagos()
 	{
 		ArrayList<Segment> segments = new ArrayList<Segment>();
 		segments.add(new Segment(new Vec2(position.getX() + sizeX/2 , position.getY() + sizeY/2), new Vec2(position.getX() - sizeX/2 , position.getY() - sizeY/2)));
@@ -203,7 +203,7 @@ public class ObstacleRectangular extends Obstacle
 	}
 
 	/**
-	 * ajoute les noeuds liés à l'obstacle sur le graphe et les relie entre eux
+	 * Ajoute les noeuds liés à l'obstacle sur le graphe et les relie entre eux
 	 * @param graphe
 	 * @param ecart écart minimal par rapport à l'obstacle
 	 *
@@ -259,7 +259,7 @@ public class ObstacleRectangular extends Obstacle
 		graphe.getlNoeuds().add(chd);
 		graphe.getlNoeuds().add(chg);
 
-// BIEN METTRE LES NOEUDS DU MILIEU APRES CEUX DU HAUT
+		// BIEN METTRE LES NOEUDS DU MILIEU APRES CEUX DU HAUT
 		graphe.getlNoeuds().add(gm);
 		graphe.getlNoeuds().add(bm);
 		graphe.getlNoeuds().add(hm);

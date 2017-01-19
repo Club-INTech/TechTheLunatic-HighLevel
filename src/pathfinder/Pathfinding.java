@@ -102,8 +102,8 @@ public class Pathfinding implements Service {
             // et on rappelle Astarfoulah avec le nouveau vecteur de départ.
             // Evidemment, si l'angle marge est trop petit, ca peut ne pas fonctionner : mais sans trajectoire courbe, ce cas est improbable...
 
-            else if ((departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) < Math.PI/4 || Math.abs(robotOrientation) > 3*Math.PI/4) ||
-                    (2000 - departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) < Math.PI/4 || Math.abs(robotOrientation) > 3*Math.PI/4 ))
+            else if ((departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) < Math.PI/4 && Math.abs(robotOrientation) > 3*Math.PI/4) ||
+                    (2000 - departV.getY() < a.mRobotRadius && Math.abs(robotOrientation) < Math.PI/4 && Math.abs(robotOrientation) > 3*Math.PI/4 ))
             {
                 int sens = Math.abs(departV.getY()-1000)/(departV.getY()-1000);
                 double marge = Math.acos(a.getmRobotLenght() / 2 * a.mRobotRadius) - Math.acos(departV.getY() / 2*a.mRobotRadius);
@@ -195,7 +195,7 @@ public class Pathfinding implements Service {
 
                 // De même, on différencie les cas ou le robot est tangent, et celui ou il est perpendiculaire
                 // Perpendiculaire
-                if (Math.abs(robotOrientation-vecRef.getA()) < Math.PI/4 || Math.abs(robotOrientation-vecRef.getA()) > 3*Math.PI/4){
+                if (Math.abs(robotOrientation-vecRef.getA()) < Math.PI/4 && Math.abs(robotOrientation-vecRef.getA()) > 3*Math.PI/4){
                     vecRef.setR(radius+1);
                     vecRef.setA(vecRef.getA()+Math.PI);
 
@@ -267,7 +267,7 @@ public class Pathfinding implements Service {
             boolean creerarr = true;
             int nombobst = a.getFixedObstacles().size();
             int nombobstRec = a.getRectangles().size();
-            
+
             j = 0;
             while ((creerdep || creerarr) && j < nombobst) {
                           /*  if (a.getFixedObstacles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
