@@ -207,7 +207,10 @@ public class Pathfinding implements Service {
                 if (a.getFixedObstacles().get(j).isInObstacle(arriveeV)) {
                     creerarr = false;
                     log.debug("U  stupid or somethin'? => Arrivée dans un obstacle :"+arriveeV);
-                    throw new PointInObstacleException(arriveeV);
+                   Vec2 w = a.getFixedObstacles().get(j).noeudProche(arriveeV).position;
+                    ArrayList<Vec2> aRenvoyer = Astarfoulah(departV, w, robotOrientation);
+                    return aRenvoyer;
+                    // /throw new PointInObstacleException(arriveeV);
                 }
                 if (a.getFixedObstacles().get(j).isInObstacle(g.getlNoeuds().get(i).position)) {
                     creerdep = false;
