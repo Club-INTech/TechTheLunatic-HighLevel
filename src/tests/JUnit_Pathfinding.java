@@ -19,6 +19,7 @@
 
 package tests;
 
+import enums.Speed;
 import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +35,7 @@ import table.Table;
 import utils.Log;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * teste la fermeture des portes par la version 0 du script
@@ -54,13 +56,20 @@ public class JUnit_Pathfinding extends JUnit_Test{
     public void setUp() throws Exception
     {
         super.setUp();
-        table = container.getService(Table.class);
-
 
         log = container.getService(Log.class);
+        table = container.getService(Table.class);
         win = new Window(table);
 
         pf = container.getService(Pathfinding.class);
+
+
+
+       // log.debug("JUnit_DeplacementsTest.setUp()");
+
+        //La position de depart est mise dans la Table
+
+
     }
 
 
@@ -95,11 +104,12 @@ public void horscercle()
         log.debug(p);
 
     }*/
+
     @Test
     public void testClickedPF() throws Exception
     {
-        Table T = container.getService(Table.class);
-        Pathfinding pf=container.getService(Pathfinding.class);
+        //Table T = container.getService(Table.class);
+        //Pathfinding pf=container.getService(Pathfinding.class);
 
         Graphe graphe= pf.getGraphe();
          ArrayList<Vec2> graph = new ArrayList<>();
@@ -144,6 +154,45 @@ public void horscercle()
                 }
             }
 
+    public void testrandom() throws Exception
+    {
+        mRobot = container.getService(GameState.class);
+        mRobot.updateConfig();
+        mRobot.robot.setPosition(Table.entryPosition);
+        mRobot.robot.setOrientation(Math.PI);
+        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+
+        //Table T = container.getService(Table.class);
+        //Pathfinding pf=container.getService(Pathfinding.class);
+
+        Graphe graphe= pf.getGraphe();
+        ArrayList<Vec2> graph = new ArrayList<>();
+
+        for(Noeud n : graphe.getlNoeuds())
+        {
+            graph.add(n.position);
+        }
+        int randomYarr = ThreadLocalRandom.current().nextInt(0, 2200 + 1);
+        int randomXarr = ThreadLocalRandom.current().nextInt(-1600, 1600 + 1);
+        ArrayList<Vec2> p=pf.Astarfoulah(mRobot.robot.getPosition(),new Vec2(randomXarr,randomYarr),mRobot.robot.getOrientation());
+        while(true)
+        {   win.getPanel().drawArrayList(p);
+            // }
+
+            win.getPanel().repaint();
+            win.getPanel().drawGraphe(graph);
+            win.getPanel().drawLinesGraph(graphe.getlNoeuds());
+              randomYarr = ThreadLocalRandom.current().nextInt(0, 2200 + 1);
+              randomXarr = ThreadLocalRandom.current().nextInt(-1600, 1600 + 1);
+             p=pf.Astarfoulah(mRobot.robot.getPosition(),new Vec2(randomXarr,randomYarr),mRobot.robot.getOrientation());
+            long end = System.currentTimeMillis();
+        }
+         // Commenter cette ligne pour ne plus afficher les liens du graphe
+
+
+
+
+    }
 
     }
 /*
