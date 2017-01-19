@@ -157,7 +157,6 @@ public void horscercle()
                 }
             }
 
-    @Test
     public void testrandom() throws Exception
     {
 
