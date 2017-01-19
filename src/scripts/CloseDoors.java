@@ -100,7 +100,7 @@ public class CloseDoors extends AbstractScript
 //				stateToConsider.table.intDoorClosed = true;
 
 				//if(Geometry.isBetween(stateToConsider.robot.getPosition().y, 1790, 1890))
-					stateToConsider.robot.setPosition(new Vec2(stateToConsider.robot.getPosition().x,1840));
+					stateToConsider.robot.setPosition(new Vec2(stateToConsider.robot.getPosition().getX(),1840));
 					stateToConsider.robot.setOrientation(-Math.PI/2);
 
 				//else
@@ -128,7 +128,7 @@ public class CloseDoors extends AbstractScript
 
 				//  if(Geometry.isBetween(stateToConsider.robot.getPosition().x, 1300, 1400))
 			//	{
-				    stateToConsider.robot.setPosition(new Vec2(1350, stateToConsider.robot.getPosition().y));
+				    stateToConsider.robot.setPosition(new Vec2(1350, stateToConsider.robot.getPosition().getY()));
 					stateToConsider.robot.setOrientation(Math.PI);
 			//	}
             //    else
@@ -206,7 +206,7 @@ public class CloseDoors extends AbstractScript
 //                stateToConsider.table.intDoorClosed = true;
 
                 //if(Geometry.isBetween(stateToConsider.robot.getPosition().y, 1790, 1890))
-                stateToConsider.robot.setPosition(new Vec2(stateToConsider.robot.getPosition().x,1840));
+                stateToConsider.robot.setPosition(new Vec2(stateToConsider.robot.getPosition().getX(),1840));
                 stateToConsider.robot.setOrientation(-Math.PI/2);
 
                 //else
@@ -243,7 +243,7 @@ public class CloseDoors extends AbstractScript
 
                 //  if(Geometry.isBetween(stateToConsider.robot.getPosition().x, 1300, 1400))
                 //	{
-                stateToConsider.robot.setPosition(new Vec2(1350, stateToConsider.robot.getPosition().y));
+                stateToConsider.robot.setPosition(new Vec2(1350, stateToConsider.robot.getPosition().getY()));
                 stateToConsider.robot.setOrientation(Math.PI);
                 //	}
                 //    else

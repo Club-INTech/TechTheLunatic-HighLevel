@@ -39,16 +39,24 @@ public class Vec2
 {
 
 	/** Abscisse x*/
-	public int x;
+	private int x;
 	
 	/** Ordonnée y*/
-	public int y;
+	private int y;
+
+	/** Rayon r */
+	private double r;
+
+	/** Angle a, entre -pi et pi */
+	private double a;
 	
 	/** Constructeur d'un vecteur nul */
 	public Vec2()
 	{
 		x = 0;
 		y = 0;
+		r = 0;
+		a = 0;
 	}
 	public boolean isNull()
 	{
@@ -60,10 +68,24 @@ public class Vec2
 	 * @param requestedX abscisse
 	 * @param requestedY ordonnée
 	 */
-	public Vec2(int requestedX, int requestedY)
-	{
+	public Vec2(int requestedX, int requestedY) {
 		x = requestedX;
 		y = requestedY;
+		r = Math.sqrt(x * x + y * y);
+		a = this.angle();
+	}
+
+	/**
+	 * Construit un vecteur à partir de ses coordonnées polaires
+	 * @param requestedR rayon
+	 * @param requestedA angle
+	 */
+	public Vec2(double requestedR, double requestedA)
+	{
+		r = requestedR;
+		a = requestedA;
+		x = (int)(r*Math.cos(a)+1);
+		y = (int)(r*Math.asin(a)+1);
 	}
 	
 	// Il est plus performant de trouver la longueur au carré et de la comparer à des distances au carré que d'en extraire la racine
@@ -72,7 +94,7 @@ public class Vec2
 	 */
 	public int squaredLength()
 	{
-		return x*x + y*y;
+		return (int) (r*r);
 	}
 
 	/**
@@ -80,7 +102,7 @@ public class Vec2
 	 */
 	public float length()
 	{
-		return (float) Math.sqrt(squaredLength());
+		return (float) r;
 	}
 
 	/**
@@ -121,6 +143,8 @@ public class Vec2
 	{
 		x += other.x;
 		y += other.y;
+		r = Math.sqrt(x*x + y*y);
+		a = this.angle();
 	}
 	
 	/**
@@ -131,6 +155,8 @@ public class Vec2
 	{
 		x -= other.x;
 		y -= other.y;
+		r = Math.sqrt(x*x + y*y);
+		a = this.angle();
 	}
 
 	/* (non-Javadoc)
@@ -166,7 +192,7 @@ public class Vec2
 	 */
 	public String toString()
 	{
-		return "("+x+","+y+")";
+		return "("+x+","+y+") ("+r+","+a+")";
 	}
 	
 	/**
@@ -206,6 +232,8 @@ public class Vec2
 	{
 		x = other.x;
 		y = other.y;
+		r = other.r;
+		a = other.a;
 	}
 	
 	/* (non-Javadoc)
@@ -265,17 +293,48 @@ public class Vec2
 		return signe*Math.PI + Math.atan2(this.y, this.x);
 	}
 
-    /**
-     * Tourne le vecteur d'un angle donné et le renvoie sous forme d'un nouveau vecteur (original inchangé)
-     * @param angle l'angle en radians
-     * @return le nouveau vecteur
-     */
-    public Vec2 turnNewVector(double angle)
-    {
-        return new Vec2((int)(this.x * Math.cos(angle) - this.y * Math.sin(angle)),
-                (int)(this.x * Math.sin(angle) + this.y * Math.cos(angle)));
-    }
+	/**
+	 * Tous les setters et getters parce private :p
+	 */
 
-	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+		r = this.length();
+		a = this.angle();
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+		r = this.length();
+		a = this.angle();
+	}
+
+	public double getR() {
+		return r;
+	}
+
+	public void setR(double r) {
+		this.r = r;
+		x = (int) (r*Math.cos(a));
+		y = (int) (r*Math.sin(a));
+	}
+
+	public double getA() {
+		return a;
+	}
+
+	public void setA(double a) {
+		this.a = a;
+		x = (int) (r*Math.cos(a));
+		y = (int) (r*Math.sin(a));
+	}
 }
 

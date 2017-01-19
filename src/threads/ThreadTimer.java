@@ -182,9 +182,9 @@ public class ThreadTimer extends AbstractThread
             {
                // log.debug("lol, i'm noob");
                 try {
-                    out.write(Integer.toString(robot.getPosition().x));
+                    out.write(Integer.toString(robot.getPosition().getX()));
                     out.write("\t");
-                    out.write(Integer.toString(robot.getPosition().y));
+                    out.write(Integer.toString(robot.getPosition().getY()));
                     out.newLine();
                     out.flush();
                     ddm = System.currentTimeMillis();

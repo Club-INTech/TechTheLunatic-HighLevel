@@ -66,7 +66,7 @@ public class HookIsPositionAndOrientationCorrect extends Hook
 		{
 			if(Math.abs(mState.robot.getOrientation()-mOrientation) < mTolerancyOrientation)// verification de l'orientation 
 			{
-				log.debug("en position ("+mState.robot.getPosition().x+", "+mState.robot.getPosition().y+") et orientation "+mState.robot.getOrientation()+" au trigger du Hook de position et d'orientation");
+				log.debug("en position ("+mState.robot.getPosition().getX()+", "+mState.robot.getPosition().getY()+") et orientation "+mState.robot.getOrientation()+" au trigger du Hook de position et d'orientation");
 				return trigger();
 			}
 		}

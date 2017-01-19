@@ -69,21 +69,21 @@ public class Geometry
 		int BOTTOM = 4; // 0100
 		int TOP = 8;    // 1000
 		int code;
-		int xmin=hautGauche.x;
-		int xmax=basDroite.x;
-		int ymin=basDroite.y;
-		int ymax=hautGauche.y;
+		int xmin=hautGauche.getX();
+		int xmax=basDroite.getX();
+		int ymin=basDroite.getY();
+		int ymax=hautGauche.getY();
 		code = INSIDE;          // initialised as being inside of [[clip window]]
 
-		if (pos.x < xmin) //         // to the left of clip window
+		if (pos.getX() < xmin) //         // to the left of clip window
 		{code |= LEFT;}
-		else if(pos.x>xmax)
+		else if(pos.getX()>xmax)
 		{
 			code|=RIGHT;
 		}
-		if (pos.y < ymin)           // below the clip window
+		if (pos.getY() < ymin)           // below the clip window
 		{code |= BOTTOM;}
-		else if (pos.y > ymax)      // above the clip window
+		else if (pos.getY() > ymax)      // above the clip window
 		{code |= TOP;}
 
 		return code;
@@ -102,10 +102,10 @@ public class Geometry
 		int RIGHT = 2;  // 0010
 		int BOTTOM = 4; // 0100
 		int TOP = 8;    // 1000
-		int xmin = hautGauche.x;
-		int xmax = basDroite.x;
-		int ymin = basDroite.y;
-		int ymax = hautGauche.y;
+		int xmin = hautGauche.getX();
+		int xmax = basDroite.getX();
+		int ymin = basDroite.getY();
+		int ymax = hautGauche.getY();
 
 		// compute outcodes for P0, P1, and whatever point lies outside the clip rectangle
 		int outcode0 = ComputeOutCode(depart, hautGauche, basDroite);
@@ -127,10 +127,10 @@ public class Geometry
 				// from an outside point to an intersection with clip edge
 				double x = 0;
 				double y = 0;
-				double x0=depart.x;
-				double y0=depart.y;
-				double y1=arrivee.y;
-				double x1=arrivee.x;
+				double x0=depart.getX();
+				double y0=depart.getY();
+				double y1=arrivee.getY();
+				double x1=arrivee.getX();
 
 
 				// At least one endpoint is outside the clip rectangle; pick it.
@@ -203,9 +203,9 @@ public class Geometry
 		// - le point d'intersection est entre A2 et B2 : (A1B1)^(A1B2) * (A1B1)^(A1A2) < 0
 		// - le point d'intersection est entre A1 et B1 : (A2B2)^(A2B1) * (A2B2)^(A2A1) < 0
 		// ^ = produit vectoriel
-		return ((double)segment1.getB().x - (double)segment1.getA().x) * ((double)segment2.getB().y - (double)segment2.getA().y) - ((double)segment1.getB().y - (double)segment1.getA().y) * ((double)segment2.getB().x - (double)segment2.getA().x) != 0
-				&& (((double)segment1.getB().x - (double)segment1.getA().x) * ((double)segment2.getB().y - (double)segment1.getA().y) - ((double)segment1.getB().y - (double)segment1.getA().y) * ((double)segment2.getB().x - (double)segment1.getA().x)) * (((double)segment1.getB().x - (double)segment1.getA().x) * ((double)segment2.getA().y - (double)segment1.getA().y) - ((double)segment1.getB().y - (double)segment1.getA().y) * ((double)segment2.getA().x - (double)segment1.getA().x)) < 0
-				&& (((double)segment2.getB().x - (double)segment2.getA().x) * ((double)segment1.getB().y - (double)segment2.getA().y) - ((double)segment2.getB().y - (double)segment2.getA().y) * ((double)segment1.getB().x - (double)segment2.getA().x)) * (((double)segment2.getB().x - (double)segment2.getA().x) * ((double)segment1.getA().y - (double)segment2.getA().y) - ((double)segment2.getB().y - (double)segment2.getA().y) * ((double)segment1.getA().x - (double)segment2.getA().x)) < 0
+		return ((double)segment1.getB().getX() - (double)segment1.getA().getX()) * ((double)segment2.getB().getY() - (double)segment2.getA().getY()) - ((double)segment1.getB().getY() - (double)segment1.getA().getY()) * ((double)segment2.getB().getX() - (double)segment2.getA().getX()) != 0
+				&& (((double)segment1.getB().getX() - (double)segment1.getA().getX()) * ((double)segment2.getB().getY() - (double)segment1.getA().getY()) - ((double)segment1.getB().getY() - (double)segment1.getA().getY()) * ((double)segment2.getB().getX() - (double)segment1.getA().getX())) * (((double)segment1.getB().getX() - (double)segment1.getA().getX()) * ((double)segment2.getA().getY() - (double)segment1.getA().getY()) - ((double)segment1.getB().getY() - (double)segment1.getA().getY()) * ((double)segment2.getA().getX() - (double)segment1.getA().getX())) < 0
+				&& (((double)segment2.getB().getX() - (double)segment2.getA().getX()) * ((double)segment1.getB().getY() - (double)segment2.getA().getY()) - ((double)segment2.getB().getY() - (double)segment2.getA().getY()) * ((double)segment1.getB().getX() - (double)segment2.getA().getX())) * (((double)segment2.getB().getX() - (double)segment2.getA().getX()) * ((double)segment1.getA().getY() - (double)segment2.getA().getY()) - ((double)segment2.getB().getY() - (double)segment2.getA().getY()) * ((double)segment1.getA().getX() - (double)segment2.getA().getX())) < 0
 				;
 	}
 	
@@ -218,16 +218,16 @@ public class Geometry
 	public static boolean intersects(Segment segment, Circle circle)
 	{
 		// TODO : expliquer l'algo (TOO MANY CASTS EXCEPTION)
-		double area = ((double)circle.getCenter().x - (double)segment.getA().x)*((double)segment.getB().y - (double)segment.getA().y) - ((double)circle.getCenter().y - (double)segment.getA().y)*((double)segment.getB().x - (double)segment.getA().x);
-		double distA = ((double)segment.getA().x - (double)circle.getCenter().x)*((double)segment.getA().x - (double)circle.getCenter().x) + ((double)segment.getA().y - (double)circle.getCenter().y)*((double)segment.getA().y - (double)circle.getCenter().y);
-		double distB = ((double)segment.getB().x - (double)circle.getCenter().x)*((double)segment.getB().x - (double)circle.getCenter().x) + ((double)segment.getB().y - (double)circle.getCenter().y)*((double)segment.getB().y - (double)circle.getCenter().y);
+		double area = ((double)circle.getCenter().getX() - (double)segment.getA().getX())*((double)segment.getB().getY() - (double)segment.getA().getY()) - ((double)circle.getCenter().getY() - (double)segment.getA().getY())*((double)segment.getB().getX() - (double)segment.getA().getX());
+		double distA = ((double)segment.getA().getX() - (double)circle.getCenter().getX())*((double)segment.getA().getX() - (double)circle.getCenter().getX()) + ((double)segment.getA().getY() - (double)circle.getCenter().getY())*((double)segment.getA().getY() - (double)circle.getCenter().getY());
+		double distB = ((double)segment.getB().getX() - (double)circle.getCenter().getX())*((double)segment.getB().getX() - (double)circle.getCenter().getX()) + ((double)segment.getB().getY() - (double)circle.getCenter().getY())*((double)segment.getB().getY() - (double)circle.getCenter().getY());
 		if(distA >= circle.getRadius() * circle.getRadius() && distB < circle.getRadius() * circle.getRadius() || distA < circle.getRadius() * circle.getRadius() && distB >= circle.getRadius() * circle.getRadius())
 			return true;
 		return distA >= circle.getRadius() * circle.getRadius()
 			&& distB >= circle.getRadius() * circle.getRadius()
-			&& area * area / (((double)segment.getB().x - (double)segment.getA().x)*((double)segment.getB().x - (double)segment.getA().x)+((double)segment.getB().y - (double)segment.getA().y)*((double)segment.getB().y - (double)segment.getA().y)) <= circle.getRadius() * circle.getRadius()
-			&& ((double)segment.getB().x - (double)segment.getA().x)*((double)circle.getCenter().x - (double)segment.getA().x) + ((double)segment.getB().y - (double)segment.getA().y)*((double)circle.getCenter().y - (double)segment.getA().y) >= 0
-			&& ((double)segment.getA().x - (double)segment.getB().x)*((double)circle.getCenter().x - (double)segment.getB().x) + ((double)segment.getA().y - (double)segment.getB().y)*((double)circle.getCenter().y - (double)segment.getB().y) >= 0;
+			&& area * area / (((double)segment.getB().getX() - (double)segment.getA().getX())*((double)segment.getB().getX() - (double)segment.getA().getX())+((double)segment.getB().getY() - (double)segment.getA().getY())*((double)segment.getB().getY() - (double)segment.getA().getY())) <= circle.getRadius() * circle.getRadius()
+			&& ((double)segment.getB().getX() - (double)segment.getA().getX())*((double)circle.getCenter().getX() - (double)segment.getA().getX()) + ((double)segment.getB().getY() - (double)segment.getA().getY())*((double)circle.getCenter().getY() - (double)segment.getA().getY()) >= 0
+			&& ((double)segment.getA().getX() - (double)segment.getB().getX())*((double)circle.getCenter().getX() - (double)segment.getB().getX()) + ((double)segment.getA().getY() - (double)segment.getB().getY())*((double)circle.getCenter().getY() - (double)segment.getB().getY()) >= 0;
 	}
 
 	/**
@@ -240,25 +240,19 @@ public class Geometry
 		if (circle.containCircle(pointHorsCercle)) {
 			return (pointHorsCercle);
 		}
-		Vec2 vec = new Vec2(- circle.getCenter().x + pointHorsCercle.x,
-				- circle.getCenter().y + pointHorsCercle.y);
+		Vec2 vec = new Vec2(- circle.getCenter().getX() + pointHorsCercle.getX(),
+				- circle.getCenter().getY() + pointHorsCercle.getY());
 
 		// Si la direction donnée par le vecteur pointHorsCercle intersecte l'arc de cercle, on a le point avec un simple Thalès
-		if (vec.angle() >= circle.getAngleStart() && vec.angle() <= circle.getAngleEnd())
+		if (vec.getA() >= circle.getAngleStart() && vec.getA() <= circle.getAngleEnd())
 		{
-			return pointHorsCercle.minusNewVector(new Vec2((int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.x - circle.getCenter().x) / pointHorsCercle.distance(circle.getCenter())), (int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.y - circle.getCenter().y) / pointHorsCercle.distance(circle.getCenter()))));
+			return pointHorsCercle.minusNewVector(new Vec2((int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.getX() - circle.getCenter().getX()) / pointHorsCercle.distance(circle.getCenter())), (int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.getY() - circle.getCenter().getY()) / pointHorsCercle.distance(circle.getCenter()))));
 		}
 
 		// Sinon, on doit choisir entre le point du début de l'arc de cercle et celui de fin
 		else {
-			double r = circle.getRadius();
-			double xStart = r*Math.cos(circle.getAngleStart());
-			double yStart = r*Math.sin(circle.getAngleStart());
-			Vec2 circleCenterStart = new Vec2((int) xStart, (int) yStart);
-
-			double xEnd = r*Math.cos(circle.getAngleEnd());
-			double yEnd = r*Math.sin(circle.getAngleEnd());
-			Vec2 circleCenterEnd = new Vec2((int) xEnd, (int) yEnd);
+			Vec2 circleCenterStart = new Vec2(circle.getRadius(), circle.getAngleStart());
+			Vec2 circleCenterEnd = new Vec2(circle.getRadius(), circle.getAngleEnd());
 
 			if (circle.getCenter().plusNewVector(circleCenterStart).distance(pointHorsCercle) >= circle.getCenter().plusNewVector(circleCenterEnd).distance(pointHorsCercle)){
 				return circleCenterEnd.plusNewVector(circle.getCenter());
@@ -276,17 +270,16 @@ public class Geometry
 	 */
 	public static Vec2 pointExterieurv1(Vec2 pointDansCercle, Circle circle)
 	{
-		if(pointDansCercle.x>circle.getCenter().x)
+		if(pointDansCercle.getX()>circle.getCenter().getX())
 		{
-			double x2=circle.getRadius()/Math.sqrt(1+(circle.getCenter().x-pointDansCercle.x)/(circle.getCenter().y-pointDansCercle.y)*(circle.getCenter().x-pointDansCercle.x)/(circle.getCenter().y-pointDansCercle.y));
-			Vec2 aAjouter=new Vec2((int)x2,(int)x2*(circle.getCenter().y-pointDansCercle.y)/(circle.getCenter().x-pointDansCercle.x));
+			double x2=circle.getRadius()/Math.sqrt(1+(circle.getCenter().getX()-pointDansCercle.getX())/(circle.getCenter().getY()-pointDansCercle.getY())*(circle.getCenter().getX()-pointDansCercle.getX())/(circle.getCenter().getY()-pointDansCercle.getY()));
+			Vec2 aAjouter=new Vec2((int)x2,(int)x2*(circle.getCenter().getY()-pointDansCercle.getY())/(circle.getCenter().getX()-pointDansCercle.getX()));
 			return circle.getCenter().plusNewVector(aAjouter);
 		}
-		else if(pointDansCercle.x<circle.getCenter().x)
+		else if(pointDansCercle.getX()<circle.getCenter().getX())
 		{
-
-			double x2=circle.getRadius()/Math.sqrt(1+(circle.getCenter().x-pointDansCercle.x)/(circle.getCenter().y-pointDansCercle.y)*(circle.getCenter().x-pointDansCercle.x)/(circle.getCenter().y-pointDansCercle.y));
-			Vec2 aAjouter=new Vec2((int)x2,(int)x2*(circle.getCenter().y-pointDansCercle.y)/(circle.getCenter().x-pointDansCercle.x));
+			double x2=circle.getRadius()/Math.sqrt(1+(circle.getCenter().getX()-pointDansCercle.getX())/(circle.getCenter().getY()-pointDansCercle.getY())*(circle.getCenter().getX()-pointDansCercle.getX())/(circle.getCenter().getY()-pointDansCercle.getY()));
+			Vec2 aAjouter=new Vec2((int)x2,(int)x2*(circle.getCenter().getY()-pointDansCercle.getY())/(circle.getCenter().getX()-pointDansCercle.getX()));
 			return circle.getCenter().minusNewVector(aAjouter);
 		}
 	 else
@@ -302,15 +295,14 @@ public class Geometry
 	 * @param circle le cercle
 	 * @return la nouvelle position du point
 	 */
-
+	// TODO Traiter le cas des arcs de cercle
 
 	public static Vec2 pointExterieur(Vec2 pointDansCercle, Circle circle) {
 		if (!circle.containCircle(pointDansCercle))
 		{
 			return(pointDansCercle);
 		}
-
-		return circle.getCenter().plusNewVector(new Vec2((int) (circle.getRadius()*(pointDansCercle.x-circle.getCenter().x)/pointDansCercle.distance(circle.getCenter())),(int) (circle.getRadius()*(pointDansCercle.y-circle.getCenter().y)/pointDansCercle.distance(circle.getCenter()))));
+		return circle.getCenter().plusNewVector(new Vec2((int) (circle.getRadius()*(pointDansCercle.getX()-circle.getCenter().getX())/pointDansCercle.distance(circle.getCenter())),(int) (circle.getRadius()*(pointDansCercle.getY()-circle.getCenter().getY())/pointDansCercle.distance(circle.getCenter()))));
 	}
 
 	/**
@@ -324,15 +316,15 @@ public class Geometry
 		// resolution du systeme associe aux deux segments
 		double inter, k;
 		
-		if((segment2.getB().y - segment2.getA().y) != 0)
+		if((segment2.getB().getY() - segment2.getA().getY()) != 0)
 		{
-			inter = (double)(segment2.getB().x - segment2.getA().x) / (double)(segment2.getB().y - segment2.getA().y);
-			k = (segment1.getA().x - segment2.getA().x + inter * (double)(segment2.getA().y - segment1.getA().y)) / (segment1.getB().x - segment1.getA().x - inter * (segment1.getB().y - segment1.getA().y));
+			inter = (double)(segment2.getB().getX() - segment2.getA().getX()) / (double)(segment2.getB().getY() - segment2.getA().getY());
+			k = (segment1.getA().getX() - segment2.getA().getX() + inter * (double)(segment2.getA().getY() - segment1.getA().getY())) / (segment1.getB().getX() - segment1.getA().getX() - inter * (segment1.getB().getY() - segment1.getA().getY()));
 		}
 		else
-			k = -(double)(segment2.getA().y - segment1.getA().y) / (double)(segment1.getB().y - segment1.getA().y);
+			k = -(double)(segment2.getA().getY() - segment1.getA().getY()) / (double)(segment1.getB().getY() - segment1.getA().getY());
 		
-		return new Vec2((int)(segment1.getA().x - k * (segment1.getB().x - segment1.getA().x)), (int)(segment1.getA().y - k * (segment1.getB().y - segment1.getA().y)));
+		return new Vec2((int)(segment1.getA().getX() - k * (segment1.getB().getX() - segment1.getA().getX())), (int)(segment1.getA().getY() - k * (segment1.getB().getY() - segment1.getA().getY())));
 	}
 
 	/**

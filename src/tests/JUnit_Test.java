@@ -115,7 +115,7 @@ public abstract class JUnit_Test
 	
 	public void returnToEntryPosition(GameState state) throws UnableToMoveException, PointInObstacleException
 	{
-		state.robot.moveToLocation(new Vec2(Table.entryPosition.x-100, Table.entryPosition.y),new ArrayList<Hook>(), state.table);
+		state.robot.moveToLocation(new Vec2(Table.entryPosition.getX()-100, Table.entryPosition.getY()),new ArrayList<Hook>(), state.table);
 		state.robot.turn(Math.PI);
 		state.robot.moveLengthwise(-100);
 	}

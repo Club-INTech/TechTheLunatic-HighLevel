@@ -336,8 +336,8 @@ public class ThreadSensor extends AbstractThread
      */
     private Vec2 changeRef(Vec2 posPoint, Vec2 posOrigin, double orientation)
     {
-        return new Vec2((int)(posPoint.x*Math.cos(orientation)+posPoint.y*Math.sin(orientation)+posOrigin.x),
-                (int)(posPoint.x*Math.sin(orientation)-posPoint.y*Math.cos(orientation)+posOrigin.y));
+        return new Vec2((int)(posPoint.getX()*Math.cos(orientation)+posPoint.getY()*Math.sin(orientation)+posOrigin.getX()),
+                (int)(posPoint.getX()*Math.sin(orientation)-posPoint.getY()*Math.cos(orientation)+posOrigin.getY()));
     }
 
 

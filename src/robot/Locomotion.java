@@ -241,8 +241,8 @@ public class Locomotion implements Service
     	 *   on vise une position eloignee mais on ne s'y deplacera pas, le robot ne fera que tourner
     	 */
     	Vec2 aim = new Vec2(
-        (int) (highLevelPosition.x + 1000*Math.cos(angle)),
-        (int) (highLevelPosition.y + 1000*Math.sin(angle))
+        (int) (highLevelPosition.getX() + 1000*Math.cos(angle)),
+        (int) (highLevelPosition.getY() + 1000*Math.sin(angle))
         );
     	finalAim = aim;
 
@@ -289,8 +289,8 @@ public class Locomotion implements Service
          */
         Vec2 aim = new Vec2(); 
         
-        aim.x = (int) (highLevelPosition.x + distance*Math.cos(highLevelOrientation));
-        aim.y = (int) (highLevelPosition.y + distance*Math.sin(highLevelOrientation));      
+        aim.setX((int) (highLevelPosition.getX() + distance*Math.cos(highLevelOrientation)));
+        aim.setY((int) (highLevelPosition.getY() + distance*Math.sin(highLevelOrientation)));
         finalAim = aim;
         // l'appel à cette méthode sous-entend que le robot ne tourne pas
         // il va donc en avant si la distance est positive, en arrière si elle est négative
@@ -437,7 +437,6 @@ public class Locomotion implements Service
             try
             {
                 moveToPointCorrectAngleAndDetectEnnemy(aim, hooks, isMovementForward, turnOnly, mustDetect);
-            	
             	isRobotMovingForward=false;
             	isRobotMovingBackward=false;
             }
@@ -514,7 +513,7 @@ public class Locomotion implements Service
 
 		                    if(!doItAgain)
 		                    {
-		                        log.critical("Lancement de UnableToMoveException dans MoveToPointException, visant "+finalAim.x+" :: "+finalAim.y+" cause physique");
+		                        log.critical("Lancement de UnableToMoveException dans MoveToPointException, visant "+finalAim.getX()+" :: "+finalAim.getY()+" cause physique");
 		                        throw new UnableToMoveException(finalAim, UnableToMoveReason.PHYSICALLY_BLOCKED);
 		                    }
 						}
@@ -522,7 +521,7 @@ public class Locomotion implements Service
                 }
                 else if(!headingToWall)
                 {
-                    log.critical("Lancement de UnableToMoveException dans MoveToPointException, visant "+finalAim.x+" :: "+finalAim.y+" cause physique");
+                    log.critical("Lancement de UnableToMoveException dans MoveToPointException, visant "+finalAim.getX()+" :: "+finalAim.getY()+" cause physique");
                     throw new UnableToMoveException(finalAim, UnableToMoveReason.PHYSICALLY_BLOCKED);
                 }
             }
@@ -552,7 +551,7 @@ public class Locomotion implements Service
 
                 if(!doItAgain)
                 {
-                    log.warning("UnableToMoveException dans MoveToPointException, visant "+finalAim.x+" :: "+finalAim.y+" cause : detection d'obstacle");
+                    log.warning("UnableToMoveException dans MoveToPointException, visant "+finalAim.getX()+" :: "+finalAim.getY()+" cause : detection d'obstacle");
                     throw new UnableToMoveException(finalAim, UnableToMoveReason.OBSTACLE_DETECTED);
                 }
 			}
@@ -714,8 +713,8 @@ public class Locomotion implements Service
 
         if (symetry) // miroir des positions
         {
-            givenPosition.x = -givenPosition.x;
-            aimSymmetrized.x = -aimSymmetrized.x;
+            givenPosition.setX(-givenPosition.getX());
+            aimSymmetrized.setX(-aimSymmetrized.getX());
         }
         Vec2 delta = aimSymmetrized.clone();
 
@@ -728,7 +727,7 @@ public class Locomotion implements Service
         if(symetry)
         	  angle = Math.atan2(-delta.y, delta.x);//Angle en absolu 
         else */
-        angle = Math.atan2(delta.y, delta.x);//Angle en absolu
+        angle = Math.atan2(delta.getY(), delta.getX());//Angle en absolu
 
         // si on a besoin de se retourner pour suivre la consigne de isMovementForward on le fait ici
         if (isMovementForward && distance < 0 || (!isMovementForward && distance > 0)) {
@@ -996,8 +995,8 @@ public class Locomotion implements Service
             if(infos == null)
                 return;
             
-            lowLevelPosition.x = (int)infos[0];
-            lowLevelPosition.y = (int)infos[1];
+            lowLevelPosition.setX((int)infos[0]);
+            lowLevelPosition.setY((int)infos[1]);
             lowLevelOrientation = infos[2]; // car getCurrentPositionAndOrientation renvoie des radians
             
             highLevelPosition=lowLevelPosition.clone();
@@ -1005,7 +1004,7 @@ public class Locomotion implements Service
             
             if(symetry)
             {
-            	highLevelPosition.x = -highLevelPosition.x;
+            	highLevelPosition.setX( -highLevelPosition.getX());
             	highLevelOrientation=Math.PI-highLevelOrientation;
             }
             
@@ -1071,11 +1070,11 @@ public class Locomotion implements Service
     {
         this.lowLevelPosition = positionWanted.clone();
         if(symetry)
-        	this.lowLevelPosition.x = -this.lowLevelPosition.x;// on lui met la vraie position
+        	this.lowLevelPosition.setX(-this.lowLevelPosition.getX());// on lui met la vraie position
 		try 
 		{
-			serialWrapper.setX(this.lowLevelPosition.x);
-	        serialWrapper.setY(this.lowLevelPosition.y);
+			serialWrapper.setX(this.lowLevelPosition.getX());
+	        serialWrapper.setY(this.lowLevelPosition.getY());
 		} 
 		catch (SerialConnexionException e)
 		{
