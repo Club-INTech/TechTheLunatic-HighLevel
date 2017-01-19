@@ -58,19 +58,17 @@ public class JUnit_Pathfinding extends JUnit_Test{
         super.setUp();
 
         log = container.getService(Log.class);
+        table = container.getService(Table.class);
         win = new Window(table);
 
         pf = container.getService(Pathfinding.class);
-        table = container.getService(Table.class);
 
 
-        log.debug("JUnit_DeplacementsTest.setUp()");
-        mRobot = container.getService(GameState.class);
+
+       // log.debug("JUnit_DeplacementsTest.setUp()");
+
         //La position de depart est mise dans la Table
-        mRobot.updateConfig();
-        mRobot.robot.setPosition(Table.entryPosition);
-        mRobot.robot.setOrientation(Math.PI);
-        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+
 
     }
 
@@ -110,8 +108,8 @@ public void horscercle()
     @Test
     public void testClickedPF() throws Exception
     {
-        Table T = container.getService(Table.class);
-        Pathfinding pf=container.getService(Pathfinding.class);
+        //Table T = container.getService(Table.class);
+        //Pathfinding pf=container.getService(Pathfinding.class);
 
         Graphe graphe= pf.getGraphe();
          ArrayList<Vec2> graph = new ArrayList<>();
@@ -158,10 +156,14 @@ public void horscercle()
 
     public void testrandom() throws Exception
     {
+        mRobot = container.getService(GameState.class);
+        mRobot.updateConfig();
+        mRobot.robot.setPosition(Table.entryPosition);
+        mRobot.robot.setOrientation(Math.PI);
+        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
 
-
-        Table T = container.getService(Table.class);
-        Pathfinding pf=container.getService(Pathfinding.class);
+        //Table T = container.getService(Table.class);
+        //Pathfinding pf=container.getService(Pathfinding.class);
 
         Graphe graphe= pf.getGraphe();
         ArrayList<Vec2> graph = new ArrayList<>();

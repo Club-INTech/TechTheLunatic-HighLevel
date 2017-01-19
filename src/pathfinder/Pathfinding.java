@@ -210,8 +210,34 @@ public class Pathfinding implements Service {
             boolean creerarr = true;
             int nombobst = a.getFixedObstacles().size();
             int nombobstRec = a.getRectangles().size();
-            
             j = 0;
+            while ((creerdep || creerarr) && j < nombobst) {
+                          /*  if (a.getFixedObstacles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
+                               {
+                                    log.debug("Depart dans obstacle");
+                                    Vec2 w = a.getFixedObstacles().get(j).noeudProche(departV).position;
+                                    ArrayList<Vec2> aRenvoyer = Astarfoulah(w, arriveeV, robotOrientation);
+                                    aRenvoyer.add(0, departV);
+                                    return aRenvoyer;
+                                }
+                                if (a.getFixedObstacles().get(j).isInObstacle(arriveeV)) {
+                                        creerarr = false;
+                                        log.debug("U  stupid or somethin'? => Arrivée dans un obstacle :"+arriveeV);
+                                       Vec2 w = a.getFixedObstacles().get(j).noeudProche(arriveeV).position;
+                                        ArrayList<Vec2> aRenvoyer = Astarfoulah(departV, w, robotOrientation);
+                                        return aRenvoyer;
+                                        // /throw new PointInObstacleException(arriveeV);
+                                    }*/
+                             if (a.getFixedObstacles().get(j).isInObstacle(g.getlNoeuds().get(i).position)) {
+                                    creerdep = false;
+                                    creerarr = false;
+                                }
+
+
+                        creerdep = creerdep && !(Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
+                creerarr = creerarr && !(Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
+                j++;
+            }
             while ((creerdep || creerarr) && j < nombobstRec) {
 
                 creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(1).position));
@@ -230,6 +256,7 @@ public class Pathfinding implements Service {
 
                 j++;
             }
+
             if (creerdep) {
                 depart.attachelien(g.getlNoeuds().get(i));
                 g.getlNoeuds().get(i).attachelien(depart);
