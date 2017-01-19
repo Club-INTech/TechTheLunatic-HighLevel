@@ -185,6 +185,22 @@ public class Pathfinding implements Service {
             }
         }
 
+
+
+        return Astarfoulah(depart, arrivee, g);
+    }
+
+    /**
+     * A star
+     *
+     * @param depart  Noeud de départ
+     * @param arrivee Noeud d'arrivée
+     * @param g       graphe
+     * @return Liste de vec2 des points de passage
+     */
+    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe g) throws PointInObstacleException {
+
+        ObstacleManager a = this.table.getObstacleManager();
         for (int i = 0; i < g.getlNoeuds().size(); i++) //On vérifie que ça n'intersecte ni les obstacles circulaires ni ca
         {
             int j = 0;
@@ -196,26 +212,7 @@ public class Pathfinding implements Service {
 
             // on arrete les boucles si on voit que l'on ne doit créer ni un lien vers l'arrivée ni vers le début
             while ((creerdep || creerarr) && j < nombobst) {
-                if (a.getFixedObstacles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
-                {
-                    log.debug("Depart dans obstacle");
-                    Vec2 w = a.getFixedObstacles().get(j).noeudProche(departV).position;
-                    ArrayList<Vec2> aRenvoyer = Astarfoulah(w, arriveeV, robotOrientation);
-                    aRenvoyer.add(0, departV);
-                    return aRenvoyer;
-                }
-                if (a.getFixedObstacles().get(j).isInObstacle(arriveeV)) {
-                    creerarr = false;
-                    log.debug("U  stupid or somethin'? => Arrivée dans un obstacle :"+arriveeV);
-                   Vec2 w = a.getFixedObstacles().get(j).noeudProche(arriveeV).position;
-                    ArrayList<Vec2> aRenvoyer = Astarfoulah(departV, w, robotOrientation);
-                    return aRenvoyer;
-                    // /throw new PointInObstacleException(arriveeV);
-                }
-                if (a.getFixedObstacles().get(j).isInObstacle(g.getlNoeuds().get(i).position)) {
-                    creerdep = false;
-                    creerarr = false;
-                }
+
 
                 creerdep = creerdep && !(Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
                 creerarr = creerarr && !(Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
@@ -223,38 +220,20 @@ public class Pathfinding implements Service {
             }
             j = 0;
             while ((creerdep || creerarr) && j < nombobstRec) {
-                if (a.getRectangles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
-                {
-                    log.debug("Depart dans obstacle");
-                    Vec2 w = a.getRectangles().get(j).noeudProche(departV).position;
-                    ArrayList<Vec2> aRenvoyer = Astarfoulah(w, arriveeV, robotOrientation);
-                    aRenvoyer.add(0, departV);
-                    return aRenvoyer;
-                }
-                if (a.getRectangles().get(j).isInObstacle(arriveeV)) {
-                    log.debug("U  stupid or somethin'? => Arrivée dans un obstacle :"+arriveeV);
-                    creerarr = false;
-                    throw new PointInObstacleException(arriveeV);
-                }
-                if (a.getRectangles().get(j).isInObstacle(g.getlNoeuds().get(i).position)) {
-                    creerdep = false;
-                    creerarr = false;
-                }
 
+                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(1).position));
+                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(3).position));
+                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(2).position));
+                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(2).position, a.getRectangles().get(j).getlNoeud().get(3).position));
+                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(2).position));
+                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(3).position));
 
-                creerdep = creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(1).position));
-                creerdep = creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-                creerdep = creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(2).position));
-                creerdep = creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(2).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-                creerdep = creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(2).position));
-                creerdep = creerdep && !Geometry.intersects(new Segment(departV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-
-                creerarr = creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(1).position));
-                creerarr = creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-                creerarr = creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(2).position));
-                creerarr = creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(2).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-                creerarr = creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(2).position));
-                creerarr = creerarr && !Geometry.intersects(new Segment(arriveeV, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(3).position));
+                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(1).position));
+                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(3).position));
+                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(2).position));
+                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(2).position, a.getRectangles().get(j).getlNoeud().get(3).position));
+                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(2).position));
+                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(3).position));
 
                 j++;
             }
@@ -269,18 +248,6 @@ public class Pathfinding implements Service {
             }
         }
 
-        return Astarfoulah(depart, arrivee, g);
-    }
-
-    /**
-     * A star
-     *
-     * @param depart  Noeud de départ
-     * @param arrivee Noeud d'arrivée
-     * @param g       graphe
-     * @return Liste de vec2 des points de passage
-     */
-    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe g) throws PointInObstacleException {
 
 
         ArrayList<Vec2> chemin = new ArrayList<>();
@@ -324,11 +291,11 @@ public class Pathfinding implements Service {
                     chemin.add(0, noeudCourant.position);
                     noeudCourant = noeudCourant.noeudPrecedent;
                 }
-                for (Noeud a : g.getlNoeuds()) //on réinitialise les noeuds pour le suivant
+                for (Noeud k : g.getlNoeuds()) //on réinitialise les noeuds pour le suivant
                 {
 
-                    a.sommedepart = 100000000;
-                    a.noeudPrecedent = null;
+                    k.sommedepart = 100000000;
+                    k.noeudPrecedent = null;
 
                 }
 
