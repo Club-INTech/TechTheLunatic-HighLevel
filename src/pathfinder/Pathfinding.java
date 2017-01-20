@@ -26,10 +26,7 @@ import smartMath.Geometry;
 import smartMath.Segment;
 import smartMath.Vec2;
 import table.Table;
-import table.obstacles.Obstacle;
-import table.obstacles.ObstacleCircular;
-import table.obstacles.ObstacleManager;
-import table.obstacles.ObstacleProximity;
+import table.obstacles.*;
 import utils.Config;
 import utils.Log;
 
@@ -192,6 +189,7 @@ public class Pathfinding implements Service {
             }
         }
 
+        //TODO Gérer les cas ou le point d'arrivé est pile poil au centre de l'obstacle
         // Si le point de départ est dans un obstacle (et dans la table)
         Obstacle obstacle = whichObstacle(departV);
         if (obstacle != null){
@@ -230,6 +228,20 @@ public class Pathfinding implements Service {
                 }
             }
             // TODO Cas des obstacles rectangulaires
+            // Cas des obstacles rectangulaires (similaire au cas de la table)
+            if (obstacle instanceof ObstacleRectangular){
+                Vec2 newDepartV = ((ObstacleRectangular) obstacle).pointProche(departV);
+                double angleref = Math.abs(Math.abs(newDepartV.minusNewVector(departV).getA()) - Math.abs(robotOrientation));
+
+                // Perpendiculaire
+                if (angleref < Math.PI/4 || angleref > 3*Math.PI/4){
+                    ArrayList<Vec2> newPath = Astarfoulah(newDepartV, arriveeV, robotOrientation);
+                    newPath.add(0, departV);
+                    return newPath;
+                }
+
+                //Tangent
+            }
         }
 
         // Si le point d'arrivé est dans un obstacle (et dans la table)
@@ -247,7 +259,6 @@ public class Pathfinding implements Service {
                 return newPath;
             }
             // TODO Cas des obstacles rectangulaires
-            // Cas des obstacles rectangulaires
 
         }
 

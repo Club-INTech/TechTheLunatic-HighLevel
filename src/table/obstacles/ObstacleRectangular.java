@@ -297,4 +297,55 @@ public class ObstacleRectangular extends Obstacle
 
 		return noeudMin;
 	}
+
+	/**
+	 * Renvoie le point du rectangle le plus proche d'un point dans le rectangle
+	 * @param inObstacle
+	 * @return le point du rectangle le plus proche de inObstacle
+	 */
+	public Vec2 pointProche (Vec2 inObstacle){
+		Vec2 ref = inObstacle.minusNewVector(position);
+		int min = Math.min(sizeX-Math.abs(ref.getX()), sizeY-Math.abs(ref.getY()));
+		if (ref.getX()>0 && ref.getY()>0){
+			if (min == sizeX-Math.abs((ref.getX()))){
+				ref.setX(sizeX/2);
+				return ref.plusNewVector(position);
+			}
+			else{
+				ref.setY(sizeY/2);
+				return ref.plusNewVector(position);
+			}
+		}
+		else if(ref.getX()>0 && ref.getY()<0){
+			if (min == sizeX-Math.abs((ref.getX()))){
+				ref.setX(sizeX/2);
+				return ref.plusNewVector(position);
+			}
+			else{
+				ref.setY(-sizeY/2);
+				return ref.plusNewVector(position);
+			}
+		}
+		else if(ref.getX()<0 && ref.getY()<0){
+			if (min == sizeX-Math.abs((ref.getX()))){
+				ref.setX(-sizeX/2);
+				return ref.plusNewVector(position);
+			}
+			else{
+				ref.setY(-sizeY/2);
+				return ref.plusNewVector(position);
+			}
+		}
+		else if(ref.getX()<0 && ref.getY()>0){
+			if (min == sizeX-Math.abs((ref.getX()))){
+				ref.setX(-sizeX/2);
+				return ref.plusNewVector(position);
+			}
+			else{
+				ref.setY(sizeY/2);
+				return ref.plusNewVector(position);
+			}
+		}
+		return new Vec2();
+	}
 }
