@@ -253,7 +253,6 @@ public class ObstacleRectangular extends Obstacle
 		Noeud hm=new Noeud(graphe,hautmilieu);
 		Noeud dm=new Noeud(graphe,droitemilieu);
 
-
 		graphe.getlNoeuds().add(cbd);
 		graphe.getlNoeuds().add(cbg);
 		graphe.getlNoeuds().add(chd);
@@ -273,9 +272,6 @@ public class ObstacleRectangular extends Obstacle
 		this.lNoeud.add(bm);
 		this.lNoeud.add(hm);
 		this.lNoeud.add(dm);
-
-
-
 
 		return this.lNoeud;
 	}
@@ -301,6 +297,4 @@ public class ObstacleRectangular extends Obstacle
 
 		return noeudMin;
 	}
-
-
 }

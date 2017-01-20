@@ -172,7 +172,7 @@ public class Pathfinding implements Service {
                 ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
                 arriveeV.setX(sens*(1500-a.getGetmRobotWidth()/2));
 
-                if (whichObstacle(newArriveeV) == null) {
+                if (whichObstacle(newArriveeV) == null){
                     newPath.add(newPath.size(), arriveeV);
                 }
                 return newPath;
@@ -229,12 +229,13 @@ public class Pathfinding implements Service {
                     }
                 }
             }
-            //TODO Cas des obstacles rectangulaires
+            // TODO Cas des obstacles rectangulaires
         }
 
         // Si le point d'arrivé est dans un obstacle (et dans la table)
         obstacle = whichObstacle(arriveeV);
         if (obstacle != null){
+
             // Cas des obstacles circulaires
             if (obstacle instanceof ObstacleCircular)
             {
@@ -245,7 +246,9 @@ public class Pathfinding implements Service {
                 newPath.add(newPath.size()-1, vecRef);
                 return newPath;
             }
-            //TODO Cas des obstacles rectangulaires
+            // TODO Cas des obstacles rectangulaires
+            // Cas des obstacles rectangulaires
+
         }
 
         // Si tout va bien, on lance de Pathfinding des noeuds !

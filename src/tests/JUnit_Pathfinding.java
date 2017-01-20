@@ -19,7 +19,6 @@
 
 package tests;
 
-import enums.Speed;
 import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,14 +34,13 @@ import table.Table;
 import utils.Log;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * teste la fermeture des portes par la version 0 du script
  * @author alban
  *
  */
-public class JUnit_Pathfinding extends JUnit_Test{
+public class JUnit_Pathfinding extends JUnit_Test {
 
     private GameState mRobot;
     private ScriptManager scriptManager;
@@ -53,15 +51,14 @@ public class JUnit_Pathfinding extends JUnit_Test{
     private Window win;
 
     @Before
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         super.setUp();
         log = container.getService(Log.class);
         table = container.getService(Table.class);
         win = new Window(table);
         pf = container.getService(Pathfinding.class);
 
-       // log.debug("JUnit_DeplacementsTest.setUp()");
+        // log.debug("JUnit_DeplacementsTest.setUp()");
 
         //La position de depart est mise dans la Table
 
@@ -69,27 +66,21 @@ public class JUnit_Pathfinding extends JUnit_Test{
     }
 
 
+    public void horscercle() {
+        log.debug(Geometry.pointProche(new Vec2(-200, -200), new Circle(new Vec2(0, 0), 100)));
 
+    }
 
-public void horscercle()
-{
-    log.debug(Geometry.pointProche(new Vec2(-200,-200),new Circle(new Vec2(0,0),100)));
-
-}
-
-    public void clip()
-    {
+    public void clip() {
         int addsq;
-        for (int i=0;i<10;i++)
-        {
-            for (int j=0;j<10;j++)
-            {
-                log.debug(i|j);
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                log.debug(i | j);
             }
         }
 
-        boolean pyu=Geometry.CohenSutherlandLineClipAndDraw(new Vec2(-10,100),new Vec2(100,210),new Vec2(0,200),new Vec2(200,0));
-        int x=5;
+        boolean pyu = Geometry.CohenSutherlandLineClipAndDraw(new Vec2(-10, 100), new Vec2(100, 210), new Vec2(0, 200), new Vec2(200, 0));
+        int x = 5;
     }
     /*
     @Test
@@ -102,53 +93,51 @@ public void horscercle()
     }*/
 
     @Test
-    /* public void testClickedPF() throws Exception
-    {
+    public void testClickedPF() throws Exception {
         //Table T = container.getService(Table.class);
         //Pathfinding pf=container.getService(Pathfinding.class);
 
-        Graphe graphe= pf.getGraphe();
-         ArrayList<Vec2> graph = new ArrayList<>();
+        Graphe graphe = pf.getGraphe();
+        ArrayList<Vec2> graph = new ArrayList<>();
 
-        for(Noeud n : graphe.getlNoeuds())
-        {
+        for (Noeud n : graphe.getlNoeuds()) {
             graph.add(n.position);
         }
 
         win.getPanel().drawGraphe(graph);
         win.getPanel().drawLinesGraph(graphe.getlNoeuds()); // Commenter cette ligne pour ne plus afficher les liens du graphe
-        Vec2 dep=null;
-        Vec2 arr=null;
-        while(true)
-        {
-            if(win.getMouse().hasClicked()) {
-                    dep = win.getMouse().getLeftClickPosition();
-                    arr = win.getMouse().getRightClickPosition();
-                log.debug(dep+"bkd"+arr);
-                    // try
-                    // {
-                    if (!dep.isNull() && !arr.isNull())  {
-                        log.debug(win.getMouse().getLeftClickPosition() + "" + win.getMouse().getRightClickPosition());
-                        long start = System.currentTimeMillis();
+        Vec2 dep = null;
+        Vec2 arr = null;
+        while (true) {
+            if (win.getMouse().hasClicked()) {
+                dep = win.getMouse().getLeftClickPosition();
+                arr = win.getMouse().getRightClickPosition();
+                log.debug(dep + "bkd" + arr);
+                // try
+                // {
+                if (!dep.isNull() && !arr.isNull()) {
+                    log.debug(win.getMouse().getLeftClickPosition() + "" + win.getMouse().getRightClickPosition());
+                    long start = System.currentTimeMillis();
 
-                            ArrayList<Vec2> p = pf.Astarfoulah(dep, arr, Math.PI);
+                    ArrayList<Vec2> p = pf.Astarfoulah(dep, arr, Math.PI);
 
 
-                        long end = System.currentTimeMillis();
-                        System.out.println("time elapsed : " + (end - start));
-                        win.getPanel().drawArrayList(p);
-                        // }
-                        //TODO exceptions
-                        win.getPanel().repaint();
-                    } else {
-                        Thread.sleep(200);
-
-                    }
-                } else
+                    long end = System.currentTimeMillis();
+                    System.out.println("time elapsed : " + (end - start));
+                    win.getPanel().drawArrayList(p);
+                    // }
+                    //TODO exceptions
+                    win.getPanel().repaint();
+                } else {
                     Thread.sleep(200);
-            }
-        }*/
 
+                }
+            } else
+                Thread.sleep(200);
+        }
+    }
+}
+    /*
     public void testrandom() throws Exception
     {
         mRobot = container.getService(GameState.class);

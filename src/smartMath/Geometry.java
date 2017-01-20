@@ -23,6 +23,8 @@ package smartMath;
  * classe de calculs de géométrie
  * @author Etienne
  */
+
+//TODO simplifier les methodes dégeulasses à l'aide des nouveaux outils
 public class Geometry
 {
 	/**
@@ -60,9 +62,7 @@ public class Geometry
 // ASSUME THAT xmax, xmin, ymax and ymin are global constants.
 
 	public static int ComputeOutCode(Vec2 pos, Vec2 hautGauche, Vec2 basDroite)
-
 	{
-
 		int INSIDE = 0; // 0000
 		int LEFT = 1;   // 0001
 		int RIGHT = 2;  // 0010
@@ -95,8 +95,6 @@ public class Geometry
 
 	public static boolean CohenSutherlandLineClipAndDraw(Vec2 depart,Vec2 arrivee,Vec2 hautGauche,Vec2 basDroite)
 	{
-
-
 		int INSIDE = 0; // 0000
 		int LEFT = 1;   // 0001
 		int RIGHT = 2;  // 0010
@@ -231,7 +229,7 @@ public class Geometry
 	}
 
 	/**
-	 *
+	 * Retourne le point de l'arc de cerlce le plus proche d'un point hors du cercle
 	 * @param pointHorsCercle
 	 * @param circle
 	 * @return le point de l'arc de cercle le plus proche de pointHorsCercle
@@ -240,13 +238,13 @@ public class Geometry
 		if (circle.containCircle(pointHorsCercle)) {
 			return (pointHorsCercle);
 		}
-		Vec2 vec = new Vec2(- circle.getCenter().getX() + pointHorsCercle.getX(),
-				- circle.getCenter().getY() + pointHorsCercle.getY());
+		Vec2 vec = pointHorsCercle.minusNewVector(circle.getCenter());
 
 		// Si la direction donnée par le vecteur pointHorsCercle intersecte l'arc de cercle, on a le point avec un simple Thalès
 		if (vec.getA() >= circle.getAngleStart() && vec.getA() <= circle.getAngleEnd())
 		{
-			return pointHorsCercle.minusNewVector(new Vec2((int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.getX() - circle.getCenter().getX()) / pointHorsCercle.distance(circle.getCenter())), (int) ((pointHorsCercle.distance(circle.getCenter()) - circle.getRadius()) * (pointHorsCercle.getY() - circle.getCenter().getY()) / pointHorsCercle.distance(circle.getCenter()))));
+			vec.setR(circle.getRadius());
+			return circle.getCenter().plusNewVector(vec);
 		}
 
 		// Sinon, on doit choisir entre le point du début de l'arc de cercle et celui de fin
@@ -268,6 +266,7 @@ public class Geometry
 	 * @param circle le cercle
 	 * @return la nouvelle position du point
 	 */
+	// TODO Savoir à quoi sert cette méthode
 	public static Vec2 pointExterieurv1(Vec2 pointDansCercle, Circle circle)
 	{
 		if(pointDansCercle.getX()>circle.getCenter().getX())
@@ -302,7 +301,9 @@ public class Geometry
 		{
 			return(pointDansCercle);
 		}
-		return circle.getCenter().plusNewVector(new Vec2((int) (circle.getRadius()*(pointDansCercle.getX()-circle.getCenter().getX())/pointDansCercle.distance(circle.getCenter())),(int) (circle.getRadius()*(pointDansCercle.getY()-circle.getCenter().getY())/pointDansCercle.distance(circle.getCenter()))));
+		Vec2 toReturn = pointDansCercle.minusNewVector(circle.getCenter());
+		toReturn.setR(circle.getRadius());
+		return toReturn;
 	}
 
 	/**
