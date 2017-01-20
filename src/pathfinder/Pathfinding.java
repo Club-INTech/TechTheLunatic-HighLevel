@@ -171,7 +171,10 @@ public class Pathfinding implements Service {
 
                 ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
                 arriveeV.setX(sens*(1500-a.getGetmRobotWidth()/2));
-                newPath.add(newPath.size(),arriveeV);
+
+                if (whichObstacle(newArriveeV) == null) {
+                    newPath.add(newPath.size(), arriveeV);
+                }
                 return newPath;
             }
             if (Math.abs(arriveeV.getY()-1000)>1000 - a.mRobotRadius)
@@ -181,7 +184,10 @@ public class Pathfinding implements Service {
 
                 ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
                 arriveeV.setY(1000 + sens*(1000-a.getGetmRobotWidth()/2));
-                newPath.add(newPath.size(), arriveeV);
+
+                if (whichObstacle(newArriveeV) == null) {
+                    newPath.add(newPath.size(), arriveeV);
+                }
                 return newPath;
             }
         }
