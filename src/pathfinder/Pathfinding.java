@@ -71,7 +71,7 @@ public class Pathfinding implements Service {
         ObstacleManager a = this.table.getObstacleManager();
         robotOrientation = robotOrientation%Math.PI;
         // Une longueur qui sert dans tout les cas ou envoie le robot dans un obstacle : on l'envoie au plus près du danger !
-        // C'est pourquoi on a besoin de le considérer carré
+        // C'est pourquoi on a besoin de le considérer rectangulaire
         int robotMarge = a.mRobotRadius - a.getmRobotWidth()/2;
 
         // Si le point de départ est hors de la table
@@ -108,7 +108,7 @@ public class Pathfinding implements Service {
             {
                 int sens = Math.abs(departV.getY()-1000)/(departV.getY()-1000);
                 double marge = Math.acos((double)(a.getmRobotLenght()) / (2 * a.mRobotRadius)) - Math.acos((double)(departV.getY())/ a.mRobotRadius);
-                double radius = (a.mRobotRadius - departV.getY()) / Math.sin(marge);
+                double radius = Math.min((a.mRobotRadius - departV.getY()) / Math.sin(marge), 140);
                 Vec2 vecPropoFW = new Vec2(radius, Math.PI + sens*marge);
                 Vec2 vecPropoBW = new Vec2(radius, -sens*marge);
 
@@ -134,7 +134,8 @@ public class Pathfinding implements Service {
             {
                 int sens = Math.abs(departV.getX())/departV.getX();
                 double marge = Math.acos((double)(a.getmRobotLenght()) / 2*a.mRobotRadius) - Math.acos((double)(departV.getY()) / 2*a.mRobotRadius);
-                double radius = (a.mRobotRadius - departV.getY()) / Math.sin(marge);
+                double radius = Math.min((a.mRobotRadius - departV.getY()) / Math.sin(marge), 140);
+
                 Vec2 vecPropoFW = new Vec2(radius, sens*marge + Math.PI/2);
                 Vec2 vecPropoBW = new Vec2(radius, -sens*marge - Math.PI/2);
                 if (whichObstacle(vecPropoFW.plusNewVector(departV)) != null)
@@ -246,6 +247,9 @@ public class Pathfinding implements Service {
                 }
 
                 //Tangent
+                else {
+
+                }
             }
         }
 
@@ -257,7 +261,7 @@ public class Pathfinding implements Service {
             if (obstacle instanceof ObstacleCircular)
             {
                 Vec2 vecRef = arriveeV.minusNewVector(obstacle.getPosition());
-                vecRef.setR(((ObstacleCircular) obstacle).getRadius()+1);
+                vecRef.setR(((ObstacleCircular) obstacle).getRadius()+2);
                 log.debug("Vecteur réference :"+vecRef);
                 ArrayList<Vec2> newPath = Astarfoulah(departV, obstacle.getPosition().plusNewVector(vecRef), robotOrientation);
 

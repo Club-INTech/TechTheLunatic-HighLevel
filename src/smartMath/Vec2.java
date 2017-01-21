@@ -328,7 +328,7 @@ public class Vec2
 	}
 
 	public void setA(double a) {
-		this.a = a;
+		this.a = a%Math.PI;
 		x = (int) (r*Math.cos(a));
 		y = (int) (r*Math.sin(a));
 	}
