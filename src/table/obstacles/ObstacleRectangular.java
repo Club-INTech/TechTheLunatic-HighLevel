@@ -101,7 +101,7 @@ public class ObstacleRectangular extends Obstacle
 	/**
 	 * Renvoie les Segments des diagonales du rectangle
 	 */
-	public ArrayList<Segment> getSegments()
+	public ArrayList<Segment> getDiagos()
 	{
 		ArrayList<Segment> segments = new ArrayList<Segment>();
 		segments.add(new Segment(new Vec2(position.getX() + sizeX/2 , position.getY() + sizeY/2), new Vec2(position.getX() - sizeX/2 , position.getY() - sizeY/2)));
@@ -203,7 +203,7 @@ public class ObstacleRectangular extends Obstacle
 	}
 
 	/**
-	 * ajoute les noeuds liés à l'obstacle sur le graphe et les relie entre eux
+	 * Ajoute les noeuds liés à l'obstacle sur le graphe et les relie entre eux
 	 * @param graphe
 	 * @param ecart écart minimal par rapport à l'obstacle
 	 *
@@ -253,13 +253,12 @@ public class ObstacleRectangular extends Obstacle
 		Noeud hm=new Noeud(graphe,hautmilieu);
 		Noeud dm=new Noeud(graphe,droitemilieu);
 
-
 		graphe.getlNoeuds().add(cbd);
 		graphe.getlNoeuds().add(cbg);
 		graphe.getlNoeuds().add(chd);
 		graphe.getlNoeuds().add(chg);
 
-// BIEN METTRE LES NOEUDS DU MILIEU APRES CEUX DU HAUT
+		// BIEN METTRE LES NOEUDS DU MILIEU APRES CEUX DU HAUT
 		graphe.getlNoeuds().add(gm);
 		graphe.getlNoeuds().add(bm);
 		graphe.getlNoeuds().add(hm);
@@ -273,9 +272,6 @@ public class ObstacleRectangular extends Obstacle
 		this.lNoeud.add(bm);
 		this.lNoeud.add(hm);
 		this.lNoeud.add(dm);
-
-
-
 
 		return this.lNoeud;
 	}
@@ -302,5 +298,54 @@ public class ObstacleRectangular extends Obstacle
 		return noeudMin;
 	}
 
-
+	/**
+	 * Renvoie le point du rectangle le plus proche d'un point dans le rectangle
+	 * @param inObstacle
+	 * @return le point du rectangle le plus proche de inObstacle
+	 */
+	public Vec2 pointProche (Vec2 inObstacle){
+		Vec2 ref = inObstacle.minusNewVector(position);
+		int min = Math.min(sizeX-Math.abs(ref.getX()), sizeY-Math.abs(ref.getY()));
+		if (ref.getX()>0 && ref.getY()>0){
+			if (min == sizeX-Math.abs((ref.getX()))){
+				ref.setX(sizeX/2);
+				return ref.plusNewVector(position);
+			}
+			else{
+				ref.setY(sizeY/2);
+				return ref.plusNewVector(position);
+			}
+		}
+		else if(ref.getX()>0 && ref.getY()<0){
+			if (min == sizeX-Math.abs((ref.getX()))){
+				ref.setX(sizeX/2);
+				return ref.plusNewVector(position);
+			}
+			else{
+				ref.setY(-sizeY/2);
+				return ref.plusNewVector(position);
+			}
+		}
+		else if(ref.getX()<0 && ref.getY()<0){
+			if (min == sizeX-Math.abs((ref.getX()))){
+				ref.setX(-sizeX/2);
+				return ref.plusNewVector(position);
+			}
+			else{
+				ref.setY(-sizeY/2);
+				return ref.plusNewVector(position);
+			}
+		}
+		else if(ref.getX()<0 && ref.getY()>0){
+			if (min == sizeX-Math.abs((ref.getX()))){
+				ref.setX(-sizeX/2);
+				return ref.plusNewVector(position);
+			}
+			else{
+				ref.setY(sizeY/2);
+				return ref.plusNewVector(position);
+			}
+		}
+		return new Vec2();
+	}
 }

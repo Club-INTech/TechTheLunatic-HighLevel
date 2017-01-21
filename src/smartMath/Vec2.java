@@ -71,7 +71,7 @@ public class Vec2
 	public Vec2(int requestedX, int requestedY) {
 		x = requestedX;
 		y = requestedY;
-		r = Math.sqrt(x * x + y * y);
+		r = Math.sqrt(x*x + y*y);
 		a = this.angle();
 	}
 
@@ -84,8 +84,8 @@ public class Vec2
 	{
 		r = requestedR;
 		a = requestedA;
-		x = (int)(r*Math.cos(a)+1);
-		y = (int)(r*Math.asin(a)+1);
+		x = (int)(r*Math.cos(a));
+		y = (int)(r*Math.sin(a));
 	}
 	
 	// Il est plus performant de trouver la longueur au carré et de la comparer à des distances au carré que d'en extraire la racine
@@ -102,7 +102,7 @@ public class Vec2
 	 */
 	public float length()
 	{
-		return (float) r;
+		return (float) Math.sqrt(x*x+y*y);
 	}
 
 	/**
@@ -283,14 +283,10 @@ public class Vec2
      */
 	public double angle()
 	{
-		int signe=0;
 		if(this.squaredLength() == 0)
 			return 0;
 
-		if (this.y<0){
-			signe=-2;
-		}
-		return signe*Math.PI + Math.atan2(this.y, this.x);
+		return Math.atan2(this.y, this.x);
 	}
 
 	/**
@@ -332,7 +328,7 @@ public class Vec2
 	}
 
 	public void setA(double a) {
-		this.a = a;
+		this.a = a%Math.PI;
 		x = (int) (r*Math.cos(a));
 		y = (int) (r*Math.sin(a));
 	}

@@ -68,7 +68,7 @@ public class ObstacleManager
 	public int mRobotRadius;
 	//les dimensions réels de notre robot
 	private int mRobotLenght;
-	private int getmRobotWidth;
+	private int mRobotWidth;
 	
 	// TODO virer : juste du debugg / interface graphique
 	private int radiusDetectionDisc=0;
@@ -118,7 +118,7 @@ public class ObstacleManager
       	//Les différents obstacles fixés sur la table
 
 		// zones de départ
-		mRectangles.add(new ObstacleRectangular(new Vec2(-965, 300), 350 + 2*mRobotRadius, 360 ) );
+		mRectangles.add(new ObstacleRectangular(new Vec2(-965, 300), 350 + 2*mRobotRadius, 360));
 		mRectangles.add(new ObstacleRectangular(new Vec2(965, 300), 350 + 2*mRobotRadius, 360));
 		//mRectangles.add(new ObstacleRectangular(new Vec2(-1145, 371), 710 + 2*mRobotRadius, 22 + 2*mRobotRadius));
 		//mRectangles.add(new ObstacleRectangular(new Vec2(1145, 371), 710 + 2*mRobotRadius, 22 + 2*mRobotRadius));
@@ -232,8 +232,8 @@ public class ObstacleManager
 		return mRobotLenght;
 	}
 
-	public int getGetmRobotWidth() {
-		return getmRobotWidth;
+	public int getmRobotWidth() {
+		return mRobotWidth;
 	}
 
 	/**
@@ -704,7 +704,7 @@ public class ObstacleManager
 		{
 			mRobotRadius = Integer.parseInt(config.getProperty("rayon_robot"));
 			mRobotLenght = Integer.parseInt(config.getProperty("longueur_robot"));
-			getmRobotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
+			mRobotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
 		    defaultObstacleRadius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
 		}
 	    catch (ConfigPropertyNotFoundException e)
