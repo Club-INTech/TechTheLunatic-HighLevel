@@ -85,7 +85,7 @@ public class Vec2
 		r = requestedR;
 		a = requestedA;
 		x = (int)(r*Math.cos(a));
-		y = (int)(r*Math.asin(a));
+		y = (int)(r*Math.sin(a));
 	}
 	
 	// Il est plus performant de trouver la longueur au carré et de la comparer à des distances au carré que d'en extraire la racine
@@ -102,7 +102,7 @@ public class Vec2
 	 */
 	public float length()
 	{
-		return (float) r;
+		return (float) Math.sqrt(x*x+y*y);
 	}
 
 	/**

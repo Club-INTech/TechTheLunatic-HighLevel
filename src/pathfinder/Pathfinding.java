@@ -104,12 +104,12 @@ public class Pathfinding implements Service {
                     (2000 - departV.getY() < a.mRobotRadius && (Math.abs(robotOrientation) < Math.PI/4 || Math.abs(robotOrientation) > 3*Math.PI/4 )))
             {
                 int sens = Math.abs(departV.getY()-1000)/(departV.getY()-1000);
-                double marge = Math.acos(a.getmRobotLenght() / 2 * a.mRobotRadius) - Math.acos(departV.getY() / 2*a.mRobotRadius);
+                double marge = Math.acos((double)(a.getmRobotLenght()) / (2 * a.mRobotRadius)) - Math.acos((double)(departV.getY())/ a.mRobotRadius);
                 double radius = (a.mRobotRadius - departV.getY()) / Math.sin(marge);
                 Vec2 vecPropoFW = new Vec2(radius, Math.PI + sens*marge);
                 Vec2 vecPropoBW = new Vec2(radius, -sens*marge);
 
-                log.debug("Vecteurs proposés :" + vecPropoFW + "  " + vecPropoBW);
+                log.debug("Argument du arcos :" + (double)(a.getmRobotLenght())/ (2*a.mRobotRadius));
 
                 if (whichObstacle(vecPropoFW.plusNewVector(departV)) != null)
                 {
