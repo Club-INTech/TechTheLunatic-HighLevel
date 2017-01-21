@@ -74,7 +74,7 @@ public class Pathfinding implements Service {
         // Si le point de départ est hors de la table
         if (Math.abs(departV.getX()) > 1500 - a.mRobotRadius ||
                 Math.abs(departV.getY() - 1000) > 1000 - a.mRobotRadius) {
-            log.debug("Retourne sur la table connard => Point de départ " + departV);
+            log.debug("Retourne sur la table connard => Point de départ " + departV + " Orientation : " + robotOrientation);
 
             // Cas "simple", où le robot est perpendiculaire au côté de la table sur lequel il est bloqué
             // Il recule/avance juste pour rentrer dans la table (ya pas d'obstacle derriere, faut pas déconner)
@@ -108,6 +108,8 @@ public class Pathfinding implements Service {
                 double radius = (a.mRobotRadius - departV.getY()) / Math.sin(marge);
                 Vec2 vecPropoFW = new Vec2(radius, Math.PI + sens*marge);
                 Vec2 vecPropoBW = new Vec2(radius, -sens*marge);
+
+                log.debug("Vecteurs proposés :" + vecPropoFW + "  " + vecPropoBW);
 
                 if (whichObstacle(vecPropoFW.plusNewVector(departV)) != null)
                 {
@@ -291,29 +293,28 @@ public class Pathfinding implements Service {
 
             j = 0;
             while ((creerdep || creerarr) && j < nombobst) {
-                          /*  if (a.getFixedObstacles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
-                               {
-                                    log.debug("Depart dans obstacle");
-                                    Vec2 w = a.getFixedObstacles().get(j).noeudProche(departV).position;
-                                    ArrayList<Vec2> aRenvoyer = Astarfoulah(w, arriveeV, robotOrientation);
-                                    aRenvoyer.add(0, departV);
-                                    return aRenvoyer;
-                                }
-                                if (a.getFixedObstacles().get(j).isInObstacle(arriveeV)) {
-                                        creerarr = false;
-                                        log.debug("U  stupid or somethin'? => Arrivée dans un obstacle :"+arriveeV);
-                                       Vec2 w = a.getFixedObstacles().get(j).noeudProche(arriveeV).position;
-                                        ArrayList<Vec2> aRenvoyer = Astarfoulah(departV, w, robotOrientation);
-                                        return aRenvoyer;
-                                        // /throw new PointInObstacleException(arriveeV);
-                                    }*/
-                             if (a.getFixedObstacles().get(j).isInObstacle(g.getlNoeuds().get(i).position)) {
-                                    creerdep = false;
-                                    creerarr = false;
-                                }
+                /* if (a.getFixedObstacles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
+                {
+                    log.debug("Depart dans obstacle");
+                    Vec2 w = a.getFixedObstacles().get(j).noeudProche(departV).position;
+                    ArrayList<Vec2> aRenvoyer = Astarfoulah(w, arriveeV, robotOrientation);
+                    aRenvoyer.add(0, departV);
+                    return aRenvoyer;
+                }
+                if (a.getFixedObstacles().get(j).isInObstacle(arriveeV)) {
+                    creerarr = false;
+                    log.debug("U  stupid or somethin'? => Arrivée dans un obstacle :"+arriveeV);
+                    Vec2 w = a.getFixedObstacles().get(j).noeudProche(arriveeV).position;
+                    ArrayList<Vec2> aRenvoyer = Astarfoulah(departV, w, robotOrientation);
+                    return aRenvoyer;
+                    // /throw new PointInObstacleException(arriveeV);
+                }*/
+                if (a.getFixedObstacles().get(j).isInObstacle(g.getlNoeuds().get(i).position)) {
+                    creerdep = false;
+                    creerarr = false;
+                }
 
-
-                        creerdep = creerdep && !(Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
+                creerdep = creerdep && !(Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
                 creerarr = creerarr && !(Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
                 j++;
             }

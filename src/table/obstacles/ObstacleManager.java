@@ -118,7 +118,7 @@ public class ObstacleManager
       	//Les différents obstacles fixés sur la table
 
 		// zones de départ
-		mRectangles.add(new ObstacleRectangular(new Vec2(-965, 300), 350 + 2*mRobotRadius, 360 ) );
+		mRectangles.add(new ObstacleRectangular(new Vec2(-965, 300), 350 + 2*mRobotRadius, 360));
 		mRectangles.add(new ObstacleRectangular(new Vec2(965, 300), 350 + 2*mRobotRadius, 360));
 		//mRectangles.add(new ObstacleRectangular(new Vec2(-1145, 371), 710 + 2*mRobotRadius, 22 + 2*mRobotRadius));
 		//mRectangles.add(new ObstacleRectangular(new Vec2(1145, 371), 710 + 2*mRobotRadius, 22 + 2*mRobotRadius));
