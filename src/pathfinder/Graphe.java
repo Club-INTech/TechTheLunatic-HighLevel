@@ -58,9 +58,6 @@ public class Graphe {
         return lNoeuds;
     }
 
-
-
-
     /**
      * Constructeur standard du graphe
      * @param log log
@@ -87,13 +84,9 @@ public class Graphe {
 
         ObstacleManager a=this.table.getObstacleManager();
         //Pour sortir
-
-
         for (ObstacleCircular x:a.getFixedObstacles())
         {
             x.fabriqueNoeud(this,this.n,this.ecart);
-
-
         }
         for (ObstacleRectangular x:a.getRectangles())
         {
@@ -112,8 +105,6 @@ public class Graphe {
                         log.debug("null except");
                     }
                     else {
-
-
                         boolean creer=true;
                         j=0;
                         int nombobst= a.getFixedObstacles().size();
@@ -129,7 +120,6 @@ public class Graphe {
                         //On vérifie l'intersection avec les lignes
                         for(int k=0 ; k<lineObstacles.size() ; k++)
                         {
-
                             if(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), lineObstacles.get(k)))
                             {
                                 creer = false;
@@ -171,23 +161,14 @@ public class Graphe {
                     }
                 }
             }
-
-
-
-               }
-
+        }
 
         for (int i = 0; i < this.lNoeuds.size(); i++) {
-         if(this.lNoeuds.get(i).lArretes.size()==0)
-         {
-             this.lNoeuds.remove(this.lNoeuds.get(i));
-             i--;
-         }
+            if(this.lNoeuds.get(i).lArretes.size()==0)
+            {
+                this.lNoeuds.remove(this.lNoeuds.get(i));
+                i--;
+            }
         }
-
-
-
-        }
-
-
+    }
 }

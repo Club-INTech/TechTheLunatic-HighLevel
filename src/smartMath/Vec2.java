@@ -283,14 +283,10 @@ public class Vec2
      */
 	public double angle()
 	{
-		int signe=0;
 		if(this.squaredLength() == 0)
 			return 0;
 
-		if (this.y<0){
-			signe=-2;
-		}
-		return signe*Math.PI + Math.atan2(this.y, this.x);
+		return Math.atan2(this.y, this.x);
 	}
 
 	/**
