@@ -233,11 +233,12 @@ public class Pathfinding implements Service {
                     }
                 }
             }
-            // TODO Cas des obstacles rectangulaires
+            // TODO Optimisier et debuger le cas des obstacles rectangulaires
             // Cas des obstacles rectangulaires (similaire au cas de la table)
             if (obstacle instanceof ObstacleRectangular){
                 Vec2 newDepartV = ((ObstacleRectangular) obstacle).pointProche(departV);
-                double angleref = Math.abs(Math.abs(newDepartV.minusNewVector(departV).getA()) - Math.abs(robotOrientation));
+                double angleTest = newDepartV.minusNewVector(departV).getA();
+                double angleref = Math.abs(Math.abs(angleTest) - Math.abs(robotOrientation));
 
                 // Perpendiculaire
                 if (angleref < Math.PI/4 || angleref > 3*Math.PI/4){
@@ -248,7 +249,33 @@ public class Pathfinding implements Service {
 
                 //Tangent
                 else {
+                    double radiusRef = departV.minusNewVector(newDepartV).length();
+                    double marge = Math.acos((double)a.getmRobotLenght()/(2*a.mRobotRadius)) - Math.acos((a.mRobotRadius-radiusRef)/a.mRobotRadius);
+                    double radius = Math.min(radiusRef/Math.sin(marge), 100);
 
+                    Vec2 vecPropoFW = new Vec2(radius, 0);
+                    Vec2 vecPropoBW = new Vec2(radius, 0);
+
+                    if (Math.abs(angleTest) == Math.PI){
+                        vecPropoFW.setA(Math.PI/2 + marge);
+                        vecPropoBW.setA(-Math.PI/2 - marge);
+                    }
+                    else if(angleTest == 0){
+                        vecPropoFW.setA(Math.PI/2 - marge);
+                        vecPropoBW.setA(-Math.PI/2 + marge);
+                    }
+                    else if(angleTest == -Math.PI/2){
+                        vecPropoFW.setA(-Math.PI + marge);
+                        vecPropoBW.setA(-marge);
+                    }
+                    else{
+                        vecPropoFW.setA(Math.PI-marge);
+                        vecPropoBW.setA(marge);
+                    }
+
+                    ArrayList<Vec2> newPath = Astarfoulah(departV.plusNewVector(vecPropoFW), arriveeV, robotOrientation);
+                    newPath.add(0, departV);
+                    return newPath;
                 }
             }
         }
@@ -272,7 +299,9 @@ public class Pathfinding implements Service {
                 return newPath;
             }
             // TODO Cas des obstacles rectangulaires
-
+            else if(obstacle instanceof ObstacleRectangular){
+                return Astarfoulah(departV, ((ObstacleRectangular) obstacle).noeudProche(arriveeV).position, robotOrientation);
+            }
         }
 
         // Si tout va bien, on lance de Pathfinding des noeuds !
