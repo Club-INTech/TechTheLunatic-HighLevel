@@ -49,9 +49,9 @@ public class ObstacleManager
     /** Ensemble des obstacles mobiles/temporaires se trouvant sur la table */
     private ArrayList<ObstacleProximity> mMobileObstacles;
 
+    /** Ensemble des obstacles circulaires */
+    private ArrayList<ObstacleCircular> mCircularObstacle;
 
-    private ArrayList<ObstacleCircular> mFixedObstacles;
-    
     /**
      * Ensemble des obstacles mobiles/temporaires a tester pour les placer sur la table
      */
@@ -93,7 +93,7 @@ public class ObstacleManager
         
         //creation des listes qui contiendrons les differents types d'obstacles
         mMobileObstacles = new ArrayList<ObstacleProximity>();
-        mFixedObstacles = new ArrayList<ObstacleCircular>();
+        mCircularObstacle = new ArrayList<ObstacleCircular>();
         mLines = new ArrayList<Segment>();
 		mRectangles = new ArrayList<ObstacleRectangular>();
 		
@@ -118,29 +118,29 @@ public class ObstacleManager
       	//Les différents obstacles fixés sur la table
 
 		// zones de départ
-		mRectangles.add(new ObstacleRectangular(new Vec2(-965, 300), 350 + 2*mRobotRadius, 360));
-		mRectangles.add(new ObstacleRectangular(new Vec2(965, 300), 350 + 2*mRobotRadius, 360));
+		mRectangles.add(new ObstacleRectangular(new Vec2(-1145, 370), 710 + 2*mRobotRadius, 20 + 2*mRobotRadius));
+		mRectangles.add(new ObstacleRectangular(new Vec2(1145, 370), 710 + 2*mRobotRadius, 20 + 2*mRobotRadius)); // x 350, y 360 => centre 965, 300
 		//mRectangles.add(new ObstacleRectangular(new Vec2(-1145, 371), 710 + 2*mRobotRadius, 22 + 2*mRobotRadius));
 		//mRectangles.add(new ObstacleRectangular(new Vec2(1145, 371), 710 + 2*mRobotRadius, 22 + 2*mRobotRadius));
 
 
 		//fusées
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(-350, 40), 40 + mRobotRadius));
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(350, 40), 40 + mRobotRadius));
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(-1460, 1350), 40 + mRobotRadius));
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(1460, 1350), 40 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Vec2(-350, 40), 40 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Vec2(350, 40), 40 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Vec2(-1460, 1350), 40 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Vec2(1460, 1350), 40 + mRobotRadius));
 
 		//cratères
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(-850, 540), 120 + mRobotRadius));
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(850, 540), 120 + mRobotRadius));
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(-1500, 2000), 510 + mRobotRadius));
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(1500, 2000), 510 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Vec2(-850, 540), 120 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Vec2(850, 540), 120 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Vec2(-1500, 2000), 510 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Vec2(1500, 2000), 510 + mRobotRadius));
 
 		//pose module côté
-		mRectangles.add(new ObstacleRectangular(new Vec2(-1446, 678), 108 + 2*mRobotRadius, 472 + 2*mRobotRadius));
-		mRectangles.add(new ObstacleRectangular(new Vec2(1446, 678), 108 + 2*mRobotRadius, 472 + 2*mRobotRadius));
+		mRectangles.add(new ObstacleRectangular(new Vec2(-1446, 950), 108 + 2*mRobotRadius, 500 + 2*mRobotRadius)); //-1446, 678, 108, 472
+		mRectangles.add(new ObstacleRectangular(new Vec2(1446, 950), 108 + 2*mRobotRadius, 500 + 2*mRobotRadius));
 		//base lunaire
-		mFixedObstacles.add(new ObstacleCircular(new Vec2(0, 2000), 800 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Vec2(0, 2000), 800 + mRobotRadius));
 
 
 	}
@@ -187,9 +187,9 @@ public class ObstacleManager
      * @return la liste des obstacles fixes de la table
      */
     
-    public ArrayList<ObstacleCircular> getFixedObstacles()
+    public ArrayList<ObstacleCircular> getmCircularObstacle()
     {
-        return mFixedObstacles;
+        return mCircularObstacle;
     }
     
     /**
@@ -331,7 +331,7 @@ public class ObstacleManager
      */
 	public synchronized void addObstacle(ObstacleCircular obs)
 	{
-		mFixedObstacles.add(obs);
+		mCircularObstacle.add(obs);
 	}
 
 	/**
@@ -340,7 +340,7 @@ public class ObstacleManager
      */
 	public synchronized void removeObstacle(ObstacleCircular obs)
 	{
-		mFixedObstacles.remove(obs);
+		mCircularObstacle.remove(obs);
 	}
 
 	/**
@@ -553,8 +553,8 @@ public class ObstacleManager
     	boolean isObstructed = false;
     	for(int i=0; i<mMobileObstacles.size(); i++)
     		isObstructed=isPositionInObstacle(position, mMobileObstacles.get(i));
-    	for(int i=0; i<mFixedObstacles.size(); i++)
-    		isObstructed=isPositionInObstacle(position, mFixedObstacles.get(i));
+    	for(int i = 0; i< mCircularObstacle.size(); i++)
+    		isObstructed=isPositionInObstacle(position, mCircularObstacle.get(i));
     	for(int i=0; i<mRectangles.size(); i++)
     		isObstructed=isPositionInObstacle(position, mRectangles.get(i));
         return isObstructed;
@@ -685,17 +685,17 @@ public class ObstacleManager
      */
     public void removeFixedObstaclesInDisc(Vec2 position, int radius)
     {
-    	for(int i=0; i<mFixedObstacles.size(); i++)
-    		if((position.getX()-mFixedObstacles.get(i).getPosition().getX())*(position.getX()-mFixedObstacles.get(i).getPosition().getX())
-    		 + (position.getY()-mFixedObstacles.get(i).getPosition().getY())*(position.getY()-mFixedObstacles.get(i).getPosition().getY())
+    	for(int i = 0; i< mCircularObstacle.size(); i++)
+    		if((position.getX()- mCircularObstacle.get(i).getPosition().getX())*(position.getX()- mCircularObstacle.get(i).getPosition().getX())
+    		 + (position.getY()- mCircularObstacle.get(i).getPosition().getY())*(position.getY()- mCircularObstacle.get(i).getPosition().getY())
     		 <= mRobotRadius*mRobotRadius)
-    			mFixedObstacles.remove(mFixedObstacles.get(i));
+    			mCircularObstacle.remove(mCircularObstacle.get(i));
     }
-    
+
     public void printObstacleFixedList()
     {
-    	for(int i=0; i<mFixedObstacles.size(); i++)
-    		mFixedObstacles.get(i).printObstacleMemory();
+    	for(int i = 0; i< mCircularObstacle.size(); i++)
+    		mCircularObstacle.get(i).printObstacleMemory();
     }
     
     public void updateConfig()
@@ -732,7 +732,7 @@ public class ObstacleManager
 			i.changeDim(i.getSizeX()-2*mRobotRadius+2*newRobotRadius, i.getSizeY()-2*mRobotRadius+2*newRobotRadius);
 		}
 
-		for(ObstacleCircular i : mFixedObstacles)
+		for(ObstacleCircular i : mCircularObstacle)
 		{
 			i.setRadius(i.getRadius()-mRobotRadius+newRobotRadius);
 		}
@@ -769,12 +769,12 @@ public class ObstacleManager
     {
         ArrayList<Obstacle> deleted = new ArrayList<>();
 
-        for (int i=0;i< mFixedObstacles.size();i++)
+        for (int i = 0; i< mCircularObstacle.size(); i++)
         {
-            if(mFixedObstacles.get(i).isInObstacle(point))
+            if(mCircularObstacle.get(i).isInObstacle(point))
             {
-                deleted.add(mFixedObstacles.get(i));
-                removeObstacle(mFixedObstacles.get(i));
+                deleted.add(mCircularObstacle.get(i));
+                removeObstacle(mCircularObstacle.get(i));
             }
         }
 
@@ -797,9 +797,12 @@ public class ObstacleManager
 	{
 		mRectangles.clear();
 		mLines.clear();
-		mFixedObstacles.clear();
+		mCircularObstacle.clear();
 		mMobileObstacles.clear();
 		mUntestedMobileObstacles.clear();
 	}
 
+	public ArrayList<ObstacleRectangular> getmRectangles() {
+		return mRectangles;
+	}
 }

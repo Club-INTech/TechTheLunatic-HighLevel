@@ -294,7 +294,6 @@ public class ObstacleRectangular extends Obstacle
 				noeudMin=x;
 			}
 		}
-
 		return noeudMin;
 	}
 
@@ -308,41 +307,41 @@ public class ObstacleRectangular extends Obstacle
 		int min = Math.min(sizeX-Math.abs(ref.getX()), sizeY-Math.abs(ref.getY()));
 		if (ref.getX()>0 && ref.getY()>0){
 			if (min == sizeX-Math.abs((ref.getX()))){
-				ref.setX(sizeX/2);
+				ref.setX(sizeX/2+1);
 				return ref.plusNewVector(position);
 			}
 			else{
-				ref.setY(sizeY/2);
+				ref.setY(sizeY/2+1);
 				return ref.plusNewVector(position);
 			}
 		}
 		else if(ref.getX()>0 && ref.getY()<0){
 			if (min == sizeX-Math.abs((ref.getX()))){
-				ref.setX(sizeX/2);
+				ref.setX(sizeX/2+1);
 				return ref.plusNewVector(position);
 			}
 			else{
-				ref.setY(-sizeY/2);
+				ref.setY(-sizeY/2-1);
 				return ref.plusNewVector(position);
 			}
 		}
 		else if(ref.getX()<0 && ref.getY()<0){
 			if (min == sizeX-Math.abs((ref.getX()))){
-				ref.setX(-sizeX/2);
+				ref.setX(-sizeX/2-1);
 				return ref.plusNewVector(position);
 			}
 			else{
-				ref.setY(-sizeY/2);
+				ref.setY(-sizeY/2-1);
 				return ref.plusNewVector(position);
 			}
 		}
 		else if(ref.getX()<0 && ref.getY()>0){
 			if (min == sizeX-Math.abs((ref.getX()))){
-				ref.setX(-sizeX/2);
+				ref.setX(-sizeX/2-1);
 				return ref.plusNewVector(position);
 			}
 			else{
-				ref.setY(sizeY/2);
+				ref.setY(sizeY/2+1);
 				return ref.plusNewVector(position);
 			}
 		}
