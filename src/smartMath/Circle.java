@@ -96,6 +96,10 @@ public class Circle {
 		return angleEnd;
 	}
 
+	public void setRadius(double radius){
+		this.radius=radius;
+	}
+
 	/**
 	 * test si le Vec2 est dans le disque
 	 * @param point un vec2 a tester
@@ -115,6 +119,6 @@ public class Circle {
 	{
 		double dx=point.getX()-this.center.getX();
 		double dy=point.getY()-this.center.getY();
-		return (dx*dx+dy*dy)==(radius*radius);
+		return (dx*dx+dy*dy)<=(radius*radius);
 	}
 }

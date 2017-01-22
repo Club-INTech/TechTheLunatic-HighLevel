@@ -194,7 +194,6 @@ public class Pathfinding implements Service {
         }
 
         //TODO Gérer les cas ou le point d'arrivé est pile poil au centre de l'obstacle
-        //TODO + implémenter les obstacles circulaire à périmètre "ouvert" afin d'accélerer la vitesse de convergence (optimisation)
         // Si le point de départ est dans un obstacle (et dans la table)
         Obstacle obstacle = whichObstacle(departV);
         if (obstacle != null){
@@ -249,7 +248,7 @@ public class Pathfinding implements Service {
                 }
 
                 //Tangent
-                else {
+                /*else {
                     double radiusRef = departV.minusNewVector(newDepartV).length();
                     double marge = Math.acos((double)a.getmRobotLenght()/(2*a.mRobotRadius)) - Math.acos((a.mRobotRadius-radiusRef)/a.mRobotRadius);
                     double radius = Math.min(radiusRef/Math.sin(marge), 100);
@@ -278,7 +277,7 @@ public class Pathfinding implements Service {
                     ArrayList<Vec2> newPath = Astarfoulah(departV.plusNewVector(vecPropoFW), arriveeV, robotOrientation);
                     newPath.add(0, departV);
                     return newPath;
-                }
+                }*/
             }
         }
 
@@ -289,15 +288,9 @@ public class Pathfinding implements Service {
             // Cas des obstacles circulaires
             if (obstacle instanceof ObstacleCircular)
             {
-                Vec2 vecRef = arriveeV.minusNewVector(obstacle.getPosition());
-                vecRef.setR(((ObstacleCircular) obstacle).getRadius()+2);
-                log.debug("Vecteur réference :"+vecRef);
-                ArrayList<Vec2> newPath = Astarfoulah(departV, obstacle.getPosition().plusNewVector(vecRef), robotOrientation);
-
-                if (whichObstacle(obstacle.getPosition().plusNewVector(vecRef)) == null) {
-                    vecRef.setR(((ObstacleCircular) obstacle).getRadius() - robotMarge);
-                    newPath.add(newPath.size(), vecRef.plusNewVector(obstacle.getPosition()));
-                }
+                Vec2 toReturn = Geometry.pointExterieur(arriveeV, ((ObstacleCircular) obstacle).getCircle());
+                log.debug("Vecteur à retourné :" + toReturn);
+                ArrayList<Vec2> newPath = Astarfoulah(departV, toReturn, robotOrientation);
                 return newPath;
             }
             else if(obstacle instanceof ObstacleRectangular){

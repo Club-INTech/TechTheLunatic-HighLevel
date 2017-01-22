@@ -125,22 +125,22 @@ public class ObstacleManager
 
 
 		//fusées
-		mCircularObstacle.add(new ObstacleCircular(new Vec2(-350, 40), 40 + mRobotRadius));
-		mCircularObstacle.add(new ObstacleCircular(new Vec2(350, 40), 40 + mRobotRadius));
-		mCircularObstacle.add(new ObstacleCircular(new Vec2(-1460, 1350), 40 + mRobotRadius));
-		mCircularObstacle.add(new ObstacleCircular(new Vec2(1460, 1350), 40 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-350, 40), 40 + mRobotRadius))); // 350, 40, 40 / 1460, 1350, 40
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(350, 40), 40 + mRobotRadius)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-1460, 1350), 40 + mRobotRadius)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(1460, 1350), 40 + mRobotRadius)));
 
 		//cratères
-		mCircularObstacle.add(new ObstacleCircular(new Vec2(-850, 540), 120 + mRobotRadius));
-		mCircularObstacle.add(new ObstacleCircular(new Vec2(850, 540), 120 + mRobotRadius));
-		mCircularObstacle.add(new ObstacleCircular(new Vec2(-1500, 2000), 510 + mRobotRadius));
-		mCircularObstacle.add(new ObstacleCircular(new Vec2(1500, 2000), 510 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-850, 540), 120 + mRobotRadius, 0, 2*Math.PI/3)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(850, 540), 120 + mRobotRadius,Math.PI/3, Math.PI)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-1500, 2000), 510 + mRobotRadius, -Math.PI/2, -Math.PI/5)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(1500, 2000), 510 + mRobotRadius, -4*Math.PI/5, -Math.PI/2)));
 
 		//pose module côté
 		mRectangles.add(new ObstacleRectangular(new Vec2(-1446, 950), 108 + 2*mRobotRadius, 500 + 2*mRobotRadius)); //-1446, 678, 108, 472
 		mRectangles.add(new ObstacleRectangular(new Vec2(1446, 950), 108 + 2*mRobotRadius, 500 + 2*mRobotRadius));
 		//base lunaire
-		mCircularObstacle.add(new ObstacleCircular(new Vec2(0, 2000), 800 + mRobotRadius));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(0, 2000), 800 + mRobotRadius)));
 
 
 	}
@@ -262,11 +262,11 @@ public class ObstacleManager
     			ObstacleProximity obstacle = mUntestedMobileObstacles.get(i);
     			
     			//si l'obstacle est deja dans la liste des obstacles non-testés on l'ajoute dans la liste des obstacles
-	    		if(obstacle.position.distance(position)<(obstacle.radius+radius)/2)
+	    		if(obstacle.position.distance(position)<(obstacle.getRadius()+radius)/2)
 	    		{
     				mUntestedMobileObstacles.get(i).numberOfTimeDetected++;
     				mUntestedMobileObstacles.get(i).position.set(position);
-    				mUntestedMobileObstacles.get(i).radius=radius;
+    				mUntestedMobileObstacles.get(i).setRadius(radius);
     				mUntestedMobileObstacles.get(i).setLifeTime(lifetime);
     				
     				// si on l'a deja vu plein de fois
@@ -287,13 +287,13 @@ public class ObstacleManager
     		for(int i = 0; i<mMobileObstacles.size(); i++)
     		{
     			ObstacleProximity obstacle = mMobileObstacles.get(i);
-    			if(obstacle.position.distance(position)<obstacle.radius+radius)
+    			if(obstacle.position.distance(position)<obstacle.getRadius()+radius)
     			{
     				isThereAnObstacleIntersecting=true;
     				
     				mMobileObstacles.get(i).numberOfTimeDetected++;
     				mMobileObstacles.get(i).position.set(position);
-    				mMobileObstacles.get(i).radius=radius;
+    				mMobileObstacles.get(i).setRadius(radius);
     				mMobileObstacles.get(i).setLifeTime(lifetime);
     				
     				// si on l'a deja vu plein de fois
@@ -302,7 +302,7 @@ public class ObstacleManager
     			}
     		}
     		if (!isThereAnObstacleIntersecting)
-    			mUntestedMobileObstacles.add(new ObstacleProximity(position, radius, timeToTestObstacle));
+    			mUntestedMobileObstacles.add(new ObstacleProximity(new Circle(position, radius), timeToTestObstacle));
 
     			
     		/*on ne test pas si la position est dans un obstacle deja existant 
@@ -387,11 +387,11 @@ public class ObstacleManager
     	
     	for(int i=0; i<mMobileObstacles.size(); i++)
     	{
-    		if ((radius+mMobileObstacles.get(i).radius)*(radius+mMobileObstacles.get(i).radius)
+    		if ((radius+mMobileObstacles.get(i).getRadius())*(radius+mMobileObstacles.get(i).getRadius())
     			 > (discCenter.getX()-mMobileObstacles.get(i).getPosition().getX())*(discCenter.getX()-mMobileObstacles.get(i).getPosition().getX())
     			 + (discCenter.getY()-mMobileObstacles.get(i).getPosition().getY())*(discCenter.getY()-mMobileObstacles.get(i).getPosition().getY()))
     		{
-    			log.debug("Disque obstructed avec l'obstacle "+mMobileObstacles.get(i).getPosition()+"de rayon"+mMobileObstacles.get(i).radius);
+    			log.debug("Disque obstructed avec l'obstacle "+mMobileObstacles.get(i).getPosition()+"de rayon"+mMobileObstacles.get(i).getRadius());
     			log.debug("Disque en "+discCenter+" de rayon "+radius);
     			return true;
     		}
@@ -464,7 +464,7 @@ public class ObstacleManager
 	    	if(closestEnnemy != null)
 	    	{
 	    		//log.debug("Position de l'ennemi le plus proche, non testé, d'après distanceToClosestEnnemy: "+mUntestedMobileObstacles.get(indexOfClosestEnnemy).getPosition(), this);
-		    	return (int)Math.sqrt((double)squaredDistanceToClosestEnemy) - mRobotRadius - closestEnnemy.radius;
+		    	return (int)Math.sqrt((double)squaredDistanceToClosestEnemy) - mRobotRadius - closestEnnemy.getRadius();
 	    	}
 	    	else
 	    		return 10000;
@@ -531,7 +531,7 @@ public class ObstacleManager
     	if(obstacle instanceof ObstacleCircular)
     	{
     		ObstacleCircular obstacleCircular = (ObstacleCircular)obstacle;
-    		return (pos.getX()-obstacleCircular.position.getX())*(pos.getX()-obstacleCircular.position.getX())+(pos.getY()-obstacleCircular.position.getY())*(pos.getY()-obstacleCircular.position.getY())<obstacleCircular.radius*obstacleCircular.radius;
+    		return (pos.getX()-obstacleCircular.position.getX())*(pos.getX()-obstacleCircular.position.getX())+(pos.getY()-obstacleCircular.position.getY())*(pos.getY()-obstacleCircular.position.getY())<obstacleCircular.getRadius()*obstacleCircular.getRadius();
     	}
     	if(obstacle instanceof ObstacleRectangular)
     	{
@@ -579,7 +579,7 @@ public class ObstacleManager
 		for(int i = 0; i < mUntestedMobileObstacles.size(); i++)
     	{
     		Vec2 positionEnnemy = mUntestedMobileObstacles.get(i).position;
-    		int ennemyRay = mUntestedMobileObstacles.get(i).radius;
+    		int ennemyRay = mUntestedMobileObstacles.get(i).getRadius();
     		// On verifie que l'ennemi est dans le cercle de detection actuel
     		if((positionEnnemy.distance(position) < (detectionRadius+ennemyRay)*(detectionRadius+ennemyRay)))
     		{
@@ -599,7 +599,7 @@ public class ObstacleManager
     	for(int i = 0; i < mMobileObstacles.size(); i++)
     	{
     		Vec2 positionEnnemy = mMobileObstacles.get(i).position;
-    		int ennemyRay = mMobileObstacles.get(i).radius;
+    		int ennemyRay = mMobileObstacles.get(i).getRadius();
     		// On verifie que l'ennemi est dans le cercle de detection actuel
     		if((positionEnnemy.distance(position) < (detectionRadius+ennemyRay)*(detectionRadius+ennemyRay)))
     		{
@@ -672,7 +672,7 @@ public class ObstacleManager
     	{ 
     		if( (   (position.getX()-mMobileObstacles.get(i).getPosition().getX())*(position.getX()-mMobileObstacles.get(i).getPosition().getX())
     	    	+   (position.getY()-mMobileObstacles.get(i).getPosition().getY())*(position.getY()-mMobileObstacles.get(i).getPosition().getY()) )
-    	    	<=( (mRobotRadius+mMobileObstacles.get(i).radius)*(mRobotRadius+mMobileObstacles.get(i).radius)) ) 	    	
+    	    	<=( (mRobotRadius+mMobileObstacles.get(i).getRadius())*(mRobotRadius+mMobileObstacles.get(i).getRadius())) )
     			mMobileObstacles.remove(mMobileObstacles.get(i));
     	}
     }

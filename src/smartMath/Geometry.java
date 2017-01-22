@@ -240,7 +240,7 @@ public class Geometry
 		}
 		Vec2 vec = pointHorsCercle.minusNewVector(circle.getCenter());
 
-		// Si la direction donnée par le vecteur pointHorsCercle intersecte l'arc de cercle, on a le point avec un simple Thalès
+		// Si la direction donnée par le vecteur pointHorsCercle intersecte l'arc de cercle, on a le point avec les coordonnées polaires ;)
 		if (vec.getA() >= circle.getAngleStart() && vec.getA() <= circle.getAngleEnd())
 		{
 			vec.setR(circle.getRadius());
@@ -294,7 +294,6 @@ public class Geometry
 	 * @param circle le cercle
 	 * @return la nouvelle position du point
 	 */
-	// TODO Traiter le cas des arcs de cercle
 
 	public static Vec2 pointExterieur(Vec2 pointDansCercle, Circle circle) {
 		if (!circle.containCircle(pointDansCercle))
@@ -302,8 +301,22 @@ public class Geometry
 			return(pointDansCercle);
 		}
 		Vec2 toReturn = pointDansCercle.minusNewVector(circle.getCenter());
-		toReturn.setR(circle.getRadius());
-		return toReturn;
+
+		if (isBetween(toReturn.getA(), circle.getAngleStart(), circle.getAngleEnd())) {
+			toReturn.setR(circle.getRadius()+2);
+			return circle.getCenter().plusNewVector(toReturn);
+		}
+		else{
+			Vec2 vecAngleStart = new Vec2(circle.getRadius() + 2, circle.getAngleStart());
+			Vec2 vecAngleEnd = new Vec2(circle.getRadius() + 2, circle.getAngleEnd());
+
+			if (vecAngleStart.plusNewVector(circle.getCenter()).distance(pointDansCercle)<=vecAngleEnd.plusNewVector(circle.getCenter()).distance(pointDansCercle)){
+				return circle.getCenter().plusNewVector(vecAngleStart);
+			}
+			else{
+				return circle.getCenter().plusNewVector(vecAngleEnd);
+			}
+		}
 	}
 
 	/**

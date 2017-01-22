@@ -21,6 +21,7 @@ package table.obstacles;
 
 import pathfinder.Graphe;
 import pathfinder.Noeud;
+import smartMath.Circle;
 import smartMath.Vec2;
 
 import java.util.ArrayList;
@@ -70,13 +71,12 @@ public class ObstacleProximity extends ObstacleCircular
 	 * "a proximité du robot" signifie qu'il a été détecté par les capteurs de proximité, mais
 	 * dans l'absolu, il n'y a pas de contrainte géométrique de proximité
 	 *
-	 * @param position position du centre du disque représentant l'obstacle circulaire
-	 * @param radius rayon du disque représentant l'obstacle circulaire 
+	 * @param circle le cercle représentant l'obstacle circulaire
 	 * @param lifetime la durée de vie (en ms) de l'objet a créer
 	 */
-	public ObstacleProximity (Vec2 position, int radius, int lifetime)
+	public ObstacleProximity (Circle circle, int lifetime)
 	{
-		super(position,radius);
+		super(circle);
 		
 		this.lifetime = lifetime;
 		mOutDatedTime = System.currentTimeMillis() + lifetime;// la date de peremption = temps actuel + temps de peremption de l'obstacle
@@ -93,7 +93,7 @@ public class ObstacleProximity extends ObstacleCircular
 	 */
 	public ObstacleProximity clone()
 	{
-		return new ObstacleProximity(position.clone(), getRadius(), lifetime);
+		return new ObstacleProximity(circle, lifetime);
 	}
 
 	public ArrayList<Noeud> fabriqueNoeud(Graphe graphe, int n, int ecart)
