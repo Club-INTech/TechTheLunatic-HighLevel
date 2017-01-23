@@ -17,6 +17,7 @@ import utils.Log;
 import java.util.ArrayList;
 
 //TODO: en supposant que le robot est placé à un point près de la zone de livraison(à quelques centimètres, donc doit tourner et avancer un peu)
+//TODO + calibrer les WaitForCompletion + les exceptions
 
 /** Script permettant de livrer les boules déjà prises, dans la zone de départ ou sur le robot secondaire
  *
@@ -55,8 +56,6 @@ public class DropBalls extends AbstractScript
                 //rotation de la pelle jusqu'à la position de livraison
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
 
-                //TODO:calibrer le waitforcompletion pour que toute les boules soient tombées avant de lancer le prochain ordre
-
                 //lever les bras jusqu'à la position intermédiaire
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
@@ -68,15 +67,13 @@ public class DropBalls extends AbstractScript
             }
             else if (versionToExecute==1)
             {
-                //Se déplacer vers la zone de départ (considérer les 2 zones possibles?), face au robot secondaire.
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-
-                //TODO:Quelle position pour le robot secondaire?
-
-                //orientation
+                // Manoeuvre
+                actualState.robot.turn(Math.PI);
+                actualState.robot.moveLengthwise(-40);
                 actualState.robot.turn(-Math.PI/2);
 
                 //Se caler contre la zone de livraison
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(500,hooksToConsider, true);
 
                 //abaisser les bras au plus bas
@@ -92,7 +89,7 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
                 //Reculer un peu
-                actualState.robot.moveLengthwise(-150);  //TODO: distance ? la longueur des bras avec pelle dépliée?
+                actualState.robot.moveLengthwise(-150);
 
                 //tourner la pelle jusqu'à la position initiale
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
@@ -131,6 +128,7 @@ public class DropBalls extends AbstractScript
 
                 // Et maintenant dépose les boules
                 actualState.robot.turn(-Math.PI/2);
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(500, hooksToConsider, true);
 
                 //abaisser les bras au plus bas
@@ -155,7 +153,7 @@ public class DropBalls extends AbstractScript
         }
         catch(Exception e)
         {
-            log.critical("Robot ou actionneur bloqué dans DropBalls"); //TODO: faire exceptions pour mouvements ET actionneurs séparémment
+            log.critical("Robot ou actionneur bloqué dans DropBalls");
             finalize(actualState, e);
         }
     }
@@ -177,7 +175,7 @@ public class DropBalls extends AbstractScript
         if (version == 0 || version == 1) //Le robot va aller livrer depuis la position de départ du robot, où qu'il soit
         {
             // modification possible selon l'envergure du robot new Vec2(1135,1600)
-            return new Circle(new Vec2(1120,950));
+            return new Circle(new Vec2(1150,805));
         }
         else if (version == 2)
         {
