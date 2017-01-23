@@ -112,9 +112,9 @@ public class Pathfinding implements Service {
                 Vec2 vecPropoFW = new Vec2(radius, Math.PI + sens*marge);
                 Vec2 vecPropoBW = new Vec2(radius, -sens*marge);
 
-                if (whichObstacle(vecPropoFW.plusNewVector(departV)) != null)
+                if (whichObstacle(vecPropoFW.plusNewVector(departV)) instanceof ObstacleCircular)
                 {
-                    if (whichObstacle(vecPropoBW.plusNewVector(departV)) != null)
+                    if (whichObstacle(vecPropoBW.plusNewVector(departV)) instanceof ObstacleCircular)
                     {
                         ArrayList<Vec2> newPath = Astarfoulah(vecPropoFW.plusNewVector(vecPropoBW).plusNewVector(departV), arriveeV, robotOrientation);
                         newPath.add(0, departV);
