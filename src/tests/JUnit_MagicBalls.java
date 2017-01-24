@@ -1,6 +1,7 @@
 package tests;
 
 import enums.ActuatorOrder;
+import enums.DirectionStrategy;
 import enums.ScriptNames;
 import enums.Speed;
 import hook.Hook;
@@ -51,8 +52,10 @@ public class JUnit_MagicBalls extends JUnit_Test {
         {
             //On execute le script
             log.debug("Ramassage des balles");
+            mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
-            scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(1, mRobot, emptyList);
+            mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+            scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(2, mRobot, emptyList);
         }
         catch(Exception e)
         {

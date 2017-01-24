@@ -117,7 +117,7 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
             if (versionToExecute == 1){
-                stateToConsider.robot.moveLengthwise(-110);
+                stateToConsider.robot.moveLengthwise(-130);
             }
             else if(versionToExecute == 2){
                 stateToConsider.robot.moveLengthwise(-450);

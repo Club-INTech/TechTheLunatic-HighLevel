@@ -108,21 +108,23 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
-                actualState.robot.moveLengthwise(-40);
+                actualState.robot.moveLengthwise(-100);
 
                 // Chope le module billy !
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
 
                 // Et remontes-le à l'aide de l'ascenceur
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
 
                 // Repli tout le bouzin
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
 
@@ -179,7 +181,7 @@ public class DropBalls extends AbstractScript
         }
         else if (version == 2)
         {
-            return new Circle(new Vec2(1150,805));
+            return new Circle(new Vec2(1120,805));
         }
         else
         {
