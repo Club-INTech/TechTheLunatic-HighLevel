@@ -104,7 +104,7 @@ public class TablePanel extends JPanel
 	    
 	    // Les obstacles fixes : plots, gobelets
 	    g.setColor(Color.white);
-	    ArrayList<ObstacleCircular> fixedObstacles = mTable.getObstacleManager().getFixedObstacles();
+	    ArrayList<ObstacleCircular> fixedObstacles = mTable.getObstacleManager().getmCircularObstacle();
 	    for(int i = 0; i < fixedObstacles.size(); i++)
 	    {
 			g.drawOval((fixedObstacles.get(i).getPosition().getX() - (fixedObstacles.get(i).getRadius() /*+ mTable.getObstacleManager().getRobotRadius()*/) + 1500) * this.getWidth() / 3000,

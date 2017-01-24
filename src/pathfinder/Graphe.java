@@ -84,7 +84,7 @@ public class Graphe {
 
         ObstacleManager a=this.table.getObstacleManager();
         //Pour sortir
-        for (ObstacleCircular x:a.getFixedObstacles())
+        for (ObstacleCircular x:a.getmCircularObstacle())
         {
             x.fabriqueNoeud(this,this.n,this.ecart);
         }
@@ -107,7 +107,7 @@ public class Graphe {
                     else {
                         boolean creer=true;
                         j=0;
-                        int nombobst= a.getFixedObstacles().size();
+                        int nombobst= a.getmCircularObstacle().size();
                         int nombobstRec=a.getRectangles().size();
 
                         ArrayList<Segment> lineObstacles = a.getLines();
@@ -128,13 +128,13 @@ public class Graphe {
                         }
 
                         while (creer && j<nombobst)  {
-                            if(a.getFixedObstacles().get(j).isInObstacle(noeud1.position)||a.getFixedObstacles().get(j).isInObstacle(this.getlNoeuds().get(i).position))
+                            if(a.getmCircularObstacle().get(j).isInObstacle(noeud1.position)||a.getmCircularObstacle().get(j).isInObstacle(this.getlNoeuds().get(i).position))
                             {
                               creer=false;
                             }
                             else
                             {
-                                creer = creer && !(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Circle(a.getFixedObstacles().get(j).getPosition(), a.getFixedObstacles().get(j).getRadius())));
+                                creer = creer && !(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Circle(a.getmCircularObstacle().get(j).getPosition(), a.getmCircularObstacle().get(j).getRadius())));
                             }
                             j++;
                         }

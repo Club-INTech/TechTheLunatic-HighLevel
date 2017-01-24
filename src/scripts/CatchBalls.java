@@ -81,12 +81,12 @@ public class CatchBalls extends AbstractScript {
                 // Calcule de l'angle pour se diriger vers le centre du robot
                 Vec2 posCratere= new Vec2(850, 540);
                 Vec2 posRobot=stateToConsider.robot.getPosition();
-                Vec2 vec = new Vec2(posCratere.getX()-posRobot.getX(), posCratere.getY()-posRobot.getY());
+                Vec2 vec = posCratere.minusNewVector(posRobot);
                 double angle= vec.angle();
 
                 // Manoeuvre pour se diriger vers le cratère
                 stateToConsider.robot.turn(angle);
-                stateToConsider.robot.moveLengthwise(100);
+                stateToConsider.robot.moveLengthwise(110);
             }
 
             else if(versionToExecute == 2){
@@ -95,7 +95,7 @@ public class CatchBalls extends AbstractScript {
                 // Même chose qu'à la version 1
                 Vec2 posCratere= new Vec2(430, 1870);
                 Vec2 posRobot=stateToConsider.robot.getPosition();
-                Vec2 vec = new Vec2(posCratere.getX()-posRobot.getX(), posCratere.getY()-posRobot.getY());
+                Vec2 vec = posCratere.minusNewVector(posRobot);
                 double angle= vec.angle();
 
                 stateToConsider.robot.turn(angle);
@@ -116,13 +116,6 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
             stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
-            // Recule du cratère
-            if (versionToExecute == 1){
-                stateToConsider.robot.moveLengthwise(-120);
-            }
-            if (versionToExecute == 2){
-                stateToConsider.robot.moveLengthwise(-480);
-            }
         }
         catch(Exception e)
         {
@@ -147,6 +140,10 @@ public class CatchBalls extends AbstractScript {
         else if (version == 1)
         {
             return new Circle(new Vec2(850,540), ray + 121, -Math.PI/6, Math.PI);
+        }
+        else if (version == 2)
+        {
+            return new Circle(new Vec2(840, 1460));
         }
         else
         {

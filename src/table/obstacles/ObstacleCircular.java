@@ -36,19 +36,18 @@ public class ObstacleCircular extends Obstacle
 {
 	
 	/** rayon en mm de cet obstacle */
-	protected int radius=0;
+	protected Circle circle;
 	protected ArrayList<Noeud> lNoeud;
 	
 	/**
 	 * crée un nouvel obstacle de forme circulaire a la position et a la taille spécifiée.
 	 *
-	 * @param position position du centre de l'obstacle a créer
-	 * @param radius rayon de l'obstacle a créer 
+	 * @param circle le cercle représentant l'obstacle
 	 */
-	public ObstacleCircular(Vec2 position, int radius)
+	public ObstacleCircular(Circle circle)
 	{
-		super(position);
-		this.radius = radius;
+		super(circle.getCenter());
+		this.circle=circle;
 	}
 
 	
@@ -57,7 +56,7 @@ public class ObstacleCircular extends Obstacle
 	 */
 	public ObstacleCircular clone()
 	{
-		return new ObstacleCircular(position.clone(), radius);
+		return new ObstacleCircular(circle);
 	}
 	
 	/**
@@ -68,7 +67,7 @@ public class ObstacleCircular extends Obstacle
 	public boolean equals(ObstacleCircular otherObstacle) 
 	{
 		return (
-				this.radius == otherObstacle.radius
+				this.circle == otherObstacle.circle
 			&&  this.position.equals(otherObstacle.position)	
 				);
 	}
@@ -81,7 +80,7 @@ public class ObstacleCircular extends Obstacle
 	public void clone(ObstacleCircular other)
 	{
 		other.position = position;
-		other.radius = radius;
+		other.circle = circle;
 	}
 
 	/**
@@ -113,7 +112,7 @@ public class ObstacleCircular extends Obstacle
 	@Override
 	public boolean isInObstacle(Vec2 point)
 	{
-		return ((Segment.squaredLength(point, position) < radius*radius));
+		return ((Segment.squaredLength(point, position) < circle.getRadius()*circle.getRadius()));
 	}
 
 	/**
@@ -123,23 +122,16 @@ public class ObstacleCircular extends Obstacle
 	 */
 	public int getRadius()
 	{
-		return radius;
+		return (int)circle.getRadius();
 	}
 
 	public void setRadius(int radius)
 	{
-		this.radius = radius;
+		this.circle.setRadius((double)radius);
 	}
 	
-	/**
-	 * Convertit l'obstacle en cercle.
-	 * 
-	 * @return
-	 */
-	@SuppressWarnings("javadoc")
-	public Circle toCircle()
-	{
-		return new Circle(position, radius);
+	public Circle getCircle(){
+		return this.circle;
 	}
 	
 	/* (non-Javadoc)
@@ -229,7 +221,7 @@ public class ObstacleCircular extends Obstacle
 
 	public String toString()
 	{
-		return "Obstacle circulaire de centre " + position + " et de rayon: "+radius;
+		return "Obstacle circulaire de centre " + position + " et de rayon: " + circle.getRadius();
 	}
 	
 	public void printObstacleDeleted()
