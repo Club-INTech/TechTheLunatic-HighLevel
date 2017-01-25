@@ -33,10 +33,8 @@ public class JUnit_DropModule extends JUnit_Test {
         mRobot.robot.setOrientation(Math.PI);
         mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
-        mRobot.robot.turn(13*Math.PI/16);
         mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
         mRobot.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
-        // mRobot.robot.moveLengthwise(400);
 
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
@@ -50,7 +48,7 @@ public class JUnit_DropModule extends JUnit_Test {
         {
             //On execute le script
             log.debug("Place les modules dans les bases lunaires");
-            scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(1, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(0, mRobot, emptyList);
         }
         catch(Exception e)
         {

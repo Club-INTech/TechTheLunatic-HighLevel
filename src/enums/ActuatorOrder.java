@@ -118,10 +118,10 @@ public enum ActuatorOrder
 
 					//		2 POSITIONS DU LARGUE MODULE	//
 	// Position de repos
-	REPOS_LARGUEUR("lmd"),
+	REPOS_LARGUEUR("lmd",500),
 
 	// Position de poussée
-	POUSSE_LARGUEUR("lmf"),
+	POUSSE_LARGUEUR("lmf", 500),
 
 	STOP("stop");
 

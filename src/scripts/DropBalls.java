@@ -69,12 +69,12 @@ public class DropBalls extends AbstractScript
             {
                 // Manoeuvre
                 actualState.robot.turn(Math.PI);
-                actualState.robot.moveLengthwise(-40);
+                actualState.robot.moveLengthwise(-60);
                 actualState.robot.turn(-Math.PI/2);
 
                 //Se caler contre la zone de livraison
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(500,hooksToConsider, true);
+                actualState.robot.moveLengthwise(350,hooksToConsider, true);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -117,6 +117,7 @@ public class DropBalls extends AbstractScript
 
                 // Et remontes-le à l'aide de l'ascenceur
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR,false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
@@ -131,7 +132,7 @@ public class DropBalls extends AbstractScript
                 // Et maintenant dépose les boules
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(500, hooksToConsider, true);
+                actualState.robot.moveLengthwise(250);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -151,7 +152,7 @@ public class DropBalls extends AbstractScript
                 // Manoeuvre pour se dégager (On test le pathfinding en même temps puisqu'on le lâche dans un obstacle)
                 actualState.robot.moveLengthwise(-70);
                 actualState.robot.turn(3*Math.PI/4 +0.01);
-                actualState.robot.moveLengthwise(300);
+                actualState.robot.moveLengthwise(500);
             }
         }
         catch(Exception e)
