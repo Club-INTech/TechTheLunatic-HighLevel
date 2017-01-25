@@ -1,6 +1,5 @@
 package tests;
 
-import enums.ActuatorOrder;
 import enums.ScriptNames;
 import enums.Speed;
 import hook.Hook;
@@ -31,13 +30,10 @@ public class JUnit_CatchModule extends JUnit_Test {
         //La position de depart est mise dans la Table (l'updtate config va la chercher)
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
-        mRobot.robot.setOrientation(Math.PI);
+        mRobot.robot.setOrientation(0);
         mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
-        mRobot.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-        mRobot.robot.useActuator(ActuatorOrder.TIENT_BOULES, false);
-        mRobot.robot.turn(13*Math.PI/16);
-        mRobot.robot.moveLengthwise(400);
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
 
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
@@ -52,8 +48,6 @@ public class JUnit_CatchModule extends JUnit_Test {
             //On execute le script
             log.debug("Ramassage des modules");
             scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(1, mRobot, emptyList);
-            // mRobot.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
-            // mRobot.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
         }
         catch(Exception e)
         {

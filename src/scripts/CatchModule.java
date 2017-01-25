@@ -57,7 +57,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.turn(0);
 
                 // Recule pour arriver devant la fusé
-                actualState.robot.moveLengthwise(-150);
+                actualState.robot.moveLengthwise(-100);
 
                 // Déploie l'attrape-module et la calle-bisou
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
@@ -116,9 +116,8 @@ public class CatchModule extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D,true);
 
                     // Repli les calles
-                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
-                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
 
                     if (i != 3) {
 
@@ -130,8 +129,9 @@ public class CatchModule extends AbstractScript {
 
                     }
 
-                    // Remet en place la calle gauche
+                    // Remet en place les calles
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
                 }
             }
 
@@ -191,7 +191,7 @@ public class CatchModule extends AbstractScript {
             }
             else if (version == 1)
             {
-                return new Circle(new Vec2(500,255));
+                return new Circle(new Vec2(500,245));
             }
             else if (version == 2)
             {

@@ -28,10 +28,11 @@ package enums;
 public enum ScriptNames
 
 {
-   CATCH_BALLS,
+    CATCH_BALLS,
     DROP_BALLS,
     CATCH_MODULE,
     DROP_MODULE,
+    INITIALISE_ROBOT,
 
 
 	// exemple : CLOSE_DOORS,
