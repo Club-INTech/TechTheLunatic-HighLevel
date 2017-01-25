@@ -116,9 +116,8 @@ public class CatchModule extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D,true);
 
                     // Repli les calles
-                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
-                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
 
                     if (i != 3) {
 
@@ -130,8 +129,9 @@ public class CatchModule extends AbstractScript {
 
                     }
 
-                    // Remet en place la calle gauche
+                    // Remet en place les calles
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                    actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
                 }
             }
 
