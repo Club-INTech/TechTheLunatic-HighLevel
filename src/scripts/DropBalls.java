@@ -151,6 +151,7 @@ public class DropBalls extends AbstractScript
                 // Manoeuvre pour se dégager (On test le pathfinding en même temps puisqu'on le lâche dans un obstacle)
                 actualState.robot.moveLengthwise(-70);
                 actualState.robot.turn(3*Math.PI/4 +0.01);
+                actualState.robot.moveLengthwise(300);
             }
         }
         catch(Exception e)
