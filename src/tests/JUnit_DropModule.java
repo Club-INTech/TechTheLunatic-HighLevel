@@ -48,6 +48,7 @@ public class JUnit_DropModule extends JUnit_Test {
             //On execute le script
             log.debug("Place les modules dans les bases lunaires");
             scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(0, mRobot, emptyList);
+            returnToEntryPosition(mRobot);
         }
         catch(Exception e)
         {

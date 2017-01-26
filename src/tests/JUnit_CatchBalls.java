@@ -52,6 +52,7 @@ public class JUnit_CatchBalls extends JUnit_Test
             log.debug("Ramassage des balles");
 
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot, emptyList);
+            returnToEntryPosition(mRobot);
         }
         catch(Exception e)
         {

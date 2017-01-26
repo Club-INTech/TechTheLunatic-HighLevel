@@ -49,6 +49,7 @@ public class JUnit_CatchModule extends JUnit_Test {
             //On execute le script
             log.debug("Ramassage des modules");
             scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(1, mRobot, emptyList);
+            returnToEntryPosition(mRobot);
         }
         catch(Exception e)
         {

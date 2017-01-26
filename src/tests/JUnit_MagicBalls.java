@@ -55,6 +55,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
             scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(2, mRobot, emptyList);
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot,emptyList);
             scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(1, mRobot, emptyList);
+            returnToEntryPosition(mRobot);
         }
         catch(Exception e)
         {

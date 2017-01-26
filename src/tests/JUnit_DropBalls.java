@@ -53,6 +53,7 @@ public class JUnit_DropBalls extends JUnit_Test
             //On execute le script
             log.debug("Ramassage des balles");
             scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(0, mRobot, emptyList);
+            returnToEntryPosition(mRobot);
         }
         catch(Exception e)
         {
