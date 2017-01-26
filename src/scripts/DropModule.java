@@ -66,7 +66,7 @@ public class DropModule extends AbstractScript{
                 }
 
                 else{
-                    actualState.robot.turn(Math.asin(120 / 150));
+                    actualState.robot.turn(Math.asin(115 / 150));
                 }
                 actualState.robot.moveLengthwise(150);
 
@@ -78,7 +78,7 @@ public class DropModule extends AbstractScript{
                 }
 
                 // Callage contre le depose-module
-                actualState.robot.moveLengthwise(-150, hooksToConsider, true, false, Speed.SLOW_ALL);
+                actualState.robot.moveLengthwise(-145, hooksToConsider, true, false, Speed.SLOW_ALL);
             }
 
             // Monte le dernier module et le drop
@@ -107,11 +107,11 @@ public class DropModule extends AbstractScript{
 
         if(version==0){
 
-            return new Circle(new Vec2(1170,760));
+            return new Circle(new Vec2(1170,765));
         }
         else if(version==1){
 
-            return new Circle(new Vec2(-1170,760));
+            return new Circle(new Vec2(-1170,765));
         }
         else {
             log.debug("mauvaise version de script");
