@@ -91,7 +91,7 @@ public class CatchBalls extends AbstractScript {
             else if(versionToExecute == 2){
 
                 stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(-450); //bonne distance à voir
+                stateToConsider.robot.moveLengthwise(-240); //bonne distance à voir
 
                 //Attraper le module avec le côté droit
 
@@ -123,7 +123,7 @@ public class CatchBalls extends AbstractScript {
 
 
                 stateToConsider.robot.turn(Math.PI-0.15);
-                stateToConsider.robot.moveLengthwise(150);
+                stateToConsider.robot.moveLengthwise(2000);
             }
 
             // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
@@ -176,7 +176,8 @@ public class CatchBalls extends AbstractScript {
         }
         else if (version == 2)
         {
-            return new Circle(new Vec2(750, 1300));
+            return new Circle(new Vec2(680, 1300));
+            // 1640; 680
         }
         else
         {
