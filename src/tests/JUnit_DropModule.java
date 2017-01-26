@@ -32,10 +32,11 @@ public class JUnit_DropModule extends JUnit_Test {
         mRobot.robot.setOrientation(Math.PI);
         mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
 
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
+
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
     }
 
     @Test
