@@ -118,6 +118,7 @@ public abstract class JUnit_Test
 		state.robot.moveToLocation(new Vec2(Table.entryPosition.getX()-120, Table.entryPosition.getY()+90),new ArrayList<Hook>(), state.table);
 		state.robot.turn(Math.PI-Math.atan(9.0/12));
 		state.robot.moveLengthwise(-150);
+		state.robot.turn(Math.PI);
 	}
 	
 
