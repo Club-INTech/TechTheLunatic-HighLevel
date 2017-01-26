@@ -62,11 +62,11 @@ public class DropModule extends AbstractScript{
 
                 // Bon discord tu vas geuler mais j'avais la flemme
                 if (versionToExecute==0) {
-                    actualState.robot.turn(Math.PI - Math.asin(120.0/150));
+                    actualState.robot.turn(Math.PI - Math.asin(110.0/150));
                 }
 
                 else{
-                    actualState.robot.turn(Math.asin(115 / 150));
+                    actualState.robot.turn(Math.asin(110.0 / 150));
                 }
                 actualState.robot.moveLengthwise(150);
 
@@ -82,8 +82,10 @@ public class DropModule extends AbstractScript{
             }
 
             // Monte le dernier module et le drop
+            actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D,false);
+            actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G,false);
             actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-            actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+            actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
             actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
             actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
             actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
@@ -111,7 +113,7 @@ public class DropModule extends AbstractScript{
         }
         else if(version==1){
 
-            return new Circle(new Vec2(-1170,765));
+            return new Circle(new Vec2(-1170,790));
         }
         else {
             log.debug("mauvaise version de script");
