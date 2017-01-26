@@ -93,7 +93,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.turn(-Math.PI/2);
                 stateToConsider.robot.moveLengthwise(-450); //bonne distance à voir
 
-                //attraper le module avec le côté droit
+                //Attraper le module avec le côté droit
 
                 // Manoeuvre pour arriver au niveau du module et être prêt à choper le module
                 stateToConsider.robot.turn(Math.PI);
@@ -102,12 +102,12 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
                 stateToConsider.robot.moveLengthwise(-100);
 
-                // Chope le module billy !
+                // Attraper le module
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
-                // Et remontes-le à l'aide de l'ascenceur
+                // Et remonte-le à l'aide de l'ascenceur
                 stateToConsider.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR,false);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
@@ -115,7 +115,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
 
-                // Repli tout le bouzin
+                // Replie le tout
                 stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
