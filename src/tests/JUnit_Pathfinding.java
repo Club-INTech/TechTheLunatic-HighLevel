@@ -19,6 +19,7 @@
 
 package tests;
 
+import enums.Speed;
 import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +35,7 @@ import table.Table;
 import utils.Log;
 
 import java.util.ArrayList;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * teste la fermeture des portes par la version 0 du script
@@ -135,8 +137,8 @@ public class JUnit_Pathfinding extends JUnit_Test {
                 Thread.sleep(200);
         }
     }
-}
-    /*
+
+
     public void testrandom() throws Exception
     {
         mRobot = container.getService(GameState.class);
@@ -178,7 +180,8 @@ public class JUnit_Pathfinding extends JUnit_Test {
     }
 
     }
-/*
+
+    /*
 
 */
 
