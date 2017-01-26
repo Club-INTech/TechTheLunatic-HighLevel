@@ -85,7 +85,7 @@ public class DropModule extends AbstractScript{
             actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D,false);
             actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G,false);
             actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-            actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+            actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
             actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
             actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
             actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
@@ -109,11 +109,11 @@ public class DropModule extends AbstractScript{
 
         if(version==0){
 
-            return new Circle(new Vec2(1170,765));
+            return new Circle(new Vec2(1170,795));
         }
         else if(version==1){
 
-            return new Circle(new Vec2(-1170,790));
+            return new Circle(new Vec2(-1170,795));
         }
         else {
             log.debug("mauvaise version de script");
