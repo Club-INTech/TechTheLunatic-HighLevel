@@ -44,7 +44,7 @@ public class DropModule extends AbstractScript{
 
                 // Manoeuvre pour se caller contre le depose-module
                 actualState.robot.turn(Math.PI);
-                actualState.robot.moveLengthwise(-80, hooksToConsider, true);
+                actualState.robot.moveLengthwise(-65);
             }
             else {
 
@@ -62,7 +62,7 @@ public class DropModule extends AbstractScript{
 
                 // Bon discord tu vas geuler mais j'avais la flemme
                 if (versionToExecute==0) {
-                    actualState.robot.turn(Math.PI - Math.asin((double)120 / 150));
+                    actualState.robot.turn(Math.PI - Math.asin(120.0/150));
                 }
 
                 else{
@@ -72,14 +72,13 @@ public class DropModule extends AbstractScript{
 
                 if (versionToExecute==0) {
                     actualState.robot.turn(Math.PI);
-                    actualState.robot.moveLengthwise(-80, hooksToConsider, true);
                 }
                 else{
                     actualState.robot.turn(0);
                 }
 
                 // Callage contre le depose-module
-                actualState.robot.moveLengthwise(-220, hooksToConsider, true, false, Speed.SLOW_ALL);
+                actualState.robot.moveLengthwise(-150, hooksToConsider, true, false, Speed.SLOW_ALL);
             }
 
             // Monte le dernier module et le drop
