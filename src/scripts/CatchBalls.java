@@ -18,7 +18,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with it.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package scripts;
 
 import enums.ActuatorOrder;
@@ -90,8 +89,38 @@ public class CatchBalls extends AbstractScript {
             }
 
             else if(versionToExecute == 2){
+
                 stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(-520);
+                stateToConsider.robot.moveLengthwise(-450); //bonne distance à voir
+
+                //attraper le module avec le côté droit
+
+                // Manoeuvre pour arriver au niveau du module et être prêt à choper le module
+                stateToConsider.robot.turn(Math.PI);
+                stateToConsider.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
+                stateToConsider.robot.moveLengthwise(-100);
+
+                // Chope le module billy !
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+
+                // Et remontes-le à l'aide de l'ascenceur
+                stateToConsider.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR,false);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+
+                // Repli tout le bouzin
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
+
 
                 stateToConsider.robot.turn(Math.PI-0.15);
                 stateToConsider.robot.moveLengthwise(150);
