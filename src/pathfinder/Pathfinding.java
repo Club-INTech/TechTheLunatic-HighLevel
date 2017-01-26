@@ -157,6 +157,92 @@ public class Pathfinding implements Service {
             }
         }
 
+        //TODO Gérer les cas ou le point d'arrivé est pile poil au centre de l'obstacle
+        else {
+            // Si le point de départ est dans un obstacle (et dans la table)
+            Obstacle obstacle = whichObstacle(departV);
+            if (obstacle != null) {
+                log.debug("Point de départ dans un obstacle :" + departV);
+                // Cas des obstacles circulaires
+                if (obstacle instanceof ObstacleCircular) {
+                    Vec2 vecRef = obstacle.getPosition().minusNewVector(departV);
+                    double radius = ((ObstacleCircular) obstacle).getRadius();
+
+                    // De même, on différencie les cas ou le robot est tangent, et celui ou il est perpendiculaire
+                    // Perpendiculaire
+                    if (Math.abs(robotOrientation - vecRef.getA()) < Math.PI / 4 || Math.abs(robotOrientation - vecRef.getA()) > 3 * Math.PI / 4) {
+                        vecRef.setR(radius + 1);
+                        vecRef.setA(vecRef.getA() + Math.PI);
+
+                        ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecRef), arriveeV, robotOrientation);
+                        newPath.add(0, departV);
+                        return newPath;
+                    }
+
+                    //Tangent
+                    else {
+                        vecRef = vecRef.dotFloat(-1);
+                        Vec2 vecPropoFW = new Vec2(radius + 1, vecRef.getA() + Math.acos(vecRef.getR() / radius));
+                        Vec2 vecPropoBW = new Vec2(radius + 1, vecRef.getA() - Math.acos(vecRef.getR() / radius));
+
+                        if (whichObstacle(obstacle.getPosition().plusNewVector(vecPropoFW)) != null) {
+                            ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecPropoBW), arriveeV, robotOrientation);
+                            newPath.add(0, departV);
+                            return newPath;
+                        } else {
+                            ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecPropoFW), arriveeV, robotOrientation);
+                            newPath.add(0, departV);
+                            return newPath;
+                        }
+                    }
+                }
+
+                // TODO Optimisier et debuger le cas des obstacles rectangulaires
+                // Cas des obstacles rectangulaires (similaire au cas de la table)
+                if (obstacle instanceof ObstacleRectangular) {
+                    Vec2 newDepartV = ((ObstacleRectangular) obstacle).pointProche(departV);
+                    log.debug("Nouveau départ :" + newDepartV);
+                    double angleTest = newDepartV.minusNewVector(departV).getA();
+                    double angleref = Math.abs(Math.abs(angleTest) - Math.abs(robotOrientation));
+
+                    // Perpendiculaire
+                    if (angleref < Math.PI / 4 || angleref > 3 * Math.PI / 4) {
+                        ArrayList<Vec2> newPath = Astarfoulah(newDepartV, arriveeV, robotOrientation);
+                        newPath.add(0, departV);
+                        return newPath;
+                    }
+
+                    //Tangent
+                    else {
+                        double radiusRef = departV.minusNewVector(newDepartV).length();
+                        double marge = Math.acos((double) a.getmRobotLenght() / (2 * a.mRobotRadius)) - Math.acos((a.mRobotRadius - radiusRef) / a.mRobotRadius);
+                        double radius = Math.min(radiusRef / Math.sin(marge) + 2, 100);
+
+                        Vec2 vecPropoFW = new Vec2(radius, 0);
+                        Vec2 vecPropoBW = new Vec2(radius, 0);
+
+                        if (Math.abs(angleTest) == Math.PI) {
+                            vecPropoFW.setA(Math.PI / 2 + marge);
+                            vecPropoBW.setA(-Math.PI / 2 - marge);
+                        } else if (angleTest == 0) {
+                            vecPropoFW.setA(Math.PI / 2 - marge);
+                            vecPropoBW.setA(-Math.PI / 2 + marge);
+                        } else if (angleTest == -Math.PI / 2) {
+                            vecPropoFW.setA(-Math.PI + marge);
+                            vecPropoBW.setA(-marge);
+                        } else {
+                            vecPropoFW.setA(Math.PI - marge);
+                            vecPropoBW.setA(marge);
+                        }
+
+                        ArrayList<Vec2> newPath = Astarfoulah(departV.plusNewVector(vecPropoFW), arriveeV, robotOrientation);
+                        newPath.add(0, departV);
+                        return newPath;
+                    }
+                }
+            }
+        }
+
         // Si le point d'arrivé est hors de la table
         // Si tel est son souhait, on l'amene hors de la table... Mais en passant par un point faisant en sorte qu'il arrive perpendiculairement
         // au bord de la table : on appelle Astarfoulah sur le point dans la table le plus proche du point d'arrivée hors-table
@@ -193,96 +279,8 @@ public class Pathfinding implements Service {
             }
         }
 
-        //TODO Gérer les cas ou le point d'arrivé est pile poil au centre de l'obstacle
-        // Si le point de départ est dans un obstacle (et dans la table)
-        Obstacle obstacle = whichObstacle(departV);
-        if (obstacle != null){
-            log.debug("Point de départ dans un obstacle :" + departV);
-            // Cas des obstacles circulaires
-            if (obstacle instanceof ObstacleCircular){
-                Vec2 vecRef = obstacle.getPosition().minusNewVector(departV);
-                double radius = ((ObstacleCircular) obstacle).getRadius();
-
-                // De même, on différencie les cas ou le robot est tangent, et celui ou il est perpendiculaire
-                // Perpendiculaire
-                if (Math.abs(robotOrientation-vecRef.getA()) < Math.PI/4 || Math.abs(robotOrientation-vecRef.getA()) > 3*Math.PI/4){
-                    vecRef.setR(radius+1);
-                    vecRef.setA(vecRef.getA()+Math.PI);
-
-                    ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecRef), arriveeV, robotOrientation);
-                    newPath.add(0, departV);
-                    return newPath;
-                }
-
-                //Tangent
-                else{
-                    vecRef = vecRef.dotFloat(-1);
-                    Vec2 vecPropoFW = new Vec2(radius +1, vecRef.getA() + Math.acos(vecRef.getR()/radius));
-                    Vec2 vecPropoBW = new Vec2(radius +1, vecRef.getA() - Math.acos(vecRef.getR()/radius));
-
-                    if (whichObstacle(obstacle.getPosition().plusNewVector(vecPropoFW)) != null){
-                        ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecPropoBW), arriveeV, robotOrientation);
-                        newPath.add(0, departV);
-                        return newPath;
-                    }
-                    else{
-                        ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecPropoFW), arriveeV,robotOrientation);
-                        newPath.add(0, departV);
-                        return newPath;
-                    }
-                }
-            }
-            // TODO Optimisier et debuger le cas des obstacles rectangulaires
-            // Cas des obstacles rectangulaires (similaire au cas de la table)
-            if (obstacle instanceof ObstacleRectangular){
-                Vec2 newDepartV = ((ObstacleRectangular) obstacle).pointProche(departV);
-                log.debug("Nouveau départ :" + newDepartV);
-                double angleTest = newDepartV.minusNewVector(departV).getA();
-                double angleref = Math.abs(Math.abs(angleTest) - Math.abs(robotOrientation));
-
-                // Perpendiculaire
-                if (angleref < Math.PI/4 || angleref > 3*Math.PI/4){
-                    ArrayList<Vec2> newPath = Astarfoulah(newDepartV, arriveeV, robotOrientation);
-                    newPath.add(0, departV);
-                    return newPath;
-                }
-
-                //Tangent
-                /*else {
-                    double radiusRef = departV.minusNewVector(newDepartV).length();
-                    double marge = Math.acos((double)a.getmRobotLenght()/(2*a.mRobotRadius)) - Math.acos((a.mRobotRadius-radiusRef)/a.mRobotRadius);
-                    double radius = Math.min(radiusRef/Math.sin(marge), 100);
-
-                    Vec2 vecPropoFW = new Vec2(radius, 0);
-                    Vec2 vecPropoBW = new Vec2(radius, 0);
-                    log.debug("Vecteurs proposées :" + vecPropoFW + " " + vecPropoBW);
-
-                    if (Math.abs(angleTest) == Math.PI){
-                        vecPropoFW.setA(Math.PI/2 + marge);
-                        vecPropoBW.setA(-Math.PI/2 - marge);
-                    }
-                    else if(angleTest == 0){
-                        vecPropoFW.setA(Math.PI/2 - marge);
-                        vecPropoBW.setA(-Math.PI/2 + marge);
-                    }
-                    else if(angleTest == -Math.PI/2){
-                        vecPropoFW.setA(-Math.PI + marge);
-                        vecPropoBW.setA(-marge);
-                    }
-                    else{
-                        vecPropoFW.setA(Math.PI-marge);
-                        vecPropoBW.setA(marge);
-                    }
-
-                    ArrayList<Vec2> newPath = Astarfoulah(departV.plusNewVector(vecPropoFW), arriveeV, robotOrientation);
-                    newPath.add(0, departV);
-                    return newPath;
-                }*/
-            }
-        }
-
         // Si le point d'arrivé est dans un obstacle (et dans la table)
-        obstacle = whichObstacle(arriveeV);
+        Obstacle obstacle = whichObstacle(arriveeV);
         if (obstacle != null){
             log.debug("Point d'arrivé dans un obstacle :"+ arriveeV);
             // Cas des obstacles circulaires
@@ -327,22 +325,7 @@ public class Pathfinding implements Service {
 
             j = 0;
             while ((creerdep || creerarr) && j < nombobst) {
-                /* if (a.getFixedObstacles().get(j).isInObstacle(departV))// si on est dans le depart on rappelle cette fonction depuis le noeud le plus proche
-                {
-                    log.debug("Depart dans obstacle");
-                    Vec2 w = a.getFixedObstacles().get(j).noeudProche(departV).position;
-                    ArrayList<Vec2> aRenvoyer = Astarfoulah(w, arriveeV, robotOrientation);
-                    aRenvoyer.add(0, departV);
-                    return aRenvoyer;
-                }
-                if (a.getFixedObstacles().get(j).isInObstacle(arriveeV)) {
-                    creerarr = false;
-                    log.debug("U  stupid or somethin'? => Arrivée dans un obstacle :"+arriveeV);
-                    Vec2 w = a.getFixedObstacles().get(j).noeudProche(arriveeV).position;
-                    ArrayList<Vec2> aRenvoyer = Astarfoulah(departV, w, robotOrientation);
-                    return aRenvoyer;
-                    // /throw new PointInObstacleException(arriveeV);
-                }*/
+
                 if (a.getmCircularObstacle().get(j).isInObstacle(g.getlNoeuds().get(i).position)) {
                     creerdep = false;
                     creerarr = false;

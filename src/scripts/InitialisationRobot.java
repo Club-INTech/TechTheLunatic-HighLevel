@@ -48,6 +48,16 @@ public class InitialisationRobot extends AbstractScript {
 
                 gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE,false);
                 gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+
+                // Se dégage de la zone de départ
+                if (versionToExecute == 0){
+                    gameState.robot.turn(13*Math.PI/16);
+                    gameState.robot.moveLengthwise(100);
+                }
+                else if (versionToExecute == 1){
+                    gameState.robot.turn(-3*Math.PI/16);
+                    gameState.robot.moveLengthwise(-100);
+                }
             }
         }
         catch (Exception e){

@@ -68,13 +68,11 @@ public class DropBalls extends AbstractScript
             else if (versionToExecute==1)
             {
                 // Manoeuvre
-                actualState.robot.turn(Math.PI);
-                actualState.robot.moveLengthwise(-60);
-                actualState.robot.turn(-Math.PI/2);
+                actualState.robot.turn(-Math.PI/2+Math.atan(60.0/250));
 
                 //Se caler contre la zone de livraison
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(350,hooksToConsider, true);
+                actualState.robot.moveLengthwise(280,hooksToConsider, true);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);

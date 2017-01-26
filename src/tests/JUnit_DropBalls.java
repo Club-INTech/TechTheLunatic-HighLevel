@@ -37,12 +37,11 @@ public class JUnit_DropBalls extends JUnit_Test
         mRobot.robot.setOrientation(0);
         mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
 
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
-        //container.getService(ServiceNames.THREAD_INTERFACE);
-        //container.startInstanciedThreads();
+
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
     }
 
     @Test
