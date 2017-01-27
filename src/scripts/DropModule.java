@@ -90,9 +90,14 @@ public class DropModule extends AbstractScript{
             actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
             actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
             actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-
             // Se décale de depose-module
+            actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D,false);
+            actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G,true);
+            actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D,false);
+            actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G,false);
+
             actualState.robot.moveLengthwise(100, hooksToConsider, false);
+
 
         }
         catch(Exception e) {
