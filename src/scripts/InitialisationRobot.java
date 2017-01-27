@@ -25,7 +25,7 @@ public class InitialisationRobot extends AbstractScript {
     protected InitialisationRobot(HookFactory hookFactory, Config config, Log log){
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0};
+        versions = new Integer[]{0,1};
     }
 
     @Override
@@ -73,7 +73,7 @@ public class InitialisationRobot extends AbstractScript {
     @Override
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException {
 
-        if(version==0){
+        if(version==0 || version==1){
 
             return new Circle(robotPosition);
         }

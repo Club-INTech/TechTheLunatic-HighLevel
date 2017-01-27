@@ -49,6 +49,7 @@ public class CatchModule extends AbstractScript {
                 // Déploie l'attrape-module et la calle-bisou
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
             }
 
             if (versionToExecute == 1) {
@@ -107,13 +108,13 @@ public class CatchModule extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
 
                     // Recule l'attrape module pour laisser passer le bras de la calle
-                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
 
                     // Calle le module dans l'ascenceur
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
 
                     // Repli l'attrape-module
-                    actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D,true);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D,false);
 
                     // Repli les calles
                     actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
