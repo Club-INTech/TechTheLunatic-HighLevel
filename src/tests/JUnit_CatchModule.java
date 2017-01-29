@@ -14,6 +14,8 @@ import threads.dataHandlers.ThreadEvents;
 import java.util.ArrayList;
 
 /**
+ * Test du script CatchModule : Attention aux valeurs d'orientation du robot dans le setup, dépendant de la version
+ * testée
  * @author Rem
  */
 public class JUnit_CatchModule extends JUnit_Test {
