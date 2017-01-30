@@ -283,10 +283,17 @@ public class Vec2
      */
 	public double angle()
 	{
+		/*if (this.length() == 0){
+			return 0;
+		}
+		else{
+			return Math.atan2(y,x);
+		}
+		*/
 		if(this.squaredLength() == 0)
 			return 0;
 
-		double a = Math.min(Math.abs(x), Math.abs(y))/Math.max(Math.abs(x), Math.abs(y));
+		double a = Math.min((double)Math.abs(x), Math.abs(y))/Math.max(Math.abs(x), Math.abs(y));
 		double s = a*a;
 		double r = ((-0.0464964749*s + 0.15931422)*s - 0.327622764)*s*a + a;
 

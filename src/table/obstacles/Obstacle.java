@@ -28,13 +28,11 @@ import smartMath.Vec2;
  */
 public abstract class Obstacle
 {
-
 	/** Position de l'obstacle sur la table. En fonction de la forme de l'obstacle, il peut s'étendre plus ou moins loin de cette position dans diverses directions */
 	protected Vec2 position;
-	
+
 	/**
 	 * construit un nouvel obstacle à une position donnée
-	 *
 	 * @param position position de l'obstacle à construire
 	 */
 	public Obstacle (Vec2 position)
