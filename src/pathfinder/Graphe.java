@@ -22,6 +22,7 @@ package pathfinder;
 import smartMath.Circle;
 import smartMath.Geometry;
 import smartMath.Segment;
+import smartMath.Vec2;
 import table.Table;
 import table.obstacles.ObstacleCircular;
 import table.obstacles.ObstacleManager;
@@ -170,5 +171,22 @@ public class Graphe {
                 i--;
             }
         }
+    }
+    /**
+     * Renvoie la position du noeud du graphe le plus proche du vecteur en argument
+     * @param vec
+     */
+    public Vec2 NoeudProche(Vec2 vec){
+
+        double min=1000;
+        Vec2 minVec = new Vec2();
+
+        for (Noeud node : lNoeuds){
+            if(node.position.distance(vec) < min){
+                min = node.position.distance(vec);
+                minVec = node.position;
+            }
+        }
+        return minVec;
     }
 }
