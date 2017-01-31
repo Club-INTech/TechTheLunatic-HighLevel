@@ -139,8 +139,9 @@ public class ObstacleManager
 		//pose module côté
 		mRectangles.add(new ObstacleRectangular(new Vec2(-1446, 870), 108 + 2*mRobotRadius, 500 + 2*mRobotRadius)); //-1446, 678, 108, 472
 		mRectangles.add(new ObstacleRectangular(new Vec2(1446, 870), 108 + 2*mRobotRadius, 500 + 2*mRobotRadius));
+
 		//base lunaire
-		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(0, 2000), 800 + mRobotRadius)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(0, 2000), 800 + mRobotRadius, -9*Math.PI/10, -Math.PI/10)));
 
 
 	}

@@ -14,6 +14,8 @@ import threads.dataHandlers.ThreadEvents;
 import java.util.ArrayList;
 
 /**
+ * Test du script CatchModule : Attention aux valeurs d'orientation du robot dans le setup, dépendant de la version
+ * testée
  * @author Rem
  */
 public class JUnit_CatchModule extends JUnit_Test {
@@ -37,7 +39,7 @@ public class JUnit_CatchModule extends JUnit_Test {
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
 
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
+        // scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
     }
 
     @Test
@@ -48,7 +50,7 @@ public class JUnit_CatchModule extends JUnit_Test {
         {
             //On execute le script
             log.debug("Ramassage des modules");
-            scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(1, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(0, mRobot, emptyList);
             returnToEntryPosition(mRobot);
         }
         catch(Exception e)

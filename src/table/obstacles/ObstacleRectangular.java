@@ -33,12 +33,9 @@ import java.util.ArrayList;
  */
 public class ObstacleRectangular extends Obstacle
 {
-	/** Positon du centre du rectangle représentant l'obstacle (intersection des 2 diagonales)*/
-	//protected Vec2 position;
-	
 	/** taille du rectangle en mm selon l'axe X */
 	protected int sizeX;
-	
+
 	/** taille du rectangle en mm selon l'axe Y */
 	protected int sizeY;
 
@@ -69,7 +66,7 @@ public class ObstacleRectangular extends Obstacle
 	{
 		return new ObstacleRectangular(position.clone(), sizeX, sizeY);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see table.obstacles.Obstacle#toString()
 	 */
@@ -77,7 +74,7 @@ public class ObstacleRectangular extends Obstacle
 	{
 		return "ObstacleRectangulaire";
 	}
-	
+
 	/**
 	 * Renvoit la taille du rectangle en mm selon l'axe Y
 	 *
@@ -87,7 +84,7 @@ public class ObstacleRectangular extends Obstacle
 	{
 		return this.sizeY;
 	}
-	
+
 	/**
 	 *  Renvoit la taille du rectangle en mm selon l'axe X
 	 *
@@ -97,7 +94,7 @@ public class ObstacleRectangular extends Obstacle
 	{
 		return this.sizeX;
 	}
-	
+
 	/**
 	 * Renvoie les Segments des diagonales du rectangle
 	 */
@@ -109,7 +106,7 @@ public class ObstacleRectangular extends Obstacle
 
 		return segments;
 	}
-	
+
 	/**
 	 * Vérifie si le point donné est dans l'obstacle
 	 * @param point le point à tester
@@ -122,7 +119,7 @@ public class ObstacleRectangular extends Obstacle
 				&& point.getY() <= position.getY() + (sizeY / 2)
 				&& point.getY() >= position.getY() - (sizeY / 2);
 	}
-	
+
 	/**
 	 * Fourni la plus petite distance entre le point fourni et l'obstacle.
 	 *
@@ -133,7 +130,7 @@ public class ObstacleRectangular extends Obstacle
 	{
 		return (float) Math.sqrt(SquaredDistance(point));
 	}
-	
+
 	/**
 	 * Fourni la plus petite distance au carré entre le point fourni et l'obstacle.
 	 *
@@ -158,21 +155,21 @@ public class ObstacleRectangular extends Obstacle
 		 * 		
 		 * 			6	|		7		|		8
 		 * 				|				|
-		 */		
-		
+		 */
+
 		// calcul des positions des coins
 		Vec2 coinBasGauche = position.plusNewVector((new Vec2(0,-sizeY)));
 		Vec2 coinHautGauche = position.plusNewVector((new Vec2(0,0)));
 		Vec2 coinBasDroite = position.plusNewVector((new Vec2(sizeX,-sizeY)));
 		Vec2 coinHautDroite = position.plusNewVector((new Vec2(sizeX,0)));
-		
+
 		// si le point fourni est dans les quarts-de-plans n°2,4,6 ou 8
 		if(in.getX() < coinBasGauche.getX() && in.getY() < coinBasGauche.getY())
 			return in.squaredDistance(coinBasGauche);
-		
+
 		else if(in.getX() < coinHautGauche.getX() && in.getY() > coinHautGauche.getY())
 			return in.squaredDistance(coinHautGauche);
-		
+
 		else if(in.getX() > coinBasDroite.getX() && in.getY() < coinBasDroite.getY())
 			return in.squaredDistance(coinBasDroite);
 
@@ -182,13 +179,13 @@ public class ObstacleRectangular extends Obstacle
 		// Si le point fourni est dans les demi-bandes n°1,3,5,ou 7
 		if(in.getX() > coinHautDroite.getX())
 			return (in.getX() - coinHautDroite.getX())*(in.getX() - coinHautDroite.getX());
-		
+
 		else if(in.getX() < coinBasGauche.getX())
 			return (in.getX() - coinBasGauche.getX())*(in.getX() - coinBasGauche.getX());
 
 		else if(in.getY() > coinHautDroite.getY())
 			return (in.getY() - coinHautDroite.getY())*(in.getY() - coinHautDroite.getY());
-		
+
 		else if(in.getY() < coinBasGauche.getY())
 			return (in.getY() - coinBasGauche.getY())*(in.getY() - coinBasGauche.getY());
 
