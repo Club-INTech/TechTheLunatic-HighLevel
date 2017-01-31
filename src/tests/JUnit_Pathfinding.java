@@ -71,15 +71,15 @@ public class JUnit_Pathfinding extends JUnit_Test {
 
         win.getPanel().drawGraphe(graph);
         win.getPanel().drawLinesGraph(graphe.getlNoeuds()); // Commenter cette ligne pour ne plus afficher les liens du graphe
+
         Vec2 dep = new Vec2();
         Vec2 arr = new Vec2();
         while (true) {
             if (win.getMouse().hasClicked()) {
                 dep = win.getMouse().getLeftClickPosition();
                 arr = win.getMouse().getRightClickPosition();
-                log.debug(dep + "bkd" + arr);
-                // try
-                // {
+                log.debug(dep + " bkd " + arr);
+
                 if (!dep.isNull() && !arr.isNull()) {
                     log.debug(win.getMouse().getLeftClickPosition() + " " + win.getMouse().getRightClickPosition());
                     long start = System.currentTimeMillis();

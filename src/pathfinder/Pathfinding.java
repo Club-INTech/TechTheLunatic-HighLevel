@@ -264,6 +264,7 @@ public class Pathfinding implements Service {
                 }
                 return newPath;
             }
+
             if (Math.abs(arriveeV.getY()-1000)>1000 - a.mRobotRadius)
             {
                 int sens = Math.abs(arriveeV.getY()-1000)/(arriveeV.getY()-1000);
@@ -287,12 +288,11 @@ public class Pathfinding implements Service {
             if (obstacle instanceof ObstacleCircular)
             {
                 Vec2 toReturn = Geometry.pointExterieur(arriveeV, ((ObstacleCircular) obstacle).getCircle());
-                log.debug("Vecteur à retourné :" + toReturn);
                 ArrayList<Vec2> newPath = Astarfoulah(departV, toReturn, robotOrientation);
                 return newPath;
             }
             else if(obstacle instanceof ObstacleRectangular){
-                return Astarfoulah(departV, ((ObstacleRectangular) obstacle).noeudProche(arriveeV).position, robotOrientation);
+                return Astarfoulah(departV, graphe.NoeudProche(arriveeV), robotOrientation);
             }
         }
 

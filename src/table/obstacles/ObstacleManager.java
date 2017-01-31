@@ -131,8 +131,8 @@ public class ObstacleManager
 		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(1460, 1350), 40 + mRobotRadius)));
 
 		//cratères
-		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-850, 540), 120 + mRobotRadius, 0, 2*Math.PI/3)));
-		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(850, 540), 120 + mRobotRadius,Math.PI/3, Math.PI)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-850, 540), 120 + mRobotRadius, -Math.PI/6, 2*Math.PI/3)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(850, 540), 120 + mRobotRadius,Math.PI/3, 7*Math.PI/6)));
 		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-1500, 2000), 510 + mRobotRadius, -Math.PI/2, -Math.PI/5)));
 		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(1500, 2000), 510 + mRobotRadius, -4*Math.PI/5, -Math.PI/2)));
 
