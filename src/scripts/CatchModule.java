@@ -55,10 +55,10 @@ public class CatchModule extends AbstractScript {
             if (versionToExecute == 1) {
 
                 // Se place dans la bonne direction
-                actualState.robot.turn(0);
+                actualState.robot.turn(Math.PI);
 
                 // Recule pour arriver devant la fusé
-                actualState.robot.moveLengthwise(-100);
+                actualState.robot.moveLengthwise(100);
 
                 // Déploie l'attrape-module et la calle-bisou
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
@@ -67,7 +67,7 @@ public class CatchModule extends AbstractScript {
             } else if (versionToExecute == 2) {
 
                 // Se place dans la bonne direction
-                actualState.robot.turn(Math.PI);
+                actualState.robot.turn(0);
 
                 // Avance pour arriver devant la fusé
                 actualState.robot.moveLengthwise(-150);
@@ -80,9 +80,9 @@ public class CatchModule extends AbstractScript {
             else if (versionToExecute == 3) {
 
                 // Fait une manoeuvre pour arriver à la bonne position sans risque de toucher un obstacle
-                actualState.robot.turn(Math.PI/2 - Math.acos(0.8));
-                actualState.robot.moveLengthwise(250);
-                actualState.robot.turn(Math.PI/2);
+                actualState.robot.turn(-Math.PI/2 - Math.acos(0.8));
+                actualState.robot.moveLengthwise(-250);
+                actualState.robot.turn(-Math.PI/2);
 
                 // Déploie l'attrape-module et la calle-bisou
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
@@ -91,8 +91,8 @@ public class CatchModule extends AbstractScript {
             else if (versionToExecute == 4){
 
                 // Manoeuvre
-                actualState.robot.turn(Math.PI);
-                actualState.robot.moveLengthwise(-500);
+                actualState.robot.turn(0);
+                actualState.robot.moveLengthwise(500);
 
                 // Déploiement
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);

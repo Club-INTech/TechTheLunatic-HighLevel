@@ -43,12 +43,12 @@ public class DropModule extends AbstractScript{
             if(versionToExecute==0) {
 
                 // Manoeuvre pour se caller contre le depose-module
-                actualState.robot.turn(Math.PI);
-                actualState.robot.moveLengthwise(-75);
+                actualState.robot.turn(0);
+                actualState.robot.moveLengthwise(75);
             }
             else {
 
-                actualState.robot.moveLengthwise(-100, hooksToConsider, true, true, Speed.SLOW_ALL);
+                actualState.robot.moveLengthwise(100, hooksToConsider, true, true, Speed.SLOW_ALL);
             }
 
             for (int i = 0; i < 3; i++) {
@@ -58,27 +58,27 @@ public class DropModule extends AbstractScript{
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
                 // Manoeuvre degueu pour se décaler
-                actualState.robot.moveLengthwise(60, hooksToConsider, false);
+                actualState.robot.moveLengthwise(-60, hooksToConsider, false);
 
                 // Bon discord tu vas geuler mais j'avais la flemme
                 if (versionToExecute==0) {
-                    actualState.robot.turn(Math.PI - Math.asin(110.0/150));
+                    actualState.robot.turn(- Math.asin(110.0/150));
                 }
 
                 else{
-                    actualState.robot.turn(Math.asin(110.0 / 150));
+                    actualState.robot.turn(-Math.PI +Math.asin(110.0 / 150));
                 }
-                actualState.robot.moveLengthwise(150);
+                actualState.robot.moveLengthwise(-150);
 
                 if (versionToExecute==0) {
-                    actualState.robot.turn(Math.PI);
+                    actualState.robot.turn(0);
                 }
                 else{
-                    actualState.robot.turn(0);
+                    actualState.robot.turn(Math.PI);
                 }
 
                 // Callage contre le depose-module
-                actualState.robot.moveLengthwise(-170, hooksToConsider, true, false, Speed.SLOW_ALL);
+                actualState.robot.moveLengthwise(170, hooksToConsider, true, false, Speed.SLOW_ALL);
             }
 
             // Monte le dernier module et le drop
@@ -96,7 +96,7 @@ public class DropModule extends AbstractScript{
             actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D,false);
             actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G,false);
 
-            actualState.robot.moveLengthwise(100, hooksToConsider, false);
+            actualState.robot.moveLengthwise(-100, hooksToConsider, false);
 
 
         }

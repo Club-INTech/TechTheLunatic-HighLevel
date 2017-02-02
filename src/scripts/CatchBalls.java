@@ -80,18 +80,17 @@ public class CatchBalls extends AbstractScript {
                 // Calcule de l'angle pour se diriger vers le centre du robot
                 Vec2 posCratere= new Vec2(850, 540);
                 Vec2 posRobot=stateToConsider.robot.getPosition();
-                Vec2 vec = posCratere.minusNewVector(posRobot);
-                double angle= vec.angle();
+                Vec2 vec = posRobot.minusNewVector(posCratere);
 
                 // Manoeuvre pour se diriger vers le cratère
-                stateToConsider.robot.turn(angle);
-                stateToConsider.robot.moveLengthwise(110);
+                stateToConsider.robot.turn(vec.getA());
+                stateToConsider.robot.moveLengthwise(-110);
             }
 
             else if(versionToExecute == 2){
 
-                stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(-410); //bonne distance à voir
+                stateToConsider.robot.turn(Math.PI/2);
+                stateToConsider.robot.moveLengthwise(410); //bonne distance à voir
 
                 //Attraper le module avec le côté droit
 
@@ -99,7 +98,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
-                stateToConsider.robot.moveLengthwise(-100);
+                stateToConsider.robot.moveLengthwise(100);
 
                 // Attraper le module
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
@@ -126,8 +125,8 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
 
-                stateToConsider.robot.turn(Math.PI-0.12);
-                stateToConsider.robot.moveLengthwise(188);
+                stateToConsider.robot.turn(-Math.PI+0.12);
+                stateToConsider.robot.moveLengthwise(-188);
             }
 
             // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
@@ -145,12 +144,12 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
             if (versionToExecute == 1){
-                stateToConsider.robot.moveLengthwise(-130);
+                stateToConsider.robot.moveLengthwise(130);
             }
             else if(versionToExecute == 2){
-                stateToConsider.robot.moveLengthwise(-150);
-                stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(200);
+                stateToConsider.robot.moveLengthwise(150);
+                stateToConsider.robot.turn(Math.PI/2);
+                stateToConsider.robot.moveLengthwise(-200);
             }
 
         }
