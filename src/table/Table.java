@@ -42,7 +42,7 @@ import utils.Log;
  */
 
 /**
- * Stocke toute les informations liées à la table (muables et immuables) au cours d'un match.
+ * Stocke toutes les informations liées à la table (muables et immuables) au cours d'un match.
  * @author Discord
  */
 public class Table implements Service
