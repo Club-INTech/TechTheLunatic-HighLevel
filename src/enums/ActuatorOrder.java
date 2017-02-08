@@ -39,10 +39,10 @@ public enum ActuatorOrder
  *		   *|__________________|*
  */
 
-	DEPLACAMENT("d"),     //déplacement avant ou arrière
-	ROT_ABS("t"),         //rotation (angle absolu)
-	ROT_REL_RAD("t3"),    //rotation (angle relatif en radian)
-	ROT_REL_DEG("r"),     //rotation (angle relatif en degré)
+	DEPLACAMENT("d"),     //déplacement avant ou arrière sans asserv
+	ROT_ABS("t"),         //rotation (angle absolu) sans asserv
+	ROT_REL_RAD("t3"),    //rotation (angle relatif en radian) sans asserv
+	ROT_REL_DEG("r"),     //rotation (angle relatif en degré) sans asserv
 	//TRAJ_COURBE("dc"),  //trajectoire courbe : déplacement + rotation
 	STOP("stop"),         //arrêt
 
