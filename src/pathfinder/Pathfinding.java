@@ -67,31 +67,33 @@ public class Pathfinding implements Service {
      * @return une arrayliste des positions intermédiaires
      */
     public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV, double robotOrientation) throws PointInObstacleException {
+
         // On récupère les obstacles et on s'assure que l'orientation du robot soit entre -pi et pi
-        ObstacleManager a = this.table.getObstacleManager();
+        ObstacleManager oManager = this.table.getObstacleManager();
         robotOrientation = robotOrientation%Math.PI;
+
         // Une longueur qui sert dans tout les cas ou envoie le robot dans un obstacle : on l'envoie au plus près du danger !
         // C'est pourquoi on a besoin de le considérer rectangulaire
-        int robotMarge = a.mRobotRadius - a.getmRobotWidth()/2;
+        int robotMarge = oManager.mRobotRadius - oManager.getmRobotWidth()/2;
 
         // Si le point de départ est hors de la table
-        if (Math.abs(departV.getX()) > 1500 - a.mRobotRadius ||
-                Math.abs(departV.getY() - 1000) > 1000 - a.mRobotRadius) {
+        if (Math.abs(departV.getX()) > 1500 - oManager.mRobotRadius ||
+                Math.abs(departV.getY() - 1000) > 1000 - oManager.mRobotRadius) {
             log.debug("Retourne sur la table connard => Point de départ " + departV + " Orientation : " + robotOrientation);
 
             // Cas "simple", où le robot est perpendiculaire au côté de la table sur lequel il est bloqué
             // Il recule/avance juste pour rentrer dans la table (ya pas d'obstacle derriere, faut pas déconner)
 
-            if (departV.getY() < a.mRobotRadius && (Math.abs(robotOrientation) > Math.PI/4 && Math.abs(robotOrientation) < 3 * Math.PI/4)) {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), a.mRobotRadius + 1), arriveeV, robotOrientation);
+            if (departV.getY() < oManager.mRobotRadius && (Math.abs(robotOrientation) > Math.PI/4 && Math.abs(robotOrientation) < 3 * Math.PI/4)) {
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), oManager.mRobotRadius + 1), arriveeV, robotOrientation);
                 newPath.add(0, departV);
                 return newPath;
-            } else if (departV.getY() > 2000 - a.mRobotRadius && Math.abs(robotOrientation) > Math.PI / 4 && Math.abs(robotOrientation) < 3 * Math.PI / 4) {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), 2000 - a.mRobotRadius), arriveeV, robotOrientation);
+            } else if (departV.getY() > 2000 - oManager.mRobotRadius && Math.abs(robotOrientation) > Math.PI / 4 && Math.abs(robotOrientation) < 3 * Math.PI / 4) {
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), 2000 - oManager.mRobotRadius), arriveeV, robotOrientation);
                 newPath.add(0, departV);
                 return newPath;
-            } else if (Math.abs(departV.getX()) > 1500 - a.mRobotRadius && (Math.abs(robotOrientation) < Math.PI / 4 || Math.abs(robotOrientation) > 3 * Math.PI / 4)) {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2((1500 - a.mRobotRadius) * departV.getX() / Math.abs(departV.getX()), departV.getY()), arriveeV, robotOrientation);
+            } else if (Math.abs(departV.getX()) > 1500 - oManager.mRobotRadius && (Math.abs(robotOrientation) < Math.PI / 4 || Math.abs(robotOrientation) > 3 * Math.PI / 4)) {
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2((1500 - oManager.mRobotRadius) * departV.getX() / Math.abs(departV.getX()), departV.getY()), arriveeV, robotOrientation);
                 newPath.add(0, departV);
                 return newPath;
             }
@@ -103,12 +105,12 @@ public class Pathfinding implements Service {
             // et on rappelle Astarfoulah avec le nouveau vecteur de départ.
             // Evidemment, si l'angle marge est trop petit, ca peut ne pas fonctionner : mais sans trajectoire courbe, ce cas est improbable...
 
-            else if ((departV.getY() < a.mRobotRadius && (Math.abs(robotOrientation) < Math.PI/4 || Math.abs(robotOrientation) > 3*Math.PI/4)) ||
-                    (2000 - departV.getY() < a.mRobotRadius && (Math.abs(robotOrientation) < Math.PI/4 || Math.abs(robotOrientation) > 3*Math.PI/4 )))
+            else if ((departV.getY() < oManager.mRobotRadius && (Math.abs(robotOrientation) < Math.PI/4 || Math.abs(robotOrientation) > 3*Math.PI/4)) ||
+                    (2000 - departV.getY() < oManager.mRobotRadius && (Math.abs(robotOrientation) < Math.PI/4 || Math.abs(robotOrientation) > 3*Math.PI/4 )))
             {
                 int sens = Math.abs(departV.getY()-1000)/(departV.getY()-1000);
-                double marge = Math.acos((double)(a.getmRobotLenght()) / (2 * a.mRobotRadius)) - Math.acos((double)(departV.getY())/ a.mRobotRadius);
-                double radius = Math.min((a.mRobotRadius - departV.getY()) / Math.sin(marge), 140);
+                double marge = Math.acos((double)(oManager.getmRobotLenght()) / (2 * oManager.mRobotRadius)) - Math.acos((double)(departV.getY())/ oManager.mRobotRadius);
+                double radius = Math.min((oManager.mRobotRadius - departV.getY()) / Math.sin(marge), 140);
                 Vec2 vecPropoFW = new Vec2(radius, Math.PI + sens*marge);
                 Vec2 vecPropoBW = new Vec2(radius, -sens*marge);
 
@@ -130,11 +132,11 @@ public class Pathfinding implements Service {
                 return newPath;
             }
 
-            else if (Math.abs(departV.getX())>1500-a.mRobotRadius && Math.abs(robotOrientation) < 3*Math.PI/4 && Math.abs(robotOrientation) > Math.PI/4)
+            else if (Math.abs(departV.getX())>1500-oManager.mRobotRadius && Math.abs(robotOrientation) < 3*Math.PI/4 && Math.abs(robotOrientation) > Math.PI/4)
             {
                 int sens = Math.abs(departV.getX())/departV.getX();
-                double marge = Math.acos((double)(a.getmRobotLenght()) / 2*a.mRobotRadius) - Math.acos((double)(departV.getY()) / 2*a.mRobotRadius);
-                double radius = Math.min((a.mRobotRadius - departV.getY()) / Math.sin(marge), 140);
+                double marge = Math.acos((double)(oManager.getmRobotLenght()) / 2*oManager.mRobotRadius) - Math.acos((double)(departV.getY()) / 2*oManager.mRobotRadius);
+                double radius = Math.min((oManager.mRobotRadius - departV.getY()) / Math.sin(marge), 140);
 
                 Vec2 vecPropoFW = new Vec2(radius, sens*marge + Math.PI/2);
                 Vec2 vecPropoBW = new Vec2(radius, -sens*marge - Math.PI/2);
@@ -197,7 +199,7 @@ public class Pathfinding implements Service {
                     }
                 }
 
-                // TODO Optimisier et debuger le cas des obstacles rectangulaires
+                // TODO Optimisier le cas des obstacles rectangulaires
                 // Cas des obstacles rectangulaires (similaire au cas de la table)
                 if (obstacle instanceof ObstacleRectangular) {
                     // Vec2 newDepartV = ((ObstacleRectangular) obstacle).pointProche(departV);
@@ -216,7 +218,7 @@ public class Pathfinding implements Service {
                     //Tangent
                     else {
                         double radiusRef = departV.minusNewVector(newDepartV).length();
-                        double marge = Math.acos((double) a.getmRobotLenght() / (2 * a.mRobotRadius)) - Math.acos((a.mRobotRadius - radiusRef) / a.mRobotRadius);
+                        double marge = Math.acos((double) oManager.getmRobotLenght() / (2 * oManager.mRobotRadius)) - Math.acos((oManager.mRobotRadius - radiusRef) / oManager.mRobotRadius);
                         double radius = Math.min(radiusRef / Math.sin(marge) + 2, 100);
 
                         Vec2 vecPropoFW = new Vec2(radius, 0);
@@ -248,17 +250,17 @@ public class Pathfinding implements Service {
         // Si tel est son souhait, on l'amene hors de la table... Mais en passant par un point faisant en sorte qu'il arrive perpendiculairement
         // au bord de la table : on appelle Astarfoulah sur le point dans la table le plus proche du point d'arrivée hors-table
 
-        if (Math.abs(arriveeV.getX()) > 1500 - a.mRobotRadius ||
-                arriveeV.getY() < a.mRobotRadius ||
-                arriveeV.getY() > 2000 - a.mRobotRadius) {
+        if (Math.abs(arriveeV.getX()) > 1500 - oManager.mRobotRadius ||
+                arriveeV.getY() < oManager.mRobotRadius ||
+                arriveeV.getY() > 2000 - oManager.mRobotRadius) {
             log.debug("Je ne quitterai pas cette table sans une bonne raison ! => Point d'arrivée " + arriveeV + "\n" + "Bon, d'accord...");
-            if (Math.abs(arriveeV.getX())>1500-a.mRobotRadius)
+            if (Math.abs(arriveeV.getX())>1500-oManager.mRobotRadius)
             {
                 int sens = Math.abs(arriveeV.getX())/arriveeV.getX();
-                Vec2 newArriveeV = new Vec2(sens*(1500-a.mRobotRadius), arriveeV.getY());
+                Vec2 newArriveeV = new Vec2(sens*(1500-oManager.mRobotRadius), arriveeV.getY());
 
                 ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
-                arriveeV.setX(sens*(1500-a.getmRobotWidth()/2));
+                arriveeV.setX(sens*(1500-oManager.getmRobotWidth()/2));
 
                 if (whichObstacle(newArriveeV) == null){
                     newPath.add(newPath.size(), arriveeV);
@@ -266,13 +268,13 @@ public class Pathfinding implements Service {
                 return newPath;
             }
 
-            if (Math.abs(arriveeV.getY()-1000)>1000 - a.mRobotRadius)
+            if (Math.abs(arriveeV.getY()-1000)>1000 - oManager.mRobotRadius)
             {
                 int sens = Math.abs(arriveeV.getY()-1000)/(arriveeV.getY()-1000);
-                Vec2 newArriveeV = new Vec2(arriveeV.getX(), 1000+sens*(1000-a.mRobotRadius));
+                Vec2 newArriveeV = new Vec2(arriveeV.getX(), 1000+sens*(1000-oManager.mRobotRadius));
 
                 ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
-                arriveeV.setY(1000 + sens*(1000-a.getmRobotWidth()/2));
+                arriveeV.setY(1000 + sens*(1000-oManager.getmRobotWidth()/2));
 
                 if (whichObstacle(newArriveeV) == null) {
                     newPath.add(newPath.size(), arriveeV);
@@ -309,113 +311,125 @@ public class Pathfinding implements Service {
      *
      * @param depart  Noeud de départ
      * @param arrivee Noeud d'arrivée
-     * @param g       graphe
+     * @param graphe  Graphe
      * @return Liste de vec2 des points de passage
      */
-    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe g) throws PointInObstacleException {
+    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe graphe) throws PointInObstacleException {
 
-        ObstacleManager a = this.table.getObstacleManager();
-        //On vérifie que ça n'intersecte ni les obstacles circulaires ni ca
-        for (int i = 0; i < g.getlNoeuds().size(); i++)
+        ObstacleManager oManager = this.table.getObstacleManager();
+
+        // On vérifie que ça n'intersecte ni les obstacles circulaires ni les obstacles rectangulaires: pour cela, on
+        // parcours pour chaque noeuds tout les obstacles afin de créer les liens entre les noeuds de départ (et arrivée)
+        // et le reste du graphe.
+        for (int i = 0; i < graphe.getlNoeuds().size(); i++)
         {
-            int j = 0;
-            boolean creerdep = true;
-            boolean creerarr = true;
-            int nombobst = a.getmCircularObstacle().size();
-            int nombobstRec = a.getRectangles().size();
+            int j;
+            boolean creerDep = true;
+            boolean creerArr = true;
+            int nbObstCirc = oManager.getmCircularObstacle().size();
+            int nbObstRect = oManager.getRectangles().size();
 
             j = 0;
-            while ((creerdep || creerarr) && j < nombobst) {
 
-                if (a.getmCircularObstacle().get(j).isInObstacle(g.getlNoeuds().get(i).position)) {
-                    creerdep = false;
-                    creerarr = false;
+            // On doit donc vérifier si le noeud en question est dans un obstacle (?!) et si le potentiel lien intersecte
+            // un obstacle (pour les cercles et les rectangles)
+            while ((creerDep || creerArr) && j < nbObstCirc) {
+
+                if (oManager.getmCircularObstacle().get(j).isInObstacle(graphe.getlNoeuds().get(i).position)) {
+                    creerDep = false;
+                    creerArr = false;
                 }
 
-                creerdep = creerdep && !(Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Circle(a.getmCircularObstacle().get(j).getPosition(), a.getmCircularObstacle().get(j).getRadius())));
-                creerarr = creerarr && !(Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Circle(a.getmCircularObstacle().get(j).getPosition(), a.getmCircularObstacle().get(j).getRadius())));
-                j++;
-            }
-            while ((creerdep || creerarr) && j < nombobstRec) {
-
-                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(1).position));
-                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(2).position));
-                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(2).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(2).position));
-                creerdep = creerdep && !Geometry.intersects(new Segment(depart.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-
-                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(1).position));
-                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(2).position));
-                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(2).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(2).position));
-                creerarr = creerarr && !Geometry.intersects(new Segment(arrivee.position, g.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-
+                creerDep = creerDep && !(Geometry.intersects(new Segment(depart.position, graphe.getlNoeuds().get(i).position), new Circle(oManager.getmCircularObstacle().get(j).getPosition(), oManager.getmCircularObstacle().get(j).getRadius())));
+                creerArr = creerArr && !(Geometry.intersects(new Segment(arrivee.position, graphe.getlNoeuds().get(i).position), new Circle(oManager.getmCircularObstacle().get(j).getPosition(), oManager.getmCircularObstacle().get(j).getRadius())));
                 j++;
             }
 
-            if (creerdep) {
-                depart.attachelien(g.getlNoeuds().get(i));
-                g.getlNoeuds().get(i).attachelien(depart);
+            while ((creerDep || creerArr) && j < nbObstRect) {
+
+                creerDep = creerDep && !Geometry.intersects(new Segment(depart.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(0).position, oManager.getRectangles().get(j).getlNoeud().get(1).position));
+                creerDep = creerDep && !Geometry.intersects(new Segment(depart.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(1).position, oManager.getRectangles().get(j).getlNoeud().get(3).position));
+                creerDep = creerDep && !Geometry.intersects(new Segment(depart.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(0).position, oManager.getRectangles().get(j).getlNoeud().get(2).position));
+                creerDep = creerDep && !Geometry.intersects(new Segment(depart.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(2).position, oManager.getRectangles().get(j).getlNoeud().get(3).position));
+                creerDep = creerDep && !Geometry.intersects(new Segment(depart.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(1).position, oManager.getRectangles().get(j).getlNoeud().get(2).position));
+                creerDep = creerDep && !Geometry.intersects(new Segment(depart.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(0).position, oManager.getRectangles().get(j).getlNoeud().get(3).position));
+
+                creerArr = creerArr && !Geometry.intersects(new Segment(arrivee.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(0).position, oManager.getRectangles().get(j).getlNoeud().get(1).position));
+                creerArr = creerArr && !Geometry.intersects(new Segment(arrivee.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(1).position, oManager.getRectangles().get(j).getlNoeud().get(3).position));
+                creerArr = creerArr && !Geometry.intersects(new Segment(arrivee.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(0).position, oManager.getRectangles().get(j).getlNoeud().get(2).position));
+                creerArr = creerArr && !Geometry.intersects(new Segment(arrivee.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(2).position, oManager.getRectangles().get(j).getlNoeud().get(3).position));
+                creerArr = creerArr && !Geometry.intersects(new Segment(arrivee.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(1).position, oManager.getRectangles().get(j).getlNoeud().get(2).position));
+                creerArr = creerArr && !Geometry.intersects(new Segment(arrivee.position, graphe.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(0).position, oManager.getRectangles().get(j).getlNoeud().get(3).position));
+
+                j++;
             }
-            if (creerarr) {
-                arrivee.attachelien(g.getlNoeuds().get(i));
-                g.getlNoeuds().get(i).attachelien(arrivee);
+
+            if (creerDep) {
+                depart.attacheLien(graphe.getlNoeuds().get(i));
+                graphe.getlNoeuds().get(i).attacheLien(depart);
+            }
+            if (creerArr) {
+                arrivee.attacheLien(graphe.getlNoeuds().get(i));
+                graphe.getlNoeuds().get(i).attacheLien(arrivee);
 
             }
         }
 
-        ArrayList<Vec2> chemin = new ArrayList<>();
-        ArrayList<Noeud> closedlist = new ArrayList<>();
+        ArrayList<Vec2> path = new ArrayList<>();
+        ArrayList<Noeud> closedList = new ArrayList<>();
 
-        //on stocke dedans les noeuds qu'on rencontre, comparaNoeud est l'heuristique
-        PriorityQueue<Noeud> pq = new PriorityQueue(g.getlNoeuds().size(), new ComparaNoeud());
+        // On stocke dedans les noeuds qu'on rencontre, comparaNoeud est l'heuristique
+        PriorityQueue<Noeud> priorityQueue = new PriorityQueue(graphe.getlNoeuds().size(), new ComparaNoeud());
 
         depart.noeudPrecedent = null;
-        closedlist.add(depart);
-        depart.distheuristique(arrivee);
-        depart.sommedepart = 0;
+        closedList.add(depart);
+        depart.distHeuristique(arrivee);
+        depart.sommeDepart = 0;
         Noeud noeudCourant = depart;
-
 
         do {
             if (noeudCourant == null) {
                 log.debug("noeudCourant est null");
                 return null;
             }
-            for (int i = 0; i < noeudCourant.lArretes.size(); i++) // on parcourt les arrêtes de noeudCourant
+
+            // On parcourt les arrêtes de noeudCourant
+            for (int i = 0; i < noeudCourant.lArretes.size(); i++)
             {
-                noeudCourant.lArretes.get(i).arrivee.distheuristique(arrivee);//on actualise la distance à l'arrivée
-                double b = noeudCourant.sommedepart + noeudCourant.lArretes.get(i).cout;
-                if (!closedlist.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommedepart > b) // On vérifie qu'il n'est pas dans la closedList ou que on a déjà trouvé mieux
+                // On actualise la distance à l'arrivée
+                noeudCourant.lArretes.get(i).arrivee.distHeuristique(arrivee);
+                double coutTot = noeudCourant.sommeDepart + noeudCourant.lArretes.get(i).cout;
+
+                // On vérifie qu'il n'est pas dans la closedList ou que l'on a déjà trouvé mieux
+                if (!closedList.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommeDepart > coutTot)
                 {
-                    //on modifie la sommedepuis le départ et le noeud précédent, puis on ajoute a la priorityQueue
-                    noeudCourant.lArretes.get(i).arrivee.sommedepart = b;
+                    // On modifie la sommedepuis le départ et le noeud précédent, puis on ajoute a la priorityQueue
+                    noeudCourant.lArretes.get(i).arrivee.sommeDepart = coutTot;
 
                     noeudCourant.lArretes.get(i).arrivee.noeudPrecedent = noeudCourant;
-                    pq.add(noeudCourant.lArretes.get(i).arrivee);
+                    priorityQueue.add(noeudCourant.lArretes.get(i).arrivee);
                 }
             }
 
-            if (pq.isEmpty()) break;
+            if (priorityQueue.isEmpty()) break;
 
-            noeudCourant = pq.poll();
+            noeudCourant = priorityQueue.poll();
 
-            if (arrivee == noeudCourant) { // on reconstruit le chemin (limité à 100 au cas où il y a des boucles)
-                while (noeudCourant != null && chemin.size() < 100) {
-                    chemin.add(0, noeudCourant.position);
+            if (arrivee == noeudCourant)
+            {
+                // On reconstruit le chemin (limité à 100 au cas où il y a des boucles)
+                while (noeudCourant != null && path.size() < 100) {
+                    path.add(0, noeudCourant.position);
                     noeudCourant = noeudCourant.noeudPrecedent;
                 }
-                for (Noeud k : g.getlNoeuds()) //on réinitialise les noeuds pour le suivant
+                // On réinitialise les noeuds pour le suivant
+                for (Noeud node : graphe.getlNoeuds())
                 {
-
-                    k.sommedepart = 100000000;
-                    k.noeudPrecedent = null;
-
+                    node.sommeDepart = 100000000;
+                    node.noeudPrecedent = null;
                 }
 
-                //on supprime les liens dans le sens retour liés au départ
+                // On supprime les liens dans le sens retour liés au départ
                 for (int j = 0; j < depart.lArretes.size(); j++) {
                     int p = depart.lArretes.get(j).arrivee.lArretes.size();
                     for (int i = 0; i < p; i++) {
@@ -429,7 +443,7 @@ public class Pathfinding implements Service {
                     }
                 }
 
-                //on supprime les liens dans le sens retour liés à l'arrivée
+                // On supprime les liens dans le sens retour liés à l'arrivée
                 for (int j = 0; j < arrivee.lArretes.size(); j++) {
                     int p = arrivee.lArretes.get(j).arrivee.lArretes.size();
                     for (int i = 0; i < p; i++) {
@@ -442,36 +456,33 @@ public class Pathfinding implements Service {
                     }
                 }
 
-                //On détache le noeud de départ et d'arrivée
-                g.getlNoeuds().remove(depart);
-                g.getlNoeuds().remove(arrivee);
-                return chemin;
+                // On détache le noeud de départ et d'arrivée
+                graphe.getlNoeuds().remove(depart);
+                graphe.getlNoeuds().remove(arrivee);
+                return path;
             }
 
+            closedList.add(noeudCourant);
 
-            closedlist.add(noeudCourant);
-
-
-        } while (!pq.isEmpty());
-
+        } while (!priorityQueue.isEmpty());
 
         log.debug("No path found");
 
-        //on supprime les liens dans le sens retour liés au départ
+        // On supprime les liens dans le sens retour liés au départ
         for (int j = 0; j < depart.lArretes.size(); j++) {
             int p = depart.lArretes.get(j).arrivee.lArretes.size();
             for (int i = 0; i < p; i++) {
 
-                if (depart.lArretes.get(j).arrivee != depart && depart.lArretes.get(j).arrivee.lArretes.get(i).arrivee == depart) { // Il peut arriver que le noeud créer un lien vers lui même, on vérifie donc que ce n'est pas le cas
+                // Il peut arriver que le noeud créer un lien vers lui même, on vérifie donc que ce n'est pas le cas
+                if (depart.lArretes.get(j).arrivee != depart && depart.lArretes.get(j).arrivee.lArretes.get(i).arrivee == depart) {
                     depart.lArretes.get(j).arrivee.lArretes.remove(depart.lArretes.get(j).arrivee.lArretes.get(i));
                     i--;
                     p--;
-
                 }
             }
         }
 
-        //on supprime les liens dans le sens retour liés à l'arrivée
+        // On supprime les liens dans le sens retour liés à l'arrivée
         for (int j = 0; j < arrivee.lArretes.size(); j++) {
             int p = arrivee.lArretes.get(j).arrivee.lArretes.size();
             for (int i = 0; i < p; i++) {
@@ -485,13 +496,14 @@ public class Pathfinding implements Service {
             }
         }
 
-        //On détache le noeud de départ et d'arrivée
-        g.getlNoeuds().remove(depart);
-        g.getlNoeuds().remove(arrivee);
+        // On détache le noeud de départ et d'arrivée
+        graphe.getlNoeuds().remove(depart);
+        graphe.getlNoeuds().remove(arrivee);
         return new ArrayList<Vec2>();
     }
 
     // TODO : savoir à quoi sert cette méthode
+
     public ArrayList<Vec2> ennemiDetecte(Vec2 posRobot, Vec2 cible, double robotOrientation) {
         ObstacleManager a = this.table.getObstacleManager();
 
@@ -579,14 +591,14 @@ public class Pathfinding implements Service {
      * @autor Rem
      */
     private Obstacle whichObstacle(Vec2 propo) {
-        for (Obstacle o : table.getObstacleManager().getmCircularObstacle()){
-            if (o.isInObstacle(propo)){
-                return o;
+        for (Obstacle obstacle : table.getObstacleManager().getmCircularObstacle()){
+            if (obstacle.isInObstacle(propo)){
+                return obstacle;
             }
         }
-        for (Obstacle o : table.getObstacleManager().getmRectangles()){
-            if (o.isInObstacle(propo)){
-                return o;
+        for (Obstacle obstacle : table.getObstacleManager().getmRectangles()){
+            if (obstacle.isInObstacle(propo)){
+                return obstacle;
             }
         }
         return null;

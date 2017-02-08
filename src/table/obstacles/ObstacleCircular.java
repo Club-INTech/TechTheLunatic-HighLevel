@@ -185,8 +185,8 @@ public class ObstacleCircular extends Obstacle
 			// on fait les liens
 		}
 		for (int i = 0; i < graphe.getlNoeuds().size(); i++) {
-			lNoeud.get(i).attachelien(lNoeud.get(i % n));
-			lNoeud.get(i % n).attachelien(lNoeud.get(i));
+			lNoeud.get(i).attacheLien(lNoeud.get(i % n));
+			lNoeud.get(i % n).attacheLien(lNoeud.get(i));
 		}
 
 	}
