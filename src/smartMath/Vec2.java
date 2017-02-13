@@ -33,6 +33,7 @@ package smartMath;
  *
  * @author martial
  * @author pf
+ * @author Rem
  */
 
 public class Vec2
@@ -267,6 +268,7 @@ public class Vec2
 		return true;
 	}
 
+	//TODO Savoir à quoi sert cette méthode
 	/**
 	 * Distance Manhattan avec un second vecteur
 	 * @param other le second vecteur
@@ -283,13 +285,6 @@ public class Vec2
      */
 	public double angle()
 	{
-		/*if (this.length() == 0){
-			return 0;
-		}
-		else{
-			return Math.atan2(y,x);
-		}
-		*/
 		if(this.squaredLength() == 0)
 			return 0;
 
