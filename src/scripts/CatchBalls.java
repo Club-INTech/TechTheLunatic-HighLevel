@@ -36,7 +36,7 @@ import utils.Log;
 
 import java.util.ArrayList;
 
-//TODO: cf le todo du haut de DropBalls
+    // TODO: calibrer les WaitforCompletion + faire toute les versions pour tout les cratères
 
 /**
  * Script pour ramasser les balles dans un cratère avec la pelleteuse
@@ -90,7 +90,7 @@ public class CatchBalls extends AbstractScript {
             else if(versionToExecute == 2){
 
                 stateToConsider.robot.turn(Math.PI/2);
-                stateToConsider.robot.moveLengthwise(410); //bonne distance à voir
+                stateToConsider.robot.moveLengthwise(410);
 
                 //Attraper le module avec le côté droit
 

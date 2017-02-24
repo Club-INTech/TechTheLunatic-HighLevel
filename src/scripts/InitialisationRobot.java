@@ -25,7 +25,7 @@ public class InitialisationRobot extends AbstractScript {
     protected InitialisationRobot(HookFactory hookFactory, Config config, Log log){
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0,1};
+        versions = new Integer[]{0,1,2};
     }
 
     @Override
@@ -50,11 +50,11 @@ public class InitialisationRobot extends AbstractScript {
                 gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Se dégage de la zone de départ
-                if (versionToExecute == 0){
+                if (versionToExecute == 1){
                     gameState.robot.turn(13*Math.PI/16);
                     gameState.robot.moveLengthwise(100);
                 }
-                else if (versionToExecute == 1){
+                else if (versionToExecute == 2){
                     gameState.robot.turn(-3*Math.PI/16);
                     gameState.robot.moveLengthwise(-100);
                 }

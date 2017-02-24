@@ -30,8 +30,7 @@ public class JUnit_DropBalls extends JUnit_Test
         super.setUp();
         log.debug("JUnit_DeplacementsTest.setUp()");
         mRobot = container.getService(GameState.class);
-
-        //La position de depart est mise dans le updateConfig() //TODO
+        //La position de depart est mise dans la Table
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(Math.PI);
