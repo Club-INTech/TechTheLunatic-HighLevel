@@ -34,7 +34,8 @@ public class JUnit_CatchBalls extends JUnit_Test
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(0);
-        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+
+        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);

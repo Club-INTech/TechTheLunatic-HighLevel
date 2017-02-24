@@ -16,8 +16,7 @@ import utils.Log;
 
 import java.util.ArrayList;
 
-//TODO: en supposant que le robot est placé à un point près de la zone de livraison(à quelques centimètres, donc doit tourner et avancer un peu)
-//TODO + calibrer les WaitForCompletion + les exceptions
+//TODO calibrer les WaitForCompletion
 
 /** Script permettant de livrer les boules déjà prises, dans la zone de départ ou sur le robot secondaire
  *
