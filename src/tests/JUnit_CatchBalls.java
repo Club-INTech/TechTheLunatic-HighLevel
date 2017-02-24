@@ -41,7 +41,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
 
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(2, mRobot, new ArrayList<Hook>());
     }
 
     @Test
