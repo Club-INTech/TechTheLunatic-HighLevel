@@ -358,4 +358,8 @@ public class Geometry
 
 		return val >= a && val <= b;
 	}
+
+	public static int square(int val){
+		return val*val;
+	}
 }

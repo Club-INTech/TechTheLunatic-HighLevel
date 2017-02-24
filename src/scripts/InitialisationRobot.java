@@ -73,7 +73,7 @@ public class InitialisationRobot extends AbstractScript {
     @Override
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException {
 
-        if(version==0 || version==1){
+        if(version==0 || version==1 || version==2){
 
             return new Circle(robotPosition);
         }
