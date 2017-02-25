@@ -171,7 +171,7 @@ public class CatchBalls extends AbstractScript {
         }
         else if (version == 1)
         {
-            return new Circle(new Vec2(850,540), ray + 121, -Math.PI/6, Math.PI);
+            return new Circle(new Vec2(850,540), ray + 121, -Math.PI/6, Math.PI, true);
         }
         else if (version == 2)
         {

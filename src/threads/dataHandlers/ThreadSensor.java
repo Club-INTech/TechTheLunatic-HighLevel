@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static java.lang.Math.PI;
 import static smartMath.Geometry.isBetween;
 import static smartMath.Geometry.square;
 
@@ -116,15 +117,16 @@ public class ThreadSensor extends AbstractThread
 	 * 		  Robot			o : capteur
 	 * 
 	 */
-	double detectionAngle=40*Math.PI/180;
+	double detectionAngle;
+	double sensorPositionAngle;
 
     /**
-     * Angles des capteurs relatifs à l'axe avant-arrière du robot (radians) TODO A changer ?
+     * Angles des capteurs relatifs à l'axe avant-arrière du robot (radians) TODO A changer ? OUI
      */
-    private final double angleLF = -0.26;
-    private final double angleRF = -0.26;
-    private final double angleLB = 0.26;
-    private final double angleRB = 0.26;
+    private final double angleLF = -sensorPositionAngle;
+    private final double angleRF = -sensorPositionAngle;
+    private final double angleLB = sensorPositionAngle;
+    private final double angleRB = sensorPositionAngle;
 
 
     /**
@@ -300,6 +302,7 @@ public class ThreadSensor extends AbstractThread
 
     /**
      * Ajoute un obstacle en face du robot, avec les deux capteurs ayant détecté quelque chose
+     * Convention: la droite du robot est l'orientation 0 (on travaille dans le repère du robot, et on garde les memes conventions que pour la table)
      */
     private void addFrontObstacleBoth() {
 
@@ -314,6 +317,7 @@ public class ThreadSensor extends AbstractThread
         R1 = USvalues.get(0) + radius;
         R2 = USvalues.get(1) + radius;
         constante = square(R1) - square(R2) + square(positionLF.getX()) - square(positionRF.getX()) + square(positionLF.getY()) - square(positionRF.getY());
+
         a = 1 + (double) square(positionLF.getX() - positionRF.getX()) / square(positionLF.getY() - positionRF.getY());
         b = -2 * positionLF.getX() + constante * (double) (positionLF.getX() - positionRF.getX()) / square(positionLF.getY() - positionRF.getY()) - 2 * positionLF.getY() * (double) (positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY());
         c = (double) square(constante) / (4 * square(positionLF.getY() - positionRF.getY())) + (double) constante / (2 * (positionLF.getY() - positionRF.getY())) + square(positionLF.getX()) + square(positionLF.getY()) - square(R1);
@@ -337,7 +341,7 @@ public class ThreadSensor extends AbstractThread
             vec = new Vec2(robotX1, robotY1);
         }
 
-        mTable.getObstacleManager().addObstacle(vec, radius, 20);
+        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(vec), radius, 20);
     }
     /**
      * Ajoute un obstacle derrière le robot, avec les deux capteurs ayant détecté quelque chose
@@ -353,10 +357,25 @@ public class ThreadSensor extends AbstractThread
      */
     private void addFrontObstacleSingle(boolean isLeft)
     {
-        if (isLeft){
+        // On modélise les arcs de cercle detecté par l'un des capteurs, puis on prend le point le plus à l'exterieur
+        // Et on place le robot ennemie tangent en ce point : la position calculée n'est pas la position réelle du robot adverse mais elle suffit
 
+        Circle arcL = new Circle(positionLF, USvalues.get(0), 2*detectionAngle, angleLF, false);
+        Circle arcR = new Circle(positionRF, USvalues.get(1), 2*detectionAngle, angleRF, false);
+        Vec2 posEn = new Vec2();
+
+        if (isLeft){
+            Vec2 posDetect = new Vec2(USvalues.get(0), Math.PI/2 + angleLF + detectionAngle);
+            double angleEn = Math.PI/2 + angleRF + detectionAngle;
+            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
-        //TODO
+        else{
+            Vec2 posDetect = new Vec2(USvalues.get(1), Math.PI/2 + angleRF - detectionAngle);
+            double angleEn = Math.PI/2 + angleLF - detectionAngle;
+            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
+        }
+
+        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(posEn), radius, 20);
     }
 
     /**
@@ -496,14 +515,16 @@ public class ThreadSensor extends AbstractThread
 			
 			//plus que cette distance (environ 50cm) on est beaucoup moins precis sur la position adverse (donc on ne l'ecrit pas !)
 			maxSensorRange = Integer.parseInt(config.getProperty("largeur_robot"))
-							 / Math.sin(Float.parseFloat(config.getProperty("angle_capteur")));
-			
-			detectionAngle=Float.parseFloat(config.getProperty("angle_capteur"));
+							 / Math.sin(Float.parseFloat(config.getProperty("angle_detection_capteur")));
+			sensorPositionAngle = Float.parseFloat(config.getProperty("angle_position_capteur"));
+
+			detectionAngle=Float.parseFloat(config.getProperty("angle_detection_capteur"));
             symetry = config.getProperty("couleur").replaceAll(" ","").equals("violet");
 			
 			robotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
 			robotLenght = Integer.parseInt(config.getProperty("longueur_robot"));
             radius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
+
 		}
 		catch (ConfigPropertyNotFoundException e)
 		{
