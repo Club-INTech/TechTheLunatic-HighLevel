@@ -32,7 +32,7 @@ public class InitialisationRobot extends AbstractScript {
     public void execute(int versionToExecute, GameState gameState, ArrayList<Hook> hookToConsider) throws UnableToMoveException, ExecuteException, SerialConnexionException, BlockedActuatorException {
         try
         {
-            if (versionToExecute == 0 || versionToExecute == 1 || versionToExecute == 2){
+            if (versionToExecute == 0 || versionToExecute == 1 || versionToExecute == 2) {
                 // Initialisation des actionneurs
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
@@ -46,16 +46,15 @@ public class InitialisationRobot extends AbstractScript {
                 gameState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 gameState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
 
-                gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE,false);
+                gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Se dégage de la zone de départ
-                if (versionToExecute == 1){
-                    gameState.robot.turn(13*Math.PI/16);
+                if (versionToExecute == 1) {
+                    gameState.robot.turn(13 * Math.PI / 16);
                     gameState.robot.moveLengthwise(100);
-                }
-                else if (versionToExecute == 2){
-                    gameState.robot.turn(-3*Math.PI/16);
+                } else if (versionToExecute == 2) {
+                    gameState.robot.turn(-3 * Math.PI / 16);
                     gameState.robot.moveLengthwise(-100);
                 }
             }
