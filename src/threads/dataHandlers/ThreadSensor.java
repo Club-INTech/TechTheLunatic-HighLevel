@@ -353,6 +353,9 @@ public class ThreadSensor extends AbstractThread
      */
     private void addFrontObstacleSingle(boolean isLeft)
     {
+        if (isLeft){
+
+        }
         //TODO
     }
 
