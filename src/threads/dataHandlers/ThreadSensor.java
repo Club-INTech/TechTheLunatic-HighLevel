@@ -360,18 +360,18 @@ public class ThreadSensor extends AbstractThread
         // On modélise les arcs de cercle detecté par l'un des capteurs, puis on prend le point le plus à l'exterieur
         // Et on place le robot ennemie tangent en ce point : la position calculée n'est pas la position réelle du robot adverse mais elle suffit
 
-        Circle arcL = new Circle(positionLF, USvalues.get(0), 2*detectionAngle, angleLF, false);
-        Circle arcR = new Circle(positionRF, USvalues.get(1), 2*detectionAngle, angleRF, false);
-        Vec2 posEn = new Vec2();
+        Circle arcL = new Circle(positionLF, USvalues.get(0), detectionAngle, angleLF, false);
+        Circle arcR = new Circle(positionRF, USvalues.get(1), detectionAngle, angleRF, false);
+        Vec2 posEn;
 
         if (isLeft){
-            Vec2 posDetect = new Vec2(USvalues.get(0), Math.PI/2 + angleLF + detectionAngle);
-            double angleEn = Math.PI/2 + angleRF + detectionAngle;
+            Vec2 posDetect = new Vec2(USvalues.get(0), Math.PI/2 + angleLF + detectionAngle/2);
+            double angleEn = Math.PI/2 + angleRF + detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
         else{
-            Vec2 posDetect = new Vec2(USvalues.get(1), Math.PI/2 + angleRF - detectionAngle);
-            double angleEn = Math.PI/2 + angleLF - detectionAngle;
+            Vec2 posDetect = new Vec2(USvalues.get(1), Math.PI/2 + angleRF - detectionAngle/2);
+            double angleEn = Math.PI/2 + angleLF - detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
 
