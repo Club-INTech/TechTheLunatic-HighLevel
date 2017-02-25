@@ -50,7 +50,6 @@ import java.util.ArrayList;
 
 public class CatchBalls extends AbstractScript {
 
-
     public CatchBalls(HookFactory hookFactory, Config config, Log log)
     {
         super(hookFactory, config, log);
@@ -106,9 +105,6 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
-
-
-
 
                 // Et remonte-le à l'aide de l'ascenceur
                 stateToConsider.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
