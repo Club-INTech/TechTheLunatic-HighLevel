@@ -56,7 +56,7 @@ public class InitialisationRobot extends AbstractScript {
                 }
                 else if (versionToExecute == 2){
                     gameState.robot.turn(-3*Math.PI/16);
-                    gameState.robot.moveLengthwise(-100);
+                    gameState.robot.moveLengthwise(100);
                 }
             }
         }
