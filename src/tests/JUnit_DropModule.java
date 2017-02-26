@@ -30,7 +30,7 @@ public class JUnit_DropModule extends JUnit_Test {
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(Math.PI);
-        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
@@ -47,6 +47,7 @@ public class JUnit_DropModule extends JUnit_Test {
         {
             //On execute le script
             log.debug("Place les modules dans les bases lunaires");
+            //mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
             scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(3, mRobot, emptyList);
 
             returnToEntryPosition(mRobot);

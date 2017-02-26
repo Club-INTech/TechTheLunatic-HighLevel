@@ -66,7 +66,7 @@ public class DropModule extends AbstractScript{
 
 
                     // Callage contre le depose-module
-                    actualState.robot.moveLengthwise(-170, hooksToConsider, true, false, Speed.SLOW_ALL);
+                    actualState.robot.moveLengthwise(-170, hooksToConsider, true, false, Speed.MEDIUM_ALL);
                 }
 
                 // Monte le dernier module et le drop
@@ -90,10 +90,11 @@ public class DropModule extends AbstractScript{
             else if(versionToExecute==3)
             {
                 //manoeuvre grossière pour se caler contre
-                actualState.robot.turn(3*Math.PI/4);
-                actualState.robot.moveLengthwise(200);
+
+                actualState.robot.turn(2.8*Math.PI/4);
+                actualState.robot.moveLengthwise(305);
                 actualState.robot.turn(Math.PI/4);
-                actualState.robot.moveLengthwise(-40);
+                actualState.robot.moveLengthwise(-120);
                 // Drop un module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
@@ -104,7 +105,11 @@ public class DropModule extends AbstractScript{
 
 
                 actualState.robot.turn(Math.PI/4);
-                actualState.robot.moveLengthwise(150);
+                actualState.robot.moveLengthwise(-160);
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+                actualState.robot.moveLengthwise(100);
+                actualState.robot.turn(-Math.PI/4);
 
             }
             else {
@@ -144,7 +149,7 @@ public class DropModule extends AbstractScript{
         }
         else if (version==3)
         {
-            return new Circle(new Vec2(750,1600),0);
+            return new Circle(new Vec2(650,1650),0);
         }
         else {
             log.debug("mauvaise version de script");
