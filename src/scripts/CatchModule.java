@@ -117,6 +117,7 @@ public class CatchModule extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D,false);
 
                     // Repli les calles
+                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                     actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
                     actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
 
