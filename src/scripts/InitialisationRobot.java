@@ -51,8 +51,12 @@ public class InitialisationRobot extends AbstractScript {
 
                 // Se dégage de la zone de départ
                 if (versionToExecute == 1) {
-                    gameState.robot.turn(13 * Math.PI / 16);
-                    gameState.robot.moveLengthwise(100);
+                    gameState.robot.turn(3*Math.PI/4);   // 200, 630 <- 600, 208
+                    gameState.robot.moveLengthwise(345);
+                    gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+
+                    // gameState.robot.turn(13 * Math.PI / 16);
+                    // gameState.robot.moveLengthwise(100);
                 } else if (versionToExecute == 2) {
                     gameState.robot.turn(-3 * Math.PI / 16);
                     gameState.robot.moveLengthwise(-100);
