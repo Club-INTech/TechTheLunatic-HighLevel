@@ -113,5 +113,4 @@ public class HookFactory implements Service
 	{
 		return new HookIsPositionAndOrientationCorrect(config, log, realState, position, orientation, tolerancyPos, tolerancyOr);
 	}
-    
 }
