@@ -83,13 +83,14 @@ public class Graphe {
     {
         //on fabrique les noeuds. On les relie TOUS. On supprime ceux bloqués. C'est sale, mais ça fait un graphe bien fourni
 
-        ObstacleManager a=this.table.getObstacleManager();
+        ObstacleManager oManager = this.table.getObstacleManager();
+
         //Pour sortir
-        for (ObstacleCircular x:a.getmCircularObstacle())
+        for (ObstacleCircular x:oManager.getmCircularObstacle())
         {
             x.fabriqueNoeud(this,this.n,this.ecart);
         }
-        for (ObstacleRectangular x:a.getRectangles())
+        for (ObstacleRectangular x:oManager.getRectangles())
         {
             x.fabriqueNoeud(this, this.ecart);
         }
@@ -108,12 +109,12 @@ public class Graphe {
                     else {
                         boolean creer=true;
                         j=0;
-                        int nombobst= a.getmCircularObstacle().size();
-                        int nombobstRec=a.getRectangles().size();
+                        int nombobst= oManager.getmCircularObstacle().size();
+                        int nombobstRec=oManager.getRectangles().size();
 
-                        ArrayList<Segment> lineObstacles = a.getLines();
+                        ArrayList<Segment> lineObstacles = oManager.getLines();
                         //si on est en dehors du graphe
-                        if(Math.abs(noeud1.position.getX())>1500-a.mRobotRadius || noeud1.position.getY()<a.mRobotRadius || noeud1.position.getY()>2000-a.mRobotRadius)
+                        if(Math.abs(noeud1.position.getX())>1500-oManager.mRobotRadius || noeud1.position.getY()<oManager.mRobotRadius || noeud1.position.getY()>2000-oManager.mRobotRadius)
                         {
                             creer=false;
                         }
@@ -129,36 +130,36 @@ public class Graphe {
                         }
 
                         while (creer && j<nombobst)  {
-                            if(a.getmCircularObstacle().get(j).isInObstacle(noeud1.position)||a.getmCircularObstacle().get(j).isInObstacle(this.getlNoeuds().get(i).position))
+                            if(oManager.getmCircularObstacle().get(j).isInObstacle(noeud1.position)||oManager.getmCircularObstacle().get(j).isInObstacle(this.getlNoeuds().get(i).position))
                             {
                               creer=false;
                             }
                             else
                             {
-                                creer = creer && !(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Circle(a.getmCircularObstacle().get(j).getPosition(), a.getmCircularObstacle().get(j).getRadius())));
+                                creer = creer && !(Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Circle(oManager.getmCircularObstacle().get(j).getPosition(), oManager.getmCircularObstacle().get(j).getRadius())));
                             }
                             j++;
                         }
                         j=0;
                         while (creer && j<nombobstRec) {
-                            if (a.getRectangles().get(j).isInObstacle(noeud1.position) || a.getRectangles().get(j).isInObstacle(this.getlNoeuds().get(i).position))
+                            if (oManager.getRectangles().get(j).isInObstacle(noeud1.position) || oManager.getRectangles().get(j).isInObstacle(this.getlNoeuds().get(i).position))
                             {
                                 creer=false;
                             }
                             else {
 
-                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(1).position));
-                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(2).position));
-                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(2).position, a.getRectangles().get(j).getlNoeud().get(3).position));
-                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(1).position, a.getRectangles().get(j).getlNoeud().get(2).position));
-                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(a.getRectangles().get(j).getlNoeud().get(0).position, a.getRectangles().get(j).getlNoeud().get(3).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(0).position, oManager.getRectangles().get(j).getlNoeud().get(1).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(1).position, oManager.getRectangles().get(j).getlNoeud().get(3).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(0).position, oManager.getRectangles().get(j).getlNoeud().get(2).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(2).position, oManager.getRectangles().get(j).getlNoeud().get(3).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(1).position, oManager.getRectangles().get(j).getlNoeud().get(2).position));
+                                creer = creer && !Geometry.intersects(new Segment(noeud1.position, this.getlNoeuds().get(i).position), new Segment(oManager.getRectangles().get(j).getlNoeud().get(0).position, oManager.getRectangles().get(j).getlNoeud().get(3).position));
 
                                 j++;
                             }
                         }
                         if(creer)
-                        {noeud1.attachelien(this.getlNoeuds().get(i));}
+                        {noeud1.attacheLien(this.getlNoeuds().get(i));}
                     }
                 }
             }

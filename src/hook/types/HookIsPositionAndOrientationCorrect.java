@@ -33,7 +33,6 @@ import utils.Log;
 public class HookIsPositionAndOrientationCorrect extends Hook
 {
 
-		
 	/**centre du cercle qui nous interesse pour activer le hook*/
 	private Vec2 mPoint;
 	
@@ -58,7 +57,6 @@ public class HookIsPositionAndOrientationCorrect extends Hook
 		
 	}
 
-
 	@Override
 	public boolean evaluate()
 	{
@@ -72,5 +70,4 @@ public class HookIsPositionAndOrientationCorrect extends Hook
 		}
 	return false;
 	}
-
 }

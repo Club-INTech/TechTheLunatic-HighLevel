@@ -28,9 +28,9 @@ public class Noeud
 {
 
     public Vec2 position;
-    public double distarrivee; // distance vers l'arrivee
+    public double distArrivee; // distance vers l'arrivee
     public ArrayList <Arrete> lArretes;
-    public double sommedepart;
+    public double sommeDepart;
     public Noeud noeudPrecedent;
 
     /**
@@ -40,8 +40,8 @@ public class Noeud
     {
         this.lArretes=new ArrayList<Arrete>();
         this.position=new Vec2();
-        this.distarrivee=100000000;
-        this.sommedepart=100000000;
+        this.distArrivee =100000000;
+        this.sommeDepart =100000000;
         this.noeudPrecedent=null;
     }
     /**
@@ -53,8 +53,8 @@ public class Noeud
     public Noeud(Graphe g, Vec2 position)
     {
         this.position=position;
-        this.distarrivee=100000000;
-        this.sommedepart=100000000;
+        this.distArrivee =100000000;
+        this.sommeDepart =100000000;
         this.lArretes=new ArrayList<Arrete>();
         this.noeudPrecedent=null;
     }
@@ -67,9 +67,9 @@ public class Noeud
     public Noeud (Noeud n1)
     {
         this.position=n1.position;
-        this.distarrivee=n1.distarrivee;
+        this.distArrivee =n1.distArrivee;
         this.lArretes=n1.lArretes;
-        this.sommedepart=n1.sommedepart;
+        this.sommeDepart =n1.sommeDepart;
         this.noeudPrecedent=n1.noeudPrecedent;
     }
 
@@ -78,7 +78,7 @@ public class Noeud
 
      * @param autre Noeud destination
      */
-    public Arrete attachelien(Noeud autre)
+    public Arrete attacheLien(Noeud autre)
     {
         Arrete b=new Arrete(this,autre);
         b.calcCout();
@@ -90,9 +90,9 @@ public class Noeud
      * Actualise la distance euclidienne jusqu'à l'arrivée
      * @param arrivee noeud d'arrivée
      */
-    public void distheuristique(Noeud arrivee)
+    public void distHeuristique(Noeud arrivee)
     {
-        this.distarrivee=  this.position.minusNewVector(arrivee.position).length();
+        this.distArrivee =  this.position.minusNewVector(arrivee.position).length();
     }
 
     /**

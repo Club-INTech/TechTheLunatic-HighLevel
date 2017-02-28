@@ -25,14 +25,14 @@ public class InitialisationRobot extends AbstractScript {
     protected InitialisationRobot(HookFactory hookFactory, Config config, Log log){
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0,1};
+        versions = new Integer[]{0,1,2};
     }
 
     @Override
     public void execute(int versionToExecute, GameState gameState, ArrayList<Hook> hookToConsider) throws UnableToMoveException, ExecuteException, SerialConnexionException, BlockedActuatorException {
         try
         {
-            if (versionToExecute == 0){
+            if (versionToExecute == 0 || versionToExecute == 1 || versionToExecute == 2) {
                 // Initialisation des actionneurs
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
@@ -46,17 +46,29 @@ public class InitialisationRobot extends AbstractScript {
                 gameState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 gameState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
 
-                gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE,false);
+                gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Se dégage de la zone de départ
-                if (versionToExecute == 0){
-                    gameState.robot.turn(13*Math.PI/16);
-                    gameState.robot.moveLengthwise(100);
-                }
-                else if (versionToExecute == 1){
-                    gameState.robot.turn(-3*Math.PI/16);
-                    gameState.robot.moveLengthwise(-100);
+
+                if (versionToExecute == 1) {
+
+                    /* gameState.robot.turn(3*Math.PI/4);   // 200, 630 <- 600, 208
+                    gameState.robot.moveLengthwise(345);
+                    gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                    gameState.robot.moveLengthwise(-150, hookToConsider);
+                    gameState.robot.turn(3*Math.PI/8);
+                    gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                    */
+
+                    //départ à l'endroit (pelleteuse vers PI)
+                    gameState.robot.turn(13 * Math.PI / 16);
+                    gameState.robot.moveLengthwise(130);
+
+                    //départ à l'envers (pelleteuse vers 0)
+                } else if (versionToExecute == 2) {
+                    gameState.robot.turn(-3 * Math.PI / 16);
+                    gameState.robot.moveLengthwise(-100, hookToConsider);
                 }
             }
         }
@@ -73,7 +85,7 @@ public class InitialisationRobot extends AbstractScript {
     @Override
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException {
 
-        if(version==0 || version==1){
+        if(version==0 || version==1 || version==2){
 
             return new Circle(robotPosition);
         }

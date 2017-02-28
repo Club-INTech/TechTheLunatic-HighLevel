@@ -30,18 +30,17 @@ public class JUnit_DropBalls extends JUnit_Test
         super.setUp();
         log.debug("JUnit_DeplacementsTest.setUp()");
         mRobot = container.getService(GameState.class);
-
-        //La position de depart est mise dans le updateConfig() //TODO
+        //La position de depart est mise dans la Table
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
-        mRobot.robot.setOrientation(0);
+        mRobot.robot.setOrientation(Math.PI);
         mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
 
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
     }
 
     @Test

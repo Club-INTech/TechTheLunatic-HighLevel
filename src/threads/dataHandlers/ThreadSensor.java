@@ -23,8 +23,11 @@ import exceptions.ConfigPropertyNotFoundException;
 import graphics.Window;
 import robot.Robot;
 import robot.SerialWrapper;
+import smartMath.Circle;
 import smartMath.Vec2;
+import smartMath.Geometry;
 import table.Table;
+import table.obstacles.ObstacleCircular;
 import threads.AbstractThread;
 import threads.ThreadTimer;
 import utils.Sleep;
@@ -35,6 +38,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import static java.lang.Math.PI;
+import static smartMath.Geometry.isBetween;
+import static smartMath.Geometry.square;
 
 /**
  * Thread qui ajoute en continu les obstacles détectés par les capteurs,
@@ -110,15 +117,16 @@ public class ThreadSensor extends AbstractThread
 	 * 		  Robot			o : capteur
 	 * 
 	 */
-	double detectionAngle=40*Math.PI/180;
+	double detectionAngle;
+	double sensorPositionAngle;
 
     /**
-     * Angles des capteurs relatifs à l'axe avant-arrière du robot (radians) TODO A changer !
+     * Angles des capteurs relatifs à l'axe avant-arrière du robot (radians) TODO A changer ? OUI
      */
-    private final double angleLF = -0.26;
-    private final double angleRF = -0.26;
-    private final double angleLB = 0.26;
-    private final double angleRB = 0.26;
+    private final double angleLF = -sensorPositionAngle;
+    private final double angleRF = -sensorPositionAngle;
+    private final double angleLB = sensorPositionAngle;
+    private final double angleRB = sensorPositionAngle;
 
 
     /**
@@ -294,13 +302,47 @@ public class ThreadSensor extends AbstractThread
 
     /**
      * Ajoute un obstacle en face du robot, avec les deux capteurs ayant détecté quelque chose
+     * Convention: la droite du robot est l'orientation 0 (on travaille dans le repère du robot, et on garde les memes conventions que pour la table)
      */
-    private void addFrontObstacleBoth()
-    {
-       //TODO
+    private void addFrontObstacleBoth() {
+
+        // On résoudre l'équation du second degrée afin de trouver les deux points d'intersections des deux cercles
+        // On joue sur le rayon du robot adverse pour etre sur d'avoir des solutions
+        double robotX1, robotX2;
+        double robotY1, robotY2;
+        double a, b, c, delta;
+        int constante, R1, R2;
+        Vec2 vec;
+
+        R1 = USvalues.get(0) + radius;
+        R2 = USvalues.get(1) + radius;
+        constante = square(R1) - square(R2) + square(positionLF.getX()) - square(positionRF.getX()) + square(positionLF.getY()) - square(positionRF.getY());
+
+        a = 1 + (double) square(positionLF.getX() - positionRF.getX()) / square(positionLF.getY() - positionRF.getY());
+        b = -2 * positionLF.getX() + constante * (double) (positionLF.getX() - positionRF.getX()) / square(positionLF.getY() - positionRF.getY()) - 2 * positionLF.getY() * (double) (positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY());
+        c = (double) square(constante) / (4 * square(positionLF.getY() - positionRF.getY())) + (double) constante / (2 * (positionLF.getY() - positionRF.getY())) + square(positionLF.getX()) + square(positionLF.getY()) - square(R1);
+
+        delta = b*b - 4*a*c;
+        if (!isBetween(delta, -1, 1)) {
+            robotX1 = (int) ((-b - Math.sqrt(delta)) / (2 * a));
+            robotX2 = (int) ((-b + Math.sqrt(delta)) / (2 * a));
+            robotY1 = -((positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY())) * robotX1 - constante / (2 * (positionLF.getY() - positionRF.getY()));
+            robotY2 = -((positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY())) * robotX2 - constante / (2 * (positionLF.getY() - positionRF.getY()));
+
+            if (robotX1 <= robotWidth / 2) {
+                vec = new Vec2(robotX2, robotY2);
+            } else {
+                vec = new Vec2(robotX1, robotY1);
+            }
+        }
+        else{
+            robotX1 = (int) -b/(2*a);
+            robotY1 = -((positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY())) * robotX1 - constante / (2 * (positionLF.getY() - positionRF.getY()));
+            vec = new Vec2(robotX1, robotY1);
+        }
+
+        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(vec), radius, 20);
     }
-
-
     /**
      * Ajoute un obstacle derrière le robot, avec les deux capteurs ayant détecté quelque chose
      */
@@ -315,7 +357,25 @@ public class ThreadSensor extends AbstractThread
      */
     private void addFrontObstacleSingle(boolean isLeft)
     {
-        //TODO
+        // On modélise les arcs de cercle detecté par l'un des capteurs, puis on prend le point le plus à l'exterieur
+        // Et on place le robot ennemie tangent en ce point : la position calculée n'est pas la position réelle du robot adverse mais elle suffit
+
+        Circle arcL = new Circle(positionLF, USvalues.get(0), detectionAngle, angleLF, false);
+        Circle arcR = new Circle(positionRF, USvalues.get(1), detectionAngle, angleRF, false);
+        Vec2 posEn;
+
+        if (isLeft){
+            Vec2 posDetect = new Vec2(USvalues.get(0), Math.PI/2 + angleLF + detectionAngle/2);
+            double angleEn = Math.PI/2 + angleRF + detectionAngle/2;
+            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
+        }
+        else{
+            Vec2 posDetect = new Vec2(USvalues.get(1), Math.PI/2 + angleRF - detectionAngle/2);
+            double angleEn = Math.PI/2 + angleLF - detectionAngle/2;
+            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
+        }
+
+        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(posEn), radius, 20);
     }
 
     /**
@@ -413,8 +473,8 @@ public class ThreadSensor extends AbstractThread
 
             for(int i=0 ; i<USvalues.size() ; i++)
             {
-                //on met tout les capteurs qui detectent un objet DANS le robot ou à plus de maxSensorRange a 0
-                // TO/DO : a passer en traitement de bas niveau ?
+                // On met tout les capteurs qui detectent un objet DANS le robot ou à plus de maxSensorRange a 0
+                // TODO : a passer en traitement de bas niveau ?
                 if ( USvalues.get(i) > maxSensorRange)
                 {
                     USvalues.set(i, 0);
@@ -455,14 +515,16 @@ public class ThreadSensor extends AbstractThread
 			
 			//plus que cette distance (environ 50cm) on est beaucoup moins precis sur la position adverse (donc on ne l'ecrit pas !)
 			maxSensorRange = Integer.parseInt(config.getProperty("largeur_robot"))
-							 / Math.sin(Float.parseFloat(config.getProperty("angle_capteur")));
-			
-			detectionAngle=Float.parseFloat(config.getProperty("angle_capteur"));
+							 / Math.sin(Float.parseFloat(config.getProperty("angle_detection_capteur")));
+			sensorPositionAngle = Float.parseFloat(config.getProperty("angle_position_capteur"));
+
+			detectionAngle=Float.parseFloat(config.getProperty("angle_detection_capteur"));
             symetry = config.getProperty("couleur").replaceAll(" ","").equals("violet");
 			
 			robotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
 			robotLenght = Integer.parseInt(config.getProperty("longueur_robot"));
             radius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
+
 		}
 		catch (ConfigPropertyNotFoundException e)
 		{

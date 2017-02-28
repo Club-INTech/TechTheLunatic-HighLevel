@@ -36,7 +36,7 @@ import utils.Log;
 
 import java.util.ArrayList;
 
-//TODO: cf le todo du haut de DropBalls
+    // TODO: calibrer les WaitforCompletion + faire toute les versions pour tout les cratères
 
 /**
  * Script pour ramasser les balles dans un cratère avec la pelleteuse
@@ -49,7 +49,6 @@ import java.util.ArrayList;
  */
 
 public class CatchBalls extends AbstractScript {
-
 
     public CatchBalls(HookFactory hookFactory, Config config, Log log)
     {
@@ -67,7 +66,7 @@ public class CatchBalls extends AbstractScript {
      *
      */
 
-    // TODO : prendre en compte le cratère considéré (4 différents sur la table/ 2 en considérant la symétrie)
+    // TODO : prendre en compte le cratère considéré (6 différents sur la table/ 3 en considérant la symétrie)
 
     @Override
     public void execute(int versionToExecute, GameState stateToConsider, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException
@@ -81,17 +80,16 @@ public class CatchBalls extends AbstractScript {
                 Vec2 posCratere= new Vec2(850, 540);
                 Vec2 posRobot=stateToConsider.robot.getPosition();
                 Vec2 vec = posCratere.minusNewVector(posRobot);
-                double angle= vec.angle();
 
                 // Manoeuvre pour se diriger vers le cratère
-                stateToConsider.robot.turn(angle);
-                stateToConsider.robot.moveLengthwise(110);
+                stateToConsider.robot.turn(vec.getA());
+                stateToConsider.robot.moveLengthwise(170);
             }
 
             else if(versionToExecute == 2){
 
                 stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(-410); //bonne distance à voir
+                stateToConsider.robot.moveLengthwise(-410);
 
                 //Attraper le module avec le côté droit
 
@@ -108,9 +106,6 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
-
-
-
                 // Et remonte-le à l'aide de l'ascenceur
                 stateToConsider.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR,false);
@@ -126,7 +121,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
 
-                stateToConsider.robot.turn(Math.PI-0.12);
+                stateToConsider.robot.turn(Math.PI-0.2);
                 stateToConsider.robot.moveLengthwise(188);
             }
 
@@ -141,16 +136,16 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
             // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
-            stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
+            //stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
             stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
             if (versionToExecute == 1){
                 stateToConsider.robot.moveLengthwise(-130);
             }
             else if(versionToExecute == 2){
-                stateToConsider.robot.moveLengthwise(-150);
-                stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(200);
+                stateToConsider.robot.moveLengthwise(150);
+                stateToConsider.robot.turn(Math.PI/2);
+                stateToConsider.robot.moveLengthwise(-200);
             }
 
         }
@@ -176,7 +171,7 @@ public class CatchBalls extends AbstractScript {
         }
         else if (version == 1)
         {
-            return new Circle(new Vec2(850,540), ray + 121, -Math.PI/6, Math.PI);
+            return new Circle(new Vec2(850,540), ray + 121, -Math.PI/6, Math.PI, true);
         }
         else if (version == 2)
         {

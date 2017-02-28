@@ -19,6 +19,7 @@
 
 package tests;
 
+import enums.DirectionStrategy;
 import enums.ScriptNames;
 import enums.Speed;
 import graphics.Window;
@@ -108,6 +109,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
         mRobot.robot.setOrientation(Math.PI);
         mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
+        mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
         scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
 
@@ -121,18 +123,21 @@ public class JUnit_Pathfinding extends JUnit_Test {
 
         int randomYarr = ThreadLocalRandom.current().nextInt(0, 2000);
         int randomXarr = ThreadLocalRandom.current().nextInt(-1500, 1500);
-        ArrayList<Vec2> p = pf.Astarfoulah(mRobot.robot.getPosition(),new Vec2(randomXarr,randomYarr),mRobot.robot.getOrientation());
+        ArrayList<Vec2> path = pf.Astarfoulah(mRobot.robot.getPosition(),new Vec2(randomXarr,randomYarr),mRobot.robot.getOrientation());
+        mRobot.robot.followPath(path, new ArrayList<Hook>());
 
-        while(true) {
+        for (int i=0; i<100; i++) {
 
-            win.getPanel().drawArrayList(p);
+            win.getPanel().drawArrayList(path);
             win.getPanel().repaint();
             win.getPanel().drawGraphe(graph);
             win.getPanel().drawLinesGraph(graphe.getlNoeuds());
 
             randomYarr = ThreadLocalRandom.current().nextInt(0, 2000);
             randomXarr = ThreadLocalRandom.current().nextInt(-1500, 1500);
-            p = pf.Astarfoulah(mRobot.robot.getPosition(), new Vec2(randomXarr, randomYarr), mRobot.robot.getOrientation());
+            path = pf.Astarfoulah(mRobot.robot.getPosition(), new Vec2(randomXarr, randomYarr), mRobot.robot.getOrientation());
+            mRobot.robot.followPath(path, new ArrayList<Hook>());
         }
+        returnToEntryPosition(mRobot);
     }
 }
