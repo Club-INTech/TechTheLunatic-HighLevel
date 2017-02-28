@@ -1,7 +1,6 @@
 package hook.methods;
 
 import enums.ActuatorOrder;
-import exceptions.serial.SerialConnexionException;
 import hook.Executable;
 import strategie.GameState;
 
@@ -9,7 +8,7 @@ import strategie.GameState;
  * Methode pour prendre un module sans la table, notamment ceux pouvant etre très génant pour le déplacement du robot
  * @author Rem
  */
-public class CatchModuleV2 implements Executable {
+public class CatchModuleD implements Executable {
 
     @Override
     public boolean execute(GameState stateToConsider)
