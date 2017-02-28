@@ -50,16 +50,22 @@ public class InitialisationRobot extends AbstractScript {
                 gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Se dégage de la zone de départ
+
                 if (versionToExecute == 1) {
-                    gameState.robot.turn(3*Math.PI/4);   // 200, 630 <- 600, 208
+
+                    /* gameState.robot.turn(3*Math.PI/4);   // 200, 630 <- 600, 208
                     gameState.robot.moveLengthwise(345);
                     gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
                     gameState.robot.moveLengthwise(-150, hookToConsider);
                     gameState.robot.turn(3*Math.PI/8);
                     gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                    */
 
-                    // gameState.robot.turn(13 * Math.PI / 16);
-                    // gameState.robot.moveLengthwise(100);
+                    //départ à l'endroit (pelleteuse vers PI)
+                    gameState.robot.turn(13 * Math.PI / 16);
+                    gameState.robot.moveLengthwise(130);
+
+                    //départ à l'envers (pelleteuse vers 0)
                 } else if (versionToExecute == 2) {
                     gameState.robot.turn(-3 * Math.PI / 16);
                     gameState.robot.moveLengthwise(-100, hookToConsider);
