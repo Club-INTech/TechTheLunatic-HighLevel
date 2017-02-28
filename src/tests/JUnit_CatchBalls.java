@@ -3,10 +3,13 @@ package tests;
 import enums.ScriptNames;
 import enums.Speed;
 import hook.Hook;
+import hook.types.HookFactory;
+import hook.types.HookIsPositionAndOrientationCorrect;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import scripts.ScriptManager;
+import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
 import threads.dataHandlers.ThreadEvents;
@@ -23,6 +26,7 @@ public class JUnit_CatchBalls extends JUnit_Test
 {
     private GameState mRobot;
     private ScriptManager scriptManager;
+    private ArrayList<Hook> listHook = new ArrayList<Hook>();
 
     @Before
     public void setUp() throws Exception
@@ -40,18 +44,17 @@ public class JUnit_CatchBalls extends JUnit_Test
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
 
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, listHook);
     }
 
     @Test
     public void catchThoseBalls()
     {
-        ArrayList<Hook> emptyList = new ArrayList<Hook>();
         try
         {
             //On execute le script
             log.debug("Ramassage des balles");
-            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot, listHook);
             returnToEntryPosition(mRobot);
         }
         catch(Exception e)
