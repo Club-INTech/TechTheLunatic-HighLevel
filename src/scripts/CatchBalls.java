@@ -83,7 +83,7 @@ public class CatchBalls extends AbstractScript {
 
                 // Manoeuvre pour se diriger vers le cratère
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(145);
+                stateToConsider.robot.moveLengthwise(170);
             }
 
             else if(versionToExecute == 2){
