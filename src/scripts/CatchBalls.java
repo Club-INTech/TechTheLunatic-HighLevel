@@ -66,7 +66,7 @@ public class CatchBalls extends AbstractScript {
      *
      */
 
-    // TODO : prendre en compte le cratère considéré (4 différents sur la table/ 2 en considérant la symétrie)
+    // TODO : prendre en compte le cratère considéré (6 différents sur la table/ 3 en considérant la symétrie)
 
     @Override
     public void execute(int versionToExecute, GameState stateToConsider, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException
@@ -79,11 +79,11 @@ public class CatchBalls extends AbstractScript {
                 // Calcule de l'angle pour se diriger vers le centre du robot
                 Vec2 posCratere= new Vec2(850, 540);
                 Vec2 posRobot=stateToConsider.robot.getPosition();
-                Vec2 vec = posRobot.minusNewVector(posCratere);
+                Vec2 vec = posCratere.minusNewVector(posRobot);
 
                 // Manoeuvre pour se diriger vers le cratère
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(-110);
+                stateToConsider.robot.moveLengthwise(145);
             }
 
             else if(versionToExecute == 2){
@@ -140,7 +140,7 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
             if (versionToExecute == 1){
-                stateToConsider.robot.moveLengthwise(130);
+                stateToConsider.robot.moveLengthwise(-130);
             }
             else if(versionToExecute == 2){
                 stateToConsider.robot.moveLengthwise(150);
