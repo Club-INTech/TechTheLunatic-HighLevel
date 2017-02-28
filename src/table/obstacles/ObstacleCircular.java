@@ -152,7 +152,6 @@ public class ObstacleCircular extends Obstacle
 		double h=(this.getRadius()+ecart)/Math.cos(Math.PI/n);
 		for (int i=0;i<n;i++)
 		{
-
 			Vec2 spin=new Vec2((int)(h*Math.cos(2*Math.PI*i/n)), (int) (h*Math.sin(Math.PI*2*i/n)));
 			Vec2 po=this.getPosition().plusNewVector(spin);
 			if(Math.abs(po.getX())<=1500 && po.getY()<=2000 && po.getY()>=0) {
@@ -185,8 +184,8 @@ public class ObstacleCircular extends Obstacle
 			// on fait les liens
 		}
 		for (int i = 0; i < graphe.getlNoeuds().size(); i++) {
-			lNoeud.get(i).attachelien(lNoeud.get(i % n));
-			lNoeud.get(i % n).attachelien(lNoeud.get(i));
+			lNoeud.get(i).attacheLien(lNoeud.get(i % n));
+			lNoeud.get(i % n).attacheLien(lNoeud.get(i));
 		}
 
 	}

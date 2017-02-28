@@ -16,8 +16,7 @@ import utils.Log;
 
 import java.util.ArrayList;
 
-//TODO: en supposant que le robot est placé à un point près de la zone de livraison(à quelques centimètres, donc doit tourner et avancer un peu)
-//TODO + calibrer les WaitForCompletion + les exceptions
+//TODO calibrer les WaitForCompletion
 
 /** Script permettant de livrer les boules déjà prises, dans la zone de départ ou sur le robot secondaire
  *
@@ -68,11 +67,11 @@ public class DropBalls extends AbstractScript
             else if (versionToExecute==1)
             {
                 // Manoeuvre
-                actualState.robot.turn(-Math.PI/2+Math.atan(60.0/250));
+                actualState.robot.turn(Math.PI/2+Math.atan(60.0/250));
 
                 //Se caler contre la zone de livraison
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(280,hooksToConsider, true);
+                actualState.robot.moveLengthwise(-280,hooksToConsider, true);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -87,7 +86,7 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
                 //Reculer un peu
-                actualState.robot.moveLengthwise(-150);
+                actualState.robot.moveLengthwise(150);
 
                 //tourner la pelle jusqu'à la position initiale
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
@@ -96,17 +95,17 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
                 // Recule pour se décaler de l'obstacle
-                actualState.robot.moveLengthwise(-300);
+                actualState.robot.moveLengthwise(300);
 
             }
             else if (versionToExecute == 2){
 
                 // Manoeuvre pour arriver au niveau du module et être prêt à choper le module
-                actualState.robot.turn(Math.PI);
+                actualState.robot.turn(0);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
-                actualState.robot.moveLengthwise(-100);
+                actualState.robot.moveLengthwise(100);
 
                 // Chope le module billy !
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
@@ -128,9 +127,9 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
 
                 // Et maintenant dépose les boules
-                actualState.robot.turn(-Math.PI/2);
+                actualState.robot.turn(Math.PI/2);
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(250);
+                actualState.robot.moveLengthwise(-250);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -148,9 +147,9 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
                 // Manoeuvre pour se dégager (On test le pathfinding en même temps puisqu'on le lâche dans un obstacle)
-                actualState.robot.moveLengthwise(-70);
-                actualState.robot.turn(3*Math.PI/4 +0.01);
-                actualState.robot.moveLengthwise(500);
+                actualState.robot.moveLengthwise(70);
+                actualState.robot.turn(-Math.PI/4 +0.01);
+                actualState.robot.moveLengthwise(-500);
             }
         }
         catch(Exception e)

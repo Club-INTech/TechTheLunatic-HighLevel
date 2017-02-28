@@ -21,7 +21,7 @@ package smartMath;
 
 /**
  * classe de calculs de géométrie
- * @author Etienne
+ * @author Etienne, Rem
  */
 
 //TODO simplifier les methodes dégeulasses à l'aide des nouveaux outils
@@ -289,7 +289,7 @@ public class Geometry
 
 
 	/**
-	 * Retourne le point a l'extérieur du cercle en continuant la ligne droite depuis le centre du cercle
+	 * Retourne le point a l'extérieur du cercle le plus proche du point donné
 	 * @param pointDansCercle le point dans le cercle
 	 * @param circle le cercle
 	 * @return la nouvelle position du point
@@ -357,5 +357,9 @@ public class Geometry
 		}
 
 		return val >= a && val <= b;
+	}
+
+	public static int square(int val){
+		return val*val;
 	}
 }

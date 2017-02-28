@@ -131,17 +131,17 @@ public class ObstacleManager
 		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(1460, 1350), 40 + mRobotRadius)));
 
 		//cratères
-		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-850, 540), 120 + mRobotRadius, -Math.PI/6, 2*Math.PI/3)));
-		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(850, 540), 120 + mRobotRadius,Math.PI/3, 7*Math.PI/6)));
-		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-1500, 2000), 510 + mRobotRadius, -Math.PI/2, -Math.PI/5)));
-		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(1500, 2000), 510 + mRobotRadius, -4*Math.PI/5, -Math.PI/2)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-850, 540), 135 + mRobotRadius, -Math.PI/6, 2*Math.PI/3, true)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(850, 540), 135 + mRobotRadius,Math.PI/3, 7*Math.PI/6, true)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-1500, 2000), 550 + mRobotRadius, -Math.PI/2, -Math.PI/5,true)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(1500, 2000), 550 + mRobotRadius, -4*Math.PI/5, -Math.PI/2, true)));
 
 		//pose module côté
 		mRectangles.add(new ObstacleRectangular(new Vec2(-1446, 870), 108 + 2*mRobotRadius, 500 + 2*mRobotRadius)); //-1446, 678, 108, 472
 		mRectangles.add(new ObstacleRectangular(new Vec2(1446, 870), 108 + 2*mRobotRadius, 500 + 2*mRobotRadius));
 
 		//base lunaire
-		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(0, 2000), 800 + mRobotRadius, -9*Math.PI/10, -Math.PI/10)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(0, 2000), 815 + mRobotRadius, -9*Math.PI/10, -Math.PI/10, true)));
 
 
 	}

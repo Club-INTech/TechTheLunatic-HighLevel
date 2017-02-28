@@ -42,7 +42,7 @@ import utils.Log;
  */
 
 /**
- * Stocke toute les informations liées à la table (muables et immuables) au cours d'un match.
+ * Stocke toutes les informations liées à la table (muables et immuables) au cours d'un match.
  * @author Discord
  */
 public class Table implements Service
@@ -60,7 +60,7 @@ public class Table implements Service
 	// Au besoin, créer les classes nécessaires dans le package table
 
 	/** point de départ du match à modifier a chaque base roulante */
-	public static final Vec2 entryPosition = new Vec2(640,208); //Position d'entrée (640, 208)
+	public static final Vec2 entryPosition = new Vec2(600,208); //Position d'entrée (640, 208)
 	
 	/**
 	 * Instancie une nouvelle table

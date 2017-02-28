@@ -33,20 +33,93 @@ public enum ActuatorOrder
 	// exemple : MOVE_FORWARD("av")
 
 
+/*			 __________________
+ * 		   *|                  |*
+ *		   *|  TESTS DE BASE   |*
+ *		   *|__________________|*
+ */
 
-	// Consignes avancer / reculer
+	DEPLACAMENT("d"),     //déplacement avant ou arrière sans asserv
+	ROT_ABS("t"),         //rotation (angle absolu) sans asserv
+	ROT_REL_RAD("t3"),    //rotation (angle relatif en radian) sans asserv
+	ROT_REL_DEG("r"),     //rotation (angle relatif en degré) sans asserv
+	//TRAJ_COURBE("dc"),  //trajectoire courbe : déplacement + rotation
+	STOP("stop"),         //arrêt
+
+
+/*			 __________________
+ * 		   *|                  |*
+ *		   *|   AUTRES TESTS   |*
+ *		   *|__________________|*
+ */
+
+	//ACTIVER_MOUV_FORCE("efm"),
+	//DESACTIVER_MOUV_FORCE("dfm"),
+
+
+/*			 _____________________
+ * 		   *|                     |*
+ *		   *|   ASSERVISSEMENTS   |*
+ *		   *|_____________________|*
+ */
+
+	NO_ASSERV_TRANS("ct0"),
+	ASSERV_TRANS("ct1"),
+	NO_ASSERV_ROT("cr0"),
+	ASSERV_ROT("cr1"),
+	NO_ASSERV_V("cv0"),
+	ASSERV_V("cv1"),
+
+
+/*			 _______________________
+ * 		   *|                       |*
+ *		   *|  MOUVEMENTS DU ROBOT  |*
+ *		   *|    AVEC MONTLHERY     |*
+ *		   *|_______________________|*
+ */
+
+	MONTLHERY("montlhery"),
 	MOVE_FORWARD("av"),
 	MOVE_BACKWARD("rc"),
 	TURN_RIGHT("td"),
 	TURN_LEFT("tg"),
 	SSTOP("sstop"),
-	MONTLHERY("montlhery"),
-	
-	// TODO : rajouter les actionneurs (AX-12, moteurs...)
 
-	// TODO : Ajouter des durées pour les actions qui prennent du temps(selon les tests qu'on fera)
 
-					//		3 POSITIONS DES BRAS DE LA PELLETEUSE 		 //
+/*			 __________________
+ * 		   *|                  |*
+ *		   *|     CAPTEURS     |*
+ *		   *|__________________|*
+ */
+
+	DIST_US_ARD("usard"), //lire distance donnée par les capteurs US
+	DIST_US_ARG("usarg"),
+	DIST_US_AVD("usavd"),
+	DIST_US_AVG("usavg"),
+
+
+/*			 _____________________
+ * 		   *|                     |*
+ *		   *|CONTACTEURS ET JUMPER|*
+ *		   *|_____________________|*
+ */
+
+    //état jumper (0='en place', 1='retiré')
+    ETAT_JUMPER("j"),
+
+    //états contacteurs (0='non appuyé', 1='appuyé')
+    ETAT_CONTACTEUR1("c1"),
+    ETAT_CONTACTEUR2("c2"),
+    ETAT_CONTACTEUR3("c3"),
+
+
+/*			 ____________________
+ * 		   *|                    |*
+ *		   *|    Pelle T-3000    |*
+ *		   *|____________________|*
+ */
+
+	//********** 3 POSITIONS DES BRAS DE LA PELLETEUSE ***********//
 	// Rangement de la pelleteuse
 	REPLIER_PELLETEUSE("bpr",600),
 
@@ -56,22 +129,33 @@ public enum ActuatorOrder
 	// Position intermédiaire de la pelleteuse, pour rotations de la pelle
 	MED_PELLETEUSE("bpm",800),
 
-					//		3 POSITIONS DE LA PELLE		  //
+
+	//********** 3 POSITIONS DE LA PELLE ***********//
 	// Position avant prise de boules
 	PRET_PELLE("pd",1000),
 
 	// Position intermédiaire de la pelle, maintient les boules
 	PREND_PELLE("pm",1500),
 
-	//Pos de déplacement avec les boules	
+	//Pos de déplacement avec les boules
 	TIENT_BOULES("pt",1500),
 
 	//Position de livraison de boules de la pelle
 	LIVRE_PELLE("pf",1000),
 
-					//		6 ORDRES DES ATTRAPE-MODULES (3 droites, 3 gauches (et vive le MODEM))	//
+    //Reasservir pelle
+    PELLE_REASSERV("pelreasserv"),
 
-			// Côté Droit
+
+/*			 _____________________
+ * 		   *|                     |*
+ *		   *|Attrappes Module SSV2|*
+ *		   *|_____________________|*
+ */
+
+//		6 ORDRES DES ATTRAPE-MODULES (3 droites, 3 gauches (et vive le MODEM))	//
+
+	// Côté Droit
 	//Position avant prise
 	REPOS_ATTRAPE_D("amdd",1200),
 
@@ -81,7 +165,7 @@ public enum ActuatorOrder
 	// Position de livraison
 	PREND_MODULE_D("amfd",1200),
 
-			//Côté gauche
+	//Côté gauche
 	REPOS_ATTRAPE_G("amdg",1200),
 
 	MID_ATTRAPE_G("ammg",1000),
@@ -89,7 +173,13 @@ public enum ActuatorOrder
 	PREND_MODULE_G("amfg",1200),
 
 
-					//		2 POSITIONS DES CALLAGES-MODULES(les marteaux)	//
+/*			 ___________________
+ * 		   *|                   |*
+ *		   *|   Cales Module    |*
+ *		   *|___________________|*
+ */
+
+//		2 POSITIONS DES CALLAGES-MODULES(les marteaux)	//
 
 	// Position haut
 	REPLI_CALLE_D("cmdd",1200),
@@ -109,21 +199,42 @@ public enum ActuatorOrder
 	// Position basse
 	LIVRE_CALLE_G("cmfg",1200),
 
-					//		2 POSITIONS DE L'ASCENCEUR  //
-	// Position basse
-	BAISSE_ASC("asdown",1500),
 
-	// Position haute
-	LEVE_ASC("asup",1500),
+/*			 ___________________
+ * 		   *|                   |*
+ *		   *|   Largue Module   |*
+ *		   *|___________________|*
+ */
 
-					//		2 POSITIONS DU LARGUE MODULE	//
+	//		2 POSITIONS DU LARGUE MODULE	//
 	// Position de repos
 	REPOS_LARGUEUR("lmd",500),
 
 	// Position de poussée
 	POUSSE_LARGUEUR("lmf", 500),
 
-	STOP("stop");
+    //Réasservissement largue module
+    REASSERV_LARGEUR("lmreasserv"),
+
+
+/*		     ___________________
+* 		   *|                   |*
+*		   *|     Ascenseur     |*
+*		   *|___________________|*
+*/
+
+	//		2 POSITIONS DE L'ASCENCEUR  //
+	// Position basse
+	BAISSE_ASC("asdown",1500),
+
+	// Position haute
+	LEVE_ASC("asup",1500);
+
+
+
+	// TODO : Ajuster des durées pour les actions qui prennent du temps(selon les tests qu'on fera) (et les WaitForCompletion)
+
+
 
 	/**
 	 *  chaine de caractère envoyée au travers de la liaison série

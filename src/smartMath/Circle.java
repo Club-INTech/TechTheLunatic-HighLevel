@@ -64,15 +64,23 @@ public class Circle {
 	 * construit un arc de cercle à partir de son rayon, son centre et son étendue
 	 * @param center le centre
 	 * @param radius le rayon en mm
-	 * @param angleStart l'angle du début de l'arc
-	 * @param angleEnd l'angle de fin de l'arc
+	 * @param angleStart l'angle du début de l'arc ou étendue
+	 * @param angleEnd l'angle de fin de l'arc ou angle du centre
+	 * @param convention comment on représente l'arc de cercle: true veut dire que l'on met un angle start et end, false
+	 *                   veut dire avec un angle milieu de l'arc et une étendue
 	 */
-	public Circle(Vec2 center, double radius, double angleStart, double angleEnd)
+	public Circle(Vec2 center, double radius, double angleStart, double angleEnd, boolean convention)
 	{
 		this.center=center;
 		this.radius=radius;
-		this.angleStart=angleStart;
-		this.angleEnd=angleEnd;
+		if (convention) {
+			this.angleStart = angleStart;
+			this.angleEnd = angleEnd;
+		}
+		else{
+			this.angleStart = angleEnd - angleStart/2;
+			this.angleEnd = angleEnd + angleStart/2;
+		}
 	}
 
 	/**

@@ -208,16 +208,16 @@ public class ObstacleRectangular extends Obstacle
 	public ArrayList<Noeud> fabriqueNoeudRelie(Graphe graphe,int ecart) //fabrique n noeuds et les ajoute au grahe
 	{
 		ArrayList<Noeud> lN=fabriqueNoeud(graphe,ecart);
-		lN.get(0).attachelien(lN.get(1));
-		lN.get(1).attachelien(lN.get(0));
-		lN.get(0).attachelien(lN.get(2));
-		lN.get(2).attachelien(lN.get(0));
+		lN.get(0).attacheLien(lN.get(1));
+		lN.get(1).attacheLien(lN.get(0));
+		lN.get(0).attacheLien(lN.get(2));
+		lN.get(2).attacheLien(lN.get(0));
 
 				// et on relie les noeuds
-		lN.get(2).attachelien(lN.get(3));
-		lN.get(3).attachelien(lN.get(2));
-		lN.get(1).attachelien(lN.get(3));
-		lN.get(3).attachelien(lN.get(1));
+		lN.get(2).attacheLien(lN.get(3));
+		lN.get(3).attacheLien(lN.get(2));
+		lN.get(1).attacheLien(lN.get(3));
+		lN.get(3).attacheLien(lN.get(1));
 
 		return lN;
 	}
