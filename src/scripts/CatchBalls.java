@@ -66,7 +66,7 @@ public class CatchBalls extends AbstractScript {
      *
      */
 
-    // TODO : prendre en compte le cratère considéré (4 différents sur la table/ 2 en considérant la symétrie)
+    // TODO : prendre en compte le cratère considéré (6 différents sur la table/ 3 en considérant la symétrie)
 
     @Override
     public void execute(int versionToExecute, GameState stateToConsider, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException
@@ -79,17 +79,17 @@ public class CatchBalls extends AbstractScript {
                 // Calcule de l'angle pour se diriger vers le centre du robot
                 Vec2 posCratere= new Vec2(850, 540);
                 Vec2 posRobot=stateToConsider.robot.getPosition();
-                Vec2 vec = posRobot.minusNewVector(posCratere);
+                Vec2 vec = posCratere.minusNewVector(posRobot);
 
                 // Manoeuvre pour se diriger vers le cratère
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(-110);
+                stateToConsider.robot.moveLengthwise(170);
             }
 
             else if(versionToExecute == 2){
 
-                stateToConsider.robot.turn(Math.PI/2);
-                stateToConsider.robot.moveLengthwise(410);
+                stateToConsider.robot.turn(-Math.PI/2);
+                stateToConsider.robot.moveLengthwise(-410);
 
                 //Attraper le module avec le côté droit
 
@@ -97,7 +97,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
-                stateToConsider.robot.moveLengthwise(100);
+                stateToConsider.robot.moveLengthwise(-100);
 
                 // Attraper le module
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
@@ -121,8 +121,8 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
 
-                stateToConsider.robot.turn(-Math.PI+0.12);
-                stateToConsider.robot.moveLengthwise(-188);
+                stateToConsider.robot.turn(Math.PI-0.2);
+                stateToConsider.robot.moveLengthwise(188);
             }
 
             // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
@@ -136,11 +136,11 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
             // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
-            stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
+            //stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
             stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
             if (versionToExecute == 1){
-                stateToConsider.robot.moveLengthwise(130);
+                stateToConsider.robot.moveLengthwise(-130);
             }
             else if(versionToExecute == 2){
                 stateToConsider.robot.moveLengthwise(150);

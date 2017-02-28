@@ -1,5 +1,6 @@
 package tests;
 
+import enums.DirectionStrategy;
 import enums.ScriptNames;
 import enums.Speed;
 import hook.Hook;
@@ -54,6 +55,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         {
             //On execute le script
             log.debug("Ramassage des balles");
+            mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot, listHook);
             returnToEntryPosition(mRobot);
         }
