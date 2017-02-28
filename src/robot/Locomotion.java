@@ -1028,7 +1028,6 @@ public class Locomotion implements Service
     {
     	try 
     	{
-			
 	    	detectionDistance = Integer.parseInt(config.getProperty("distance_detection"));
 	        distanceToDisengage = Integer.parseInt(config.getProperty("distance_degagement_robot"));
 	        feedbackLoopDelay = Integer.parseInt(config.getProperty("sleep_boucle_acquittement"));
