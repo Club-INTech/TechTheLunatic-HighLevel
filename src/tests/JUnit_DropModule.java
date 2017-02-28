@@ -14,7 +14,7 @@ import threads.dataHandlers.ThreadEvents;
 import java.util.ArrayList;
 
 /**
- * @author Rem
+ * @author Rem,4223
  */
 public class JUnit_DropModule extends JUnit_Test {
     private GameState mRobot;
@@ -29,7 +29,7 @@ public class JUnit_DropModule extends JUnit_Test {
         //La position de depart est mise dans la Table (l'updtate config va la chercher)
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
-        mRobot.robot.setOrientation(0);
+        mRobot.robot.setOrientation(Math.PI);
         mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
@@ -47,7 +47,7 @@ public class JUnit_DropModule extends JUnit_Test {
         {
             //On execute le script
             log.debug("Place les modules dans les bases lunaires");
-            scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(0, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(3, mRobot, emptyList);
             returnToEntryPosition(mRobot);
         }
         catch(Exception e)
