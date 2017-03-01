@@ -92,10 +92,11 @@ public enum ActuatorOrder
  *		   *|__________________|*
  */
 
-	DIST_US_ARD("usard"), //lire distance donnée par les capteurs US
-	DIST_US_ARG("usarg"),
-	DIST_US_AVD("usavd"),
-	DIST_US_AVG("usavg"),
+	//lire distance donnée par les capteurs US ,  en millimètres
+	DIST_US_ARD("usard"), //Distance capteur Arrière droit
+	DIST_US_ARG("usarg"), //Distance capteur Arrière gauche
+	DIST_US_AVD("usavd"), //Distance capteur Avant droit
+	DIST_US_AVG("usavg"), //Distance capteur Avant gauche
 
 
 /*			 _____________________
