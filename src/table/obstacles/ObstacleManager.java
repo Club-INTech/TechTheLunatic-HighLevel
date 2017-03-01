@@ -442,7 +442,7 @@ public class ObstacleManager
 	    		}
 	    	}
 	      	
-	     	//trouve l'ennemi non confirmé le plus proche parmis les obstacles 
+	     	// trouve l'ennemi non confirmé le plus proche parmis les obstacles
 	    	// (et remplace la distance a l'ennemi le plus proche d'un ennemi confirmé par une distance a un ennemi non confirmé s'il est plus proche)
 	    	for(int i=0; i<mUntestedMobileObstacles.size(); i++)
 	    	{

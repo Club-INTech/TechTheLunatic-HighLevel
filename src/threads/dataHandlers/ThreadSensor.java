@@ -348,7 +348,41 @@ public class ThreadSensor extends AbstractThread
      */
     private void addBackObstacleBoth()
     {
-        //TODO
+        // De meme que le front, seule la selection de la bonne solution change
+        double robotX1, robotX2;
+        double robotY1, robotY2;
+        double a, b, c, delta;
+        int constante, R1, R2;
+        Vec2 vec;
+
+        R1 = USvalues.get(2) + radius;
+        R2 = USvalues.get(3) + radius;
+        constante = square(R1) - square(R2) + square(positionLB.getX()) - square(positionRB.getX()) + square(positionLB.getY()) - square(positionRB.getY());
+
+        a = 1 + (double) square(positionLB.getX() - positionRB.getX()) / square(positionLB.getY() - positionRB.getY());
+        b = -2 * positionLB.getX() + constante * (double) (positionLB.getX() - positionRB.getX()) / square(positionLB.getY() - positionRB.getY()) - 2 * positionLB.getY() * (double) (positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY());
+        c = (double) square(constante) / (4 * square(positionLB.getY() - positionRB.getY())) + (double) constante / (2 * (positionLB.getY() - positionRB.getY())) + square(positionLB.getX()) + square(positionLB.getY()) - square(R1);
+
+        delta = b*b - 4*a*c;
+        if (!isBetween(delta, -1, 1)) {
+            robotX1 = (int) ((-b - Math.sqrt(delta)) / (2 * a));
+            robotX2 = (int) ((-b + Math.sqrt(delta)) / (2 * a));
+            robotY1 = -((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX1 - constante / (2 * (positionLB.getY() - positionRB.getY()));
+            robotY2 = -((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX2 - constante / (2 * (positionLB.getY() - positionRB.getY()));
+
+            if (robotX1 >= -robotWidth / 2) {
+                vec = new Vec2(robotX2, robotY2);
+            } else {
+                vec = new Vec2(robotX1, robotY1);
+            }
+        }
+        else{
+            robotX1 = (int) -b/(2*a);
+            robotY1 = -((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX1 - constante / (2 * (positionLB.getY() - positionRB.getY()));
+            vec = new Vec2(robotX1, robotY1);
+        }
+
+        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(vec), radius, 20);
     }
 
     /**
@@ -384,7 +418,24 @@ public class ThreadSensor extends AbstractThread
      */
     private void addBackObstacleSingle(boolean isLeft)
     {
-       //TODO
+        // De meme qu'avec le front
+
+        Circle arcL = new Circle(positionLB, USvalues.get(2), detectionAngle, angleLB, false);
+        Circle arcR = new Circle(positionRB, USvalues.get(3), detectionAngle, angleRB, false);
+        Vec2 posEn;
+
+        if (isLeft){
+            Vec2 posDetect = new Vec2(USvalues.get(2), Math.PI/2 + angleLB + detectionAngle/2);
+            double angleEn = Math.PI/2 + angleRB + detectionAngle/2;
+            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
+        }
+        else{
+            Vec2 posDetect = new Vec2(USvalues.get(3), Math.PI/2 + angleRB - detectionAngle/2);
+            double angleEn = Math.PI/2 + angleLB - detectionAngle/2;
+            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
+        }
+
+        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(posEn), radius, 20);
     }
 
 
@@ -399,8 +450,6 @@ public class ThreadSensor extends AbstractThread
         return new Vec2((int)(posPoint.getX()*Math.cos(orientation)+posPoint.getY()*Math.sin(orientation)+posOrigin.getX()),
                 (int)(posPoint.getX()*Math.sin(orientation)-posPoint.getY()*Math.cos(orientation)+posOrigin.getY()));
     }
-
-
 
 
 	/**
