@@ -124,7 +124,7 @@ public class CatchBalls extends AbstractScript {
 
                 stateToConsider.robot.moveLengthwise(120);
                 stateToConsider.robot.turn(Math.PI-0.55);
-                stateToConsider.robot.moveLengthwise(272);
+                stateToConsider.robot.moveLengthwise(263);
             }
 
             // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
@@ -142,12 +142,28 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
             if (versionToExecute == 1){
-                stateToConsider.robot.moveLengthwise(-130);
+                stateToConsider.robot.moveLengthwise(-100);
             }
             else if(versionToExecute == 2){
-                stateToConsider.robot.moveLengthwise(-150);
-                stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(400);
+                stateToConsider.robot.moveLengthwise(-110);
+                stateToConsider.robot.turn(3*Math.PI/16);
+                stateToConsider.robot.moveLengthwise(-70);
+                // Drop un module
+                stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+                // Opération créneau
+                stateToConsider.robot.moveLengthwise(60);
+                stateToConsider.robot.turn(Math.PI/4 - Math.asin(110.0/150));
+                stateToConsider.robot.moveLengthwise(110);
+
+
+                stateToConsider.robot.turn(Math.PI/4);
+                stateToConsider.robot.moveLengthwise(-140);
+                stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+                stateToConsider.robot.moveLengthwise(60);
+                stateToConsider.robot.turn(3*Math.PI/4);
+                stateToConsider.robot.moveLengthwise(-120);
             }
 
         }
