@@ -68,6 +68,6 @@ public class HookIsPositionAndOrientationCorrect extends Hook
 				return trigger();
 			}
 		}
-	return false;
+		return false;
 	}
 }

@@ -406,8 +406,6 @@ public class Locomotion implements Service
 		actualRetriesIfBlocked=0;// on reinitialise
 
     }
-  
-   
     
     /**
      * bloquant
