@@ -44,6 +44,7 @@ public class InitialisationRobot extends AbstractScript {
             catchMD.addCallback(new Callback(new CatchModuleD()));
             Hook catchMG = hookFactory.newPositionHook(new Vec2(480, 320), (float)(-Math.PI + 2.41), 8, 50);
             catchMG.addCallback(new Callback(new CatchModuleG()));
+
             hookToConsider.add(catchMD);
             hookToConsider.add(catchMG);
 
