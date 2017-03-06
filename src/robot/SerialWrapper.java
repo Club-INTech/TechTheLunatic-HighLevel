@@ -127,8 +127,8 @@ public class SerialWrapper implements Service
      */
     public void moveLengthwise(double distance) throws SerialConnexionException
     {
-        float distanceTruncated = (float)distance;
-        String chaines[] = {"d", String.format(Locale.US, "%.3f", distanceTruncated)};
+        int distanceTruncated = (int)distance;
+        String chaines[] = {"d", String.format(Locale.US, "%d", distanceTruncated)};
         serial.communiquer(chaines, 0);
     }
 

@@ -32,14 +32,14 @@ public class JUnit_Match extends JUnit_Test {
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(0);
-        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
 
         //départ en arrière
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(2, mRobot, new ArrayList<Hook>());
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
     }
 
     @Test
@@ -50,23 +50,23 @@ public class JUnit_Match extends JUnit_Test {
         {
             //On execute le script
             log.debug("Ramassage des balles");
-            mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
+            mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
-            //Attraper 2 modules fusée
-            scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(1, mRobot, emptyList);
+            //Attraper modules fusée
+            //scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(1, mRobot, emptyList);
 
             //Attraper balles premier cratère
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
             mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-            //Déposer balles premier cratère
+            //Déposer balles premier cratère, et attraper le module
             scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(2, mRobot, emptyList);
 
             //Déposer 3 modules
-            scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(1, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(4, mRobot, emptyList);
 
-            //Attraper balles cratère du fond, et attrapper puis déposer le module sur le chemin
+            //Attraper balles cratère du fond, et attraper puis déposer le module sur le chemin
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot,emptyList);
 
             //Déposer les balles qui restent
@@ -74,7 +74,7 @@ public class JUnit_Match extends JUnit_Test {
 
 
 
-            scriptManager.getScript()
+
         }
         catch(Exception e)
         {

@@ -114,7 +114,7 @@ public class DropModule extends AbstractScript{
                 // Manoeuvre pour se caller contre le depose-module
                 actualState.robot.turn(Math.PI);
                 actualState.robot.moveLengthwise(-200);
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 1; i++) {
 
                     // Drop un module
                     actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
@@ -186,7 +186,8 @@ public class DropModule extends AbstractScript{
 
         if(version==1){
 
-            return new Circle(new Vec2(1170,700));
+            //return new Circle(new Vec2(1170,700));
+            return new Circle(robotPosition);
         }
         else if(version==2){
 
