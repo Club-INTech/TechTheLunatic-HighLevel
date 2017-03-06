@@ -249,13 +249,13 @@ public class ObstacleManager
     {
     	//vérification que l'on ne détecte pas un obstacle "normal"
     	if (position.getX()>-1500+mRobotRadius+100 && position.getX()<1500-mRobotRadius-100 && position.getY()>mRobotRadius+100 && position.getY()<2000-mRobotRadius-100 //hors de la table
-                && !( Geometry.isBetween(position.getX(), -250, 250) && Geometry.isBetween(position.getY(), 600, 1500)) //C'est la vitre
+                /*&& !( Geometry.isBetween(position.getX(), -250, 250) && Geometry.isBetween(position.getY(), 600, 1500)) //C'est la vitre
                 && !( Geometry.isBetween(position.getX(), -800, 800) && Geometry.isBetween(position.getY(), 1650, 2000)) //château de sable
 				&& !( Geometry.isBetween(position.getX(), 700, 1000) && Geometry.isBetween(position.getY(), 950, 1250)) //château de sable tapis
 				&& !( Geometry.isBetween(position.getX(), 0, 600) && Geometry.isBetween(position.getY(), 800, 1300)) //Notre zone de depose
 				&& !( Geometry.isBetween(position.getX(), -1000, -700) && Geometry.isBetween(position.getY(), 950, 1250)) //château de sable tapis adv
 				&& !( Geometry.isBetween(position.getX(), 800, 1500) && Geometry.isBetween(position.getY(), 500, 1800)) //tapis
-				)
+				*/)
     	{
     		boolean isThereAnObstacleIntersecting=false;
     		for (int i = 0; i<mUntestedMobileObstacles.size(); i++)

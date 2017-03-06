@@ -20,6 +20,7 @@
 import container.Container;
 import enums.Speed;
 import exceptions.ContainerException;
+import graphics.AffichageDebug;
 import hook.Hook;
 import robot.Locomotion;
 import robot.SerialWrapper;
@@ -57,6 +58,7 @@ public class Main
 		{
 			container = new Container();
 			config = container.getService(Config.class);
+			AffichageDebug aff = container.getService(AffichageDebug.class);
 			realState = container.getService(GameState.class);
 			scriptmanager = container.getService(ScriptManager.class);
 			mSerialWrapper = container.getService(SerialWrapper.class);
@@ -71,7 +73,7 @@ public class Main
 			realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
 			container.startAllThreads();
-			waitMatchBegin();
+						waitMatchBegin();
 
 			System.out.println("Le robot commence le match");
 
