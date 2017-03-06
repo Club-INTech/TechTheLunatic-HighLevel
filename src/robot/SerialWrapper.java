@@ -287,6 +287,7 @@ public class SerialWrapper implements Service
      * Change le type de mouvement forcé/normal
      * @param choice true pour forcer les mouvements
      */
+
     public synchronized void setForceMovement(boolean choice) throws SerialConnexionException
     {
         if(choice)
@@ -300,6 +301,24 @@ public class SerialWrapper implements Service
             serial.communiquer(chaines, 0);
         }
     }
+
+    public synchronized double[] pfdebug() throws SerialConnexionException
+    {
+            String chaines[] = {"pfdebug"};
+            String[] infosBuffer = serial.communiquer(chaines, 8);
+        double[] parsedInfos = new double[8];
+        for(int i = 0; i < 8; i++)
+        {
+            try{
+                parsedInfos[i] = Float.parseFloat(infosBuffer[i]);
+            } catch (NumberFormatException e)
+            {
+                return null;
+            }
+        }
+        return parsedInfos;
+    }
+
 
     /**
      * Change l'accélération en plus fluide mais plus lente

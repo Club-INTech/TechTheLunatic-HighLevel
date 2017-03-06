@@ -26,46 +26,63 @@ import java.util.ArrayList;
  * Version 0: Ne sort pas de la zone de départ et se contente d'initialiser les actionneurs
  * Version 1: Sort de la zone de départ par l'avant en prenant le module multicolor et en le mettant dans la zone de départ
  * Version 2: Sort de la zone de départ par l'arrière en prenant le module multicolor et en le mettant dans la zone de départ
+ * Version 3: Initialise les actionneurs sans replier les attrapes-modules (version pour les tests des fusées)
  */
 public class InitialisationRobot extends AbstractScript {
 
     protected InitialisationRobot(HookFactory hookFactory, Config config, Log log){
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0,1,2};
+        versions = new Integer[]{0,1,2,3};
     }
 
     @Override
     public void execute(int versionToExecute, GameState gameState, ArrayList<Hook> hookToConsider) throws UnableToMoveException, ExecuteException, SerialConnexionException, BlockedActuatorException {
         try
         {
-            Hook catchMD = hookFactory.newPositionHook(Table.entryPosition.plusNewVector(new Vec2(460, 2.319)), (float)(2.42), 400, 200);
+            Hook catchMD = hookFactory.newPositionHook(Table.entryPosition.plusNewVector(new Vec2(440, 2.319)), (float)(2.319), 30, 200);
             catchMD.addCallback(new Callback(new CatchModuleD()));
             Hook catchMG = hookFactory.newPositionHook(new Vec2(480, 320), (float)(-Math.PI + 2.41), 8, 50);
             catchMG.addCallback(new Callback(new CatchModuleG()));
+
             hookToConsider.add(catchMD);
             hookToConsider.add(catchMG);
 
-            if (versionToExecute == 0 || versionToExecute == 1 || versionToExecute == 2) {
-                // Initialisation des actionneurs
-                gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
-                gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-                gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-                gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
-                gameState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
+            // Initialisation des actionneurs
+            gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+            gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+            gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+            gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+            gameState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
 
-                gameState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
-                gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-                gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+            gameState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+            gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+            gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+
+            if (versionToExecute == 3) {
+                gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
+                gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
+            }
+            else {
                 gameState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 gameState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+            }
 
-                gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
-                gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+            gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+            gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
-                // Se dégage de la zone de départ
+            // Se dégage de la zone de départ
 
-                if (versionToExecute == 1) {
+            if (versionToExecute == 1) {
+
+                // Avec le Hook pour prendre le module multicolore pret de la zone de départ
+                gameState.robot.turn(2.319);   // 250, 580 <- 578, 208
+                gameState.robot.moveLengthwise(496);
+                gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                gameState.robot.moveLengthwise(-180, hookToConsider);
+                gameState.robot.turn(3 * Math.PI / 8);
+                gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+
 
                     //gameState.robot.turn(2.319);   // 250, 580 <- 578, 208
                     //gameState.robot.moveLengthwise(496);
@@ -78,11 +95,16 @@ public class InitialisationRobot extends AbstractScript {
                      gameState.robot.turn(13 * Math.PI / 16);
                      gameState.robot.moveLengthwise(130);
 
-                    //départ à l'envers (pelleteuse vers 0)
-                } else if (versionToExecute == 2) {
-                    gameState.robot.turn(-3 * Math.PI / 16);
-                    gameState.robot.moveLengthwise(-100, hookToConsider);
-                }
+                //départ à l'endroit (pelleteuse vers PI)
+                // gameState.robot.turn(13 * Math.PI / 16);
+                // gameState.robot.moveLengthwise(130);
+
+                //départ à l'envers (pelleteuse vers 0)
+            } else if (versionToExecute == 2) {
+                gameState.robot.turn(-3 * Math.PI / 16);
+                gameState.robot.moveLengthwise(-100, hookToConsider);
+
+
             }
         }
         catch (Exception e){

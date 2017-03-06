@@ -33,6 +33,8 @@ import smartMath.Circle;
 import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
+import threads.ThreadInterface;
+import threads.dataHandlers.ThreadSensor;
 import utils.Sleep;
 
 import java.util.ArrayList;
@@ -43,6 +45,7 @@ import java.util.Random;
  *
  * @author marsu
  */
+
 public class JUnit_Sensors extends JUnit_Test
 {
 
@@ -77,7 +80,15 @@ public class JUnit_Sensors extends JUnit_Test
 
 	}
 
-	
+	@Test
+	public void testDetect() throws Exception
+	{
+		log.debug("Test de detection");
+		ThreadInterface tInterface = container.getService(ThreadInterface.class);
+		ThreadSensor sensor = container.getService(ThreadSensor.class);
+		container.startInstanciedThreads();
+	}
+
 //	@Test
 	public void testEvitement() throws Exception
 	{
@@ -228,7 +239,7 @@ public class JUnit_Sensors extends JUnit_Test
 		}
 	}
 	
-	@Test
+	//@Test
 	public void testSensorEnnemyWithoutMovement() throws InterruptedException, SerialConnexionException {
 		log.debug("Test des capteurs fixe");
 		state.robot.disableFeedbackLoop();
