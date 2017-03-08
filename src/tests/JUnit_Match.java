@@ -32,14 +32,14 @@ public class JUnit_Match extends JUnit_Test {
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(0);
-        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.ULTRA_SLOW_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
 
         //départ en arrière
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(2, mRobot, new ArrayList<Hook>());
     }
 
     @Test

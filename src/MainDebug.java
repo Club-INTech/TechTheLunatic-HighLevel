@@ -41,6 +41,7 @@ import java.util.ArrayList;
  */
 public class MainDebug
 {
+
     static Container container;
     static Config config;
     static GameState realState;
@@ -76,7 +77,8 @@ public class MainDebug
 
 //			realState.robot.moveLengthwise(500);
 
-            mSerialWrapper.moveLengthwise(1800);
+           realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+            mSerialWrapper.moveLengthwise(-500);
             String[] noms = {"x", "y", "o", "vg", "vd", "consigne trans", "consigne vg", "consigne vd"};
             for(int i = 0; i < 500; i++) {
                 double[] data = mSerialWrapper.pfdebug();
