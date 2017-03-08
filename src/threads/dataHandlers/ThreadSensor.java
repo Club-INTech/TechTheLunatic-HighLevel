@@ -396,9 +396,11 @@ public class ThreadSensor extends AbstractThread
 
         Circle arcL = new Circle(positionLF, USvalues.get(0), detectionAngle, angleLF, false);
         Circle arcR = new Circle(positionRF, USvalues.get(1), detectionAngle, angleRF, false);
-        Vec2 posEn;
+        Vec2 posEn = new Vec2();
 
         if (isLeft){
+            // On choisit le point à l'extrémité de l'arc à coté du capteur pour la position de l'ennemie: à courte distance, la position est réaliste,
+            // à longue distance (>1m au vue des dimensions), l'ennemie est en réalité de l'autre coté
             Vec2 posDetect = new Vec2(USvalues.get(0), Math.PI/2 + angleLF + detectionAngle/2);
             double angleEn = Math.PI/2 + angleRF + detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
