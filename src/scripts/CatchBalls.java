@@ -83,7 +83,7 @@ public class CatchBalls extends AbstractScript {
 
                 // Manoeuvre pour se diriger vers le cratère
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(170);
+                stateToConsider.robot.moveLengthwise(100);
             }
 
             else if(versionToExecute == 2){
@@ -122,9 +122,9 @@ public class CatchBalls extends AbstractScript {
 
 
 
-                stateToConsider.robot.moveLengthwise(120);
-                stateToConsider.robot.turn(Math.PI-0.55);
-                stateToConsider.robot.moveLengthwise(263);
+                stateToConsider.robot.moveLengthwise(150);
+                stateToConsider.robot.turn(Math.PI-0.62);
+                stateToConsider.robot.moveLengthwise(268);
             }
 
             // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
@@ -138,7 +138,7 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
             // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
-            //stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
+            stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
             stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
             if (versionToExecute == 1){
@@ -147,23 +147,23 @@ public class CatchBalls extends AbstractScript {
             else if(versionToExecute == 2){
                 stateToConsider.robot.moveLengthwise(-110);
                 stateToConsider.robot.turn(3*Math.PI/16);
-                stateToConsider.robot.moveLengthwise(-70);
+                stateToConsider.robot.moveLengthwise(-35);
                 // Drop un module
                 stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
                 // Opération créneau
-                stateToConsider.robot.moveLengthwise(60);
-                stateToConsider.robot.turn(Math.PI/4 - Math.asin(110.0/150));
-                stateToConsider.robot.moveLengthwise(110);
+                //stateToConsider.robot.moveLengthwise(60);
+                //stateToConsider.robot.turn(Math.PI/4 - Math.asin(110.0/150));
+                //stateToConsider.robot.moveLengthwise(110);
 
 
-                stateToConsider.robot.turn(Math.PI/4);
-                stateToConsider.robot.moveLengthwise(-140);
-                stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+                //stateToConsider.robot.turn(Math.PI/4);
+                //stateToConsider.robot.moveLengthwise(-140);
+                //stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                //stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
                 stateToConsider.robot.moveLengthwise(60);
-                stateToConsider.robot.turn(3*Math.PI/4);
-                stateToConsider.robot.moveLengthwise(-120);
+                stateToConsider.robot.turn(-Math.PI/4);
+                stateToConsider.robot.moveLengthwise(350);
             }
 
         }
@@ -189,11 +189,11 @@ public class CatchBalls extends AbstractScript {
         }
         else if (version == 1)
         {
-            return new Circle(new Vec2(850,540), ray + 121, -Math.PI/6, Math.PI, true);
+            return new Circle(new Vec2(870,550), ray + 121, -Math.PI/6, Math.PI, true);
         }
         else if (version == 2)
         {
-            return new Circle(new Vec2(870, 1150), 0);
+            return new Circle(new Vec2(770, 1150), 0);
             // 1640; 680
         }
         else

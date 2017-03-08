@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Version 3 : Pour la fusé pret du cratere
  * Version 4 : Pour le module près de la zone de départ
  * Version 5 : Pour le module près de la base lunaire
- *
+ * Version 6 : V1 sans les actionneurs
  * @author Rem
  */
 
@@ -34,7 +34,7 @@ public class CatchModule extends AbstractScript {
     protected CatchModule(HookFactory hookFactory, Config config, Log log) {
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0,1,2,3};
+        versions = new Integer[]{0,1,2,3,6};
     }
 
     // TODO : Calibrer les waitForCompletions, notamment ceux qui ne représentent pas le temps réel de l'action (LIVRE_CALLE_G et peut-être BAISSE_ASC)
@@ -46,22 +46,26 @@ public class CatchModule extends AbstractScript {
 
             if (versionToExecute == 0){
 
-                // Déploie l'attrape-module et la calle-bisou
+                // Déploie l'attrape-module et la calle
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
             }
 
-            if (versionToExecute == 1) {
+
                 
+
+            if (versionToExecute == 1) {
+
                 // Se place dans la bonne direction : (370,300), Or 0.58 (3PI/16 ~ 0.59)
-                actualState.robot.turn(Math.PI);
+                actualState.robot.turn(0);
 
                 // Recule pour arriver devant la fusé
-                actualState.robot.moveLengthwise(100);
+                actualState.robot.moveLengthwise(-100);
 
-                // Déploie l'attrape-module et la calle-bisou
+                // Déploie l'attrape-module et la calle
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
 
@@ -98,6 +102,16 @@ public class CatchModule extends AbstractScript {
                 // Déploiement
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
+
+
+
+            }
+            else if (versionToExecute ==6) {
+                // Se place dans la bonne direction : (370,300), Or 0.58 (3PI/16 ~ 0.59)
+                actualState.robot.turn(0);
+
+                // Recule pour arriver devant la fusé
+                actualState.robot.moveLengthwise(-100);
 
             }
 
@@ -137,7 +151,7 @@ public class CatchModule extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
                 }
             }
-
+            else if (versionToExecute ==6) {}
             else {
                 for (int i = 0; i < 4; i++) {
 
@@ -192,9 +206,9 @@ public class CatchModule extends AbstractScript {
             {
                 return new Circle(robotPosition);
             }
-            else if (version == 1)
+            else if (version == 1 || version == 6)
             {
-                return new Circle(new Vec2(500,245));
+                return new Circle(new Vec2(480,213));
             }
             else if (version == 2)
             {

@@ -53,18 +53,17 @@ public class JUnit_Match extends JUnit_Test {
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
             //Attraper modules fusée
-            //scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(1, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(6, mRobot, emptyList);
 
             //Attraper balles premier cratère
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-            mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
             //Déposer balles premier cratère, et attraper le module
             scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(2, mRobot, emptyList);
 
             //Déposer 3 modules
-            scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(4, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(1, mRobot, emptyList);
 
             //Attraper balles cratère du fond, et attraper puis déposer le module sur le chemin
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot,emptyList);
