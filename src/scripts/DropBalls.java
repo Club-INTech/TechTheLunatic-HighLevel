@@ -71,7 +71,7 @@ public class DropBalls extends AbstractScript
 
                 //Se caler contre la zone de livraison
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(260,hooksToConsider, true);
+                actualState.robot.moveLengthwise(250,hooksToConsider, true);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);

@@ -57,7 +57,7 @@ public class DropModule extends AbstractScript{
 
                     // Bon discord tu vas geuler mais j'avais la flemme
 
-                    actualState.robot.turn(Math.PI - Math.asin(120.0 / 150));
+                    actualState.robot.turn(Math.PI - Math.asin(130.0 / 150));
                     actualState.robot.moveLengthwise(150);
 
 
@@ -65,7 +65,7 @@ public class DropModule extends AbstractScript{
 
 
                     // Callage contre le depose-module
-                    actualState.robot.moveLengthwise(-155, hooksToConsider, true, false, Speed.SLOW_ALL);
+                    actualState.robot.moveLengthwise(-157, hooksToConsider, true, false, Speed.SLOW_ALL);
                 }
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
