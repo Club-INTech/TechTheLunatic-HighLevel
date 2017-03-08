@@ -39,7 +39,7 @@ public class JUnit_Match extends JUnit_Test {
         container.startInstanciedThreads();
 
         //départ en arrière
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(2, mRobot, new ArrayList<Hook>());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class JUnit_Match extends JUnit_Test {
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
             //Attraper modules fusée
-            //scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(1, mRobot, emptyList);
+            scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(1, mRobot, emptyList);
 
             //Attraper balles premier cratère
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);

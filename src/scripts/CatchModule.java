@@ -56,10 +56,10 @@ public class CatchModule extends AbstractScript {
             if (versionToExecute == 1) {
                 
                 // Se place dans la bonne direction : (370,300), Or 0.58 (3PI/16 ~ 0.59)
-                actualState.robot.turn(Math.PI);
+                actualState.robot.turn(0);
 
                 // Recule pour arriver devant la fusé
-                actualState.robot.moveLengthwise(100);
+                actualState.robot.moveLengthwise(-100);
 
                 // Déploie l'attrape-module et la calle-bisou
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
@@ -194,7 +194,7 @@ public class CatchModule extends AbstractScript {
             }
             else if (version == 1)
             {
-                return new Circle(new Vec2(500,245));
+                return new Circle(new Vec2(480,213));
             }
             else if (version == 2)
             {
