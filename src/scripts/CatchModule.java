@@ -53,8 +53,11 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
             }
 
-            if (versionToExecute == 1 ) {
+
                 
+
+            if (versionToExecute == 1) {
+
                 // Se place dans la bonne direction : (370,300), Or 0.58 (3PI/16 ~ 0.59)
                 actualState.robot.turn(0);
 
