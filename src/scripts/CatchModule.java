@@ -54,7 +54,7 @@ public class CatchModule extends AbstractScript {
             }
 
             if (versionToExecute == 1) {
-                
+
                 // Se place dans la bonne direction : (370,300), Or 0.58 (3PI/16 ~ 0.59)
                 actualState.robot.turn(Math.PI);
 
