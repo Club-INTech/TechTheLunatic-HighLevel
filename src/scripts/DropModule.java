@@ -45,8 +45,8 @@ public class DropModule extends AbstractScript{
 
                 // Manoeuvre pour se caller contre le depose-module
                 actualState.robot.turn(Math.PI);
-                actualState.robot.moveLengthwise(-75);
-                for (int i = 0; i < 3; i++) {
+                actualState.robot.moveLengthwise(-55);
+                for (int i = 0; i < 2; i++) {
 
                     // Drop un module
                     actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
@@ -57,34 +57,40 @@ public class DropModule extends AbstractScript{
 
                     // Bon discord tu vas geuler mais j'avais la flemme
 
-                    actualState.robot.turn(Math.PI - Math.asin(110.0/150));
+                    actualState.robot.turn(Math.PI - Math.asin(120.0 / 150));
                     actualState.robot.moveLengthwise(150);
 
 
                     actualState.robot.turn(Math.PI);
 
 
-
                     // Callage contre le depose-module
-                    actualState.robot.moveLengthwise(-170, hooksToConsider, true, false, Speed.SLOW_ALL);
+                    actualState.robot.moveLengthwise(-155, hooksToConsider, true, false, Speed.SLOW_ALL);
                 }
-
-                // Monte le dernier module et le drop
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D,false);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G,false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
-                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-                // Se décale de depose-module
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D,false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G,true);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D,false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G,false);
 
-                actualState.robot.moveLengthwise(100, hooksToConsider, false);
+                // Manoeuvre degueu pour se décaler
+                actualState.robot.moveLengthwise(60, hooksToConsider, false);
+
+
+                // Monte le dernier module et le drop
+                //actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D,false);
+                //actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G,false);
+                //actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                //actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                //actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+                //actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                //actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                //actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
+                // Se décale de depose-module
+                //actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D,false);
+                //actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G,true);
+                //actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D,false);
+                //actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G,false);
+
+                actualState.robot.moveLengthwise(200, hooksToConsider, false);
 
             }
             else if(versionToExecute==3)
@@ -111,63 +117,51 @@ public class DropModule extends AbstractScript{
             }
             if(versionToExecute==4) {
 
-                // Manoeuvre pour se caller contre le depose-module
-                actualState.robot.turn(Math.PI);
-                actualState.robot.moveLengthwise(-200);
-                for (int i = 0; i < 1; i++) {
+                for (int i = 0; i < 2; i++) {
 
                     // Drop un module
                     actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
+                    // Manoeuvre degueu pour se décaler
+                    actualState.robot.moveLengthwise(60, hooksToConsider, false);
+
+                    // Bon discord tu vas geuler mais j'avais la flemme
+
+                    actualState.robot.turn(Math.PI - Math.asin(110.0 / 150));
+                    actualState.robot.moveLengthwise(150);
+
+
+                    actualState.robot.turn(Math.PI);
+
+
+                    // Callage contre le depose-module
+                    actualState.robot.moveLengthwise(-320, hooksToConsider, true, false, Speed.SLOW_ALL);
+
+                    //Troisième module
+                    actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                     actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
-                }
-                actualState.robot.moveLengthwise(60, hooksToConsider, false);
 
-                // Bon discord tu vas geuler mais j'avais la flemme
+                    // Monte le dernier module et le drop
+                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                    actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+                    actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                    actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+                    // Se décale de depose-module
+                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                    actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
-                actualState.robot.turn(Math.PI - Math.asin(110.0/150));
-                actualState.robot.moveLengthwise(300);
+                    actualState.robot.moveLengthwise(100, hooksToConsider, false);
 
-
-                actualState.robot.turn(Math.PI);
-
-
-
-                // Callage contre le depose-module
-                actualState.robot.moveLengthwise(-320, hooksToConsider, true, false, Speed.SLOW_ALL);
-
-                //Troisième module
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
-
-                // Monte le dernier module et le drop
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D,false);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G,false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
-                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-                // Se décale de depose-module
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D,false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G,true);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D,false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G,false);
-
-                actualState.robot.moveLengthwise(100, hooksToConsider, false);
-
-            }
-            else {
-
-                actualState.robot.moveLengthwise(-100, hooksToConsider, true, true, Speed.SLOW_ALL);
-
-                actualState.robot.turn(Math.asin(110.0 / 150));
-
-                actualState.robot.moveLengthwise(150);
-                actualState.robot.turn(0);
+                }}
 
 
-            }
 
 
 
