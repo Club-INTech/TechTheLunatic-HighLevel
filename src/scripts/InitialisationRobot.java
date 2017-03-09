@@ -40,10 +40,10 @@ public class InitialisationRobot extends AbstractScript {
     public void execute(int versionToExecute, GameState gameState, ArrayList<Hook> hookToConsider) throws UnableToMoveException, ExecuteException, SerialConnexionException, BlockedActuatorException {
         try
         {
-            Hook catchMD = hookFactory.newPositionHook(Table.entryPosition.plusNewVector(new Vec2(440, 2.319)), (float)(2.319), 30, 200);
-            catchMD.addCallback(new Callback(new CatchModuleD()));
+            Hook catchMD = hookFactory.newPositionHook(Table.entryPosition.plusNewVector(new Vec2(440, 2.319)), (float)(2.319), 10, 100);
+            catchMD.addCallback(new Callback(new CatchModuleD(), true, gameState));
             Hook catchMG = hookFactory.newPositionHook(new Vec2(480, 320), (float)(-Math.PI + 2.41), 8, 50);
-            catchMG.addCallback(new Callback(new CatchModuleG()));
+            catchMG.addCallback(new Callback(new CatchModuleG(), true, gameState));
 
             hookToConsider.add(catchMD);
             hookToConsider.add(catchMG);
@@ -77,9 +77,9 @@ public class InitialisationRobot extends AbstractScript {
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
                 gameState.robot.turn(2.319);   // 250, 580 <- 578, 208
-                gameState.robot.moveLengthwise(496);
+                gameState.robot.moveLengthwise(550);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
-                gameState.robot.moveLengthwise(-180, hookToConsider);
+                gameState.robot.moveLengthwise(-250, hookToConsider);
                 gameState.robot.turn(3 * Math.PI / 8);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
