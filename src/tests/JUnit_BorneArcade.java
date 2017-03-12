@@ -21,12 +21,13 @@ package tests;
 
 import enums.ActuatorOrder;
 import enums.Speed;
+import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import strategie.GameState;
 import table.Table;
-import threads.dataHandlers.ThreadBalises;
+import threads.dataHandlers.ThreadSensor;
 
 /**
  * Utile pour faire des tests fourre-tout
@@ -34,9 +35,8 @@ import threads.dataHandlers.ThreadBalises;
 public class JUnit_BorneArcade extends JUnit_Test 
 {
 	GameState real_state;
-	//Window win;
+	Window win;
 
-	ThreadBalises balises;
 	
 	public static void main(String[] args) throws Exception
 	{
@@ -50,10 +50,10 @@ public class JUnit_BorneArcade extends JUnit_Test
 
 		real_state = container.getService(GameState.class);
         
-		//win = new Window((Table)container.getService(ServiceNames.TABLE), (Robot)real_state.robot);
-		
-		//container.getService(ServiceNames.THREAD_INTERFACE);
-		//container.getService(ServiceNames.THREAD_SENSOR);
+		win = new Window(container.getService(Table.class), real_state.robot);
+
+		container.getService(ThreadSensor.class);
+		container.startInstanciedThreads();
 
 		real_state.robot.setPosition(Table.entryPosition);
 		real_state.robot.setOrientation(Math.PI);
@@ -61,9 +61,6 @@ public class JUnit_BorneArcade extends JUnit_Test
 		
 		real_state.robot.updateConfig();
 		real_state.robot.useActuator(ActuatorOrder.MONTLHERY, false);
-
-		balises = container.getService(ThreadBalises.class);
-		balises.showDebug();
 
 	}
 
@@ -73,6 +70,11 @@ public class JUnit_BorneArcade extends JUnit_Test
 		while(true)
 		{
 			real_state.robot.getPosition();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }
