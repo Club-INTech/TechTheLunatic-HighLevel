@@ -21,6 +21,7 @@ package graphics;
 
 import enums.ActuatorOrder;
 import enums.TurningStrategy;
+import exceptions.serial.SerialConnexionException;
 import robot.Robot;
 
 import java.awt.event.KeyAdapter;
@@ -45,16 +46,18 @@ public class Keyboard implements KeyListener {
 	int isDownPressed = 0;
 	int isLeftPressed = 0;
 	int isRightPressed = 0;
-	int isPPressed;
 
 	boolean isUpPressedb;
 	boolean isDownPressedb;
 	boolean isLeftPressedb;
 	boolean isRightPressedb;
+	boolean isPpressed;
+	boolean isLpressed;
+	boolean isDpressed;
+	int lastEvent;
 
-	void doThat()
-	{
-		if(isUpPressed < 15 && isUpPressedb)
+	void doThat() throws SerialConnexionException {
+		if(/*isUpPressed < 15 &&*/ isUpPressedb)
 		{
 			try
 			{
@@ -65,7 +68,7 @@ public class Keyboard implements KeyListener {
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
-		else if(isDownPressed < 15 && isDownPressedb)
+		else if(/*isDownPressed < 15 &&*/ isDownPressedb)
 		{
 			try
 			{
@@ -76,7 +79,7 @@ public class Keyboard implements KeyListener {
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
-		else if(isLeftPressed < 15 && isLeftPressedb)
+		else if(/*isLeftPressed < 15 &&*/ isLeftPressedb)
 		{
 			try
 			{
@@ -87,7 +90,7 @@ public class Keyboard implements KeyListener {
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
-		else if(isRightPressed < 15 && isRightPressedb)
+		else if( /*isRightPressed < 15 && */isRightPressedb)
 		{
 			try
 			{
@@ -98,8 +101,48 @@ public class Keyboard implements KeyListener {
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
-		else
-		{
+		else if (isPpressed) {
+			try {
+				// Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+				mRobot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+
+				// Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
+				mRobot.useActuator(ActuatorOrder.PREND_PELLE, true);
+
+				// "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
+				mRobot.useActuator(ActuatorOrder.TIENT_BOULES, false);
+				mRobot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+			} catch (Exception exception) {
+				System.out.println("laule");
+			}
+		}else if (isLpressed) {
+			try {
+
+				mRobot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+				mRobot.useActuator(ActuatorOrder.PRET_PELLE, true);
+			} catch (Exception exception) {
+				System.out.println("laule");
+			}
+		}else if (isDpressed){
+			try{
+				//abaisser les bras au plus bas
+				mRobot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+
+				//rotation de la pelle jusqu'à la position de livraison
+				mRobot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
+
+				//lever les bras jusqu'à la position intermédiaire
+				mRobot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+
+				//tourner la pelle jusqu'à la position initiale
+				mRobot.useActuator(ActuatorOrder.PRET_PELLE, true);
+
+				//monter les bras le plus haut \o/
+				mRobot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+			}catch(Exception exception){
+
+			}
+		}else{
 			release();
 		}
 
@@ -109,18 +152,44 @@ public class Keyboard implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		switch (e.getKeyCode())
-		{
-			case KeyEvent.VK_UP:
-				isUpPressed ++;isUpPressedb = true;break;
-			case KeyEvent.VK_DOWN:
-				isDownPressed ++;isDownPressedb = true;break;
-			case KeyEvent.VK_LEFT:
-				isLeftPressed ++;isLeftPressedb = true;break;
-			case KeyEvent.VK_RIGHT:
-				isRightPressed ++;isRightPressedb = true;break;
+		if (e.getKeyCode() != lastEvent) {
+			switch (e.getKeyCode()) {
+				case KeyEvent.VK_UP:
+					isUpPressed++;
+					isUpPressedb = true;
+					lastEvent = e.getKeyCode();
+					break;
+				case KeyEvent.VK_DOWN:
+					isDownPressed++;
+					isDownPressedb = true;
+					lastEvent = e.getKeyCode();
+					break;
+				case KeyEvent.VK_LEFT:
+					isLeftPressed++;
+					isLeftPressedb = true;
+					lastEvent = e.getKeyCode();
+					break;
+				case KeyEvent.VK_RIGHT:
+					isRightPressed++;
+					isRightPressedb = true;
+					lastEvent = e.getKeyCode();
+					break;
+				case KeyEvent.VK_P:
+					isPpressed = true;
+					break;
+				case KeyEvent.VK_L:
+					isLpressed = true;
+					break;
+				case KeyEvent.VK_D:
+					isDpressed = true;
+					break;
+			}
+			try {
+				doThat();
+			} catch (SerialConnexionException e1) {
+				e1.printStackTrace();
+			}
 		}
-		doThat();
 	}
 
 
@@ -139,13 +208,19 @@ public class Keyboard implements KeyListener {
 		switch (e.getKeyCode())
 		{
 			case KeyEvent.VK_UP:
-				isUpPressed = 0;isUpPressedb = false;break;
+				lastEvent = 0;isUpPressedb = false;break;
 			case KeyEvent.VK_DOWN:
-				isDownPressed = 0;isDownPressedb = false;break;
+				lastEvent = 0;isDownPressedb = false;break;
 			case KeyEvent.VK_LEFT:
-				isLeftPressed = 0;isLeftPressedb = false;break;
+				lastEvent = 0;isLeftPressedb = false;break;
 			case KeyEvent.VK_RIGHT:
-				isRightPressed = 0;isRightPressedb = false;break;
+				lastEvent = 0;isRightPressedb = false;break;
+			case KeyEvent.VK_P:
+				isPpressed = false; break;
+			case KeyEvent.VK_L:
+				isLpressed = false; break;
+			case KeyEvent.VK_D:
+				isDpressed = false; break;
 		}
 		release();
 	}
