@@ -23,15 +23,15 @@ import enums.ActuatorOrder;
 import enums.TurningStrategy;
 import robot.Robot;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
  * Gestionnaire des actions clavier pour l'interface graphique, ajoutez vos actions aux blocks correspondants
- * @author etienne, discord
+ * @author etienne, discord, florian
  */
-public class Keyboard implements KeyListener
-{
+public class Keyboard implements KeyListener {
 	private Robot mRobot;
 	private TurningStrategy turningStr = TurningStrategy.FASTEST;
 	private boolean modeActual = false;
@@ -41,38 +41,20 @@ public class Keyboard implements KeyListener
 		mRobot= robot;
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e)
+	int isUpPressed = 0;
+	int isDownPressed = 0;
+	int isLeftPressed = 0;
+	int isRightPressed = 0;
+	int isPPressed;
+
+	boolean isUpPressedb;
+	boolean isDownPressedb;
+	boolean isLeftPressedb;
+	boolean isRightPressedb;
+
+	void doThat()
 	{
-		if(e.getKeyCode() == KeyEvent.VK_Q)
-		{
-			turningStr = TurningStrategy.LEFT_ONLY;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_W)
-		{
-
-		}
-		if(e.getKeyCode() == KeyEvent.VK_C)
-		{
-
-		}
-		if(e.getKeyCode() == KeyEvent.VK_V)
-		{
-
-		}
-		if(e.getKeyCode() == KeyEvent.VK_A)
-		{
-            turningStr = TurningStrategy.RIGHT_ONLY;
-		}
-		if(e.getKeyCode() == KeyEvent.VK_X)
-		{
-		}
-		if(e.getKeyCode() == KeyEvent.VK_SPACE)
-		{
-
-		}
-
-		if(e.getKeyCode() == KeyEvent.VK_R || e.getKeyCode() == KeyEvent.VK_UP)
+		if(isUpPressed < 15 && isUpPressedb)
 		{
 			try
 			{
@@ -83,7 +65,7 @@ public class Keyboard implements KeyListener
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
-		if(e.getKeyCode() == KeyEvent.VK_F || e.getKeyCode() == KeyEvent.VK_DOWN)
+		else if(isDownPressed < 15 && isDownPressedb)
 		{
 			try
 			{
@@ -94,18 +76,7 @@ public class Keyboard implements KeyListener
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
-		if(e.getKeyCode() == KeyEvent.VK_G || e.getKeyCode() == KeyEvent.VK_RIGHT)
-		{
-			try
-			{
-				mRobot.useActuator(ActuatorOrder.TURN_RIGHT, false);
-			}
-			catch(Exception exception)
-			{
-				System.out.println("ça marche pas bien trololo");
-			}
-		}
-		if(e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_LEFT)
+		else if(isLeftPressed < 15 && isLeftPressedb)
 		{
 			try
 			{
@@ -116,34 +87,67 @@ public class Keyboard implements KeyListener
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
-		if(e.getKeyCode() == KeyEvent.VK_P)
-		{
-			//Poweroff
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e)
-	{
-		if(e.getKeyCode() == KeyEvent.VK_D
-		|| e.getKeyCode() == KeyEvent.VK_R
-		|| e.getKeyCode() == KeyEvent.VK_F
-		|| e.getKeyCode() == KeyEvent.VK_G
-		|| e.getKeyCode() == KeyEvent.VK_LEFT
-		|| e.getKeyCode() == KeyEvent.VK_RIGHT
-		|| e.getKeyCode() == KeyEvent.VK_UP
-		|| e.getKeyCode() == KeyEvent.VK_DOWN
-		)
+		else if(isRightPressed < 15 && isRightPressedb)
 		{
 			try
 			{
-				mRobot.useActuator(ActuatorOrder.SSTOP, false);
+				mRobot.useActuator(ActuatorOrder.TURN_RIGHT, false);
 			}
 			catch(Exception exception)
 			{
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
+		else
+		{
+			release();
+		}
+
+	}
+
+
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+		switch (e.getKeyCode())
+		{
+			case KeyEvent.VK_UP:
+				isUpPressed ++;isUpPressedb = true;break;
+			case KeyEvent.VK_DOWN:
+				isDownPressed ++;isDownPressedb = true;break;
+			case KeyEvent.VK_LEFT:
+				isLeftPressed ++;isLeftPressedb = true;break;
+			case KeyEvent.VK_RIGHT:
+				isRightPressed ++;isRightPressedb = true;break;
+		}
+		doThat();
+	}
+
+
+	void release(){
+		try
+		{
+			mRobot.useActuator(ActuatorOrder.SSTOP,false);
+		}catch(Exception exception)
+		{
+			System.out.println("ça marche pas bien trololo");
+		}
+	}
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+		switch (e.getKeyCode())
+		{
+			case KeyEvent.VK_UP:
+				isUpPressed = 0;isUpPressedb = false;break;
+			case KeyEvent.VK_DOWN:
+				isDownPressed = 0;isDownPressedb = false;break;
+			case KeyEvent.VK_LEFT:
+				isLeftPressed = 0;isLeftPressedb = false;break;
+			case KeyEvent.VK_RIGHT:
+				isRightPressed = 0;isRightPressedb = false;break;
+		}
+		release();
 	}
 	public boolean isModeActual()
     {
