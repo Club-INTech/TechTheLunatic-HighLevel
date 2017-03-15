@@ -53,16 +53,6 @@ public class Callback
 	}
 	
 	/**
-	 * Constructeur d'un callback avec 1 paramètre, la méthode. Par défaut, celle-ci est exécutée une seule fois.
-	 * @param methode
-	 */
-	public Callback(Executable methode)
-	{
-		this.mExecutable = methode;
-		isUnique = true;
-	}
-	
-	/**
 	 * Le callback appelle la méthode, si elle n'est pas unique ou si elle n'est pas déjà faite
 	 * @return vrai si le robot a été déplacé/ tourné, faux sinon
 	 */
