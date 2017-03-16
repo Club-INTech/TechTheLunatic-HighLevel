@@ -33,7 +33,7 @@ public class InitialisationRobot extends AbstractScript {
     protected InitialisationRobot(HookFactory hookFactory, Config config, Log log){
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0,1,2,3};
+        versions = new Integer[]{0,1,2,3,4};
     }
 
     @Override
@@ -49,16 +49,17 @@ public class InitialisationRobot extends AbstractScript {
             hookToConsider.add(catchMG);
 
             // Initialisation des actionneurs
-            gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
-            gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-            gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-            gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
-            gameState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
+            if(versionToExecute<=3) {
+                gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+                gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+                gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+                gameState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
 
-            gameState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
-            gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-            gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
-
+                gameState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+            }
             if (versionToExecute == 3) {
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
@@ -92,6 +93,12 @@ public class InitialisationRobot extends AbstractScript {
 
                 //départ à l'envers (pelleteuse vers 0)
             } else if (versionToExecute == 2) {
+                gameState.robot.turn(-3 * Math.PI / 16);
+                gameState.robot.moveLengthwise(-100, hookToConsider);
+
+
+            }
+            else if (versionToExecute == 4) {
                 gameState.robot.turn(-3 * Math.PI / 16);
                 gameState.robot.moveLengthwise(-100, hookToConsider);
 
