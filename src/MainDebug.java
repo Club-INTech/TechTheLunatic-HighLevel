@@ -72,19 +72,18 @@ public class MainDebug
             // TODO : faire une initialisation du robot et de ses actionneurs
             realState.robot.setPosition(Table.entryPosition);
             realState.robot.setOrientation(Math.PI);
-            realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+            realState.robot.setLocomotionSpeed(Speed.FAST_ALL);
             container.startAllThreads();
 
 //			realState.robot.moveLengthwise(500);
 
-           realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-            mSerialWrapper.moveLengthwise(-500);
+            realState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+           // mSerialWrapper.moveLengthwise(1500);
 
-            //realState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-            //mSerialWrapper.moveLengthwise(800);
+            mSerialWrapper.moveLengthwise(-1200);
 
-            String[] noms = {"x", "y", "o", "vg", "vd", "consigne trans", "consigne vg", "consigne vd"};
-            for(int i = 0; i < 500; i++) {
+            String[] noms = {"tick g", "tick d", "o", "vg", "vd", "consigne trans", "consigne vg", "consigne vd"};
+            for(int i = 0; i < 1000; i++) {
                 double[] data = mSerialWrapper.pfdebug();
                 aff.addData(data, noms);
             }

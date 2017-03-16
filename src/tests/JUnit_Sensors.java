@@ -84,9 +84,18 @@ public class JUnit_Sensors extends JUnit_Test
 	public void testDetect() throws Exception
 	{
 		log.debug("Test de detection");
-		ThreadInterface tInterface = container.getService(ThreadInterface.class);
-		ThreadSensor sensor = container.getService(ThreadSensor.class);
+		GameState mRobot = container.getService(GameState.class);
+		mRobot.updateConfig();
+		mRobot.robot.setPosition(new Vec2(1205, 1170));
+		mRobot.robot.setOrientation(Math.PI);
+
+		container.getService(ThreadInterface.class);
+		container.getService(ThreadSensor.class);
 		container.startInstanciedThreads();
+
+		while (true) {
+			Thread.sleep(2000);
+		}
 	}
 
 //	@Test
