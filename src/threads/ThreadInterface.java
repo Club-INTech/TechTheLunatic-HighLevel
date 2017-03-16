@@ -47,13 +47,12 @@ public class ThreadInterface extends AbstractThread
         this.win = new Window(table, robot);
     }
 
-
-
     @Override
     public void run() {
         while(true)
         {
             win.getPanel().drawArrayList(robot.cheminSuivi);
+            win.getPanel().paintComponent(win.getGraphics());
             win.getPanel().repaint();
             try {
                 Thread.sleep(20);

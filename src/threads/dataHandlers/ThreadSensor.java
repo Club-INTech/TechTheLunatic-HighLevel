@@ -245,8 +245,7 @@ public class ThreadSensor extends AbstractThread
             //long time = System.currentTimeMillis();
 
 			getDistances();
-
-
+            
             if( !USvalues.contains(-1)) // si on n'a pas spammé
 			{
 				// On enleve les obstacles qu'on sait absents de la table : si le robot ennemi a bougé,

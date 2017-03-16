@@ -94,7 +94,7 @@ public class JUnit_Sensors extends JUnit_Test
 		container.startInstanciedThreads();
 
 		while (true) {
-			Thread.sleep(2000);
+			Thread.sleep(20);
 		}
 	}
 
