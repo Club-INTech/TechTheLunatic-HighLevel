@@ -149,7 +149,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.turn(3*Math.PI/16);
                 stateToConsider.robot.moveLengthwise(-35);
                 // Drop un module
-                stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
                 // Opération créneau
                 //stateToConsider.robot.moveLengthwise(60);
