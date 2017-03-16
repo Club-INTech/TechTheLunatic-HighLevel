@@ -99,15 +99,11 @@ public class ObstacleManager
 		
 		mUntestedMobileObstacles= new ArrayList<ObstacleProximity>();
 
-
-		
 		updateConfig();
        
         //par defaut
         //mEnnemyRobot1 = new ObstacleCircular(new Vec2(0, 0), 200 + robotRadius);
       	//mEnnemyRobot2 = new ObstacleCircular(new Vec2(0, 0), 200 + robotRadius);
-		
-
       		
       	//bords de la table
       	mLines.add(new Segment(new Vec2(-1500 + mRobotRadius, 0 + mRobotRadius), new Vec2(1500 - mRobotRadius, 0 + mRobotRadius)));
@@ -143,9 +139,7 @@ public class ObstacleManager
 		//base lunaire
 		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(0, 2000), 815 + mRobotRadius, -9*Math.PI/10, -Math.PI/10, true)));
 
-
 	}
-
 
     /**
      * Rend le gestionnaire d'obstacle fourni en argument explicite égal a ce gestionnaire.
@@ -248,14 +242,8 @@ public class ObstacleManager
     public synchronized void addObstacle(final Vec2 position, final int radius, final int lifetime)
     {
     	//vérification que l'on ne détecte pas un obstacle "normal"
-    	if (position.getX()>-1500+mRobotRadius+100 && position.getX()<1500-mRobotRadius-100 && position.getY()>mRobotRadius+100 && position.getY()<2000-mRobotRadius-100 //hors de la table
-                /*&& !( Geometry.isBetween(position.getX(), -250, 250) && Geometry.isBetween(position.getY(), 600, 1500)) //C'est la vitre
-                && !( Geometry.isBetween(position.getX(), -800, 800) && Geometry.isBetween(position.getY(), 1650, 2000)) //château de sable
-				&& !( Geometry.isBetween(position.getX(), 700, 1000) && Geometry.isBetween(position.getY(), 950, 1250)) //château de sable tapis
-				&& !( Geometry.isBetween(position.getX(), 0, 600) && Geometry.isBetween(position.getY(), 800, 1300)) //Notre zone de depose
-				&& !( Geometry.isBetween(position.getX(), -1000, -700) && Geometry.isBetween(position.getY(), 950, 1250)) //château de sable tapis adv
-				&& !( Geometry.isBetween(position.getX(), 800, 1500) && Geometry.isBetween(position.getY(), 500, 1800)) //tapis
-				*/)
+    	if (position.getX()>-1500+mRobotRadius+100 && position.getX()<1500-mRobotRadius-100 && position.getY()>mRobotRadius+100 && position.getY()<2000-mRobotRadius-100) //hors de la table
+			// TODO: Prévoir les cas où l'on détecte des éléments de jeu dans la condition
     	{
     		boolean isThereAnObstacleIntersecting=false;
     		for (int i = 0; i<mUntestedMobileObstacles.size(); i++)
