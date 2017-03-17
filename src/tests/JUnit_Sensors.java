@@ -19,6 +19,7 @@
 
 package tests;
 
+import enums.ActuatorOrder;
 import exceptions.ContainerException;
 import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
@@ -86,15 +87,16 @@ public class JUnit_Sensors extends JUnit_Test
 		log.debug("Test de detection");
 		GameState mRobot = container.getService(GameState.class);
 		mRobot.updateConfig();
-		mRobot.robot.setPosition(new Vec2(1205, 1170));
+		mRobot.robot.setPosition(new Vec2(1215, 915));
 		mRobot.robot.setOrientation(Math.PI);
 
+		mRobot.robot.useActuator(ActuatorOrder.ACTIV_US, false);
 		container.getService(ThreadInterface.class);
 		container.getService(ThreadSensor.class);
 		container.startInstanciedThreads();
 
 		while (true) {
-			Thread.sleep(20);
+			Thread.sleep(200);
 		}
 	}
 

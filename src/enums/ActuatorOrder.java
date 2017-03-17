@@ -92,6 +92,8 @@ public enum ActuatorOrder
  *		   *|__________________|*
  */
 
+	// Switch Ultrason (active/desactive US)
+	ACTIV_US("sus"),
 	//lire distance donnée par les capteurs US ,  en millimètres
 	DIST_US_ARD("usard"), //Distance capteur Arrière droit
 	DIST_US_ARG("usarg"), //Distance capteur Arrière gauche
