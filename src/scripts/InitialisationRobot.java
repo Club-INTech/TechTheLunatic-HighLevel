@@ -77,10 +77,10 @@ public class InitialisationRobot extends AbstractScript {
             if (versionToExecute == 1) {
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
-                gameState.robot.turn(2.319);   // 250, 580 <- 578, 208
+                gameState.robot.turn(2.25);   // 250, 580 <- 578, 208
                 gameState.robot.moveLengthwise(550);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
-                gameState.robot.moveLengthwise(-250, hookToConsider);
+                gameState.robot.moveLengthwise(-400, hookToConsider);
                 gameState.robot.turn(3 * Math.PI / 8);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
@@ -118,7 +118,7 @@ public class InitialisationRobot extends AbstractScript {
     @Override
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException {
 
-        if(version==0 || version==1 || version==2){
+        if(version==0 || version==1 || version==2 || version==4){
 
             return new Circle(robotPosition);
         }
