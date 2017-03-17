@@ -201,7 +201,7 @@ public class ThreadSensor extends AbstractThread
             e.printStackTrace();
         }
 
-        while(serialWrapper.isJumperAbsent())
+        /*while(serialWrapper.isJumperAbsent())
         {
             try {
                 Thread.sleep(100);
@@ -216,7 +216,7 @@ public class ThreadSensor extends AbstractThread
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
 		// maintenant que le jumper est retiré, le match a commencé
 		ThreadTimer.matchEnded = false;
@@ -265,8 +265,7 @@ public class ThreadSensor extends AbstractThread
 			}
 //			if (distance > 0 && distance < 70)
 //				log.debug("obstacle detecte a moins de 7 cm  !");
-				
-				
+
 			try 
 			{
 				// On ne spamme pas la serie, on attend un peu avant de redemander les valeurs
