@@ -31,7 +31,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
         //La position de depart est mise dans la Table (l'updtate config va la chercher)
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
-        mRobot.robot.setOrientation(0);
+        mRobot.robot.setOrientation(Math.PI);
         mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
