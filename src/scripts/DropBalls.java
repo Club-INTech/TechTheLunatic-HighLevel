@@ -105,7 +105,7 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
-                actualState.robot.moveLengthwise(-100);
+                actualState.robot.moveLengthwise(-160);
 
                 // Chope le module billy !
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
@@ -148,8 +148,8 @@ public class DropBalls extends AbstractScript
 
                 // Manoeuvre pour se dégager (On test le pathfinding en même temps puisqu'on le lâche dans un obstacle)
                 actualState.robot.moveLengthwise(-260);
-                //actualState.robot.turn(-Math.PI/4 +0.01);
-                //actualState.robot.moveLengthwise(-500);
+                actualState.robot.turn(-Math.PI/4 +0.01);
+                actualState.robot.moveLengthwise(-500);
             }
         }
         catch(Exception e)

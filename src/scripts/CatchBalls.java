@@ -73,8 +73,10 @@ public class CatchBalls extends AbstractScript {
     {
         try
         {
+
+
             if(versionToExecute == 1){
-                stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 // Calcule de l'angle pour se diriger vers le centre du robot
                 Vec2 posCratere= new Vec2(850, 540);
@@ -83,7 +85,7 @@ public class CatchBalls extends AbstractScript {
 
                 // Manoeuvre pour se diriger vers le cratère
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(130);
+                stateToConsider.robot.moveLengthwise(150);
             }
 
             else if(versionToExecute == 2){
@@ -142,7 +144,7 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
             if (versionToExecute == 1){
-                stateToConsider.robot.moveLengthwise(-100);
+                stateToConsider.robot.moveLengthwise(-170);
             }
             else if(versionToExecute == 2){
                 stateToConsider.robot.moveLengthwise(-110);
