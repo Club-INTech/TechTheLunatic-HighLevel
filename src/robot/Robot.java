@@ -156,16 +156,16 @@ public class Robot implements Service
 	public boolean getContactSensorValue (ContactSensors sensor) throws SerialConnexionException
 	{
 		// si il n'y a pas de symétrie, on renvoie la valeur brute du bas niveau
-				if(!symmetry) 
-					return serialWrapper.getContactSensorValue(sensor);
-				else
-				{
-					sensor = mSensorNamesMap.getSymmetrizedContactSensorName(sensor);
+		if(!symmetry)
+			return serialWrapper.getContactSensorValue(sensor);
+		else
+		{
+			sensor = mSensorNamesMap.getSymmetrizedContactSensorName(sensor);
 					
-					/* attention si les capteurs sont en int[] il faut symétriser ce int[] */
+			/* attention si les capteurs sont en int[] il faut symétriser ce int[] */
 					
-					return serialWrapper.getContactSensorValue(sensor);
-				}
+			return serialWrapper.getContactSensorValue(sensor);
+		}
 	}
 
 	/**
