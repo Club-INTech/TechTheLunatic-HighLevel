@@ -564,6 +564,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                 if(available())
                 {
                     buffer = readLine();
+                    log.debug("readLine" + buffer);
 
                     if(buffer.length() < 2)
                     {
