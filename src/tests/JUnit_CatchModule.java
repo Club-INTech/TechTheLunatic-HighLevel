@@ -35,7 +35,7 @@ public class JUnit_CatchModule extends JUnit_Test {
         // La position de depart est mise dans la Table (l'updtate config va la chercher)
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
-        mRobot.robot.setOrientation(Math.PI);
+        mRobot.robot.setOrientation(0);
         // Vitesse à calibrer en fonction du taffe du BL :p
         mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
@@ -43,7 +43,7 @@ public class JUnit_CatchModule extends JUnit_Test {
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
 
-        // scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(2, mRobot, new ArrayList<Hook>());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class JUnit_CatchModule extends JUnit_Test {
         try
         {
             //On execute le script
-            int version = 0;
+            int version = 1;
             log.debug("Ramassage des modules");
             scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(version, mRobot, emptyList);
             if (version != 0) {

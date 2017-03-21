@@ -201,6 +201,7 @@ public class ThreadSensor extends AbstractThread
             e.printStackTrace();
         }
 
+
         /*while(serialWrapper.isJumperAbsent())
         {
             try {
@@ -457,16 +458,20 @@ public class ThreadSensor extends AbstractThread
 	 * @return la distance selon les ultrasons
 	 */
 	@SuppressWarnings("unchecked")
-	private void getDistances()
+    public void getDistances()
 	{
-		try 
-		{
+
+        log.debug("écriture?");
+
+        try
+		{   log.debug("001");
             ArrayList<String> r = new ArrayList<>();
             ArrayList<Integer> res = new ArrayList<>();
             byte count=0;
 
             while(count < 4)
             {
+                log.debug("002");
                 if(valuesReceived.peek() != null)
                 {
                     r.add(valuesReceived.poll());
@@ -475,17 +480,32 @@ public class ThreadSensor extends AbstractThread
                 else
                     Sleep.sleep(100);
             }
+            log.debug("003");
+            log.debug("valeurs reçues" + valuesReceived);
 
-            for(String s : r)
-                res.add(Integer.parseInt(s));
 
-            USvalues = res;
+            //for(String s : r)
+            //{res.add(Integer.parseInt(s));}
 
-            if(this.debug)
-            {
-                try {
+            log.debug("004");
+
+
+
+            //USvalues = res;
+
+
+            log.debug("005 res : " + res + ",USvalues : " + USvalues);
+
+            //if(this.debug)
+            //{
+
+
+               // try {
+                    log.debug("écriture us");
+                    out.write(111111);
                     out.write(USvalues.get(0).toString());
                     out.newLine();
+
                     out.write(USvalues.get(1).toString());
                     out.newLine();
                     out.write(USvalues.get(2).toString());
@@ -494,10 +514,10 @@ public class ThreadSensor extends AbstractThread
                     out.newLine();
                     out.newLine();
                     out.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+                //} catch (IOException e) {
+                  //  e.printStackTrace();
+                //}
+            //}
 
             if(symetry) //Inversion gauche/droite pour symétriser
             {

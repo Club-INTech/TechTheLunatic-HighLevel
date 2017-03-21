@@ -98,7 +98,7 @@ public class InitialisationRobot extends AbstractScript {
                 //départ à l'envers (pelleteuse vers 0)
             } else if (versionToExecute == 2) {
                 gameState.robot.turn(-3 * Math.PI / 16);
-                gameState.robot.moveLengthwise(-100, hookToConsider);
+                gameState.robot.moveLengthwise(-100);
 
 
             }
