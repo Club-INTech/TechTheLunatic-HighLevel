@@ -35,8 +35,7 @@ public class Window extends JFrame
 {
 	/** numéro de serialisation	 */
 	private static final long serialVersionUID = -3140220993568124763L;
-	
-	
+
 	private TablePanel mPanel;
 	private SensorPanel mSensorPanel;
 	private Mouse mMouse;
@@ -45,7 +44,7 @@ public class Window extends JFrame
 	public Window(Table table, Robot robot)
 	{
 		this.setVisible(true);
-		this.setTitle("table");
+		this.setTitle("Table");
 	    this.setSize(600, 400);
 	    this.setLocationRelativeTo(null);
 	    

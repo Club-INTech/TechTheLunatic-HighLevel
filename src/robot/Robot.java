@@ -515,7 +515,11 @@ public class Robot implements Service
 		log.debug("appel de Robot.immobilise()");
         mLocomotion.immobilise();
     }
-    
+
+    public void switchSensor() throws SerialConnexionException {
+		serialWrapper.switchSensor();
+	}
+
 	public void enableRotationnalFeedbackLoop()
 	{
 		log.debug("appel de Robot.enableRotationnalFeedbackLoop()");

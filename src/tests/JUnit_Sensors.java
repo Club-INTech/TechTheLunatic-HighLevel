@@ -35,6 +35,7 @@ import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
 import threads.ThreadInterface;
+import threads.dataHandlers.ThreadEvents;
 import threads.dataHandlers.ThreadSensor;
 import utils.Sleep;
 
@@ -87,13 +88,14 @@ public class JUnit_Sensors extends JUnit_Test
 		log.debug("Test de detection");
 		GameState mRobot = container.getService(GameState.class);
 		mRobot.updateConfig();
-		mRobot.robot.setPosition(new Vec2(1215, 915));
+		mRobot.robot.setPosition(mRobot.table.entryPosition);
 		mRobot.robot.setOrientation(Math.PI);
 
-		mRobot.robot.useActuator(ActuatorOrder.ACTIV_US, false);
 		container.getService(ThreadInterface.class);
 		container.getService(ThreadSensor.class);
 		container.startInstanciedThreads();
+
+		mRobot.robot.switchSensor();
 
 		while (true) {
 			Thread.sleep(200);

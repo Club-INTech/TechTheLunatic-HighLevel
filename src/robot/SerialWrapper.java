@@ -61,7 +61,7 @@ public class SerialWrapper implements Service
     /**
      * Vrai si les capteurs sont allumés, faux si les capteurs sont ignorés
      */
-    private boolean areSensorsActive = true;
+    private boolean areSensorsActive = false;
 
     /**
      *  nombre de miliseconde de tolérance entre la détection d'un patinage et la levée de l'exeption. Trop basse il y aura des faux positifs, trop haute on va forcer dans les murs pendant longtemps
@@ -72,6 +72,13 @@ public class SerialWrapper implements Service
      * Temps d'attente entre deux envois à la serie en ms
      */
     private int delayBetweenSend = 100;
+
+    /**
+     * Constructeur série
+     * @param config
+     * @param log
+     * @param serie
+     */
 
     private SerialWrapper(Config config, Log log, ThreadSerial serie)
     {
@@ -517,6 +524,12 @@ public class SerialWrapper implements Service
     {
         String[] sensorAnswer = serial.communiquer(sensor.getSerialCommunication(),1);
         return (!sensorAnswer[0].equals("0"));
+    }
+
+    public void switchSensor() throws SerialConnexionException
+    {
+        serial.communiquer("sus", 0);
+        areSensorsActive = !areSensorsActive;
     }
 
 }
