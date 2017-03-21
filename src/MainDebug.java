@@ -72,13 +72,13 @@ public class MainDebug
             // TODO : faire une initialisation du robot et de ses actionneurs
             realState.robot.setPosition(Table.entryPosition);
             realState.robot.setOrientation(Math.PI);
-            realState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+            realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
             container.startAllThreads();
 
 //			realState.robot.moveLengthwise(500);
 
             realState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-            mSerialWrapper.moveLengthwise(-1500);
+            mSerialWrapper.moveLengthwise(600);
 
             String[] noms = {"tick g", "tick d", "o", "vg", "vd", "consigne trans", "consigne vg", "consigne vd"};
             for(int i = 0; i < 1000; i++) {

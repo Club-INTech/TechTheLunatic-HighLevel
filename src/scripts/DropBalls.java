@@ -105,8 +105,9 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(-260);
+
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_T_MEDIUM_R);
+                actualState.robot.moveLengthwise(-160);
 
                 // Chope le module billy !
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
