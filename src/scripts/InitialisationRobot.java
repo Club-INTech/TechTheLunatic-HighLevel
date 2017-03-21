@@ -90,6 +90,8 @@ public class InitialisationRobot extends AbstractScript {
 
 
 
+
+
                 //départ à l'endroit (pelleteuse vers PI)
                 gameState.robot.turn(13 * Math.PI / 16);
                 gameState.robot.moveLengthwise(130);

@@ -105,7 +105,7 @@ public class JUnit_Sensors extends JUnit_Test
 
 		GameState mRobot = container.getService(GameState.class);
 		mRobot.updateConfig();
-		mRobot.robot.setPosition(new Vec2(1215, 915));
+		mRobot.robot.setPosition(mRobot.table.entryPosition);
 		mRobot.robot.setOrientation(Math.PI);
 
 		container.getService(ThreadInterface.class);
@@ -114,6 +114,8 @@ public class JUnit_Sensors extends JUnit_Test
         log.debug("a");
 		mRobot.robot.useActuator(ActuatorOrder.ACTIV_US, false);
 		log.debug("b");
+
+		mRobot.robot.switchSensor();
 
 		while (true) {
 			Thread.sleep(200);

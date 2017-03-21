@@ -105,6 +105,7 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
+
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_T_MEDIUM_R);
                 actualState.robot.moveLengthwise(-160);
 
@@ -128,9 +129,10 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
 
                 // Et maintenant dépose les boules
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.turn(-Math.PI/2);
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(180);
+
+                actualState.robot.moveLengthwise(100);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -148,9 +150,11 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
                 // Manoeuvre pour se dégager (On test le pathfinding en même temps puisqu'on le lâche dans un obstacle)
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-260);
-                actualState.robot.turn(-Math.PI/4 +0.01);
-                actualState.robot.moveLengthwise(-500);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.turn(3*Math.PI/4 );
+                actualState.robot.moveLengthwise(400);
             }
         }
         catch(Exception e)
@@ -181,7 +185,7 @@ public class DropBalls extends AbstractScript
         }
         else if (version == 2)
         {
-            return new Circle(new Vec2(1090,805));
+            return new Circle(new Vec2(1190,805));
         }
         else
         {
