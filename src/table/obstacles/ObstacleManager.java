@@ -28,6 +28,7 @@ import utils.Config;
 import utils.Log;
 
 import java.util.ArrayList;
+import java.util.UnknownFormatConversionException;
 
 /**
  * Traite tout ce qui concerne la gestion des obstacles sur la table.
@@ -267,8 +268,11 @@ public class ObstacleManager
 	    			{
 	    				isThereAnObstacleIntersecting=true;
 	    				mUntestedMobileObstacles.get(i).setLifeTime(lifetime);
-	    				
+
 	    				mMobileObstacles.add(mUntestedMobileObstacles.get(i));
+	    				if (mMobileObstacles.size()>=2){
+	    					mMobileObstacles.remove(0);
+						}
 	    				mUntestedMobileObstacles.remove(i);
 	    			}
 	    		}
@@ -290,9 +294,16 @@ public class ObstacleManager
     					mMobileObstacles.get(i).numberOfTimeDetected = mMobileObstacles.get(i).getMaxNumberOfTimeDetected();
     			}
     		}
-    		if (!isThereAnObstacleIntersecting)
-    			mUntestedMobileObstacles.add(new ObstacleProximity(new Circle(position, radius), timeToTestObstacle));
+    		if (!isThereAnObstacleIntersecting) {
+				mUntestedMobileObstacles.add(new ObstacleProximity(new Circle(position, radius), timeToTestObstacle));
+				if (mUntestedMobileObstacles.size()>=8){
+					mUntestedMobileObstacles.remove(0);
+					mUntestedMobileObstacles.remove(1);
+					mUntestedMobileObstacles.remove(2);
+					mUntestedMobileObstacles.remove(3);
 
+				}
+			}
     			
     		/*on ne test pas si la position est dans un obstacle deja existant 
     		 *on ne detecte pas les plots ni les gobelets (et si on les detectes on prefere ne pas prendre le risque et on les evites)
