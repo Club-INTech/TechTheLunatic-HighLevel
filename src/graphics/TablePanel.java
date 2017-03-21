@@ -53,6 +53,8 @@ public class TablePanel extends JPanel
 	private Robot mRobot;
 	private boolean isRobotPresent = true;
 
+	public int counter = 0;
+
 	public TablePanel(Table table, Robot robot)
 	{
 		mPath = new ArrayList<Vec2>();
@@ -78,7 +80,6 @@ public class TablePanel extends JPanel
 		// Les bords de la table
 		g.setColor(Color.black);
 	    g.fillRect(0, 0, this.getWidth(), this.getHeight());
-	    
 	    
 	    // Lignes des obstacles 
 	    g.setColor(Color.darkGray);
@@ -135,8 +136,10 @@ public class TablePanel extends JPanel
 	    if(isRobotPresent)
 	    {
 		    g.setColor(Color.green);
-		    Vec2 position = mRobot.getPosition();
-		    double orientation = mRobot.getOrientation();
+
+			Vec2 position = mRobot.getPositionFast();
+			double orientation = mRobot.getOrientationFast();
+
 		    g.drawOval( (position.getX() - 100 + 1500) * this.getWidth() / 3000,
 		    		   -(position.getY() + 100) * this.getHeight() / 2000 + this.getHeight(),
 		    		    (2 * 100) * this.getWidth() / 3000,

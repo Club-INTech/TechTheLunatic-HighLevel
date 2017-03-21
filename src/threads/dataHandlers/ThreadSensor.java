@@ -251,7 +251,7 @@ public class ThreadSensor extends AbstractThread
 			{
 				// On enleve les obstacles qu'on sait absents de la table : si le robot ennemi a bougé,
 				// On l'enleve de notre memoire
-                mRobot.getPosition();
+                mRobot.getPositionFast();
                 removeObstacle();
 
                 for(int i=0 ; i<USvalues.size(); i++)
@@ -340,7 +340,8 @@ public class ThreadSensor extends AbstractThread
             vec = new Vec2(robotX1, robotY1);
         }
 
-        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(vec), radius, 100);
+        vec.setA(vec.getA()+mRobot.getOrientationFast());
+        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(vec), radius, 50);
     }
     /**
      * Ajoute un obstacle derrière le robot, avec les deux capteurs ayant détecté quelque chose
@@ -381,7 +382,8 @@ public class ThreadSensor extends AbstractThread
             vec = new Vec2(robotX1, robotY1);
         }
 
-        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(vec), radius, 100);
+        vec.setA(vec.getA()+mRobot.getOrientationFast());
+        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(vec), radius, 50);
     }
 
     /**
@@ -410,7 +412,8 @@ public class ThreadSensor extends AbstractThread
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
 
-        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(posEn), radius, 100);
+        posEn.setA(posEn.getA()+mRobot.getOrientationFast());
+        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(posEn), radius, 50);
     }
 
     /**
@@ -436,7 +439,8 @@ public class ThreadSensor extends AbstractThread
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
 
-        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(posEn), radius, 100);
+        posEn.setA(posEn.getA()+mRobot.getOrientationFast());
+        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(posEn), radius, 50);
     }
 
 
@@ -452,7 +456,6 @@ public class ThreadSensor extends AbstractThread
                 (int)(posPoint.getX()*Math.sin(orientation)-posPoint.getY()*Math.cos(orientation)+posOrigin.getY()));
     }
 
-
 	/**
 	 * Recupere la distance lue par les ultrasons 
 	 * @return la distance selon les ultrasons
@@ -460,18 +463,14 @@ public class ThreadSensor extends AbstractThread
 	@SuppressWarnings("unchecked")
     public void getDistances()
 	{
-
-        log.debug("écriture?");
-
         try
-		{   log.debug("001");
+		{
             ArrayList<String> r = new ArrayList<>();
             ArrayList<Integer> res = new ArrayList<>();
             byte count=0;
 
             while(count < 4)
             {
-                log.debug("002");
                 if(valuesReceived.peek() != null)
                 {
                     r.add(valuesReceived.poll());
@@ -480,36 +479,20 @@ public class ThreadSensor extends AbstractThread
                 else
                     Sleep.sleep(100);
             }
-            log.debug("003");
-            log.debug("valeurs reçues" + valuesReceived);
 
             for(String s : r) {
                 res.add(Integer.parseInt(s.substring(2)));
             }
 
+            USvalues = res;
 
-            //for(String s : r)
-            //{res.add(Integer.parseInt(s));}
-
-            log.debug("004");
-
-
-
-            //USvalues = res;
-
-
-            log.debug("005 res : " + res + ",USvalues : " + USvalues);
-
-            //if(this.debug)
-            //{
-
-
-               // try {
+            if(this.debug)
+            {
+               try {
                     log.debug("écriture us");
                     out.write(111111);
                     out.write(USvalues.get(0).toString());
                     out.newLine();
-
                     out.write(USvalues.get(1).toString());
                     out.newLine();
                     out.write(USvalues.get(2).toString());
@@ -518,10 +501,10 @@ public class ThreadSensor extends AbstractThread
                     out.newLine();
                     out.newLine();
                     out.flush();
-                //} catch (IOException e) {
-                  //  e.printStackTrace();
-                //}
-            //}
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
             if(symetry) //Inversion gauche/droite pour symétriser
             {
