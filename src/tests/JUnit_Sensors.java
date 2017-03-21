@@ -24,6 +24,7 @@ import exceptions.ContainerException;
 import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.Locomotion.UnexpectedObstacleOnPathException;
+import exceptions.ThreadException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
 import org.junit.Before;
@@ -38,6 +39,9 @@ import table.obstacles.Obstacle;
 import threads.ThreadInterface;
 import threads.dataHandlers.ThreadEvents;
 import threads.dataHandlers.ThreadSensor;
+import threads.dataHandlers.ThreadSerial;
+import utils.Config;
+import utils.Log;
 import utils.Sleep;
 
 import java.util.ArrayList;
@@ -58,7 +62,8 @@ public class JUnit_Sensors extends JUnit_Test
 	private Locomotion mLocomotion;
 	
 	GameState state;
-	
+
+
 	/* (non-Javadoc)
 	 * @see tests.JUnit_Test#setUp()
 	 */
@@ -81,12 +86,24 @@ public class JUnit_Sensors extends JUnit_Test
 		mLocomotion.setPosition(Table.entryPosition);// milieu de table
 		mLocomotion.setOrientation(Math.PI);
 
+        container.getService(ThreadInterface.class);
+
+        container.getService(ThreadSerial.class);
+        container.getService(Log.class);
+        container.getService(Table.class);
+        config = container.getService(Config.class);
+        config.updateConfig();
+
+        container.getService(ThreadSensor.class);
+
+
 	}
 
 	@Test
 	public void testDetect() throws Exception
 	{
 		log.debug("Test de detection");
+
 		GameState mRobot = container.getService(GameState.class);
 		mRobot.updateConfig();
 		mRobot.robot.setPosition(mRobot.table.entryPosition);
@@ -97,6 +114,9 @@ public class JUnit_Sensors extends JUnit_Test
 		container.getService(ThreadInterface.class);
 		container.getService(ThreadSensor.class);
 		container.startInstanciedThreads();
+        log.debug("a");
+		//mRobot.robot.useActuator(ActuatorOrder.ACTIVE_US, false);
+		log.debug("b");
 
 		mRobot.robot.switchSensor();
 
