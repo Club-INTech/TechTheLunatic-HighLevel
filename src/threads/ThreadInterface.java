@@ -52,7 +52,6 @@ public class ThreadInterface extends AbstractThread
         while(true)
         {
             win.getPanel().drawArrayList(robot.cheminSuivi);
-            win.getPanel().paintComponent(win.getGraphics());
             win.getPanel().repaint();
             try {
                 Thread.sleep(20);

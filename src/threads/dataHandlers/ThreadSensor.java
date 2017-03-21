@@ -340,7 +340,7 @@ public class ThreadSensor extends AbstractThread
             vec = new Vec2(robotX1, robotY1);
         }
 
-        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(vec), radius, 20);
+        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(vec), radius, 100);
     }
     /**
      * Ajoute un obstacle derrière le robot, avec les deux capteurs ayant détecté quelque chose
@@ -381,7 +381,7 @@ public class ThreadSensor extends AbstractThread
             vec = new Vec2(robotX1, robotY1);
         }
 
-        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(vec), radius, 20);
+        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(vec), radius, 100);
     }
 
     /**
@@ -410,7 +410,7 @@ public class ThreadSensor extends AbstractThread
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
 
-        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(posEn), radius, 20);
+        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(posEn), radius, 100);
     }
 
     /**
@@ -436,7 +436,7 @@ public class ThreadSensor extends AbstractThread
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
 
-        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(posEn), radius, 20);
+        mTable.getObstacleManager().addObstacle(mRobot.getPosition().plusNewVector(posEn), radius, 100);
     }
 
 
