@@ -34,6 +34,7 @@ import strategie.GameState;
 import utils.Config;
 import utils.Log;
 
+import java.awt.peer.ScrollPanePeer;
 import java.util.ArrayList;
 
     // TODO: calibrer les WaitforCompletion + faire toute les versions pour tout les cratères
@@ -84,8 +85,9 @@ public class CatchBalls extends AbstractScript {
                 Vec2 vec = posCratere.minusNewVector(posRobot);
 
                 // Manoeuvre pour se diriger vers le cratère
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(150);
+                stateToConsider.robot.moveLengthwise(160);
             }
 
             else if(versionToExecute == 2){
@@ -144,7 +146,9 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
             if (versionToExecute == 1){
+                stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 stateToConsider.robot.moveLengthwise(-170);
+                stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
             }
             else if(versionToExecute == 2){
                 stateToConsider.robot.moveLengthwise(-110);
