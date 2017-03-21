@@ -102,6 +102,7 @@ public class JUnit_Sensors extends JUnit_Test
 		log.debug("Test de detection");
 		container.startInstanciedThreads();
 		state.robot.switchSensor();
+		state.robot.setOrientation(Math.PI/2);
 
 		while (true) {
 			Thread.sleep(1000);
