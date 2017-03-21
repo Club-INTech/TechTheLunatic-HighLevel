@@ -112,7 +112,7 @@ public class JUnit_Sensors extends JUnit_Test
 		container.getService(ThreadSensor.class);
 		container.startInstanciedThreads();
         log.debug("a");
-		mRobot.robot.useActuator(ActuatorOrder.ACTIV_US, false);
+		//mRobot.robot.useActuator(ActuatorOrder.ACTIV_US, false);
 		log.debug("b");
 
 		mRobot.robot.switchSensor();
