@@ -35,6 +35,7 @@ import smartMath.Circle;
 import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
+import table.obstacles.Obstacle;
 import threads.ThreadInterface;
 import threads.dataHandlers.ThreadEvents;
 import threads.dataHandlers.ThreadSensor;
@@ -86,7 +87,6 @@ public class JUnit_Sensors extends JUnit_Test
 		mLocomotion.setOrientation(Math.PI);
 
         container.getService(ThreadInterface.class);
-
         container.getService(ThreadSerial.class);
         container.getService(Log.class);
         container.getService(Table.class);
@@ -94,31 +94,18 @@ public class JUnit_Sensors extends JUnit_Test
         config.updateConfig();
 
         container.getService(ThreadSensor.class);
-
-
 	}
 
 	@Test
 	public void testDetect() throws Exception
 	{
 		log.debug("Test de detection");
-
-		GameState mRobot = container.getService(GameState.class);
-		mRobot.updateConfig();
-		mRobot.robot.setPosition(mRobot.table.entryPosition);
-		mRobot.robot.setOrientation(Math.PI);
-
-		container.getService(ThreadInterface.class);
-		container.getService(ThreadSensor.class);
 		container.startInstanciedThreads();
-        log.debug("a");
-		//mRobot.robot.useActuator(ActuatorOrder.ACTIV_US, false);
-		log.debug("b");
 
-		mRobot.robot.switchSensor();
+		state.robot.switchSensor();
 
 		while (true) {
-			Thread.sleep(200);
+			Thread.sleep(1000);
 		}
 	}
 

@@ -513,7 +513,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             {
                 serialPort.notifyOnDataAvailable(false);
 
-
                 //Evacuation de l'eventuel buffer indÃƒÂ©sirable
                 output.flush();
 
@@ -564,7 +563,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                 if(available())
                 {
                     buffer = readLine();
-                    log.debug("readLine" + buffer);
+                    // log.debug("readLine" + buffer);
 
                     if(buffer.length() < 2)
                     {
