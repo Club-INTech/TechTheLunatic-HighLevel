@@ -147,7 +147,7 @@ public class ThreadSensor extends AbstractThread
     /**
      * Valeurs des capteurs US {avant-gauche, avant-droit, arrière gauche, arrière-droit}
      */
-    ArrayList<Integer> USvalues = new ArrayList<>(4);
+    ArrayList<Integer> USvalues = new ArrayList<Integer>(4);
 
     /**
      * Valeurs de capteurs modifiées pour la suppression d'obstacle
@@ -225,7 +225,7 @@ public class ThreadSensor extends AbstractThread
         {
             try
             {
-                Thread.sleep(2000);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -476,8 +476,9 @@ public class ThreadSensor extends AbstractThread
                     Sleep.sleep(100);
             }
 
-            for(String s : r)
-                res.add(Integer.parseInt(s));
+            for(String s : r) {
+                res.add(Integer.parseInt(s.substring(2)));
+            }
 
             USvalues = res;
 
@@ -542,12 +543,7 @@ public class ThreadSensor extends AbstractThread
                 {
                     USvalues.set(i, USvalues.get(i)+radius);
                 }
-
-
             }
-
-            USvalues.set(2,0);
-            USvalues.set(3,0); //POUR LA BORNE D'ARCADE
 		}
 		catch(Exception e)
 		{
