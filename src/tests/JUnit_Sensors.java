@@ -80,7 +80,7 @@ public class JUnit_Sensors extends JUnit_Test
 		capteurs.updateConfig();
 				
 		//locomotion
-		mLocomotion = container.getService(Locomotion.class);
+		mLocomotion = container.getService(Locomotion.class); 
 
 		//mLocomotion.setPosition(new Vec2 (1500-320-77,1000));
 		mLocomotion.setPosition(Table.entryPosition);// milieu de table

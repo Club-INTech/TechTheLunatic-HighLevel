@@ -989,7 +989,6 @@ public class Locomotion implements Service
         {
             float[] infos = serialWrapper.getCurrentPositionAndOrientation();
 
-
             if(infos == null)
                 return;
             
