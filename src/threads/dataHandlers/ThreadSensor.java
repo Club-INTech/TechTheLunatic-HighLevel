@@ -123,10 +123,10 @@ public class ThreadSensor extends AbstractThread
     /**
      * Angles des capteurs relatifs à l'axe avant-arrière du robot (radians) TODO A changer ? OUI
      */
-    private final double angleLF = -sensorPositionAngle;
+    private final double angleLF = sensorPositionAngle;
     private final double angleRF = -sensorPositionAngle;
-    private final double angleLB = sensorPositionAngle;
-    private final double angleRB = sensorPositionAngle;
+    private final double angleLB = sensorPositionAngle - Math.PI;
+    private final double angleRB = -sensorPositionAngle + Math.PI;
 
 
     /**
@@ -341,7 +341,7 @@ public class ThreadSensor extends AbstractThread
         }
 
         vec.setA(vec.getA()+mRobot.getOrientationFast());
-        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(vec), radius, 50);
+        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(vec), radius, 200);
     }
     /**
      * Ajoute un obstacle derrière le robot, avec les deux capteurs ayant détecté quelque chose
@@ -383,7 +383,7 @@ public class ThreadSensor extends AbstractThread
         }
 
         vec.setA(vec.getA()+mRobot.getOrientationFast());
-        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(vec), radius, 50);
+        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(vec), radius, 200);
     }
 
     /**
@@ -402,18 +402,18 @@ public class ThreadSensor extends AbstractThread
         if (isLeft){
             // On choisit le point à l'extrémité de l'arc à coté du capteur pour la position de l'ennemie: à courte distance, la position est réaliste,
             // à longue distance (>1m au vue des dimensions), l'ennemie est en réalité de l'autre coté
-            Vec2 posDetect = new Vec2(USvalues.get(0), Math.PI/2 + angleLF + detectionAngle/2);
-            double angleEn = Math.PI/2 + angleRF + detectionAngle/2;
+            Vec2 posDetect = new Vec2(USvalues.get(0), angleLF + detectionAngle/2);
+            double angleEn = angleRF + detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
         else{
-            Vec2 posDetect = new Vec2(USvalues.get(1), Math.PI/2 + angleRF - detectionAngle/2);
-            double angleEn = Math.PI/2 + angleLF - detectionAngle/2;
+            Vec2 posDetect = new Vec2(USvalues.get(1), angleRF - detectionAngle/2);
+            double angleEn = angleLF - detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
 
         posEn.setA(posEn.getA()+mRobot.getOrientationFast());
-        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(posEn), radius, 50);
+        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(posEn), radius, 200);
     }
 
     /**
@@ -440,7 +440,7 @@ public class ThreadSensor extends AbstractThread
         }
 
         posEn.setA(posEn.getA()+mRobot.getOrientationFast());
-        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(posEn), radius, 50);
+        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(posEn), radius, 200);
     }
 
 
