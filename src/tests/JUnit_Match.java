@@ -1,5 +1,6 @@
 package tests;
 
+import enums.ActuatorOrder;
 import enums.DirectionStrategy;
 import enums.ScriptNames;
 import enums.Speed;
@@ -32,7 +33,7 @@ public class JUnit_Match extends JUnit_Test {
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(0);
-        mRobot.robot.setLocomotionSpeed(Speed.ULTRA_SLOW_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
@@ -52,24 +53,34 @@ public class JUnit_Match extends JUnit_Test {
             log.debug("Ramassage des balles");
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
-            //Attraper modules fusée
-            scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(6, mRobot, emptyList);
 
-            //Attraper balles premier cratère
-            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
-            mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+            //Module cratère fond, et balles, plus drop module
+            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot, emptyList);
 
-            //Déposer balles premier cratère, et attraper le module
-            scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(2, mRobot, emptyList);
+            //drop les deux autres modules
+            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(3, mRobot, emptyList);
 
-            //Déposer 3 modules
-            scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(1, mRobot, emptyList);
+            mRobot.robot.moveLengthwise(-100);
+            mRobot.robot.turn(-Math.PI/2);
+            mRobot.robot.moveLengthwise(50);
 
-            //Attraper balles cratère du fond, et attraper puis déposer le module sur le chemin
-            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot,emptyList);
+            //drop balls
+            //abaisser les bras au plus bas
+            mRobot.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
-            //Déposer les balles qui restent
-            scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(1, mRobot, emptyList);
+            //rotation de la pelle jusqu'à la position de livraison
+            mRobot.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
+
+            //lever les bras jusqu'à la position intermédiaire
+           mRobot.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+
+            //tourner la pelle jusqu'à la position initiale
+            mRobot.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+
+            //monter les bras le plus haut \o/
+            mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+
+
 
 
 

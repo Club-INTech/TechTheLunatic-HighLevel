@@ -150,9 +150,9 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
                 // Manoeuvre pour se dégager (On test le pathfinding en même temps puisqu'on le lâche dans un obstacle)
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                //actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-260);
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.setLocomotionSpeed(Speed.FAST_ALL);
                 actualState.robot.turn(3*Math.PI/4 );
                 actualState.robot.moveLengthwise(400);
             }
