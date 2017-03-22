@@ -45,6 +45,7 @@ import java.util.ArrayList;
  * Version 0: robot déjà placé, il ramasse juste les balles (pour tests sans base roulante)
  * Version 1: ramassage dans un cratère proche de la zone de départ(l'autre petit cratère est plus teshenique)
  * Version 2: ramassage dans le cratère derrière la base lunaire
+ * version 3: dans le cratère près de la base masi par l'autre côté, plus module sur le chemin
  *
  * @author Gaelle, tic-tac, Rem
  */
@@ -55,7 +56,7 @@ public class CatchBalls extends AbstractScript {
     {
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0,1};
+        versions = new Integer[]{0,1,2,3};
     }
 
 
@@ -85,9 +86,23 @@ public class CatchBalls extends AbstractScript {
                 Vec2 vec = posCratere.minusNewVector(posRobot);
 
                 // Manoeuvre pour se diriger vers le cratère
-                stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
+                //stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 stateToConsider.robot.turn(vec.getA());
                 stateToConsider.robot.moveLengthwise(160);
+
+                // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
+                stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+
+                // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+
+                // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
+
+                // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
+                stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
             }
 
             else if(versionToExecute == 2){
@@ -128,8 +143,8 @@ public class CatchBalls extends AbstractScript {
 
                 stateToConsider.robot.moveLengthwise(150);
                 stateToConsider.robot.turn(Math.PI-0.62);
-                stateToConsider.robot.moveLengthwise(268);
-            }
+                stateToConsider.robot.moveLengthwise(255);
+
 
             // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
             stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -143,10 +158,10 @@ public class CatchBalls extends AbstractScript {
 
             // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
             stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
-            stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+            stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);}
 
             if (versionToExecute == 1){
-                stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                //stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 stateToConsider.robot.moveLengthwise(-170);
                 stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
             }
@@ -155,7 +170,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.turn(3*Math.PI/16);
                 stateToConsider.robot.moveLengthwise(-35);
                 // Drop un module
-                stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
                 // Opération créneau
                 //stateToConsider.robot.moveLengthwise(60);
@@ -170,6 +185,70 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.moveLengthwise(60);
                 stateToConsider.robot.turn(-Math.PI/4);
                 stateToConsider.robot.moveLengthwise(350);
+            }
+
+            if (versionToExecute == 3) {
+
+
+                stateToConsider.robot.turn(Math.PI);
+
+                stateToConsider.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
+
+                stateToConsider.robot.moveLengthwise(-100);
+                // Attraper le module
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+
+                // Et remonte-le à l'aide de l'ascenceur
+                stateToConsider.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR,false);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+
+                // Replie le tout
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
+
+
+                //Drop le module
+                stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
+                stateToConsider.robot.moveLengthwise(100);
+
+                // Calcule de l'angle pour se diriger vers le centre du robot
+                Vec2 posCratere= new Vec2(850, 540);
+                Vec2 posRobot=stateToConsider.robot.getPosition();
+                Vec2 vec = posCratere.minusNewVector(posRobot);
+
+                // Manoeuvre pour se diriger vers le cratère
+                //stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
+                stateToConsider.robot.turn(vec.getA());
+                stateToConsider.robot.moveLengthwise(160);
+
+                // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
+                stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+
+                // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+
+                // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
+
+                // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
+                stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
+                stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+
             }
 
         }
@@ -201,6 +280,9 @@ public class CatchBalls extends AbstractScript {
         {
             return new Circle(new Vec2(770, 1150), 0);
             // 1640; 680
+        }
+        else if (version ==3) {
+            return new Circle(new Vec2(950,730), 0);
         }
         else
         {

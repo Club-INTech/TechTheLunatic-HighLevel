@@ -62,7 +62,7 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.turn(0);
 
                 // Recule pour arriver devant la fusé
-                actualState.robot.moveLengthwise(-100);
+                actualState.robot.moveLengthwise(-155);
 
                 // Déploie l'attrape-module et la calle
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
@@ -123,7 +123,7 @@ public class CatchModule extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
 
                     // Recule l'attrape module pour laisser passer le bras de la calle
-                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
                     // Calle le module dans l'ascenceur
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
