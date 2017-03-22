@@ -262,10 +262,7 @@ public class ThreadSensor extends AbstractThread
 
 				//ajout d'obstacles mobiles dans l'obstacleManager
 				addObstacle();
-                //log.debug("Temps de gogolitude du ThreadCapteurs : "+(System.currentTimeMillis()-time)+" ms");
 			}
-//			if (distance > 0 && distance < 70)
-//				log.debug("obstacle detecte a moins de 7 cm  !");
 
 			try 
 			{
