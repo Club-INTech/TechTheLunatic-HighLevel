@@ -183,7 +183,6 @@ public class SerialWrapper implements Service
     {
         log.warning("Immobilisation du robot");
 
-
         serial.communiquer("stop", 0);// On s'asservit sur la position actuelle
         while(isRobotMoving())
         {
