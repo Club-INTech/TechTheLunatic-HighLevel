@@ -119,9 +119,6 @@ public class DropModule extends AbstractScript{
 
                 for (int i = 0; i < 2; i++) {
 
-                    // Drop un module
-                    actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                    actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
                     // Manoeuvre degueu pour se décaler
                     actualState.robot.moveLengthwise(60, hooksToConsider, false);
@@ -136,21 +133,13 @@ public class DropModule extends AbstractScript{
 
 
                     // Callage contre le depose-module
-                    actualState.robot.moveLengthwise(-320, hooksToConsider, true, false, Speed.SLOW_ALL);
+                    actualState.robot.moveLengthwise(-200, hooksToConsider, true, false, Speed.SLOW_ALL);
 
-                    //Troisième module
-                    actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                    actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
-
-                    // Monte le dernier module et le drop
-                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
-                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
-                    actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-                    actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-                    actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
-                    actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                    // Drop un module
                     actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                     actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
+                }
                     // Se décale de depose-module
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
@@ -159,7 +148,7 @@ public class DropModule extends AbstractScript{
 
                     actualState.robot.moveLengthwise(100, hooksToConsider, false);
 
-                }}
+                }
 
 
 
@@ -193,7 +182,7 @@ public class DropModule extends AbstractScript{
         }
         else if(version==4)
         {
-            return new Circle(new Vec2(920,700),0);
+            return new Circle(new Vec2(920,850),0);
 
         }
         else {

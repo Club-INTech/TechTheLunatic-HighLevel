@@ -46,20 +46,25 @@ public class InitialisationRobot extends AbstractScript {
             Hook catchMG = hookFactory.newPositionHook(new Vec2(480, 320), (float)(-Math.PI + 2.41), 8, 50);
             catchMG.addCallback(new Callback(new CatchModuleG(), true, gameState));
 
+            Hook replibrasD= hookFactory.newPositionHook(new Vec2(540, 520), 0, 10, 10000);
+            replibrasD.addCallback(new Callback(new CatchModuleD(), true, gameState));
+
             hookToConsider.add(catchMD);
             hookToConsider.add(catchMG);
+            hookToConsider.add(replibrasD);
+
 
             // Initialisation des actionneurs
             if(versionToExecute<=3) {
-                gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
-                gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-                gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-                gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
-                gameState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
+               // gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+                //gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+                //gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                //gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+                //gameState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
 
                 gameState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
-                gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-                gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                //gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                //gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
             }
             if (versionToExecute == 3) {
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
@@ -81,11 +86,11 @@ public class InitialisationRobot extends AbstractScript {
                 gameState.robot.turn(2.25);   // 250, 580 <- 578, 208
                 gameState.robot.moveLengthwise(550);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
-                gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                //gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 gameState.robot.moveLengthwise(-400, hookToConsider);
-                gameState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                gameState.robot.setLocomotionSpeed(Speed.FAST_ALL);
                 gameState.robot.turn(3 * Math.PI / 8);
-                gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                //gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
 
 

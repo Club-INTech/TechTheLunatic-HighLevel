@@ -52,8 +52,9 @@ public class JUnit_MagicBalls extends JUnit_Test {
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-            mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+            mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
             scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(2, mRobot, emptyList);
+            mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
             //scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot,emptyList);
             //scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(1, mRobot, emptyList);
             returnToEntryPosition(mRobot);
