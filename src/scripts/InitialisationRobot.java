@@ -88,7 +88,6 @@ public class InitialisationRobot extends AbstractScript {
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
                 //gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 gameState.robot.moveLengthwise(-400, hookToConsider);
-                gameState.robot.setLocomotionSpeed(Speed.FAST_ALL);
                 gameState.robot.turn(3 * Math.PI / 8);
                 //gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 

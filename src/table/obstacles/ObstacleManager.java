@@ -298,9 +298,6 @@ public class ObstacleManager
 				mUntestedMobileObstacles.add(new ObstacleProximity(new Circle(position, radius), timeToTestObstacle));
 				if (mUntestedMobileObstacles.size()>=8){
 					mUntestedMobileObstacles.remove(0);
-					mUntestedMobileObstacles.remove(1);
-					mUntestedMobileObstacles.remove(2);
-					mUntestedMobileObstacles.remove(3);
 
 				}
 			}
