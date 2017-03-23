@@ -10,7 +10,9 @@ import org.junit.Test;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
+import threads.ThreadInterface;
 import threads.dataHandlers.ThreadEvents;
+import threads.dataHandlers.ThreadSensor;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,8 @@ public class JUnit_MagicBalls extends JUnit_Test {
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
+        container.getService(ThreadSensor.class);
+        container.getService(ThreadInterface.class);
         container.startInstanciedThreads();
 
         scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
@@ -52,9 +56,9 @@ public class JUnit_MagicBalls extends JUnit_Test {
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-            mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
+            mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
             scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(2, mRobot, emptyList);
-            mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
+            mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
             //scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot,emptyList);
             //scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(1, mRobot, emptyList);
             returnToEntryPosition(mRobot);

@@ -138,8 +138,7 @@ public class TablePanel extends JPanel
 		    g.setColor(Color.green);
 
 			Vec2 position = mRobot.getPositionFast();
-			// double orientation = mRobot.getOrientationFast();
-			double orientation = Math.PI/2;
+			double orientation = mRobot.getOrientationFast();
 
 		    g.drawOval( (position.getX() - 100 + 1500) * this.getWidth() / 3000,
 		    		   -(position.getY() + 100) * this.getHeight() / 2000 + this.getHeight(),
