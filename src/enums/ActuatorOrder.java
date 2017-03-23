@@ -122,13 +122,13 @@ public enum ActuatorOrder
 
 	//********** 3 POSITIONS DES BRAS DE LA PELLETEUSE ***********//
 	// Rangement de la pelleteuse
-	REPLIER_PELLETEUSE("bpr",600),
+	REPLIER_PELLETEUSE("bpr",300),
 
 	// Déploiement de la pelleteuse
-	DEPLOYER_PELLETEUSE("bpd",800),
+	DEPLOYER_PELLETEUSE("bpd",350),
 
 	// Position intermédiaire de la pelleteuse, pour rotations de la pelle
-	MED_PELLETEUSE("bpm",800),
+	MED_PELLETEUSE("bpm",300),
 
 
 	//********** 3 POSITIONS DE LA PELLE ***********//
@@ -136,10 +136,10 @@ public enum ActuatorOrder
 	PRET_PELLE("pd",1000),
 
 	// Position intermédiaire de la pelle, maintient les boules
-	PREND_PELLE("pm",1500),
+	PREND_PELLE("pm",1000),
 
 	//Pos de déplacement avec les boules
-	TIENT_BOULES("pt",1500),
+	TIENT_BOULES("pt",1000),
 
 	//Position de livraison de boules de la pelle
 	LIVRE_PELLE("pf",1000),
@@ -158,20 +158,20 @@ public enum ActuatorOrder
 
 	// Côté Droit
 	//Position avant prise
-	REPOS_ATTRAPE_D("amdd",1200),
+	REPOS_ATTRAPE_D("amdd",500),
 
 	//Position d'évitement de la cale
-	MID_ATTRAPE_D("ammd",1000),
+	MID_ATTRAPE_D("ammd",300),
 
 	// Position de livraison
-	PREND_MODULE_D("amfd",1200),
+	PREND_MODULE_D("amfd",1000),
 
 	//Côté gauche
-	REPOS_ATTRAPE_G("amdg",1200),
+	REPOS_ATTRAPE_G("amdg",500),
 
-	MID_ATTRAPE_G("ammg",1000),
+	MID_ATTRAPE_G("ammg",300),
 
-	PREND_MODULE_G("amfg",1200),
+	PREND_MODULE_G("amfg",1000),
 
 
 /*			 ___________________
@@ -183,22 +183,22 @@ public enum ActuatorOrder
 //		2 POSITIONS DES CALLAGES-MODULES(les marteaux)	//
 
 	// Position haut
-	REPLI_CALLE_D("cmdd",1200),
+	REPLI_CALLE_D("cmdd",300),
 
 	//Position repos
-	REPOS_CALLE_D("cmmd",1200),
+	REPOS_CALLE_D("cmmd",150),
 
 	// Position basse
-	LIVRE_CALLE_D("cmfd",1200),
+	LIVRE_CALLE_D("cmfd",450),
 
 	// Position haut
-	REPLI_CALLE_G("cmdg",1200),
+	REPLI_CALLE_G("cmdg",300),
 
 	//Poition de repos
-	REPOS_CALLE_G("cmmg",1200),
+	REPOS_CALLE_G("cmmg",150),
 
 	// Position basse
-	LIVRE_CALLE_G("cmfg",1200),
+	LIVRE_CALLE_G("cmfg",450),
 
 
 /*			 ___________________
@@ -209,13 +209,13 @@ public enum ActuatorOrder
 
 	//		2 POSITIONS DU LARGUE MODULE	//
 	// Position de repos
-	REPOS_LARGUEUR("lmd",500),
+	REPOS_LARGUEUR("lmd",200),
 
 	// Position de poussée
 	POUSSE_LARGUEUR("lmf", 500),
 
 	// Position de poussée en mode lent
-	POUSSE_LARGUEUR_LENT("lmfl", 500),
+	POUSSE_LARGUEUR_LENT("lmfl", 900),
 
     //Réasservissement largue module
     REASSERV_LARGEUR("lmreasserv"),
@@ -229,10 +229,10 @@ public enum ActuatorOrder
 
 	//		2 POSITIONS DE L'ASCENCEUR  //
 	// Position basse
-	BAISSE_ASC("asdown",1500),
+	BAISSE_ASC("asdown",1000),
 
 	// Position haute
-	LEVE_ASC("asup",1500);
+	LEVE_ASC("asup",500);
 
 
 
