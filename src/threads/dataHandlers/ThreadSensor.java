@@ -101,7 +101,7 @@ public class ThreadSensor extends AbstractThread
 	double minSensorRange = 20;
 
     private BufferedWriter out;
-    private final boolean debug = false;
+    private final boolean debug = true;
 	
 	/**
 	 *  Angle de visibilité qu'a le capteur 
@@ -486,8 +486,6 @@ public class ThreadSensor extends AbstractThread
             if(this.debug)
             {
                try {
-                    log.debug("écriture us");
-                    out.write(111111);
                     out.write(USvalues.get(0).toString());
                     out.newLine();
                     out.write(USvalues.get(1).toString());
@@ -562,6 +560,7 @@ public class ThreadSensor extends AbstractThread
 			//Integer.parseInt(config.getProperty("rayon_robot_adverse"));
 			
 			//plus que cette distance (environ 50cm) on est beaucoup moins precis sur la position adverse (donc on ne l'ecrit pas !)
+            // TODO expliquer le calcul de la distance
 			maxSensorRange = Integer.parseInt(config.getProperty("largeur_robot"))
 							 / Math.sin(Float.parseFloat(config.getProperty("angle_detection_capteur")));
 			sensorPositionAngle = Float.parseFloat(config.getProperty("angle_position_capteur"));

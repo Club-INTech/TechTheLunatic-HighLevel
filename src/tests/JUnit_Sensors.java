@@ -72,7 +72,7 @@ public class JUnit_Sensors extends JUnit_Test
 	{
 		super.setUp();
 		state = container.getService(GameState.class);
-		
+
 		log.debug("JUnit_ActionneursTest.setUp()");
 		capteurs = container.getService(SerialWrapper.class);
 		
