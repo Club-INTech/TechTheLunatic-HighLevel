@@ -705,7 +705,6 @@ public class Locomotion implements Service
         double angle;
         Vec2 aimSymmetrized = null;
 
-
         // Le point qu'on vise, donné par le haut niveau donc comme si on etais vert
         aimSymmetrized = aim.clone();
 
@@ -715,24 +714,17 @@ public class Locomotion implements Service
             aimSymmetrized.setX(-aimSymmetrized.getX());
         }
         Vec2 delta = aimSymmetrized.clone();
-
         delta.minus(givenPosition);
 
-
         //calcul de la nouvelle distance et du nouvel angle
-        distance = delta.length();
-        /*
-        if(symetry)
-        	  angle = Math.atan2(-delta.y, delta.x);//Angle en absolu 
-        else */
-        angle = Math.atan2(delta.getY(), delta.getX());//Angle en absolu
+        distance = delta.getR();
+        angle = delta.getA();
 
         // si on a besoin de se retourner pour suivre la consigne de isMovementForward on le fait ici
         if (isMovementForward && distance < 0 || (!isMovementForward && distance > 0)) {
             distance *= -1;
             angle += Math.PI;
         }
-
 
         if(isForcing)
         {
