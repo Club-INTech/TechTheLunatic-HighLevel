@@ -426,13 +426,13 @@ public class ThreadSensor extends AbstractThread
         Vec2 posEn;
 
         if (isLeft){
-            Vec2 posDetect = new Vec2(USvalues.get(2), Math.PI/2 + angleLB + detectionAngle/2);
-            double angleEn = Math.PI/2 + angleRB + detectionAngle/2;
+            Vec2 posDetect = new Vec2(USvalues.get(2),angleLB + detectionAngle/2);
+            double angleEn = angleRB + detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
         else{
-            Vec2 posDetect = new Vec2(USvalues.get(3), Math.PI/2 + angleRB - detectionAngle/2);
-            double angleEn = Math.PI/2 + angleLB - detectionAngle/2;
+            Vec2 posDetect = new Vec2(USvalues.get(3),angleRB - detectionAngle/2);
+            double angleEn = angleLB - detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
         }
 

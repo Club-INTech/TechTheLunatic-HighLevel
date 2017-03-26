@@ -104,6 +104,8 @@ public class JUnit_Sensors extends JUnit_Test
 
 		state.robot.switchSensor();
 		state.robot.setOrientation(Math.PI/2);
+		state.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
+		state.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE,true);
 
 		while (true) {
 			Thread.sleep(1000);
