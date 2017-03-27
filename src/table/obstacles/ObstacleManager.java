@@ -270,9 +270,6 @@ public class ObstacleManager
 	    				mUntestedMobileObstacles.get(i).setLifeTime(lifetime);
 
 	    				mMobileObstacles.add(mUntestedMobileObstacles.get(i));
-	    				if (mMobileObstacles.size()>=2){
-	    					mMobileObstacles.remove(0);
-						}
 	    				mUntestedMobileObstacles.remove(i);
 	    			}
 	    		}
@@ -296,10 +293,6 @@ public class ObstacleManager
     		}
     		if (!isThereAnObstacleIntersecting) {
 				mUntestedMobileObstacles.add(new ObstacleProximity(new Circle(position, radius), timeToTestObstacle));
-				if (mUntestedMobileObstacles.size()>=8){
-					mUntestedMobileObstacles.remove(0);
-
-				}
 			}
     			
     		/*on ne test pas si la position est dans un obstacle deja existant 

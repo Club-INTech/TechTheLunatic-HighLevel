@@ -27,7 +27,9 @@ import smartMath.Circle;
 import smartMath.Vec2;
 import smartMath.Geometry;
 import table.Table;
+import table.obstacles.Obstacle;
 import table.obstacles.ObstacleCircular;
+import table.obstacles.ObstacleProximity;
 import threads.AbstractThread;
 import threads.ThreadTimer;
 import utils.Sleep;
@@ -93,13 +95,13 @@ public class ThreadSensor extends AbstractThread
 	 * Distance maximale fiable pour les capteurs : au dela, valeurs abberentes
 	 * Override par la config
 	 */
-	double maxSensorRange=500;
+	double maxSensorRange;
 
 	/**
 	 * Distance minimale à laquelle on peut se fier aux capteurs : ne pas detecter notre propre root par exemple
-	 * TODO : mettre en config
+     * Override par la config
 	 */
-	double minSensorRange = 20;
+	double minSensorRange;
 
     private BufferedWriter out;
     private BufferedWriter outHL;
@@ -123,7 +125,7 @@ public class ThreadSensor extends AbstractThread
 	double sensorPositionAngle;
 
     /**
-     * Angles des capteurs relatifs à l'axe avant-arrière du robot (radians) TODO A changer ? OUI
+     * Angles des capteurs relatifs à l'axe avant-arrière du robot (radians)
      */
     private final double angleLF = sensorPositionAngle;
     private final double angleRF = -sensorPositionAngle;
@@ -132,7 +134,7 @@ public class ThreadSensor extends AbstractThread
 
 
     /**
-     * Positions relatives au centre du robot TODO A changer !
+     * Positions relatives au centre du robot
      */
 
     private final Vec2 positionLF = new Vec2(150, 135);
@@ -296,15 +298,35 @@ public class ThreadSensor extends AbstractThread
 	 */
 	private void addObstacle()
 	{		
-        if(USvalues.get(0) != 0 && USvalues.get(1) != 0)
+        if(USvalues.get(0) != 0 && USvalues.get(1) != 0) {
             addFrontObstacleBoth();
-        else if((USvalues.get(0) != 0 || USvalues.get(1) != 0))
+            try {
+                outHL.write("FrontBoth");
+            }
+            catch(IOException e){}
+        }
+        else if((USvalues.get(0) != 0 || USvalues.get(1) != 0)) {
             addFrontObstacleSingle(USvalues.get(0) != 0);
+            try {
+                outHL.write("FrontSingle");
+            } catch (IOException e) {
+            }
+        }
 
-        if(USvalues.get(2) != 0 && USvalues.get(3) != 0 )
+        if(USvalues.get(2) != 0 && USvalues.get(3) != 0 ) {
             addBackObstacleBoth();
-        else if((USvalues.get(2) != 0 || USvalues.get(3) != 0))
+            try {
+                outHL.write("BackBoth");
+            }
+            catch(IOException e){}
+        }
+        else if((USvalues.get(2) != 0 || USvalues.get(3) != 0)) {
             addBackObstacleSingle(USvalues.get(2) != 0);
+            try {
+                outHL.write("BackSingle");
+            }
+            catch(IOException e){}
+        }
 	}
 
     /**
@@ -439,30 +461,11 @@ public class ThreadSensor extends AbstractThread
             Vec2 posDetect = new Vec2(USvalues.get(2),angleLB + detectionAngle/2);
             double angleEn = angleRB + detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionLB);
-
-            try {
-                outHL.write("Detection gauche Back: position relative au robot :" + posEn.toString());
-                outHL.newLine();
-            }
-            catch(IOException e){
-            }
         }
         else{
             Vec2 posDetect = new Vec2(USvalues.get(3),angleRB - detectionAngle/2);
             double angleEn = angleLB - detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRB);
-
-            try {
-                outHL.write("Detection droit Back: position relative au robot:" + posEn.toString());
-                outHL.newLine();
-            }
-            catch(IOException e){
-            }
-        }
-        try {
-            outHL.flush();
-        }
-        catch (IOException e){
         }
 
         posEn.setA(posEn.getA()+mRobot.getOrientationFast());
@@ -554,7 +557,7 @@ public class ThreadSensor extends AbstractThread
             for(int i=0 ; i<USvalues.size() ; i++)
             {
                 // On met tout les capteurs qui detectent un objet trop proche du robot ou à plus de maxSensorRange a 0
-                // TODO : a passer en traitement de bas niveau ?
+                // TODO : a passer en traitement de bas niveau ? Non, ce traitement dépend de la façon dont on calcule la position adverse
                 if ( USvalues.get(i) > maxSensorRange)
                 {
                     USvalues.set(i, 0);
@@ -572,9 +575,7 @@ public class ThreadSensor extends AbstractThread
             }
 		}
 		catch(Exception e)
-		{
-			
-		}
+        {}
 	}
 
 	public void updateConfig()
@@ -588,6 +589,8 @@ public class ThreadSensor extends AbstractThread
             // TODO expliquer le calcul de la distance
 			maxSensorRange = Integer.parseInt(config.getProperty("largeur_robot"))
 							 / Math.sin(Float.parseFloat(config.getProperty("angle_detection_capteur")));
+			minSensorRange = Integer.parseInt(config.getProperty("portee_mini_capteurs"));
+
 			sensorPositionAngle = Float.parseFloat(config.getProperty("angle_position_capteur"));
 
 			detectionAngle=Float.parseFloat(config.getProperty("angle_detection_capteur"));
@@ -610,8 +613,12 @@ public class ThreadSensor extends AbstractThread
 	 */
 	private void removeObstacle()
 	{
+	    for (ObstacleProximity obstacle : mTable.getObstacleManager().getMobileObstacles()){
+	        if (obstacle.getOutDatedTime() > System.currentTimeMillis()){
+	            mTable.getObstacleManager().removeObstacle(obstacle);
+            }
+        }
 		// TODO enlever les obstacles qu'on devrait voir mais qu'on ne detecte plus
-
 
 	}
 
