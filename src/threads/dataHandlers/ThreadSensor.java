@@ -36,6 +36,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -101,6 +102,7 @@ public class ThreadSensor extends AbstractThread
 	double minSensorRange = 20;
 
     private BufferedWriter out;
+    private BufferedWriter outHL;
     private final boolean debug = true;
 	
 	/**
@@ -192,11 +194,20 @@ public class ThreadSensor extends AbstractThread
         try
         {
             File file = new File("us.txt");
+            File file1 = new File("usHL.txt");
+
             if (!file.exists()) {
                 //file.delete();
                 file.createNewFile();
             }
+
+            if (!file1.exists()){
+                file1.createNewFile();
+            }
+
             out = new BufferedWriter(new FileWriter(file));
+            outHL = new BufferedWriter(new FileWriter(file1));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -401,12 +412,12 @@ public class ThreadSensor extends AbstractThread
             // à longue distance (>1m au vue des dimensions), l'ennemie est en réalité de l'autre coté
             Vec2 posDetect = new Vec2(USvalues.get(0), angleLF + detectionAngle/2);
             double angleEn = angleRF + detectionAngle/2;
-            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
+            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionLF);
         }
         else{
             Vec2 posDetect = new Vec2(USvalues.get(1), angleRF - detectionAngle/2);
             double angleEn = angleLF - detectionAngle/2;
-            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
+            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRF);
         }
 
         posEn.setA(posEn.getA()+mRobot.getOrientationFast());
@@ -417,8 +428,7 @@ public class ThreadSensor extends AbstractThread
      * Ajoute un obstacle derrière le robot, avec un seul capteur ayant détecté quelque chose
      * @param isLeft si c'est le capteur gauche
      */
-    private void addBackObstacleSingle(boolean isLeft)
-    {
+    private void addBackObstacleSingle(boolean isLeft) {
         // De meme qu'avec le front
 
         Circle arcL = new Circle(positionLB, USvalues.get(2), detectionAngle, angleLB, false);
@@ -428,12 +438,31 @@ public class ThreadSensor extends AbstractThread
         if (isLeft){
             Vec2 posDetect = new Vec2(USvalues.get(2),angleLB + detectionAngle/2);
             double angleEn = angleRB + detectionAngle/2;
-            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
+            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionLB);
+
+            try {
+                outHL.write("Detection gauche Back: position relative au robot :" + posEn.toString());
+                outHL.newLine();
+            }
+            catch(IOException e){
+            }
         }
         else{
             Vec2 posDetect = new Vec2(USvalues.get(3),angleRB - detectionAngle/2);
             double angleEn = angleLB - detectionAngle/2;
-            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn));
+            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRB);
+
+            try {
+                outHL.write("Detection droit Back: position relative au robot:" + posEn.toString());
+                outHL.newLine();
+            }
+            catch(IOException e){
+            }
+        }
+        try {
+            outHL.flush();
+        }
+        catch (IOException e){
         }
 
         posEn.setA(posEn.getA()+mRobot.getOrientationFast());
@@ -524,7 +553,7 @@ public class ThreadSensor extends AbstractThread
 
             for(int i=0 ; i<USvalues.size() ; i++)
             {
-                // On met tout les capteurs qui detectent un objet DANS le robot ou à plus de maxSensorRange a 0
+                // On met tout les capteurs qui detectent un objet trop proche du robot ou à plus de maxSensorRange a 0
                 // TODO : a passer en traitement de bas niveau ?
                 if ( USvalues.get(i) > maxSensorRange)
                 {
@@ -539,10 +568,6 @@ public class ThreadSensor extends AbstractThread
                 else if(i == 1 && modeBorgne)
                 {
                     USvaluesForDeletion.set(i, 0);
-                }
-                else
-                {
-                    USvalues.set(i, USvalues.get(i)+radius);
                 }
             }
 		}
