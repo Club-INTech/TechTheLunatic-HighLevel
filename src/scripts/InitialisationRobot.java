@@ -17,7 +17,6 @@ import strategie.GameState;
 import table.Table;
 import utils.Config;
 import utils.Log;
-import enums.Speed;
 
 import java.util.ArrayList;
 
@@ -85,7 +84,7 @@ public class InitialisationRobot extends AbstractScript {
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
                 gameState.robot.turn(2.25);   // 250, 580 <- 578, 208
                 gameState.robot.moveLengthwise(550);
-                gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 //gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 gameState.robot.moveLengthwise(-400, hookToConsider);
                 gameState.robot.turn(3 * Math.PI / 8);
