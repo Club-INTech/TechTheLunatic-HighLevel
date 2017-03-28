@@ -137,8 +137,8 @@ public class ThreadSensor extends AbstractThread
      * Positions relatives au centre du robot
      */
 
-    private final Vec2 positionLF = new Vec2(150, 135);
-    private final Vec2 positionRF = new Vec2(150, -135);
+    private final Vec2 positionLF = new Vec2(150, 240);
+    private final Vec2 positionRF = new Vec2(150, -240);
     private final Vec2 positionLB = new Vec2(-150,135);
     private final Vec2 positionRB = new Vec2(-150,-135);
 
@@ -302,6 +302,7 @@ public class ThreadSensor extends AbstractThread
             addFrontObstacleBoth();
             try {
                 outHL.write("FrontBoth");
+                outHL.newLine();
             }
             catch(IOException e){}
         }
@@ -309,6 +310,7 @@ public class ThreadSensor extends AbstractThread
             addFrontObstacleSingle(USvalues.get(0) != 0);
             try {
                 outHL.write("FrontSingle");
+                outHL.newLine();
             } catch (IOException e) {
             }
         }
@@ -317,6 +319,7 @@ public class ThreadSensor extends AbstractThread
             addBackObstacleBoth();
             try {
                 outHL.write("BackBoth");
+                outHL.newLine();
             }
             catch(IOException e){}
         }
@@ -324,9 +327,14 @@ public class ThreadSensor extends AbstractThread
             addBackObstacleSingle(USvalues.get(2) != 0);
             try {
                 outHL.write("BackSingle");
+                outHL.newLine();
             }
             catch(IOException e){}
         }
+        try {
+            outHL.flush();
+        }
+        catch (IOException e){}
 	}
 
     /**
@@ -341,7 +349,7 @@ public class ThreadSensor extends AbstractThread
         double robotY1, robotY2;
         double a, b, c, delta;
         int constante, R1, R2;
-        Vec2 vec;
+        Vec2 vec = new Vec2();
 
         R1 = USvalues.get(0) + radius;
         R2 = USvalues.get(1) + radius;
@@ -358,11 +366,40 @@ public class ThreadSensor extends AbstractThread
             robotY1 = -((positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY())) * robotX1 - constante / (2 * (positionLF.getY() - positionRF.getY()));
             robotY2 = -((positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY())) * robotX2 - constante / (2 * (positionLF.getY() - positionRF.getY()));
 
-            if (robotX1 <= robotWidth / 2) {
-                vec = new Vec2(robotX2, robotY2);
-            } else {
-                vec = new Vec2(robotX1, robotY1);
-            }
+            try {
+                Vec2 vec0 = new Vec2(robotX1, robotY1);
+                Vec2 vec1 = new Vec2(robotX1, robotY2);
+                Vec2 vec2 = new Vec2(robotX2, robotY1);
+                Vec2 vec3 = new Vec2(robotX2, robotY2);
+                // TODO vérifier que les solutions répondent aux équations + virer le vecteur y négatif
+
+                ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
+                listVec.add(vec0);
+                listVec.add(vec1);
+                listVec.add(vec2);
+                listVec.add(vec3);
+
+                outHL.write("Vec0 :"+vec0);
+                outHL.newLine();
+                outHL.write("Vec1 :"+vec1);
+                outHL.newLine();
+                outHL.write("Vec2 :"+vec2);
+                outHL.newLine();
+                outHL.write("Vec3 :"+vec3);
+                outHL.newLine();
+                outHL.newLine();
+
+                for(Vec2 v : listVec){
+                    if(v.getY()>0){
+                        vec = v;
+                    }
+                }
+
+                outHL.write("Vecteur retenu :" + vec);
+                outHL.newLine();
+                outHL.flush();
+
+            }catch (IOException e){}
         }
         else{
             robotX1 = (int) -b/(2*a);
@@ -383,7 +420,7 @@ public class ThreadSensor extends AbstractThread
         double robotY1, robotY2;
         double a, b, c, delta;
         int constante, R1, R2;
-        Vec2 vec;
+        Vec2 vec = new Vec2();
 
         R1 = USvalues.get(2) + radius;
         R2 = USvalues.get(3) + radius;
@@ -400,11 +437,40 @@ public class ThreadSensor extends AbstractThread
             robotY1 = -((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX1 - constante / (2 * (positionLB.getY() - positionRB.getY()));
             robotY2 = -((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX2 - constante / (2 * (positionLB.getY() - positionRB.getY()));
 
-            if (robotX1 >= -robotWidth / 2) {
-                vec = new Vec2(robotX2, robotY2);
-            } else {
-                vec = new Vec2(robotX1, robotY1);
-            }
+            try {
+                Vec2 vec0 = new Vec2(robotX1, robotY1);
+                Vec2 vec1 = new Vec2(robotX1, robotY2);
+                Vec2 vec2 = new Vec2(robotX2, robotY1);
+                Vec2 vec3 = new Vec2(robotX2, robotY2);
+
+                ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
+                listVec.add(vec0);
+                listVec.add(vec1);
+                listVec.add(vec2);
+                listVec.add(vec3);
+
+                outHL.write("Vec0 :"+vec0);
+                outHL.newLine();
+                outHL.write("Vec1 :"+vec1);
+                outHL.newLine();
+                outHL.write("Vec2 :"+vec2);
+                outHL.newLine();
+                outHL.write("Vec3 :"+vec3);
+                outHL.newLine();
+                outHL.newLine();
+
+                for(Vec2 v : listVec){
+                    if(v.getY()<0){
+                        vec = v;
+                    }
+                }
+
+                outHL.write("Vecteur retenu :" + vec);
+                outHL.newLine();
+                outHL.flush();
+
+            }catch (IOException e){}
+
         }
         else{
             robotX1 = (int) -b/(2*a);
@@ -528,6 +594,7 @@ public class ThreadSensor extends AbstractThread
                     out.newLine();
                     out.newLine();
                     out.flush();
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -589,6 +656,8 @@ public class ThreadSensor extends AbstractThread
             // TODO expliquer le calcul de la distance
 			maxSensorRange = Integer.parseInt(config.getProperty("largeur_robot"))
 							 / Math.sin(Float.parseFloat(config.getProperty("angle_detection_capteur")));
+			log.debug("MaxSensorRange :"+maxSensorRange);
+
 			minSensorRange = Integer.parseInt(config.getProperty("portee_mini_capteurs"));
 
 			sensorPositionAngle = Float.parseFloat(config.getProperty("angle_position_capteur"));
