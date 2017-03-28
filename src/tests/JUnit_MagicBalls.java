@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  * Tests les 2 scripts l'un après l'autre ! (c'est plus propre que d'appeler les 2 JUnits l'un après l'autre)
- * @autor Rem
+ * @autor Rem, Ug
  */
 public class JUnit_MagicBalls extends JUnit_Test {
     private GameState mRobot;
@@ -34,7 +34,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(Math.PI);
-        mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
