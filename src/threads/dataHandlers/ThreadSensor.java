@@ -126,6 +126,8 @@ public class ThreadSensor extends AbstractThread
 
     /**
      * Angles des capteurs relatifs à l'axe avant-arrière du robot (radians)
+     * Convention: on effectue les calculs dans le reprère du robot, ce dernier étant orienté vers 0 (axe x)
+     * Pour changer de repère, il faut effectuer une rotation des vecteurs de l'orientation du robot + une translation sur sa position.
      */
     private final double angleLF = sensorPositionAngle;
     private final double angleRF = -sensorPositionAngle;
@@ -137,8 +139,8 @@ public class ThreadSensor extends AbstractThread
      * Positions relatives au centre du robot
      */
 
-    private final Vec2 positionLF = new Vec2(150, 240);
-    private final Vec2 positionRF = new Vec2(150, -240);
+    private final Vec2 positionLF = new Vec2(240, 150);
+    private final Vec2 positionRF = new Vec2(240, -150);
     private final Vec2 positionLB = new Vec2(-150,135);
     private final Vec2 positionRB = new Vec2(-150,-135);
 
@@ -341,6 +343,7 @@ public class ThreadSensor extends AbstractThread
      * Ajoute un obstacle en face du robot, avec les deux capteurs ayant détecté quelque chose
      * Convention: la droite du robot est l'orientation 0 (on travaille dans le repère du robot, et on garde les memes conventions que pour la table)
      */
+
     private void addFrontObstacleBoth() {
 
         // On résoudre l'équation du second degrée afin de trouver les deux points d'intersections des deux cercles
@@ -353,50 +356,46 @@ public class ThreadSensor extends AbstractThread
 
         R1 = USvalues.get(0) + radius;
         R2 = USvalues.get(1) + radius;
-        constante = square(R1) - square(R2) + square(positionLF.getX()) - square(positionRF.getX()) + square(positionLF.getY()) - square(positionRF.getY());
+        constante = square(R1) - square(R2) - square(positionLF.getX()) + square(positionRF.getX()) - square(positionLF.getY()) + square(positionRF.getY());
 
         a = 1 + (double) square(positionLF.getX() - positionRF.getX()) / square(positionLF.getY() - positionRF.getY());
-        b = -2 * positionLF.getX() + constante * (double) (positionLF.getX() - positionRF.getX()) / square(positionLF.getY() - positionRF.getY()) - 2 * positionLF.getY() * (double) (positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY());
-        c = (double) square(constante) / (4 * square(positionLF.getY() - positionRF.getY())) + (double) constante / (2 * (positionLF.getY() - positionRF.getY())) + square(positionLF.getX()) + square(positionLF.getY()) - square(R1);
+        b = -2 * positionRF.getX() + 2 * constante * (double) (positionRF.getX() - positionLF.getX()) / square(positionLF.getY() - positionRF.getY()) + 2 * positionRF.getY() * (double) (positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY());
+        c = (double) square(constante) / (4 * square(positionRF.getY() - positionLF.getY())) + (double) (constante * positionRF.getY()) / (positionRF.getY() - positionLF.getY()) + square(positionRF.getX()) + square(positionRF.getY()) - square(R2);
 
         delta = b*b - 4*a*c;
         if (!isBetween(delta, -1, 1)) {
             robotX1 = (int) ((-b - Math.sqrt(delta)) / (2 * a));
             robotX2 = (int) ((-b + Math.sqrt(delta)) / (2 * a));
-            robotY1 = -((positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY())) * robotX1 - constante / (2 * (positionLF.getY() - positionRF.getY()));
-            robotY2 = -((positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY())) * robotX2 - constante / (2 * (positionLF.getY() - positionRF.getY()));
+            // robotY1 = -((positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY())) * robotX1 - constante / (2 * (positionLF.getY() - positionRF.getY()));
+            // robotY2 = -((positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY())) * robotX2 - constante / (2 * (positionLF.getY() - positionRF.getY()));
+            robotY1 = (double) constante / (4*positionLF.getX());
 
             try {
-                Vec2 vec0 = new Vec2(robotX1, robotY1);
-                Vec2 vec1 = new Vec2(robotX1, robotY2);
-                Vec2 vec2 = new Vec2(robotX2, robotY1);
-                Vec2 vec3 = new Vec2(robotX2, robotY2);
-                // TODO vérifier que les solutions répondent aux équations + virer le vecteur y négatif
+
+                outHL.write("X1 :" + robotX1 + " X2 :" + robotX2 + " Y1 :" + robotY1);
+                Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
+                Vec2 vec1 = new Vec2((int)robotX2, (int)robotY1);
 
                 ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
                 listVec.add(vec0);
                 listVec.add(vec1);
-                listVec.add(vec2);
-                listVec.add(vec3);
 
+                outHL.newLine();
                 outHL.write("Vec0 :"+vec0);
                 outHL.newLine();
                 outHL.write("Vec1 :"+vec1);
                 outHL.newLine();
-                outHL.write("Vec2 :"+vec2);
-                outHL.newLine();
-                outHL.write("Vec3 :"+vec3);
-                outHL.newLine();
                 outHL.newLine();
 
-                for(Vec2 v : listVec){
-                    if(v.getY()>0){
-                        vec = v;
+                for (Vec2 v:listVec){
+                    if (/*isOnTheCircle(new Circle(positionLF,USvalues.get(0)+radius), v) && isOnTheCircle(new Circle(positionRF, USvalues.get(1) + radius), v) && */ v.getX() >=0){
+                        outHL.write("Vecteur retenu :" + v);
+                        outHL.newLine();
+
+                        vec=v;
                     }
                 }
 
-                outHL.write("Vecteur retenu :" + vec);
-                outHL.newLine();
                 outHL.flush();
 
             }catch (IOException e){}
@@ -434,39 +433,33 @@ public class ThreadSensor extends AbstractThread
         if (!isBetween(delta, -1, 1)) {
             robotX1 = (int) ((-b - Math.sqrt(delta)) / (2 * a));
             robotX2 = (int) ((-b + Math.sqrt(delta)) / (2 * a));
-            robotY1 = -((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX1 - constante / (2 * (positionLB.getY() - positionRB.getY()));
-            robotY2 = -((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX2 - constante / (2 * (positionLB.getY() - positionRB.getY()));
+            // robotY1 = (int)(-((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX1 - constante / (2 * (positionLB.getY() - positionRB.getY())));
+            // robotY2 = (int)(-((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX2 - constante / (2 * (positionLB.getY() - positionRB.getY())));
+            robotY1 = (double) constante / (4*positionLB.getX());
 
             try {
-                Vec2 vec0 = new Vec2(robotX1, robotY1);
-                Vec2 vec1 = new Vec2(robotX1, robotY2);
-                Vec2 vec2 = new Vec2(robotX2, robotY1);
-                Vec2 vec3 = new Vec2(robotX2, robotY2);
+                Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
+                Vec2 vec1 = new Vec2((int)robotX2, (int)robotY1);
 
                 ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
                 listVec.add(vec0);
                 listVec.add(vec1);
-                listVec.add(vec2);
-                listVec.add(vec3);
 
                 outHL.write("Vec0 :"+vec0);
                 outHL.newLine();
                 outHL.write("Vec1 :"+vec1);
                 outHL.newLine();
-                outHL.write("Vec2 :"+vec2);
-                outHL.newLine();
-                outHL.write("Vec3 :"+vec3);
-                outHL.newLine();
                 outHL.newLine();
 
                 for(Vec2 v : listVec){
-                    if(v.getY()<0){
-                        vec = v;
+                    if(isOnTheCircle(new Circle(positionLB, USvalues.get(2)), v) && isOnTheCircle(new Circle(positionRB, USvalues.get(3)), v) && v.getX() <0){
+                        outHL.write("Vecteur retenu :" + v);
+                        outHL.newLine();
+
+                        vec=v;
                     }
                 }
 
-                outHL.write("Vecteur retenu :" + vec);
-                outHL.newLine();
                 outHL.flush();
 
             }catch (IOException e){}
@@ -703,5 +696,10 @@ public class ThreadSensor extends AbstractThread
     public static void noDelay()
     {
         ThreadSensor.delay = false;
+    }
+
+    private boolean isOnTheCircle(Circle circle, Vec2 solution)
+    {
+        return (Math.abs(square(solution.getX() - circle.getCenter().getX()) + square(solution.getY() - circle.getCenter().getY()) - square((int)circle.getRadius())) <= 0.001);
     }
 }
