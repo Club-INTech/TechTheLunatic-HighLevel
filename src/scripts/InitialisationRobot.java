@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ExecuteException;
@@ -55,15 +56,15 @@ public class InitialisationRobot extends AbstractScript {
 
             // Initialisation des actionneurs
             if(versionToExecute<=3) {
-               // gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
-                //gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-                //gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-                //gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
-                //gameState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
+                gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+                gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+                gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+                gameState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
 
                 gameState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
-                //gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-                //gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
             }
             if (versionToExecute == 3) {
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
@@ -82,12 +83,19 @@ public class InitialisationRobot extends AbstractScript {
             if (versionToExecute == 1) {
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
-                gameState.robot.turn(2.25);   // 250, 580 <- 578, 208
+                gameState.robot.turn(2.35);   // 250, 580 <- 578, 208
                 gameState.robot.moveLengthwise(550);
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+
+                gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                gameState.robot.moveLengthwise(-547, hookToConsider);
+                gameState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                gameState.robot.moveLengthwise(250);
+
                 //gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 gameState.robot.moveLengthwise(-400, hookToConsider);
                 gameState.robot.turn(3 * Math.PI / 8);
+
                 //gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
 
