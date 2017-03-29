@@ -161,10 +161,10 @@ public enum ActuatorOrder
 	REPOS_ATTRAPE_D("amdd",500),
 
 	//Position d'évitement de la cale
-	MID_ATTRAPE_D("ammd",300),
+	MID_ATTRAPE_D("ammd",500),
 
 	// Position de livraison
-	PREND_MODULE_D("amfd",1000),
+	PREND_MODULE_D("amfd",2000),
 
 	//Côté gauche
 	REPOS_ATTRAPE_G("amdg",500),
