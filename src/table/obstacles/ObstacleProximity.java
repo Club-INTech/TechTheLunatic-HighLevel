@@ -82,8 +82,7 @@ public class ObstacleProximity extends ObstacleCircular
 		mOutDatedTime = System.currentTimeMillis() + lifetime;// la date de peremption = temps actuel + temps de peremption de l'obstacle
 		//TODO mettre dans le fichier de config le "temps de peremption" de chaque obstacle 
 		numberOfTimeDetected=1;
-		
-		
+
 		thresholdConfirmedOrUnconfirmed=3;
 		maxNumberOfTimeDetected=3;
 	}

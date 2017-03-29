@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ExecuteException;
@@ -17,7 +18,6 @@ import strategie.GameState;
 import table.Table;
 import utils.Config;
 import utils.Log;
-import enums.Speed;
 
 import java.util.ArrayList;
 
@@ -86,10 +86,16 @@ public class InitialisationRobot extends AbstractScript {
                 gameState.robot.turn(2.35);   // 250, 580 <- 578, 208
                 gameState.robot.moveLengthwise(550);
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+
                 gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 gameState.robot.moveLengthwise(-547, hookToConsider);
                 gameState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 gameState.robot.moveLengthwise(250);
+
+                //gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                gameState.robot.moveLengthwise(-400, hookToConsider);
+                gameState.robot.turn(3 * Math.PI / 8);
+
                 //gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
 

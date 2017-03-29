@@ -530,5 +530,9 @@ public class SerialWrapper implements Service
         serial.communiquer("sus", 0);
         areSensorsActive = !areSensorsActive;
     }
+    public void switchAuto() throws SerialConnexionException
+    {
+        serial.communiquer("auto", 0);
+    }
 
 }

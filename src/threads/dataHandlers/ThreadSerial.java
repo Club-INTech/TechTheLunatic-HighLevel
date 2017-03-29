@@ -82,7 +82,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      */
     private static final int TIME_OUT = 1000;
 
-
     private BufferedWriter out;
     private boolean debug = true;
 
