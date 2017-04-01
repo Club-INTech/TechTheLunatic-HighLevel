@@ -103,7 +103,7 @@ public class JUnit_Sensors extends JUnit_Test
 		container.startInstanciedThreads();
 
 		state.robot.switchSensor();
-		state.robot.setOrientation(Math.PI/2);
+		state.robot.setOrientation(-Math.PI/2);
 		log.debug ("Orientation :" + state.robot.getOrientation());
 		state.robot.useActuator(ActuatorOrder.TIENT_BOULES, false);
 		state.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE,true);
