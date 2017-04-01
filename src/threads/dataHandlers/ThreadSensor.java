@@ -79,7 +79,7 @@ public class ThreadSensor extends AbstractThread
     /**
      * Temps maximal entre deux séries de valeurs (ms) : si cette série est incomplète, on la vire; cela évite les déclages
      */
-    private int thresholdUSseries = 120;
+    private int thresholdUSseries = 20;
     // TODO Mettre un canal par capteur afin de fiabiliser les séries de valeurs US
 
     /**
@@ -308,41 +308,17 @@ public class ThreadSensor extends AbstractThread
 	{		
         if(USvalues.get(0) != 0 && USvalues.get(1) != 0) {
             addFrontObstacleBoth();
-            try {
-                outHL.write("FrontBoth");
-                outHL.newLine();
-            }
-            catch(IOException e){}
         }
         else if((USvalues.get(0) != 0 || USvalues.get(1) != 0)) {
             addFrontObstacleSingle(USvalues.get(0) != 0);
-            try {
-                outHL.write("FrontSingle");
-                outHL.newLine();
-            } catch (IOException e) {
-            }
         }
 
         if(USvalues.get(2) != 0 && USvalues.get(3) != 0 ) {
             addBackObstacleBoth();
-            try {
-                outHL.write("BackBoth");
-                outHL.newLine();
-            }
-            catch(IOException e){}
         }
         else if((USvalues.get(2) != 0 || USvalues.get(3) != 0)) {
             addBackObstacleSingle(USvalues.get(2) != 0);
-            try {
-                outHL.write("BackSingle");
-                outHL.newLine();
-            }
-            catch(IOException e){}
         }
-        try {
-            outHL.flush();
-        }
-        catch (IOException e){}
 	}
 
     /**
@@ -356,7 +332,7 @@ public class ThreadSensor extends AbstractThread
         // On joue sur le rayon du robot adverse pour etre sur d'avoir des solutions
         double robotX1, robotX2;
         double robotY1;
-        double a, b, c, delta;
+        double b, c, delta;
         int constante, R1, R2;
         Vec2 vec = new Vec2();
 
@@ -364,8 +340,6 @@ public class ThreadSensor extends AbstractThread
         R2 = USvalues.get(1) + radius;
         constante = square(R1) - square(R2) - square(positionLF.getX()) + square(positionRF.getX()) - square(positionLF.getY()) + square(positionRF.getY());
 
-        // a = 1 + (double) square(positionLF.getX() - positionRF.getX()) / square(positionLF.getY() - positionRF.getY());
-        // b = -2 * positionRF.getX() + 2 * constante * (double) (positionRF.getX() - positionLF.getX()) / square(positionLF.getY() - positionRF.getY()) + 2 * positionRF.getY() * (double) (positionLF.getX() - positionRF.getX()) / (positionLF.getY() - positionRF.getY());
         b = -2 * positionRF.getX() + 2 * positionRF.getY();
         c = (double) square(constante) / (4 * square(positionRF.getY() - positionLF.getY())) + (double) (constante * positionRF.getY()) / (positionRF.getY() - positionLF.getY()) + square(positionRF.getX()) + square(positionRF.getY()) - square(R2);
 
@@ -375,36 +349,17 @@ public class ThreadSensor extends AbstractThread
             robotX2 = (int) ((-b + Math.sqrt(delta)) / 2);
             robotY1 = (double) constante / (4*positionLF.getX());
 
-            try {
+            Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
+            Vec2 vec1 = new Vec2((int)robotX2, (int)robotY1);
+            ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
+            listVec.add(vec0);
+            listVec.add(vec1);
 
-                outHL.write(" X1 :" + robotX1 + " X2 :" + robotX2 + " Y1 :" + robotY1);
-                outHL.newLine();
-
-                Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
-                Vec2 vec1 = new Vec2((int)robotX2, (int)robotY1);
-
-                ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
-                listVec.add(vec0);
-                listVec.add(vec1);
-
-                outHL.write("Vec0 :"+vec0);
-                outHL.newLine();
-                outHL.write("Vec1 :"+vec1);
-                outHL.newLine();
-                outHL.newLine();
-
-                for (Vec2 v:listVec){
-                    if (/*isOnTheCircle(new Circle(positionLF,USvalues.get(0)+radius), v) && isOnTheCircle(new Circle(positionRF, USvalues.get(1) + radius), v) && */ v.getX() >=0){
-                        outHL.write("Vecteur retenu :" + v);
-                        outHL.newLine();
-
-                        vec=v;
-                    }
+            for (Vec2 v:listVec){
+                if (v.getX()>=0){
+                     vec=v;
                 }
-
-                outHL.flush();
-
-            }catch (IOException e){}
+            }
         }
         else{
             robotX1 = (int) -b/2;
@@ -423,7 +378,7 @@ public class ThreadSensor extends AbstractThread
         // De meme que le front, seule la selection de la bonne solution change
         double robotX1, robotX2;
         double robotY1;
-        double a, b, c, delta;
+        double b, c, delta;
         int constante, R1, R2;
         Vec2 vec = new Vec2();
 
@@ -431,8 +386,6 @@ public class ThreadSensor extends AbstractThread
         R2 = USvalues.get(3) + radius;
         constante = square(R1) - square(R2) - square(positionLB.getX()) + square(positionRB.getX()) - square(positionLB.getY()) + square(positionRB.getY());
 
-        // a = 1 + (double) square(positionLB.getX() - positionRB.getX()) / square(positionLB.getY() - positionRB.getY());
-        // b = -2 * positionLB.getX() + constante * (double) (positionLB.getX() - positionRB.getX()) / square(positionLB.getY() - positionRB.getY()) - 2 * positionLB.getY() * (double) (positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY());
         b = -2 * positionLB.getX() - 2 * positionLB.getY();
         c = (double) square(constante) / (4 * square(positionLB.getY() - positionRB.getY())) + (double) constante / (2 * (positionLB.getY() - positionRB.getY())) + square(positionLB.getX()) + square(positionLB.getY()) - square(R1);
 
@@ -440,37 +393,20 @@ public class ThreadSensor extends AbstractThread
         if (!isBetween(delta, -1, 1)) {
             robotX1 = (int) ((-b - Math.sqrt(delta)) / 2);
             robotX2 = (int) ((-b + Math.sqrt(delta)) / 2);
-            // robotY1 = (int)(-((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX1 - constante / (2 * (positionLB.getY() - positionRB.getY())));
-            // robotY2 = (int)(-((positionLB.getX() - positionRB.getX()) / (positionLB.getY() - positionRB.getY())) * robotX2 - constante / (2 * (positionLB.getY() - positionRB.getY())));
             robotY1 = (double) constante / (4*positionLB.getX());
 
-            try {
-                Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
-                Vec2 vec1 = new Vec2((int)robotX2, (int)robotY1);
+            Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
+            Vec2 vec1 = new Vec2((int)robotX2, (int)robotY1);
 
-                ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
-                listVec.add(vec0);
-                listVec.add(vec1);
+            ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
+            listVec.add(vec0);
+            listVec.add(vec1);
 
-                outHL.write("Vec0 :"+vec0);
-                outHL.newLine();
-                outHL.write("Vec1 :"+vec1);
-                outHL.newLine();
-                outHL.newLine();
-
-                for(Vec2 v : listVec){
-                    if(/*isOnTheCircle(new Circle(positionLB, USvalues.get(2)), v) && isOnTheCircle(new Circle(positionRB, USvalues.get(3)), v) &&*/ v.getX() <0){
-                        outHL.write("Vecteur retenu :" + v);
-                        outHL.newLine();
-
-                        vec=v;
-                    }
+            for(Vec2 v : listVec){
+                if(v.getX() <0){
+                    vec=v;
                 }
-
-                outHL.flush();
-
-            }catch (IOException e){}
-
+            }
         }
         else{
             robotX1 = (int) -b/2;
@@ -563,36 +499,39 @@ public class ThreadSensor extends AbstractThread
             ArrayList<String> r = new ArrayList<>();
             ArrayList<Integer> res = new ArrayList<>();
             byte count=0;
+            long timeBetween;
+            String toKeep;
 
-            long currentTime = System.currentTimeMillis();
+            ArrayList<Long> sensorTime = new ArrayList<Long>(4);
 
             while(count < 4)
             {
                 if(valuesReceived.peek() != null)
                 {
+                    sensorTime.add(System.currentTimeMillis());
                     r.add(valuesReceived.poll());
+
+                    if (count !=0){
+                        timeBetween = sensorTime.get(count) - sensorTime.get(count-1);
+                        try{
+                            outHL.newLine();
+                            outHL.write("Time Between :" + (int)timeBetween);
+                        }catch(IOException e){}
+
+                        /* if (timeBetween > thresholdUSseries){
+                            toKeep = r.get(count);
+                            r.clear();
+                            r.add(toKeep);
+                            count = 0;
+                        }*/
+                    }
                     count++;
                 }
                 else
                     Sleep.sleep(100);
             }
-
-            if (System.currentTimeMillis() - currentTime > thresholdUSseries){
-                valuesReceived.removeFirst();
-                valuesReceived.removeFirst();
-                valuesReceived.removeFirst();
-
-                count = 1;
-                while(count < 4)            {
-                    if(valuesReceived.peek() != null)
-                    {
-                        r.add(valuesReceived.poll());
-                        count++;
-                    }
-                    else
-                        Sleep.sleep(100);
-                }
-            }
+            outHL.newLine();
+            outHL.flush();
 
             for(String s : r) {
                 res.add(Integer.parseInt(s.substring(2)));
