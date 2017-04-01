@@ -110,7 +110,6 @@ public class ThreadSensor extends AbstractThread
 	double minSensorRange;
 
     private BufferedWriter out;
-    private BufferedWriter outHL;
     private final boolean debug = true;
 	
 	/**
@@ -204,24 +203,17 @@ public class ThreadSensor extends AbstractThread
         try
         {
             File file = new File("us.txt");
-            File file1 = new File("usHL.txt");
 
             if (!file.exists()) {
                 //file.delete();
                 file.createNewFile();
             }
 
-            if (!file1.exists()){
-                file1.createNewFile();
-            }
-
             out = new BufferedWriter(new FileWriter(file));
-            outHL = new BufferedWriter(new FileWriter(file1));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         /*while(serialWrapper.isJumperAbsent())
         {
@@ -507,6 +499,7 @@ public class ThreadSensor extends AbstractThread
 
             while(count < 4)
             {
+                // On attend tant que l'on a pas reçu 4 valeurs
                 if(valuesReceived.peek() != null)
                 {
                     sensorTime.add(System.currentTimeMillis());
@@ -515,6 +508,8 @@ public class ThreadSensor extends AbstractThread
                     if (count !=0){
                         timeBetween = sensorTime.get(count) - sensorTime.get(count-1);
                         try{
+                            // Si l'on a attendu trop longtemps entre 2 valeurs, c'est que la dernière fait partie d'une nouvelle série et
+                            // que la série actuelle est incomplète; on clear cette série de valeurs et on prend la suivante
                             if (timeBetween > thresholdUSseries) {
 
                                 toKeep = r.get(count);
@@ -560,6 +555,7 @@ public class ThreadSensor extends AbstractThread
                 }
             }
 
+            // Etant donnée que l'on travaille sur le référentiel du robot, la symétrie devrait normalement etre inutile => A tester
             if(symetry) //Inversion gauche/droite pour symétriser
             {
                 int temp = USvalues.get(0);
@@ -584,7 +580,7 @@ public class ThreadSensor extends AbstractThread
             for(int i=0 ; i<USvalues.size() ; i++)
             {
                 // On met tout les capteurs qui detectent un objet trop proche du robot ou à plus de maxSensorRange a 0
-                // TODO : a passer en traitement de bas niveau ? Non, ce traitement dépend de la façon dont on calcule la position adverse
+                // TODO : a passer en traitement de bas niveau ? Non, ce traitement peut dépendre de la façon dont on calcule la position adverse
                 if ( USvalues.get(i) > maxSensorRange)
                 {
                     USvalues.set(i, 0);
@@ -610,13 +606,11 @@ public class ThreadSensor extends AbstractThread
 		try
 		{
 			sensorFrequency = Integer.parseInt(config.getProperty("capteurs_frequence"));
-			//Integer.parseInt(config.getProperty("rayon_robot_adverse"));
 			
 			//plus que cette distance (environ 50cm) on est beaucoup moins precis sur la position adverse (donc on ne l'ecrit pas !)
             // TODO expliquer le calcul de la distance
 			maxSensorRange = Integer.parseInt(config.getProperty("largeur_robot"))
 							 / Math.sin(Float.parseFloat(config.getProperty("angle_detection_capteur")));
-			log.debug("MaxSensorRange :"+maxSensorRange);
 
 			minSensorRange = Integer.parseInt(config.getProperty("portee_mini_capteurs"));
 
@@ -645,6 +639,7 @@ public class ThreadSensor extends AbstractThread
 	    for (ObstacleProximity obstacle : mTable.getObstacleManager().getMobileObstacles()){
 	        if (obstacle.getOutDatedTime() > System.currentTimeMillis()){
 	            mTable.getObstacleManager().removeObstacle(obstacle);
+	            log.debug("Obstacle retiré ");
             }
         }
 		// TODO enlever les obstacles qu'on devrait voir mais qu'on ne detecte plus
@@ -665,8 +660,4 @@ public class ThreadSensor extends AbstractThread
         ThreadSensor.delay = false;
     }
 
-    private boolean isOnTheCircle(Circle circle, Vec2 solution)
-    {
-        return (Math.abs(square(solution.getX() - circle.getCenter().getX()) + square(solution.getY() - circle.getCenter().getY()) - square((int)circle.getRadius())) <= 0.001);
-    }
 }
