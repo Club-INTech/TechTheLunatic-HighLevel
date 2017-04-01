@@ -19,6 +19,7 @@
 
 package robot;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import container.Service;
 import enums.DirectionStrategy;
 import enums.Speed;
@@ -115,13 +116,16 @@ public class Locomotion implements Service
      * La symétrie s'applique sur les déplacements et les actionneurs*/
     private boolean symetry;
     
-    /**temps d'attente entre deux boucles d'acquitement*/
+    /**temps d'attente entre deux boucles d'acquitement
+     * Override par la config */
     private int feedbackLoopDelay = 50;
     
-    /**la distance dont le robot va avancer pour se dégager en cas de bloquage mécanique*/
+    /**la distance dont le robot va avancer pour se dégager en cas de bloquage mécanique
+     * Override par la config */
     private int distanceToDisengage = 50;
     
-    /**l'angle dont le robot va tourner pour se dégager en cas de bloquage mécanique*/
+    /**l'angle dont le robot va tourner pour se dégager en cas de bloquage mécanique
+     * Override par la config */
     private double angleToDisengage;
     
     /**
@@ -180,12 +184,14 @@ public class Locomotion implements Service
 
     /**
      * Valeur limite de détection pour le mode basique
-     * OVERRIDE PAR CONFIG
+     * Override par la config
      */
-    private int basicDetectDistance = 200;
+    private int basicDetectDistance;
 
-    /** Si la détection basique est activée ou non */
-    private boolean basicDetection = true;
+    /** Si la détection basique est activée ou non
+     * Override par la config
+     */
+    private boolean basicDetection;
 
     /** Seulement pour les arcs, empêche de symétriser deux fois */
     private boolean symetrised = false;
@@ -588,13 +594,10 @@ public class Locomotion implements Service
         do 
         { 	
             updateCurrentPositionAndOrientation();
-            
-//            log.debug("position actuelle = " + lowLevelPosition.toString() + "   --   orientation actuelle : " + lowLevelOrientation,this);
 
         	// en cas de détection d'ennemi, une exception est levée
         	if(mustDetect)
         	{
-        		//detectEnemyInFrontDisk(isMovementForward, turnOnly, aim);
         		if(!basicDetection)
                     detectEnemyAtDistance(150, aim.minusNewVector(highLevelPosition.clone()));	// 85 mm est une bonne distance pour être safe.
                 else
@@ -895,9 +898,7 @@ public class Locomotion implements Service
             return false;
         }
     }
-    
-    
-   
+
     /**
      * fonction vérifiant que l'on ne va pas taper dans le robot adverse.
      * test si le cercle devant (ou derriere en fonction du mouvement) est vide d'obstacle
@@ -948,7 +949,6 @@ public class Locomotion implements Service
             throw new UnexpectedObstacleOnPathException();
         }
     }
-    
 
     /**
      * Lance une exception si un ennemi se trouve a une distance inférieure a celle spécifiée
@@ -1009,8 +1009,7 @@ public class Locomotion implements Service
     {
         this.USvalues = val;
     }
-    
-    
+
 
     @Override
     public void updateConfig()
@@ -1024,6 +1023,7 @@ public class Locomotion implements Service
 			symetry = config.getProperty("couleur").replaceAll(" ","").equals("violet");
 			robotLength = Integer.parseInt(config.getProperty("longueur_robot").replaceAll(" ",""));
             basicDetectDistance = Integer.parseInt(config.getProperty("basic_distance").replaceAll(" ",""));
+            basicDetection = Boolean.parseBoolean(config.getProperty("basic_detection"));
     	}
     	catch (ConfigPropertyNotFoundException e)
     	{
@@ -1298,6 +1298,5 @@ public class Locomotion implements Service
     {
     	moveToPointSerialOrder( symmetrisedAim, givenPosition, angle, distance, mustDetect, turnOnly,  isCorrection);
     }
-
 
 }
