@@ -76,7 +76,6 @@ public class CatchBalls extends AbstractScript {
         try
         {
 
-
             if(versionToExecute == 1){
                 stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 

@@ -20,6 +20,7 @@
 package tests;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import exceptions.ContainerException;
 import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
@@ -31,6 +32,7 @@ import org.junit.Before;
 import org.junit.Test;
 import robot.Locomotion;
 import robot.SerialWrapper;
+import scripts.ScriptManager;
 import smartMath.Circle;
 import smartMath.Vec2;
 import strategie.GameState;
@@ -96,7 +98,7 @@ public class JUnit_Sensors extends JUnit_Test
         container.getService(ThreadSensor.class);
 	}
 
-	@Test
+	// @Test
 	public void testDetect() throws Exception
 	{
 		log.debug("Test de detection");
@@ -110,6 +112,24 @@ public class JUnit_Sensors extends JUnit_Test
 
 		while (true) {
 			Thread.sleep(1000);
+		}
+	}
+
+	// @Test
+	public void testStopWhileMove() throws Exception
+	{
+		log.debug("Test d'arret lors de l'execution d'un script");
+		ScriptManager scriptManager = container.getService(ScriptManager.class);
+		container.startInstanciedThreads();
+
+		state.robot.switchSensor();
+		log.debug("Orientation :" + state.robot.getOrientation());
+
+		try {
+			scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, state, new ArrayList<Hook>());
+			scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, state, new ArrayList<Hook>());
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 
@@ -138,18 +158,22 @@ public class JUnit_Sensors extends JUnit_Test
 		}
 	}
 	
-	//@Test
-	public void testDetecting()
+	@Test
+	public void testDetecting() throws Exception
 	{
 		log.debug("Test d'évitement");
+		container.startInstanciedThreads();
+
 		try 
-		{	
-			state.robot.moveLengthwise(500);
-			state.robot.turn(Math.PI/2);
-		} 
-		catch (UnableToMoveException e) 
 		{
-			log.critical( e.logStack());
+			state.robot.useActuator(ActuatorOrder.TIENT_BOULES, false);
+			state.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+			state.robot.switchSensor();
+			state.robot.moveLengthwise(800);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 		
 		while(true)
