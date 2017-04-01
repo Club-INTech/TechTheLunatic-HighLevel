@@ -532,7 +532,7 @@ public class ThreadSensor extends AbstractThread
                     count++;
                 }
                 else
-                    Sleep.sleep(102);
+                    Sleep.sleep(100);
             }
 
             for(String s : r) {

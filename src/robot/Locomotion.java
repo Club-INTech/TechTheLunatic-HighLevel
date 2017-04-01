@@ -185,7 +185,7 @@ public class Locomotion implements Service
     private int basicDetectDistance = 200;
 
     /** Si la détection basique est activée ou non */
-    private boolean basicDetection = false;
+    private boolean basicDetection = true;
 
     /** Seulement pour les arcs, empêche de symétriser deux fois */
     private boolean symetrised = false;
