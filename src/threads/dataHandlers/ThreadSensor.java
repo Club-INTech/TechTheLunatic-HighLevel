@@ -501,6 +501,7 @@ public class ThreadSensor extends AbstractThread
             byte count=0;
             long timeBetween;
             String toKeep;
+            long timeToKeep;
 
             ArrayList<Long> sensorTime = new ArrayList<Long>(4);
 
@@ -514,21 +515,24 @@ public class ThreadSensor extends AbstractThread
                     if (count !=0){
                         timeBetween = sensorTime.get(count) - sensorTime.get(count-1);
                         try{
-                            outHL.newLine();
-                            outHL.write("Time Between :" + (int)timeBetween);
-                        }catch(IOException e){}
+                            if (timeBetween > thresholdUSseries) {
 
-                        /* if (timeBetween > thresholdUSseries){
-                            toKeep = r.get(count);
-                            r.clear();
-                            r.add(toKeep);
-                            count = 0;
-                        }*/
+                                toKeep = r.get(count);
+                                timeToKeep = sensorTime.get(count);
+                                r.clear();
+                                sensorTime.clear();
+                                r.add(toKeep);
+                                sensorTime.add(timeToKeep);
+                                count = 0;
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                     count++;
                 }
                 else
-                    Sleep.sleep(100);
+                    Sleep.sleep(102);
             }
             outHL.newLine();
             outHL.flush();
