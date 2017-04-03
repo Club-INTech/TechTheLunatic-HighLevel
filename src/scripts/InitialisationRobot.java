@@ -95,14 +95,14 @@ public class InitialisationRobot extends AbstractScript {
 
                 // gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 // gameState.robot.moveLengthwise(-400, hookToConsider);
-                gameState.robot.turn(3 * Math.PI / 8);
+                gameState.robot.turn(5 * Math.PI / 8);
 
                 gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
 
                 // départ à l'endroit (pelleteuse vers PI)
                 // gameState.robot.turn(13 * Math.PI / 16);
-                // gameState.robot.moveLengthwise(130);
+                gameState.robot.moveLengthwise(230);
 
 
                 //départ à l'envers (pelleteuse vers 0)

@@ -639,7 +639,6 @@ public class ThreadSensor extends AbstractThread
 	    for (ObstacleProximity obstacle : mTable.getObstacleManager().getMobileObstacles()){
 	        if (obstacle.getOutDatedTime() > System.currentTimeMillis()){
 	            mTable.getObstacleManager().removeObstacle(obstacle);
-	            log.debug("Obstacle retiré ");
             }
         }
 		// TODO enlever les obstacles qu'on devrait voir mais qu'on ne detecte plus
