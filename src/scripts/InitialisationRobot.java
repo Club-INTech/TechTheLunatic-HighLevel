@@ -90,8 +90,8 @@ public class InitialisationRobot extends AbstractScript {
 
                 gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 gameState.robot.moveLengthwise(-547, hookToConsider);
-                // gameState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                // gameState.robot.moveLengthwise(250);
+                gameState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                gameState.robot.moveLengthwise(250);
 
                 // gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 // gameState.robot.moveLengthwise(-400, hookToConsider);
