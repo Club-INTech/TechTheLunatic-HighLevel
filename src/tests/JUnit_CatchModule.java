@@ -43,7 +43,7 @@ public class JUnit_CatchModule extends JUnit_Test {
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
 
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(2, mRobot, new ArrayList<Hook>());
+        //scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class JUnit_CatchModule extends JUnit_Test {
         try
         {
             //On execute le script
-            int version = 1;
+            int version = 0;
             log.debug("Ramassage des modules");
             scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(version, mRobot, emptyList);
             if (version != 0) {

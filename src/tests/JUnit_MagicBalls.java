@@ -30,6 +30,9 @@ public class JUnit_MagicBalls extends JUnit_Test {
         super.setUp();
         log.debug("JUnit_DeplacementsTest.setUp()");
         mRobot = container.getService(GameState.class);
+
+
+
         //La position de depart est mise dans la Table (l'updtate config va la chercher)
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
@@ -43,6 +46,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
         container.getService(ThreadSensor.class);
         container.getService(ThreadInterface.class);
         container.startInstanciedThreads();
+        //mRobot.robot.switchSensor();
 
         scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
     }
