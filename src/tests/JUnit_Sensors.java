@@ -115,7 +115,7 @@ public class JUnit_Sensors extends JUnit_Test
 		}
 	}
 
-	// @Test
+	@Test
 	public void testStopWhileMove() throws Exception
 	{
 		log.debug("Test d'arret lors de l'execution d'un script");
@@ -130,6 +130,7 @@ public class JUnit_Sensors extends JUnit_Test
 			scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, state, new ArrayList<Hook>());
 		}catch(Exception e){
 			e.printStackTrace();
+			log.debug("Suus, ca a fail");
 		}
 	}
 
@@ -158,7 +159,7 @@ public class JUnit_Sensors extends JUnit_Test
 		}
 	}
 	
-	@Test
+//	@Test
 	public void testDetecting() throws Exception
 	{
 		log.debug("Test d'évitement");

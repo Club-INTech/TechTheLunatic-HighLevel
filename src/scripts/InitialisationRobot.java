@@ -41,6 +41,8 @@ public class InitialisationRobot extends AbstractScript {
     public void execute(int versionToExecute, GameState gameState, ArrayList<Hook> hookToConsider) throws UnableToMoveException, ExecuteException, SerialConnexionException, BlockedActuatorException {
         try
         {
+            log.debug("Execution de l'Initialisation robot version " + versionToExecute);
+
             Hook catchMD = hookFactory.newPositionHook(Table.entryPosition.plusNewVector(new Vec2(440, 2.319)), (float)(2.319), 10, 100);
             catchMD.addCallback(new Callback(new CatchModuleD(), true, gameState));
             Hook catchMG = hookFactory.newPositionHook(new Vec2(480, 320), (float)(-Math.PI + 2.41), 8, 50);
@@ -53,9 +55,8 @@ public class InitialisationRobot extends AbstractScript {
             hookToConsider.add(catchMG);
             hookToConsider.add(replibrasD);
 
-
             // Initialisation des actionneurs
-            if(versionToExecute<=3) {
+            if(versionToExecute <= 3) {
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
@@ -89,23 +90,19 @@ public class InitialisationRobot extends AbstractScript {
 
                 gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 gameState.robot.moveLengthwise(-547, hookToConsider);
-                gameState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                gameState.robot.moveLengthwise(250);
+                // gameState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                // gameState.robot.moveLengthwise(250);
 
-                //gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                gameState.robot.moveLengthwise(-400, hookToConsider);
+                // gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                // gameState.robot.moveLengthwise(-400, hookToConsider);
                 gameState.robot.turn(3 * Math.PI / 8);
 
-                //gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
 
 
-
-
-
-
-                //départ à l'endroit (pelleteuse vers PI)
-                gameState.robot.turn(13 * Math.PI / 16);
-                gameState.robot.moveLengthwise(130);
+                // départ à l'endroit (pelleteuse vers PI)
+                // gameState.robot.turn(13 * Math.PI / 16);
+                // gameState.robot.moveLengthwise(130);
 
 
                 //départ à l'envers (pelleteuse vers 0)
