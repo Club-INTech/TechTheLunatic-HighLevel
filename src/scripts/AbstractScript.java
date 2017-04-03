@@ -54,7 +54,7 @@ public abstract class AbstractScript implements Service
 	protected static HookFactory hookFactory;
 
 	/**  Liste des versions du script. */
-	protected Integer[] versions;	
+	protected Integer[] versions;
 	
 	/**
 	 * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -92,7 +92,6 @@ public abstract class AbstractScript implements Service
 			log.debug("Catch de "+e+" Impossible de goToThenExec : abandon d'exec, throw de "+e);
 			throw e;
 		}
-
 
 		// exécute la version demandée
 		execute(versionToExecute, actualState, hooksToConsider);
@@ -178,8 +177,7 @@ public abstract class AbstractScript implements Service
 	 * @see container.Service#updateConfig()
 	 */
 	public void updateConfig()
-	{
-	}
+	{}
 	
 	/** Getter utilisé par l'IA
 	 * @param stateToConsider état de jeu actuel
