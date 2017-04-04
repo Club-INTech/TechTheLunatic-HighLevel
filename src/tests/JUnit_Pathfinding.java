@@ -123,6 +123,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
 
         int randomYarr = ThreadLocalRandom.current().nextInt(0, 2000);
         int randomXarr = ThreadLocalRandom.current().nextInt(-1500, 1500);
+
         ArrayList<Vec2> path = pf.Astarfoulah(mRobot.robot.getPosition(),new Vec2(randomXarr,randomYarr),mRobot.robot.getOrientation());
         mRobot.robot.followPath(path, new ArrayList<Hook>());
 
