@@ -88,8 +88,8 @@ public class Robot implements Service
 	
 	/** Système de locomotion à utiliser pour déplacer le robot */
 	private Locomotion mLocomotion;
-	
-	
+
+
 	/** Constructeur
 	 * @param deplacements système de locomotion
 	 * @param config fichier de config
@@ -140,7 +140,7 @@ public class Robot implements Service
 		if(symmetry)
 			order = mActuatorCorrespondenceMap.getSymmetrizedActuatorOrder(order);
 		serialWrapper.useActuator(order);
-		
+
 		if(waitForCompletion)
 		{
 			sleep(order.getDuration());
@@ -161,9 +161,9 @@ public class Robot implements Service
 		else
 		{
 			sensor = mSensorNamesMap.getSymmetrizedContactSensorName(sensor);
-					
+
 			/* attention si les capteurs sont en int[] il faut symétriser ce int[] */
-					
+
 			return serialWrapper.getContactSensorValue(sensor);
 		}
 	}
@@ -176,18 +176,18 @@ public class Robot implements Service
 	{
 		Sleep.sleep(duree);
 	}
-	
-	
+
+
 	/**
 	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
 	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
 	 * @param distance en mm que le robot doit franchir
-	 * @param hooksToConsider hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie	 
+	 * @param hooksToConsider hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie
 	 * @param expectsWallImpact true si le robot doit s'attendre a percuter un mur au cours du déplacement. false si la route est sensée être dégagée.
 	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
 	 */
 	public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact) throws UnableToMoveException
-	{	
+	{
 		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + "," + expectsWallImpact + ")");
 		moveLengthwise(distance, hooksToConsider, expectsWallImpact, true);
 	}
@@ -215,7 +215,7 @@ public class Robot implements Service
 	 * moveLengthwise mais sans détection
 	 */
     public void moveLengthwiseWithoutDetection(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact) throws UnableToMoveException
-	{	
+	{
 		log.debug("appel de Robot.moveLengthwiseWithoutDetection(" + distance + "," + hooksToConsider + "," + expectsWallImpact + ")");
 		Speed newSpeed = Speed.SLOW_ALL;
 		/*
@@ -226,21 +226,21 @@ public class Robot implements Service
     	else
     		newSpeed = Speed.BETWEEN_SCRIPTS;
     		*/
-    	
+
 		moveLengthwise(distance, hooksToConsider, expectsWallImpact, false, newSpeed);
-	}	
-	
+	}
+
 	/**
 	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
 	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
 	 * @param distance en mm que le robot doit franchir
-	 * @param hooksToConsider hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie	 
+	 * @param hooksToConsider hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie
 	 * @param expectsWallImpact true si le robot doit s'attendre a percuter un mur au cours du déplacement. false si la route est sensée être dégagée.
 	 * @param mustDetect vrai si le robot doit detecter les obstacles sur son chemin
 	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
 	 */
 	 public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact, Boolean mustDetect) throws UnableToMoveException
-	{	
+	{
 		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + "," + expectsWallImpact + "," + mustDetect + ")");
 		Speed newSpeed = Speed.SLOW_ALL;
 		/*
@@ -251,22 +251,22 @@ public class Robot implements Service
     	else
     		newSpeed = Speed.BETWEEN_SCRIPTS;
     		*/
-    	
-		moveLengthwise(distance, hooksToConsider, expectsWallImpact, mustDetect, newSpeed);
-	}	
 
-	 
+		moveLengthwise(distance, hooksToConsider, expectsWallImpact, mustDetect, newSpeed);
+	}
+
+
 	/**
 	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
 	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
 	 * @param distance en mm que le robot doit franchir
-	 * @param hooksToConsider hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie	 
+	 * @param hooksToConsider hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie
 	 * @param expectsWallImpact true si le robot doit s'attendre a percuter un mur au cours du déplacement. false si la route est sensée être dégagée.
 	 * @param mustDetect vrai si le robot doit detecter les obstacles sur son chemin
 	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
 	 */
 	 public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact, Boolean mustDetect, Speed newSpeed) throws UnableToMoveException
-	{	
+	{
 		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + "," + expectsWallImpact + "," + mustDetect + "," + newSpeed + ")");
 		Speed oldSpeed = speed;
 		speed = newSpeed;
