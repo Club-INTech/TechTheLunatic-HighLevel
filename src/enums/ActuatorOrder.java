@@ -213,7 +213,6 @@ public enum ActuatorOrder
 
 	// Position de poussée
 	POUSSE_LARGUEUR("lmf", 500),
-
 	// Position de poussée en mode lent
 	POUSSE_LARGUEUR_LENT("lmfl", 900),
 
