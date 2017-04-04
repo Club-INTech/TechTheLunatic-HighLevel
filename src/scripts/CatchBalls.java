@@ -143,7 +143,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.moveLengthwise(150);
                 stateToConsider.robot.turn(Math.PI-0.62);
                 stateToConsider.robot.moveLengthwise(295);
-                stateToConsider.robot.turn(Math.PI-0.40);
+                stateToConsider.robot.turn(Math.PI-0.42);
 
 
 
@@ -160,9 +160,9 @@ public class CatchBalls extends AbstractScript {
 
             // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
             stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
-            stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+            stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
-            stateToConsider.robot.turn(Math.PI-0.62);
+            stateToConsider.robot.turn(Math.PI-0.42);
 
             }
 
@@ -176,7 +176,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.turn(Math.PI/4);
                 stateToConsider.robot.moveLengthwise(-49);
                 // Drop un module
-                stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
                 // Opération créneau
                 //stateToConsider.robot.moveLengthwise(60);
@@ -196,6 +196,9 @@ public class CatchBalls extends AbstractScript {
             }
 
             if (versionToExecute == 3) {
+
+                stateToConsider.robot.turn(-Math.PI/2);
+                stateToConsider.robot.moveLengthwise(700);
 
 
                 stateToConsider.robot.turn(Math.PI);
@@ -255,7 +258,7 @@ public class CatchBalls extends AbstractScript {
 
                 // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
-                stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+                stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
             }
 
@@ -290,7 +293,7 @@ public class CatchBalls extends AbstractScript {
 
         }
         else if (version ==3) {
-            return new Circle(new Vec2(920,730), 0);
+            return new Circle(new Vec2(1250,1250), 0);
         }
         else
         {

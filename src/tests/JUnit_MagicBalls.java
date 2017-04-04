@@ -39,7 +39,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
 
         mRobot.robot.setOrientation(Math.PI); //(position départ 615,203)
 
-        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
