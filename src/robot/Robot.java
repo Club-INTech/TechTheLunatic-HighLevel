@@ -368,7 +368,7 @@ public class Robot implements Service
 
 		  Vec2 aimPosition= Geometry.pointProche(this.position,aim);
 
-		this.followPath(this.pathfinding.Astarfoulah(this.getPosition(),aimPosition,this.orientation),hooksToConsider, mLocomotion.getDirectionStrategy());
+		this.followPath(this.pathfinding.Astarfoulah(this.getPosition(),aimPosition,this.orientation, this.speed.translationSpeed,this.speed.rotationSpeed ),hooksToConsider, mLocomotion.getDirectionStrategy());
 
     }
 
