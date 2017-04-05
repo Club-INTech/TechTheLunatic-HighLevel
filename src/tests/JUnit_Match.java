@@ -34,7 +34,7 @@ public class JUnit_Match extends JUnit_Test {
         //La position de depart est mise dans la Table (l'updtate config va la chercher)
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
-        mRobot.robot.setOrientation(0);
+        mRobot.robot.setOrientation(-Math.PI/2);
         mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
@@ -45,7 +45,7 @@ public class JUnit_Match extends JUnit_Test {
         //mRobot.robot.switchSensor();
 
         //départ en arrière
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(2, mRobot, new ArrayList<Hook>());
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(4, mRobot, new ArrayList<Hook>());
     }
 
     @Test
