@@ -142,7 +142,7 @@ public class CatchBalls extends AbstractScript {
 
                 stateToConsider.robot.moveLengthwise(150);
                 stateToConsider.robot.turn(Math.PI-0.62);
-                stateToConsider.robot.moveLengthwise(295);
+                stateToConsider.robot.moveLengthwise(250);
                 stateToConsider.robot.turn(Math.PI-0.42);
 
 
@@ -174,7 +174,7 @@ public class CatchBalls extends AbstractScript {
             else if(versionToExecute == 2){
                 stateToConsider.robot.moveLengthwise(-110);
                 stateToConsider.robot.turn(Math.PI/4);
-                stateToConsider.robot.moveLengthwise(-49);
+                stateToConsider.robot.moveLengthwise(-60);
                 // Drop un module
                 stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
@@ -189,16 +189,18 @@ public class CatchBalls extends AbstractScript {
                 //stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 //stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
                 stateToConsider.robot.moveLengthwise(60);
-                stateToConsider.robot.turn(-Math.PI/4);
-                stateToConsider.robot.moveLengthwise(350);
-                stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(200);
+                stateToConsider.robot.turn(-Math.PI/3);
+                stateToConsider.robot.moveLengthwise(250);
+                //stateToConsider.robot.turn(-Math.PI/2);
+                //stateToConsider.robot.moveLengthwise(200);
             }
 
             if (versionToExecute == 3) {
 
+                stateToConsider.robot.moveLengthwise(400);
                 stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(700);
+                stateToConsider.robot.moveLengthwise(800);
+
 
 
                 stateToConsider.robot.turn(Math.PI);
@@ -235,6 +237,33 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
                 stateToConsider.robot.moveLengthwise(100);
+
+                stateToConsider.robot.turn(-Math.PI/2);
+
+                stateToConsider.robot.moveLengthwise(150);
+                //abaisser les bras au plus bas
+                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+
+                //rotation de la pelle jusqu'à la position de livraison
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
+
+                //éventuellement, attendre le temps que les boules tombent (en millisecondes)
+                //actualstate.robot.sleep(1000);
+
+                //lever les bras jusqu'à la position intermédiaire
+                stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+
+                //Reculer un peu
+                stateToConsider.robot.moveLengthwise(-150);
+
+                //tourner la pelle jusqu'à la position initiale
+                stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+
+                //monter les bras le plus haut \o/
+                stateToConsider.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+
+                stateToConsider.robot.turn(Math.PI/2);
+
 
                 // Calcule de l'angle pour se diriger vers le centre du robot
                 Vec2 posCratere= new Vec2(850, 540);
@@ -289,11 +318,12 @@ public class CatchBalls extends AbstractScript {
         }
         else if (version == 2)
         {
-            return new Circle(new Vec2(810, 1150), 0);
+            return new Circle(new Vec2(860, 1150), 0);
 
         }
         else if (version ==3) {
-            return new Circle(new Vec2(1250,1250), 0);
+            return new Circle(robotPosition);
+            //return new Circle(new Vec2(1250,1250), 0);
         }
         else
         {
