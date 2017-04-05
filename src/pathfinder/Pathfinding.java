@@ -77,6 +77,7 @@ public class Pathfinding implements Service {
         // C'est pourquoi on a besoin de le considérer rectangulaire
         int robotMarge = oManager.mRobotRadius - oManager.getmRobotWidth()/2;
 
+
         // Si le point de départ est hors de la table
         if (Math.abs(departV.getX()) > 1500 - oManager.mRobotRadius ||
                 Math.abs(departV.getY() - 1000) > 1000 - oManager.mRobotRadius) {

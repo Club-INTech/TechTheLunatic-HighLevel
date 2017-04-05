@@ -107,7 +107,7 @@ public class CatchBalls extends AbstractScript {
             else if(versionToExecute == 2){
 
                 stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(-510);
+                stateToConsider.robot.moveLengthwise(-550);
 
                 //Attraper le module avec le côté droit
 
@@ -140,10 +140,12 @@ public class CatchBalls extends AbstractScript {
 
 
 
-                stateToConsider.robot.moveLengthwise(150);
-                stateToConsider.robot.turn(Math.PI-0.62);
+                stateToConsider.robot.moveLengthwise(190);
+                //stateToConsider.robot.turn(Math.PI-0.55);
+               // stateToConsider.robot.moveLengthwise(150);
+                stateToConsider.robot.turn(Math.PI-0.65);
                 stateToConsider.robot.moveLengthwise(250);
-                stateToConsider.robot.turn(Math.PI-0.42);
+
 
 
 
@@ -172,7 +174,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
             }
             else if(versionToExecute == 2){
-                stateToConsider.robot.moveLengthwise(-110);
+                stateToConsider.robot.moveLengthwise(-60);
                 stateToConsider.robot.turn(Math.PI/4);
                 stateToConsider.robot.moveLengthwise(-60);
                 // Drop un module
@@ -199,7 +201,7 @@ public class CatchBalls extends AbstractScript {
 
                 stateToConsider.robot.moveLengthwise(400);
                 stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(800);
+                stateToConsider.robot.moveLengthwise(600);
 
 
 
@@ -318,12 +320,12 @@ public class CatchBalls extends AbstractScript {
         }
         else if (version == 2)
         {
-            return new Circle(new Vec2(860, 1150), 0);
+            return new Circle(new Vec2(900, 1150), 0);
 
         }
         else if (version ==3) {
-            return new Circle(robotPosition);
-            //return new Circle(new Vec2(1250,1250), 0);
+
+            return new Circle(new Vec2(1250,1250), 0);
         }
         else
         {
