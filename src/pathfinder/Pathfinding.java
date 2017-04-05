@@ -64,9 +64,10 @@ public class Pathfinding implements Service {
      * @param departV          la position de début du pathfinding
      * @param arriveeV         la position d'arrivée
      * @param robotOrientation l'orientation du robot sur la position de départ
-     * @return une arrayliste des positions intermédiaires
+     * @param translationSpeed
+     *@param rotationSpeed @return une arrayliste des positions intermédiaires
      */
-    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV, double robotOrientation) throws PointInObstacleException {
+    public ArrayList<Vec2> Astarfoulah(Vec2 departV, Vec2 arriveeV, double robotOrientation, double translationSpeed, double rotationSpeed) throws PointInObstacleException {
 
         // On récupère les obstacles et on s'assure que l'orientation du robot soit entre -pi et pi
         ObstacleManager oManager = this.table.getObstacleManager();
@@ -85,15 +86,15 @@ public class Pathfinding implements Service {
             // Il recule/avance juste pour rentrer dans la table (ya pas d'obstacle derriere, faut pas déconner)
 
             if (departV.getY() < oManager.mRobotRadius && (Math.abs(robotOrientation) > Math.PI/4 && Math.abs(robotOrientation) < 3 * Math.PI/4)) {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), oManager.mRobotRadius + 1), arriveeV, robotOrientation);
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), oManager.mRobotRadius + 1), arriveeV, robotOrientation,translationSpeed,rotationSpeed );
                 newPath.add(0, departV);
                 return newPath;
             } else if (departV.getY() > 2000 - oManager.mRobotRadius && Math.abs(robotOrientation) > Math.PI / 4 && Math.abs(robotOrientation) < 3 * Math.PI / 4) {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), 2000 - oManager.mRobotRadius), arriveeV, robotOrientation);
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), 2000 - oManager.mRobotRadius), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                 newPath.add(0, departV);
                 return newPath;
             } else if (Math.abs(departV.getX()) > 1500 - oManager.mRobotRadius && (Math.abs(robotOrientation) < Math.PI / 4 || Math.abs(robotOrientation) > 3 * Math.PI / 4)) {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2((1500 - oManager.mRobotRadius) * departV.getX() / Math.abs(departV.getX()), departV.getY()), arriveeV, robotOrientation);
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2((1500 - oManager.mRobotRadius) * departV.getX() / Math.abs(departV.getX()), departV.getY()), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                 newPath.add(0, departV);
                 return newPath;
             }
@@ -118,16 +119,16 @@ public class Pathfinding implements Service {
                 {
                     if (whichObstacle(vecPropoBW.plusNewVector(departV)) instanceof ObstacleCircular)
                     {
-                        ArrayList<Vec2> newPath = Astarfoulah(vecPropoFW.plusNewVector(vecPropoBW).plusNewVector(departV), arriveeV, robotOrientation);
+                        ArrayList<Vec2> newPath = Astarfoulah(vecPropoFW.plusNewVector(vecPropoBW).plusNewVector(departV), arriveeV, robotOrientation,translationSpeed,rotationSpeed );
                         newPath.add(0, departV);
                         newPath.add(1, vecPropoFW.plusNewVector(departV));
                         return newPath;
                     }
-                    ArrayList<Vec2> newPath = Astarfoulah(vecPropoBW.plusNewVector(departV), arriveeV, robotOrientation);
+                    ArrayList<Vec2> newPath = Astarfoulah(vecPropoBW.plusNewVector(departV), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                     newPath.add(0, departV);
                     return newPath;
                 }
-                ArrayList<Vec2> newPath = Astarfoulah(vecPropoFW.plusNewVector(departV), arriveeV, robotOrientation);
+                ArrayList<Vec2> newPath = Astarfoulah(vecPropoFW.plusNewVector(departV), arriveeV, robotOrientation, translationSpeed,rotationSpeed);
                 newPath.add(0, departV);
                 return newPath;
             }
@@ -144,16 +145,16 @@ public class Pathfinding implements Service {
                 {
                     if (whichObstacle(vecPropoBW.plusNewVector(departV)) != null)
                     {
-                        ArrayList<Vec2> newPath = Astarfoulah(vecPropoFW.plusNewVector(vecPropoBW).plusNewVector(departV), arriveeV, robotOrientation);
+                        ArrayList<Vec2> newPath = Astarfoulah(vecPropoFW.plusNewVector(vecPropoBW).plusNewVector(departV), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                         newPath.add(0, departV);
                         newPath.add(1, vecPropoFW.plusNewVector(departV));
                         return newPath;
                     }
-                    ArrayList<Vec2> newPath = Astarfoulah(vecPropoBW.plusNewVector(departV), arriveeV, robotOrientation);
+                    ArrayList<Vec2> newPath = Astarfoulah(vecPropoBW.plusNewVector(departV), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                     newPath.add(0, departV);
                     return newPath;
                 }
-                ArrayList<Vec2> newPath = Astarfoulah(vecPropoFW.plusNewVector(departV), arriveeV, robotOrientation);
+                ArrayList<Vec2> newPath = Astarfoulah(vecPropoFW.plusNewVector(departV), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                 newPath.add(0, departV);
                 return newPath;
             }
@@ -176,7 +177,7 @@ public class Pathfinding implements Service {
                         vecRef.setR(radius + 1);
                         vecRef.setA(vecRef.getA() + Math.PI);
 
-                        ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecRef), arriveeV, robotOrientation);
+                        ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecRef), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                         newPath.add(0, departV);
                         return newPath;
                     }
@@ -188,11 +189,11 @@ public class Pathfinding implements Service {
                         Vec2 vecPropoBW = new Vec2(radius + 1, vecRef.getA() - Math.acos(vecRef.getR() / radius));
 
                         if (whichObstacle(obstacle.getPosition().plusNewVector(vecPropoFW)) != null) {
-                            ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecPropoBW), arriveeV, robotOrientation);
+                            ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecPropoBW), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                             newPath.add(0, departV);
                             return newPath;
                         } else {
-                            ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecPropoFW), arriveeV, robotOrientation);
+                            ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecPropoFW), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                             newPath.add(0, departV);
                             return newPath;
                         }
@@ -210,7 +211,7 @@ public class Pathfinding implements Service {
 
                     // Perpendiculaire
                     if (angleref < Math.PI / 4 || angleref > 3 * Math.PI / 4) {
-                        ArrayList<Vec2> newPath = Astarfoulah(newDepartV, arriveeV, robotOrientation);
+                        ArrayList<Vec2> newPath = Astarfoulah(newDepartV, arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                         newPath.add(0, departV);
                         return newPath;
                     }
@@ -238,7 +239,7 @@ public class Pathfinding implements Service {
                             vecPropoBW.setA(marge);
                         }
 
-                        ArrayList<Vec2> newPath = Astarfoulah(departV.plusNewVector(vecPropoFW), arriveeV, robotOrientation);
+                        ArrayList<Vec2> newPath = Astarfoulah(departV.plusNewVector(vecPropoFW), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                         newPath.add(0, departV);
                         return newPath;
                     }
@@ -259,7 +260,7 @@ public class Pathfinding implements Service {
                 int sens = Math.abs(arriveeV.getX())/arriveeV.getX();
                 Vec2 newArriveeV = new Vec2(sens*(1500-oManager.mRobotRadius), arriveeV.getY());
 
-                ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
+                ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation, translationSpeed,rotationSpeed );
                 arriveeV.setX(sens*(1500-oManager.getmRobotWidth()/2));
 
                 if (whichObstacle(newArriveeV) == null){
@@ -273,7 +274,7 @@ public class Pathfinding implements Service {
                 int sens = Math.abs(arriveeV.getY()-1000)/(arriveeV.getY()-1000);
                 Vec2 newArriveeV = new Vec2(arriveeV.getX(), 1000+sens*(1000-oManager.mRobotRadius));
 
-                ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation);
+                ArrayList<Vec2> newPath = Astarfoulah(departV, newArriveeV, robotOrientation, translationSpeed,rotationSpeed );
                 arriveeV.setY(1000 + sens*(1000-oManager.getmRobotWidth()/2));
 
                 if (whichObstacle(newArriveeV) == null) {
@@ -291,11 +292,11 @@ public class Pathfinding implements Service {
             if (obstacle instanceof ObstacleCircular)
             {
                 Vec2 toReturn = Geometry.pointExterieur(arriveeV, ((ObstacleCircular) obstacle).getCircle());
-                ArrayList<Vec2> newPath = Astarfoulah(departV, toReturn, robotOrientation);
+                ArrayList<Vec2> newPath = Astarfoulah(departV, toReturn, robotOrientation, translationSpeed,rotationSpeed );
                 return newPath;
             }
             else if(obstacle instanceof ObstacleRectangular){
-                return Astarfoulah(departV, graphe.NoeudProche(arriveeV), robotOrientation);
+                return Astarfoulah(departV, graphe.NoeudProche(arriveeV), robotOrientation, translationSpeed,rotationSpeed );
             }
         }
 
@@ -303,7 +304,7 @@ public class Pathfinding implements Service {
         Graphe graph = this.graphe;
         Noeud depart = new Noeud(graph, departV);
         Noeud arrivee = new Noeud(graph, arriveeV);
-        return Astarfoulah(depart, arrivee, graph);
+        return Astarfoulah(depart, arrivee, graph,robotOrientation,translationSpeed,rotationSpeed);
     }
 
     /**
@@ -314,7 +315,7 @@ public class Pathfinding implements Service {
      * @param graphe  Graphe
      * @return Liste de vec2 des points de passage
      */
-    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe graphe) throws PointInObstacleException {
+    public ArrayList<Vec2> Astarfoulah(Noeud depart, Noeud arrivee, Graphe graphe,double robotOrientation, double translationSpeed,double rotationSpeed) throws PointInObstacleException {
 
         ObstacleManager oManager = this.table.getObstacleManager();
 
@@ -386,19 +387,31 @@ public class Pathfinding implements Service {
         depart.distHeuristique(arrivee);
         depart.sommeDepart = 0;
         Noeud noeudCourant = depart;
-
+        Noeud noeudPrecedent=null;
+        double coutTot=0;
         do {
             if (noeudCourant == null) {
                 log.debug("noeudCourant est null");
                 return null;
             }
 
+
             // On parcourt les arrêtes de noeudCourant
             for (int i = 0; i < noeudCourant.lArretes.size(); i++)
             {
                 // On actualise la distance à l'arrivée
                 noeudCourant.lArretes.get(i).arrivee.distHeuristique(arrivee);
-                double coutTot = noeudCourant.sommeDepart + noeudCourant.lArretes.get(i).cout;
+                if(noeudPrecedent==null)
+                {
+                coutTot = noeudCourant.sommeDepart + noeudCourant.lArretes.get(i).cout/translationSpeed + 0.4 + (robotOrientation+noeudCourant.lArretes.get(i).arrivee.position.angle())%Math.PI;
+                }
+                else
+                {
+                    Vec2 v1 = noeudCourant.noeudPrecedent.position.minusNewVector(noeudCourant.position);
+                    Vec2 v2 = noeudCourant.position.minusNewVector(noeudCourant.lArretes.get(i).arrivee.position);
+                    double angle = Math.acos(v1.dot(v2) / (v1.length() * v2.length()));
+                     coutTot = noeudCourant.sommeDepart + noeudCourant.lArretes.get(i).cout/translationSpeed + 0.4 + angle/rotationSpeed;
+                }
 
                 // On vérifie qu'il n'est pas dans la closedList ou que l'on a déjà trouvé mieux
                 if (!closedList.contains(noeudCourant.lArretes.get(i).arrivee) && noeudCourant.lArretes.get(i).arrivee.sommeDepart > coutTot)
@@ -504,7 +517,7 @@ public class Pathfinding implements Service {
 
     // TODO : savoir à quoi sert cette méthode
 
-    public ArrayList<Vec2> ennemiDetecte(Vec2 posRobot, Vec2 cible, double robotOrientation) {
+    public ArrayList<Vec2> ennemiDetecte(Vec2 posRobot, Vec2 cible, double robotOrientation,double translationSpeed,double rotationSpeed) {
         ObstacleManager a = this.table.getObstacleManager();
 
         //creerNoeudoptimal();
@@ -570,7 +583,7 @@ public class Pathfinding implements Service {
         } else {
             this.graphe.initGraphe();
             try {
-                return Astarfoulah(posRobot, cible, robotOrientation);
+                return Astarfoulah(posRobot, cible, robotOrientation, translationSpeed,rotationSpeed );
             } catch (PointInObstacleException e) {
 
             }
