@@ -61,7 +61,7 @@ public class JUnit_Match_scripté extends JUnit_Test{
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
             scriptManager.getScript(ScriptNames.FULLSCRIPTED).goToThenExec(0, mRobot, new ArrayList<Hook>());
 
-            returnToEntryPosition(mRobot);
+
         }
         catch(Exception e)
         {
