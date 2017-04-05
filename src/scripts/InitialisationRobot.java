@@ -56,7 +56,7 @@ public class InitialisationRobot extends AbstractScript {
             hookToConsider.add(replibrasD);
 
             // Initialisation des actionneurs
-            if(versionToExecute <= 3) {
+            if(versionToExecute <= 4) {
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
@@ -115,8 +115,8 @@ public class InitialisationRobot extends AbstractScript {
 
             }
             else if (versionToExecute == 4) {
-                gameState.robot.turn(-3 * Math.PI / 16);
-                gameState.robot.moveLengthwise(-100, hookToConsider);
+                //gameState.robot.turn(Math.PI/2 +0.3;
+                gameState.robot.moveLengthwise(-650);
 
 
             }
