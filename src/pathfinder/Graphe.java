@@ -39,7 +39,7 @@ public class Graphe {
     private  Log log;
 
     private ArrayList<Noeud> lNoeuds;
-    private int n=8;
+    private int n=6;
     private int ecart=20;
 
     public int getN() {
