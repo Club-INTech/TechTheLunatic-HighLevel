@@ -33,6 +33,7 @@ public enum ScriptNames
     CATCH_MODULE,
     DROP_MODULE,
     INITIALISE_ROBOT,
+    FULLSCRIPTED,
 
 
 	// exemple : CLOSE_DOORS,

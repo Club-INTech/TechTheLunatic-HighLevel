@@ -85,7 +85,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
                     log.debug(win.getMouse().getLeftClickPosition() + " " + win.getMouse().getRightClickPosition());
                     long start = System.currentTimeMillis();
 
-                    ArrayList<Vec2> p = pf.Astarfoulah(dep, arr, Math.PI);
+                    ArrayList<Vec2> p = pf.Astarfoulah(dep, arr, Math.PI, mRobot.robot.getLocomotionSpeed().translationSpeed,mRobot.robot.getLocomotionSpeed().rotationSpeed );
 
                     long end = System.currentTimeMillis();
                     System.out.println("time elapsed : " + (end - start));
@@ -123,7 +123,8 @@ public class JUnit_Pathfinding extends JUnit_Test {
 
         int randomYarr = ThreadLocalRandom.current().nextInt(0, 2000);
         int randomXarr = ThreadLocalRandom.current().nextInt(-1500, 1500);
-        ArrayList<Vec2> path = pf.Astarfoulah(mRobot.robot.getPosition(),new Vec2(randomXarr,randomYarr),mRobot.robot.getOrientation());
+        ArrayList<Vec2> path = pf.Astarfoulah(mRobot.robot.getPosition(),new Vec2(randomXarr,randomYarr),mRobot.robot.getOrientation(),mRobot.robot.getLocomotionSpeed().translationSpeed,mRobot.robot.getLocomotionSpeed().rotationSpeed  );
+
         mRobot.robot.followPath(path, new ArrayList<Hook>());
 
         for (int i=0; i<100; i++) {
@@ -135,7 +136,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
 
             randomYarr = ThreadLocalRandom.current().nextInt(0, 2000);
             randomXarr = ThreadLocalRandom.current().nextInt(-1500, 1500);
-            path = pf.Astarfoulah(mRobot.robot.getPosition(), new Vec2(randomXarr, randomYarr), mRobot.robot.getOrientation());
+            path = pf.Astarfoulah(mRobot.robot.getPosition(), new Vec2(randomXarr, randomYarr), mRobot.robot.getOrientation(), mRobot.robot.getLocomotionSpeed().translationSpeed,mRobot.robot.getLocomotionSpeed().rotationSpeed );
             mRobot.robot.followPath(path, new ArrayList<Hook>());
         }
         returnToEntryPosition(mRobot);
