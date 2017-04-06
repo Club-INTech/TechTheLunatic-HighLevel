@@ -17,10 +17,9 @@ import threads.dataHandlers.ThreadSensor;
 import java.util.ArrayList;
 
 /**
- * Tests les 2 scripts l'un après l'autre ! (c'est plus propre que d'appeler les 2 JUnits l'un après l'autre)
- * @autor Rem, Ug
+ * Created by gaelle on 05/04/17.
  */
-public class JUnit_MagicBalls extends JUnit_Test {
+public class JUnit_Match_scripté extends JUnit_Test{
     private GameState mRobot;
     private ScriptManager scriptManager;
 
@@ -37,7 +36,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
 
-        mRobot.robot.setOrientation(Math.PI); //(position départ 615,203)
+        mRobot.robot.setOrientation(-Math.PI/2);
 
         mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
         scriptManager = container.getService(ScriptManager.class);
@@ -48,7 +47,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
         container.startInstanciedThreads();
         //mRobot.robot.switchSensor();
 
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(4, mRobot, new ArrayList<Hook>());
     }
 
     @Test
@@ -60,15 +59,9 @@ public class JUnit_MagicBalls extends JUnit_Test {
             //On execute le script
             log.debug("Ramassage des balles");
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
-            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
-            mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+            scriptManager.getScript(ScriptNames.FULLSCRIPTED).goToThenExec(0, mRobot, new ArrayList<Hook>());
 
-            scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(2, mRobot, emptyList);
-            mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-            //scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(2, mRobot,emptyList);
-            //scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(1, mRobot, emptyList);
 
-            returnToEntryPosition(mRobot);
         }
         catch(Exception e)
         {
@@ -82,3 +75,4 @@ public class JUnit_MagicBalls extends JUnit_Test {
         mRobot.robot.immobilise();
     }
 }
+

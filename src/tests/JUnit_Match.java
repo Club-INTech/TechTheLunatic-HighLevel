@@ -11,7 +11,9 @@ import org.junit.Test;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
+import threads.ThreadInterface;
 import threads.dataHandlers.ThreadEvents;
+import threads.dataHandlers.ThreadSensor;
 
 import java.util.ArrayList;
 
@@ -32,15 +34,18 @@ public class JUnit_Match extends JUnit_Test {
         //La position de depart est mise dans la Table (l'updtate config va la chercher)
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
-        mRobot.robot.setOrientation(0);
-        mRobot.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
+        mRobot.robot.setOrientation(-Math.PI/2);
+        mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
+        //container.getService(ThreadSensor.class);
+        //container.getService(ThreadInterface.class);
         container.startInstanciedThreads();
+        //mRobot.robot.switchSensor();
 
         //départ en arrière
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(2, mRobot, new ArrayList<Hook>());
+        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(4, mRobot, new ArrayList<Hook>());
     }
 
     @Test

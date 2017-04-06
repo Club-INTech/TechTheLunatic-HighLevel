@@ -62,6 +62,8 @@ public class ScriptManager implements Service
 		instanciedScripts[ScriptNames.CATCH_MODULE.ordinal()] = new CatchModule(factory, config, log);
 		instanciedScripts[ScriptNames.DROP_MODULE.ordinal()] = new DropModule(factory, config, log);
 		instanciedScripts[ScriptNames.INITIALISE_ROBOT.ordinal()] = new InitialisationRobot(factory, config, log);
+		instanciedScripts[ScriptNames.FULLSCRIPTED.ordinal()] = new FullScripted(factory, config, log);
+
 
 	}
 	
