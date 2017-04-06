@@ -83,6 +83,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     private static final int TIME_OUT = 1000;
 
     private BufferedWriter out;
+    private BufferedWriter outLL;
     private boolean debug = true;
 
     /**
@@ -150,12 +151,18 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             try
             {
                 File file = new File("orders.txt");
+                File fileDebug = new File("debugLL.txt");
                 if (!file.exists())
                 {
                     //file.delete();
                     file.createNewFile();
                 }
+                if(!file.exists())
+                {
+                    file.createNewFile();
+                }
                 out = new BufferedWriter(new FileWriter(file));
+                outLL = new BufferedWriter(new FileWriter(fileDebug));
 
             } catch (IOException e) {
                 log.critical("Manque de droits pour l'output des ordres");
@@ -585,7 +592,11 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     if(buffer.toCharArray()[0] == debugHeader[0] && buffer.toCharArray()[1] == debugHeader[1])
                     {
                         if(!printLLDebug) continue;
-                        log.debug("Debug LL : "+buffer.substring(2));
+                        outLL.write(buffer.substring(2));
+                        outLL.newLine();
+                        outLL.flush();
+
+                        // log.debug("Debug LL : "+buffer.substring(2));
                         continue;
                     }
 
