@@ -52,7 +52,7 @@ public enum Speed
 	FAST_T_SLOW_R(600, Math.PI/2),
 
 	/** vitesse rapide en translation et rotation*/
-	FAST_ALL(626,(Math.PI));	//Anciennement 500
+	FAST_ALL(626,(5*Math.PI/7));	//Anciennement 500
     
     /** vitesse des moteurs lors d'une translation, ce sont ces valeurs qui seront envoyées à la STM*/
     public float translationSpeed;
