@@ -46,7 +46,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
         container.getService(ThreadSensor.class);
         container.getService(ThreadInterface.class);
         container.startInstanciedThreads();
-        //mRobot.robot.switchSensor();
+        mRobot.robot.switchSensor();
 
         scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
     }
@@ -59,7 +59,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
         {
             //On execute le script
             log.debug("Ramassage des balles");
-            mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
+            mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
             scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, emptyList);
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
@@ -69,6 +69,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
             //scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(1, mRobot, emptyList);
 
             returnToEntryPosition(mRobot);
+            mRobot.robot.switchSensor();
         }
         catch(Exception e)
         {
