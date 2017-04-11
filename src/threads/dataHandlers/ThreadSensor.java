@@ -80,7 +80,6 @@ public class ThreadSensor extends AbstractThread
      * Temps maximal entre deux séries de valeurs (ms) : si cette série est incomplète, on la vire; cela évite les déclages
      */
     private int thresholdUSseries = 20;
-    // TODO Mettre un canal par capteur afin de fiabiliser les séries de valeurs US
 
     /**
      * Si l'on doit symétriser
@@ -323,7 +322,7 @@ public class ThreadSensor extends AbstractThread
         // On résoudre l'équation du second degrée afin de trouver les deux points d'intersections des deux cercles
         // On joue sur le rayon du robot adverse pour etre sur d'avoir des solutions
         double robotX1, robotX2;
-        double robotY1;
+        double robotY;
         double b, c, delta;
         int constante, R1, R2;
         Vec2 vec = new Vec2();
@@ -337,11 +336,11 @@ public class ThreadSensor extends AbstractThread
 
         delta = b*b - 4*c;
         if (!isBetween(delta, -1, 1)) {
-            robotX1 = (int) ((-b - Math.sqrt(delta)) / 2);
+            // robotX1 = (int) ((-b - Math.sqrt(delta)) / 2);
             robotX2 = (int) ((-b + Math.sqrt(delta)) / 2);
-            robotY1 = (double) constante / (4*positionLF.getX());
+            robotY = (double) constante / (4*positionLF.getX());
 
-            Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
+            /* Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
             Vec2 vec1 = new Vec2((int)robotX2, (int)robotY1);
             ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
             listVec.add(vec0);
@@ -352,15 +351,17 @@ public class ThreadSensor extends AbstractThread
                      vec=v;
                 }
             }
+            */
+
+            vec = new Vec2(robotX2, robotY);
         }
         else{
             robotX1 = (int) -b/2;
-            robotY1 = - constante / (2 * (positionLF.getY() - positionRF.getY()));
-            vec = new Vec2(robotX1, robotY1);
+            robotY = - constante / (2 * (positionLF.getY() - positionRF.getY()));
+            vec = new Vec2(robotX1, robotY);
         }
 
-        vec.setA(vec.getA()+mRobot.getOrientationFast());
-        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(vec), radius, 200);
+        mTable.getObstacleManager().addObstacle(changeRef(vec), radius, 200);
     }
     /**
      * Ajoute un obstacle derrière le robot, avec les deux capteurs ayant détecté quelque chose
@@ -369,7 +370,7 @@ public class ThreadSensor extends AbstractThread
     {
         // De meme que le front, seule la selection de la bonne solution change
         double robotX1, robotX2;
-        double robotY1;
+        double robotY;
         double b, c, delta;
         int constante, R1, R2;
         Vec2 vec = new Vec2();
@@ -384,10 +385,10 @@ public class ThreadSensor extends AbstractThread
         delta = b*b - 4*c;
         if (!isBetween(delta, -1, 1)) {
             robotX1 = (int) ((-b - Math.sqrt(delta)) / 2);
-            robotX2 = (int) ((-b + Math.sqrt(delta)) / 2);
-            robotY1 = (double) constante / (4*positionLB.getX());
+            // robotX2 = (int) ((-b + Math.sqrt(delta)) / 2);
+            robotY = (double) constante / (4*positionLB.getX());
 
-            Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
+            /* Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
             Vec2 vec1 = new Vec2((int)robotX2, (int)robotY1);
 
             ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
@@ -399,15 +400,17 @@ public class ThreadSensor extends AbstractThread
                     vec=v;
                 }
             }
+            */
+
+            vec = new Vec2(robotX1, robotY);
         }
         else{
             robotX1 = (int) -b/2;
-            robotY1 = -constante / (2 * (positionLB.getY() - positionRB.getY()));
-            vec = new Vec2(robotX1, robotY1);
+            robotY = -constante / (2 * (positionLB.getY() - positionRB.getY()));
+            vec = new Vec2(robotX1, robotY);
         }
 
-        vec.setA(vec.getA()+mRobot.getOrientationFast());
-        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(vec), radius, 200);
+        mTable.getObstacleManager().addObstacle(changeRef(vec), radius, 200);
     }
 
     /**
@@ -436,8 +439,7 @@ public class ThreadSensor extends AbstractThread
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRF);
         }
 
-        posEn.setA(posEn.getA()+mRobot.getOrientationFast());
-        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(posEn), radius, 200);
+        mTable.getObstacleManager().addObstacle(changeRef(posEn), radius, 200);
     }
 
     /**
@@ -462,21 +464,18 @@ public class ThreadSensor extends AbstractThread
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRB);
         }
 
-        posEn.setA(posEn.getA()+mRobot.getOrientationFast());
-        mTable.getObstacleManager().addObstacle(mRobot.getPositionFast().plusNewVector(posEn), radius, 200);
+        mTable.getObstacleManager().addObstacle(changeRef(posEn), radius, 200);
     }
 
 
     /**
-     * Passe du référentiel centré sur le point donné au référentiel terrestre
-     * @param posPoint la position relative dont on cherche les coordonées absolues
-     * @param posOrigin la position de l'origine du reférentiel
-     * @param orientation l'orientation du référentiel par rapport au terrestre
+     * Passe du référentiel du robot à celui de la table
+     * @param pos la position relative dont on cherche les coordonées absolues
      */
-    private Vec2 changeRef(Vec2 posPoint, Vec2 posOrigin, double orientation)
+    private Vec2 changeRef(Vec2 pos)
     {
-        return new Vec2((int)(posPoint.getX()*Math.cos(orientation)+posPoint.getY()*Math.sin(orientation)+posOrigin.getX()),
-                (int)(posPoint.getX()*Math.sin(orientation)-posPoint.getY()*Math.cos(orientation)+posOrigin.getY()));
+        pos.setA(pos.getA()+mRobot.getOrientationFast());
+        return pos.plusNewVector(mRobot.getPositionFast());
     }
 
 	/**
@@ -608,7 +607,7 @@ public class ThreadSensor extends AbstractThread
 			sensorFrequency = Integer.parseInt(config.getProperty("capteurs_frequence"));
 			
 			//plus que cette distance (environ 50cm) on est beaucoup moins precis sur la position adverse (donc on ne l'ecrit pas !)
-            // TODO expliquer le calcul de la distance
+            // TODO expliquer le calcul de la distance (???)
 			maxSensorRange = Integer.parseInt(config.getProperty("largeur_robot"))
 							 / Math.sin(Float.parseFloat(config.getProperty("angle_detection_capteur")));
 
