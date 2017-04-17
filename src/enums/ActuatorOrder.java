@@ -109,8 +109,8 @@ public enum ActuatorOrder
     ETAT_JUMPER("j"),
 
     //états contacteurs (0='non appuyé', 1='appuyé')
-    ETAT_CONTACTEUR1("c1"),
-    ETAT_CONTACTEUR2("c2"),
+    ETAT_CONTACTEUR1("c1"),				//vaut 1 si l'ascenseur est en position haute
+    ETAT_CONTACTEUR2("c2"),				//vaut 1 si l'ascenseur est en position basse
     ETAT_CONTACTEUR3("c3"),
 
 
@@ -228,10 +228,13 @@ public enum ActuatorOrder
 
 	//		2 POSITIONS DE L'ASCENCEUR  //
 	// Position basse
-	BAISSE_ASC("asdown",1000),
+	BAISSE_ASC("ascdown",1000),
 
 	// Position haute
-	LEVE_ASC("asup",500);
+	LEVE_ASC("ascup",500),
+
+	//Stoppe l'ascenseur
+	STOP_ASC("ascstop");
 
 
 
