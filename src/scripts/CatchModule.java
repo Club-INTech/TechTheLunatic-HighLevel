@@ -51,10 +51,8 @@ public class CatchModule extends AbstractScript {
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                actualState.robot.useActuator(ActuatorOrder.ETAT_CONTACTEUR2, false);
             }
-
-
-                
 
             if (versionToExecute == 1) {
 
@@ -140,9 +138,11 @@ public class CatchModule extends AbstractScript {
 
                         // Monte la plaque
                         actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+                        actualState.robot.useActuator(ActuatorOrder.ETAT_CONTACTEUR1,false);
 
                         // Baisse la plaque
                         actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                        actualState.robot.useActuator(ActuatorOrder.ETAT_CONTACTEUR2, false);
 
                     }
 
@@ -176,9 +176,11 @@ public class CatchModule extends AbstractScript {
 
                         // Monte la plaque
                         actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+                        actualState.robot.useActuator(ActuatorOrder.ETAT_CONTACTEUR1, false);
 
                         // Baisse la plaque
                         actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                        actualState.robot.useActuator(ActuatorOrder.ETAT_CONTACTEUR2, false);
 
                     }
 

@@ -49,13 +49,13 @@ public class JUnit_Match extends JUnit_Test {
     }
 
     @Test
-    public void catchThoseBalls()
+    public void makeThesePoints()
     {
         ArrayList<Hook> emptyList = new ArrayList<Hook>();
         try
         {
             //On execute le script
-            log.debug("Ramassage des balles");
+            log.debug("Aller Billy, t'as 90 secondes, fait des points");
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
 
@@ -77,18 +77,13 @@ public class JUnit_Match extends JUnit_Test {
             mRobot.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
 
             //lever les bras jusqu'à la position intermédiaire
-           mRobot.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+            mRobot.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
             //tourner la pelle jusqu'à la position initiale
             mRobot.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
             //monter les bras le plus haut \o/
             mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
-
-
-
-
-
 
         }
         catch(Exception e)
