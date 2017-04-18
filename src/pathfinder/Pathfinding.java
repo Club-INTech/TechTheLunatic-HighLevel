@@ -381,7 +381,7 @@ public class Pathfinding implements Service {
         ArrayList<Noeud> closedList = new ArrayList<>();
 
         // On stocke dedans les noeuds qu'on rencontre, comparaNoeud est l'heuristique
-        PriorityQueue<Noeud> priorityQueue = new PriorityQueue(graphe.getlNoeuds().size(), new ComparaNoeud());
+        PriorityQueue<Noeud> priorityQueue = new PriorityQueue(graphe.getlNoeuds().size(), new ComparaNoeud(translationSpeed));
 
         depart.noeudPrecedent = null;
         closedList.add(depart);

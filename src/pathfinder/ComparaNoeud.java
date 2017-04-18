@@ -26,7 +26,11 @@ import java.util.Comparator;
  */
 
 public class ComparaNoeud implements Comparator<Noeud> {
-
+ private double translationSpeed;
+    public ComparaNoeud(double translationSpeed)
+    {
+        this.translationSpeed=translationSpeed;
+    }
     /**
      * Opérateur utilisé dans la Priority queue de l'A*. Inclue l'heuristique. noeud1>t1 => résultat positif noeud1<t1 => résultat négatif
      * @param noeud le premier noeud
@@ -36,7 +40,7 @@ public class ComparaNoeud implements Comparator<Noeud> {
 
     @Override
     public int compare(Noeud noeud, Noeud t1) {
-        return (int)(noeud.sommeDepart +noeud.distArrivee/1000 - t1.sommeDepart -t1.distArrivee/1000);
+        return (int)(noeud.sommeDepart +noeud.distArrivee/translationSpeed - t1.sommeDepart -t1.distArrivee/translationSpeed);
     }
 
     @Override
