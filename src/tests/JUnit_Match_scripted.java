@@ -19,7 +19,7 @@ import java.util.ArrayList;
 /**
  * Created by gaelle on 05/04/17.
  */
-public class JUnit_Match_scripté extends JUnit_Test{
+public class JUnit_Match_scripted extends JUnit_Test{
     private GameState mRobot;
     private ScriptManager scriptManager;
 
