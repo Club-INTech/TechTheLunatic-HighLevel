@@ -4,15 +4,12 @@ import enums.DirectionStrategy;
 import enums.ScriptNames;
 import enums.Speed;
 import hook.Hook;
-import hook.types.HookFactory;
-import hook.types.HookIsPositionAndOrientationCorrect;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import scripts.ScriptManager;
 import smartMath.Vec2;
 import strategie.GameState;
-import table.Table;
 import threads.dataHandlers.ThreadEvents;
 
 import java.util.ArrayList;
@@ -45,7 +42,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         container.getService(ThreadEvents.class);
         container.startInstanciedThreads();
 
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, listHook);
+        //scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, listHook);
     }
 
     @Test

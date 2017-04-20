@@ -136,10 +136,10 @@ public enum ActuatorOrder
 	PRET_PELLE("pd",1000),
 
 	// Position intermédiaire de la pelle, maintient les boules
-	PREND_PELLE("pm",1000),
+	PREND_PELLE("pm",2000),
 
 	//Pos de déplacement avec les boules
-	TIENT_BOULES("pt",1000),
+	TIENT_BOULES("pt",2000),
 
 	//Position de livraison de boules de la pelle
 	LIVRE_PELLE("pf",1000),

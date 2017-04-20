@@ -34,7 +34,6 @@ import strategie.GameState;
 import utils.Config;
 import utils.Log;
 
-import java.awt.peer.ScrollPanePeer;
 import java.util.ArrayList;
 
     // TODO: calibrer les WaitforCompletion + faire toute les versions pour tout les cratères
@@ -184,8 +183,8 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
             // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
-            stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
-            stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+            stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,true);
+            stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
             stateToConsider.robot.turn(Math.PI-0.42);
 
