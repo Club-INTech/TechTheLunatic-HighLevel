@@ -97,7 +97,7 @@ public class InitialisationRobot extends AbstractScript {
                 // gameState.robot.moveLengthwise(-400, hookToConsider);
                 gameState.robot.turn(5 * Math.PI / 8);
 
-                gameState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+                gameState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
 
 
                 // départ à l'endroit (pelleteuse vers PI)
