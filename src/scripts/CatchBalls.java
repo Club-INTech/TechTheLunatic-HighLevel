@@ -110,7 +110,7 @@ public class CatchBalls extends AbstractScript {
 
                 //stateToConsider.robot.switchSensor();
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(90);
+                stateToConsider.robot.moveLengthwise(80);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
