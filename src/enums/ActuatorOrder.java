@@ -124,11 +124,11 @@ public enum ActuatorOrder
 	// Rangement de la pelleteuse
 	REPLIER_PELLETEUSE("bpr",700),
 
-	// Rangement de la pelleteuse
-	REPLIER_PELLETEUSE_BAS("bpra",700),
+	// Baisse un peu plus la pelleteuse
+	DEPLOYER_PELLETEUSE_BAS("bpra",700),
 
 	// Déploiement de la pelleteuse
-	DEPLOYER_PELLETEUSE("bpd",350),
+	DEPLOYER_PELLETEUSE("bpd",600),
 
 	// Position intermédiaire de la pelleteuse, pour rotations de la pelle
 	MED_PELLETEUSE("bpm",300),
@@ -139,7 +139,7 @@ public enum ActuatorOrder
 	PRET_PELLE("pd",1700),
 
 	// Position intermédiaire de la pelle, maintient les boules
-	PREND_PELLE("pm",2000),
+	PREND_PELLE("pm",2000),//avant:2000
 
 	//Pos de déplacement avec les boules
 	TIENT_BOULES("pt",2000),
