@@ -82,6 +82,8 @@ public class ScriptManager implements Service
 	/* (non-Javadoc)
 	 * @see container.Service#updateConfig()
 	 */
+
+	//LE HAUT NIVEAU C D PD
 	public void updateConfig()
 	{
 	}
