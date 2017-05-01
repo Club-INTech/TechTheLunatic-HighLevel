@@ -105,7 +105,7 @@ public class CatchBalls extends AbstractScript {
                 // Manoeuvre pour se diriger vers le cratère
                 //stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
 
-                stateToConsider.robot.switchSensor();
+                //stateToConsider.robot.switchSensor();
                 stateToConsider.robot.turn(vec.getA());
                 stateToConsider.robot.moveLengthwise(90);
 
@@ -123,13 +123,13 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
-                stateToConsider.robot.switchSensor();
+                //stateToConsider.robot.switchSensor();
             }
 
             else if(versionToExecute == 2){
 
                 stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(-550);
+                stateToConsider.robot.moveLengthwise(-540);
 
                 //Attraper le module avec le côté droit
 
@@ -162,7 +162,7 @@ public class CatchBalls extends AbstractScript {
 
 
 
-                stateToConsider.robot.moveLengthwise(190);
+                stateToConsider.robot.moveLengthwise(180);
                 //stateToConsider.robot.turn(Math.PI-0.55);
                // stateToConsider.robot.moveLengthwise(150);
                 stateToConsider.robot.turn(Math.PI-0.65);
@@ -198,7 +198,7 @@ public class CatchBalls extends AbstractScript {
             else if(versionToExecute == 2){
                 stateToConsider.robot.moveLengthwise(-60);
                 stateToConsider.robot.turn(Math.PI/4);
-                stateToConsider.robot.moveLengthwise(-60);
+                stateToConsider.robot.moveLengthwise(-50);
                 // Drop un module
                 stateToConsider.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
@@ -214,16 +214,16 @@ public class CatchBalls extends AbstractScript {
                 //stateToConsider.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
                 stateToConsider.robot.moveLengthwise(60);
                 stateToConsider.robot.turn(-Math.PI/3);
-                stateToConsider.robot.moveLengthwise(250);
+                stateToConsider.robot.moveLengthwise(400);
                 //stateToConsider.robot.turn(-Math.PI/2);
                 //stateToConsider.robot.moveLengthwise(200);
             }
 
             if (versionToExecute == 3) {
 
-                stateToConsider.robot.moveLengthwise(400);
+
                 stateToConsider.robot.turn(-Math.PI/2);
-                stateToConsider.robot.moveLengthwise(600);
+                stateToConsider.robot.moveLengthwise(1000);
 
 
 
@@ -343,12 +343,12 @@ public class CatchBalls extends AbstractScript {
         }
         else if (version == 2)
         {
-            return new Circle(new Vec2(900, 1150), 0);
+            return new Circle(new Vec2(890, 1150), 0);
 
         }
         else if (version ==3) {
 
-            return new Circle(new Vec2(1250,1250), 0);
+            return new Circle(new Vec2(1200,1000), 0);
         }
         else
         {
