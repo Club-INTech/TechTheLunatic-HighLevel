@@ -31,6 +31,7 @@ import hook.types.HookFactory;
 import smartMath.Circle;
 import smartMath.Vec2;
 import strategie.GameState;
+import table.obstacles.ObstacleManager;
 import utils.Config;
 import utils.Log;
 
@@ -99,7 +100,8 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 stateToConsider.robot.turn(0);
-                stateToConsider.robot.moveLengthwise(250);
+                stateToConsider.robot.moveLengthwise(250); //TODO config
+
                 // Calcul de l'angle pour se diriger vers le centre du robot
                 Vec2 posCratere= new Vec2(850, 540);
                 Vec2 posRobot=stateToConsider.robot.getPosition();
@@ -110,7 +112,7 @@ public class CatchBalls extends AbstractScript {
 
                 //stateToConsider.robot.switchSensor();
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(80);
+                stateToConsider.robot.moveLengthwise(80); //TODO config
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -143,7 +145,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
                 stateToConsider.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
-                stateToConsider.robot.moveLengthwise(-130);
+                stateToConsider.robot.moveLengthwise(-130); //TODO config
 
                 // Attraper le module
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
@@ -168,10 +170,10 @@ public class CatchBalls extends AbstractScript {
 
 
 
-                stateToConsider.robot.moveLengthwise(190);
+                stateToConsider.robot.moveLengthwise(190); //TODO config
                 //stateToConsider.robot.turn(Math.PI-0.55);
                // stateToConsider.robot.moveLengthwise(150);
-                stateToConsider.robot.turn(Math.PI-0.65);
+                stateToConsider.robot.turn(Math.PI-0.65); //TODO config
                 stateToConsider.robot.moveLengthwise(250);
 
 
@@ -198,11 +200,11 @@ public class CatchBalls extends AbstractScript {
 
             if (versionToExecute == 1){
                 //stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                stateToConsider.robot.moveLengthwise(-210);
+                stateToConsider.robot.moveLengthwise(-210); //TODO config
                 stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
             }
             else if(versionToExecute == 2){
-                stateToConsider.robot.moveLengthwise(-60);
+                stateToConsider.robot.moveLengthwise(-60); //TODO configs
                 stateToConsider.robot.turn(Math.PI/4);
                 stateToConsider.robot.moveLengthwise(-60);
                 // Drop un module

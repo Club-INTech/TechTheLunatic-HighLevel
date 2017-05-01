@@ -109,7 +109,6 @@ public class ThreadSensor extends AbstractThread
 	double minSensorRange;
 
     private BufferedWriter out;
-    private BufferedWriter outHL;
 
     private final boolean debug = true;
 	
@@ -204,18 +203,12 @@ public class ThreadSensor extends AbstractThread
         try
         {
             File file = new File("us.txt");
-            File file1 = new File("usHL.txt");
 
             if (!file.exists()) {
                 //file.delete();
                 file.createNewFile();
             }
 
-            if (!file1.exists()){
-                file1.createNewFile();
-            }
-
-            outHL = new BufferedWriter(new FileWriter(file1));
             out = new BufferedWriter(new FileWriter(file));
 
         } catch (IOException e) {
@@ -307,25 +300,25 @@ public class ThreadSensor extends AbstractThread
         try {
 
             if (USvalues.get(0) != 0 && USvalues.get(1) != 0) {
+                out.newLine();
+                out.write("FrontBoth ");
                 addFrontObstacleBoth();
-                outHL.write("FrontBoth ");
-                outHL.newLine();
 
             } else if ((USvalues.get(0) != 0 || USvalues.get(1) != 0)) {
+                out.newLine();
+                out.write("FrontSingle ");
                 addFrontObstacleSingle(USvalues.get(0) != 0);
-                outHL.write("FrontSingle ");
-                outHL.newLine();
             }
 
             if (USvalues.get(2) != 0 && USvalues.get(3) != 0) {
+                out.newLine();
+                out.write("BackBoth ");
                 addBackObstacleBoth();
-                outHL.write("BackBoth ");
-                outHL.newLine();
 
             } else if ((USvalues.get(2) != 0 || USvalues.get(3) != 0)) {
+                out.newLine();
+                out.write("BackSingle ");
                 addBackObstacleSingle(USvalues.get(2) != 0);
-                outHL.write("BackSingle ");
-                outHL.newLine();
             }
 
         }catch(Exception e){
@@ -370,9 +363,9 @@ public class ThreadSensor extends AbstractThread
         }
 
         try{
-            outHL.write("Position calculée :" + vec);
-            outHL.newLine();
-            outHL.flush();
+            out.write("Position calculée (référentiel du robot) :" + vec);
+            out.newLine();
+            out.flush();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -412,9 +405,9 @@ public class ThreadSensor extends AbstractThread
         }
 
         try{
-            outHL.write("Position calculée :" + vec);
-            outHL.newLine();
-            outHL.flush();
+            out.write("Position calculée (référentiel du robot) :" + vec);
+            out.newLine();
+            out.flush();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -449,9 +442,9 @@ public class ThreadSensor extends AbstractThread
         }
 
         try{
-            outHL.write("Position calculée :" + posEn);
-            outHL.newLine();
-            outHL.flush();
+            out.write("Position calculée (référentiel du robot) :" + posEn);
+            out.newLine();
+            out.flush();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -482,9 +475,9 @@ public class ThreadSensor extends AbstractThread
         }
 
         try{
-            outHL.write("Position calculée :" + posEn);
-            outHL.newLine();
-            outHL.flush();
+            out.write("Position calculée (référentiel du robot) :" + posEn);
+            out.newLine();
+            out.flush();
         }catch(Exception e){
             e.printStackTrace();
         }
