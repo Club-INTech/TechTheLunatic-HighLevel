@@ -1,7 +1,6 @@
 package scripts;
 
 import enums.ActuatorOrder;
-import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ExecuteException;
@@ -84,8 +83,8 @@ public class FullScripted extends AbstractScript
                 actualState.robot.moveLengthwise(190);
                 //stateToConsider.robot.turn(Math.PI-0.55);
                 // stateToConsider.robot.moveLengthwise(150);
-                actualState.robot.turn(Math.PI-0.64);
-                actualState.robot.moveLengthwise(260);
+                actualState.robot.turn(Math.PI-0.55);
+                actualState.robot.moveLengthwise(300);
 
 
 
@@ -105,25 +104,26 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
+                actualState.robot.moveLengthwise(-37);
                 actualState.robot.turn(Math.PI-0.40);
 
                 actualState.robot.moveLengthwise(-60);
                 actualState.robot.turn(Math.PI/4);
-                actualState.robot.moveLengthwise(-60);
+                actualState.robot.moveLengthwise(-40);
                 // Drop un module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
                 actualState.robot.moveLengthwise(60);
                 actualState.robot.turn(-Math.PI/3);
-                actualState.robot.moveLengthwise(250);
+                actualState.robot.moveLengthwise(800);
 
 
                 //deuxième partie du match
 
                 actualState.robot.turn(-Math.PI/2);
 
-                actualState.robot.moveLengthwise(1000);
+                actualState.robot.moveLengthwise(300);
 
 
 
@@ -133,7 +133,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
-                actualState.robot.moveLengthwise(-100);
+                actualState.robot.moveLengthwise(-123);
                 // Attraper le module
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
