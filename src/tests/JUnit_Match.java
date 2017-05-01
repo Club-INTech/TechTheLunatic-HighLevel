@@ -55,7 +55,7 @@ public class JUnit_Match extends JUnit_Test {
         try
         {
             //On execute le script
-            log.debug("Aller Billy, t'as 90 secondes, fait des points");
+            log.debug("Aller Billy, t'as 90 secondes, fait des points; ou prend l'autre robot et enculez-vous en cercle, m'en bat les couilles frère.");
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
 
