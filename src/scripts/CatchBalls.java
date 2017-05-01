@@ -86,7 +86,10 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
-                stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, false);
+
+                // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE_BAS, true);
 
                 // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
@@ -107,7 +110,7 @@ public class CatchBalls extends AbstractScript {
 
                 //stateToConsider.robot.switchSensor();
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(90);
+                stateToConsider.robot.moveLengthwise(80);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -117,7 +120,10 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
-                stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, false);
+
+                // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE_BAS, true);
 
                 // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
                 stateToConsider.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);

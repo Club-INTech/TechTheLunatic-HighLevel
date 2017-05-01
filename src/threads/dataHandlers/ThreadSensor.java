@@ -109,6 +109,8 @@ public class ThreadSensor extends AbstractThread
 	double minSensorRange;
 
     private BufferedWriter out;
+    private BufferedWriter outHL;
+
     private final boolean debug = true;
 	
 	/**
@@ -202,12 +204,18 @@ public class ThreadSensor extends AbstractThread
         try
         {
             File file = new File("us.txt");
+            File file1 = new File("usHL.txt");
 
             if (!file.exists()) {
                 //file.delete();
                 file.createNewFile();
             }
 
+            if (!file1.exists()){
+                file1.createNewFile();
+            }
+
+            outHL = new BufferedWriter(new FileWriter(file1));
             out = new BufferedWriter(new FileWriter(file));
 
         } catch (IOException e) {
@@ -295,22 +303,35 @@ public class ThreadSensor extends AbstractThread
 	/**
 	 * ajoute les obstacles a l'obstacleManager
 	 */
-	private void addObstacle()
-	{		
-        if(USvalues.get(0) != 0 && USvalues.get(1) != 0) {
-            addFrontObstacleBoth();
-        }
-        else if((USvalues.get(0) != 0 || USvalues.get(1) != 0)) {
-            addFrontObstacleSingle(USvalues.get(0) != 0);
-        }
+	private void addObstacle() {
+        try {
 
-        if(USvalues.get(2) != 0 && USvalues.get(3) != 0 ) {
-            addBackObstacleBoth();
+            if (USvalues.get(0) != 0 && USvalues.get(1) != 0) {
+                addFrontObstacleBoth();
+                outHL.write("FrontBoth ");
+                outHL.newLine();
+
+            } else if ((USvalues.get(0) != 0 || USvalues.get(1) != 0)) {
+                addFrontObstacleSingle(USvalues.get(0) != 0);
+                outHL.write("FrontSingle ");
+                outHL.newLine();
+            }
+
+            if (USvalues.get(2) != 0 && USvalues.get(3) != 0) {
+                addBackObstacleBoth();
+                outHL.write("BackBoth ");
+                outHL.newLine();
+
+            } else if ((USvalues.get(2) != 0 || USvalues.get(3) != 0)) {
+                addBackObstacleSingle(USvalues.get(2) != 0);
+                outHL.write("BackSingle ");
+                outHL.newLine();
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        else if((USvalues.get(2) != 0 || USvalues.get(3) != 0)) {
-            addBackObstacleSingle(USvalues.get(2) != 0);
-        }
-	}
+    }
 
     /**
      * Ajoute un obstacle en face du robot, avec les deux capteurs ayant détecté quelque chose
@@ -319,46 +340,41 @@ public class ThreadSensor extends AbstractThread
 
     private void addFrontObstacleBoth() {
 
-        // On résoudre l'équation du second degrée afin de trouver les deux points d'intersections des deux cercles
+        // On résoud l'équation du second degrée afin de trouver les deux points d'intersections des deux cercles
         // On joue sur le rayon du robot adverse pour etre sur d'avoir des solutions
-        double robotX1, robotX2;
+        double robotX;
         double robotY;
         double b, c, delta;
-        int constante, R1, R2;
-        Vec2 vec = new Vec2();
+        int R1, R2;
+        Vec2 vec;
 
         R1 = USvalues.get(0) + radius;
         R2 = USvalues.get(1) + radius;
-        constante = square(R1) - square(R2) - square(positionLF.getX()) + square(positionRF.getX()) - square(positionLF.getY()) + square(positionRF.getY());
+        robotY = ((square(R1) - square(R2))/(double)(4*positionRF.getY()));
+        Integer Y = new Integer((int) robotY);
 
-        b = -2 * positionRF.getX() + 2 * positionRF.getY();
-        c = (double) square(constante) / (4 * square(positionRF.getY() - positionLF.getY())) + (double) (constante * positionRF.getY()) / (positionRF.getY() - positionLF.getY()) + square(positionRF.getX()) + square(positionRF.getY()) - square(R2);
+        b = -2 * positionLF.getX();
+        c = square(positionLF.getX()) - 0.5*(square(R1) + square(R2)) + square(positionLF.getY());
 
         delta = b*b - 4*c;
+
         if (!isBetween(delta, -1, 1)) {
-            // robotX1 = (int) ((-b - Math.sqrt(delta)) / 2);
-            robotX2 = (int) ((-b + Math.sqrt(delta)) / 2);
-            robotY = (double) constante / (4*positionLF.getX());
-
-            /* Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
-            Vec2 vec1 = new Vec2((int)robotX2, (int)robotY1);
-            ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
-            listVec.add(vec0);
-            listVec.add(vec1);
-
-            for (Vec2 v:listVec){
-                if (v.getX()>=0){
-                     vec=v;
-                }
-            }
-            */
-
-            vec = new Vec2(robotX2, robotY);
+            robotX = ((-b + Math.sqrt(delta)) / 2.0);
+            Integer X = new Integer((int) robotX);
+            vec = new Vec2(X, Y);
         }
         else{
-            robotX1 = (int) -b/2;
-            robotY = - constante / (2 * (positionLF.getY() - positionRF.getY()));
-            vec = new Vec2(robotX1, robotY);
+            robotX = -b/2;
+            Integer X = new Integer((int) robotX);
+            vec = new Vec2(X, Y);
+        }
+
+        try{
+            outHL.write("Position calculée :" + vec);
+            outHL.newLine();
+            outHL.flush();
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
         mTable.getObstacleManager().addObstacle(changeRef(vec), radius, 200);
@@ -369,7 +385,7 @@ public class ThreadSensor extends AbstractThread
     private void addBackObstacleBoth()
     {
         // De meme que le front, seule la selection de la bonne solution change
-        double robotX1, robotX2;
+        double robotX;
         double robotY;
         double b, c, delta;
         int constante, R1, R2;
@@ -377,37 +393,30 @@ public class ThreadSensor extends AbstractThread
 
         R1 = USvalues.get(2) + radius;
         R2 = USvalues.get(3) + radius;
-        constante = square(R1) - square(R2) - square(positionLB.getX()) + square(positionRB.getX()) - square(positionLB.getY()) + square(positionRB.getY());
+        robotY = ((square(R1) - square(R2))/(double)(4*positionRF.getY()));
+        Integer Y = new Integer((int) robotY);
 
-        b = -2 * positionLB.getX() - 2 * positionLB.getY();
-        c = (double) square(constante) / (4 * square(positionLB.getY() - positionRB.getY())) + (double) constante / (2 * (positionLB.getY() - positionRB.getY())) + square(positionLB.getX()) + square(positionLB.getY()) - square(R1);
+        b = -2 * positionLB.getX();
+        c = square(positionLB.getX()) - 0.5*(square(R1) + square(R2)) + square(positionLB.getY());
 
         delta = b*b - 4*c;
         if (!isBetween(delta, -1, 1)) {
-            robotX1 = (int) ((-b - Math.sqrt(delta)) / 2);
-            // robotX2 = (int) ((-b + Math.sqrt(delta)) / 2);
-            robotY = (double) constante / (4*positionLB.getX());
-
-            /* Vec2 vec0 = new Vec2((int)robotX1, (int)robotY1);
-            Vec2 vec1 = new Vec2((int)robotX2, (int)robotY1);
-
-            ArrayList<Vec2> listVec = new ArrayList<Vec2>(4);
-            listVec.add(vec0);
-            listVec.add(vec1);
-
-            for(Vec2 v : listVec){
-                if(v.getX() <0){
-                    vec=v;
-                }
-            }
-            */
-
-            vec = new Vec2(robotX1, robotY);
+            robotX = (int) ((-b - Math.sqrt(delta)) / 2);
+            Integer X = new Integer((int) robotX);
+            vec = new Vec2(X, Y);
         }
         else{
-            robotX1 = (int) -b/2;
-            robotY = -constante / (2 * (positionLB.getY() - positionRB.getY()));
-            vec = new Vec2(robotX1, robotY);
+            robotX = (int) -b/2;
+            Integer X = new Integer((int) robotX);
+            vec = new Vec2(X, Y);
+        }
+
+        try{
+            outHL.write("Position calculée :" + vec);
+            outHL.newLine();
+            outHL.flush();
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
         mTable.getObstacleManager().addObstacle(changeRef(vec), radius, 200);
@@ -439,6 +448,14 @@ public class ThreadSensor extends AbstractThread
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRF);
         }
 
+        try{
+            outHL.write("Position calculée :" + posEn);
+            outHL.newLine();
+            outHL.flush();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         mTable.getObstacleManager().addObstacle(changeRef(posEn), radius, 200);
     }
 
@@ -462,6 +479,14 @@ public class ThreadSensor extends AbstractThread
             Vec2 posDetect = new Vec2(USvalues.get(3),angleRB + detectionAngle/2);
             double angleEn = angleLB + detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRB);
+        }
+
+        try{
+            outHL.write("Position calculée :" + posEn);
+            outHL.newLine();
+            outHL.flush();
+        }catch(Exception e){
+            e.printStackTrace();
         }
 
         mTable.getObstacleManager().addObstacle(changeRef(posEn), radius, 200);
@@ -635,13 +660,7 @@ public class ThreadSensor extends AbstractThread
 	 */
 	private void removeObstacle()
 	{
-	    for (ObstacleProximity obstacle : mTable.getObstacleManager().getMobileObstacles()){
-	        if (obstacle.getOutDatedTime() > System.currentTimeMillis()){
-	            mTable.getObstacleManager().removeObstacle(obstacle);
-            }
-        }
-		// TODO enlever les obstacles qu'on devrait voir mais qu'on ne detecte plus
-
+	    mTable.getObstacleManager().removeOutdatedObstacles();
 	}
 
     /**

@@ -97,14 +97,14 @@ public class JUnit_Sensors extends JUnit_Test
         container.getService(ThreadSensor.class);
 	}
 
-	// @Test
+	@Test
 	public void testDetect() throws Exception
 	{
 		log.debug("Test de detection");
 		container.startInstanciedThreads();
 
 		state.robot.switchSensor();
-		state.robot.setOrientation(-Math.PI/2);
+		state.robot.setOrientation(Math.PI/2);
 		log.debug ("Orientation :" + state.robot.getOrientation());
 		state.robot.useActuator(ActuatorOrder.TIENT_BOULES, false);
 		state.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE,true);
@@ -114,7 +114,7 @@ public class JUnit_Sensors extends JUnit_Test
 		}
 	}
 
-	@Test
+	// @Test
 	public void testStopWhileMove() throws Exception
 	{
 		log.debug("Test d'arret lors de l'execution d'un script");
@@ -126,7 +126,7 @@ public class JUnit_Sensors extends JUnit_Test
 
 		try {
 			scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, state, new ArrayList<Hook>());
-			scriptManager.getScript(ScriptNames.DROP_MODULE).goToThenExec(3, state, new ArrayList<Hook>());
+			scriptManager.getScript(ScriptNames.CATCH_MODULE).goToThenExec(1, state, new ArrayList<Hook>());
 		}catch(Exception e){
 			e.printStackTrace();
 			log.debug("Suus, ca a fail");

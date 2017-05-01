@@ -130,9 +130,11 @@ public class DropBalls extends AbstractScript
 
                 // Et maintenant dépose les boules
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                actualState.robot.turn(-Math.PI/2.15);
+                actualState.robot.turn(-Math.PI/4);
 
                 actualState.robot.moveLengthwise(95);
+                actualState.robot.turn(-Math.PI/2);
+
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -155,6 +157,8 @@ public class DropBalls extends AbstractScript
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.turn(3*Math.PI/4 );
                 actualState.robot.moveLengthwise(400);
+                actualState.robot.turn(-Math.PI/2 );
+
             }
         }
         catch(Exception e)
