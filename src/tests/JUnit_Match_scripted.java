@@ -36,7 +36,7 @@ public class JUnit_Match_scripted extends JUnit_Test{
 
         mRobot.robot.setOrientation(-Math.PI/2);
 
-        mRobot.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
+        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
