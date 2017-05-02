@@ -104,6 +104,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.moveLengthwise(-129);
                 actualState.robot.turn(Math.PI/4);
                 actualState.robot.moveLengthwise(-57);
+
                 // Drop un module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
