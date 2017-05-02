@@ -58,7 +58,6 @@ public class ObstacleManager
      */
 	private ArrayList<ObstacleProximity> mUntestedMobileObstacles;
 
-    
     //les bords de la table auxquels on ajoute le rayon du robot. Utilisé par le pathfinding.
     private ArrayList<Segment> mLines;
     //les obstacles rectangulaires de la table
@@ -71,7 +70,7 @@ public class ObstacleManager
 	private int mRobotLenght;
 	private int mRobotWidth;
 	
-	// TODO virer : juste du debugg / interface graphique
+	// TODO virer : juste du debug / interface graphique
 	private int radiusDetectionDisc=0;
 	private Vec2 positionDetectionDisc=new Vec2(0,0);
 

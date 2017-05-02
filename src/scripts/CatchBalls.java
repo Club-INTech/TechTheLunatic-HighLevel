@@ -99,9 +99,6 @@ public class CatchBalls extends AbstractScript {
             if(versionToExecute == 1){
                 stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-                stateToConsider.robot.turn(0);
-                stateToConsider.robot.moveLengthwise(250); //TODO config
-
                 // Calcul de l'angle pour se diriger vers le centre du robot
                 Vec2 posCratere= new Vec2(850, 540);
                 Vec2 posRobot=stateToConsider.robot.getPosition();
@@ -112,7 +109,7 @@ public class CatchBalls extends AbstractScript {
 
                 //stateToConsider.robot.switchSensor();
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(80); //TODO config
+                stateToConsider.robot.moveLengthwise(150); // TODO config
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -168,14 +165,11 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
-                
+
                 //stateToConsider.robot.turn(Math.PI-0.55);
                // stateToConsider.robot.moveLengthwise(150);
                 stateToConsider.robot.turn(Math.PI-0.65); //TODO config
                 stateToConsider.robot.moveLengthwise(250);
-
-
-
 
 
             // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
@@ -344,16 +338,14 @@ public class CatchBalls extends AbstractScript {
         }
         else if (version == 1)
         {
-            return new Circle(robotPosition);
-            //return new Circle(new Vec2(660,500), ray + 121, -Math.PI/6, Math.PI, true);
+            return new Circle(new Vec2(850,540), ray + 155, -Math.PI/6, 5*Math.PI/6, true);
         }
         else if (version == 2)
         {
             return new Circle(new Vec2(890, 1150), 0);
-
         }
-        else if (version ==3) {
-
+        else if (version ==3)
+        {
             return new Circle(new Vec2(1200,1000), 0);
         }
         else
