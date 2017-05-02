@@ -36,14 +36,14 @@ public class JUnit_Match_scripted extends JUnit_Test{
 
         mRobot.robot.setOrientation(-Math.PI/2);
 
-        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);
         container.getService(ThreadSensor.class);
         container.getService(ThreadInterface.class);
         container.startInstanciedThreads();
-        mRobot.robot.switchSensor();
+        //mRobot.robot.switchSensor();
 
         scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(4, mRobot, new ArrayList<Hook>());
     }
