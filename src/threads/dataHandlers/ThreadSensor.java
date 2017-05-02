@@ -335,7 +335,8 @@ public class ThreadSensor extends AbstractThread
         double robotY;
         double b, c, delta;
         int R1, R2;
-        Vec2 vec;
+        Vec2 vec = new Vec2();
+        boolean isValue = true;
 
         R1 = USvalues.get(0) + radius;
         R2 = USvalues.get(1) + radius;
@@ -347,27 +348,34 @@ public class ThreadSensor extends AbstractThread
 
         delta = b*b - 4*c;
 
-        if (!isBetween(delta, -1, 1)) {
+        if (delta > 1) {
             robotX = ((-b + Math.sqrt(delta)) / 2.0);
             Integer X = new Integer((int) robotX);
             vec = new Vec2(X, Y);
         }
-        else{
+        else if (isBetween(delta, -1, 1)){
             robotX = -b/2;
             Integer X = new Integer((int) robotX);
             vec = new Vec2(X, Y);
+        }else{
+            isValue = false;
         }
 
-        try{
-            out.write("Position calculée (référentiel du robot) :" + vec);
-            out.newLine();
-            out.newLine();
-            out.flush();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+         if (isValue) {
+             try{
+                 out.write("Position calculée (référentiel du robot) :" + vec);
+                 vec = changeRef(vec);
+                 out.newLine();
+                 out.write("Position calculée (référentiel de la table) :" + vec);
+                 out.newLine();
+                 out.newLine();
+                 out.flush();
+             }catch(Exception e){
+                 e.printStackTrace();
+             }
 
-        mTable.getObstacleManager().addObstacle(changeRef(vec), radius, 200);
+             mTable.getObstacleManager().addObstacle(vec, radius, 200);
+         }
     }
     /**
      * Ajoute un obstacle derrière le robot, avec les deux capteurs ayant détecté quelque chose
@@ -380,6 +388,7 @@ public class ThreadSensor extends AbstractThread
         double b, c, delta;
         int constante, R1, R2;
         Vec2 vec = new Vec2();
+        boolean isValue=true;
 
         R1 = USvalues.get(2) + radius;
         R2 = USvalues.get(3) + radius;
@@ -390,27 +399,34 @@ public class ThreadSensor extends AbstractThread
         c = square(positionLB.getX()) - 0.5*(square(R1) + square(R2)) + square(positionLB.getY());
 
         delta = b*b - 4*c;
-        if (!isBetween(delta, -1, 1)) {
+        if (delta > 1) {
             robotX = (int) ((-b - Math.sqrt(delta)) / 2);
             Integer X = new Integer((int) robotX);
             vec = new Vec2(X, Y);
         }
-        else{
+        else if(isBetween(delta, -1, 1)){
             robotX = (int) -b/2;
             Integer X = new Integer((int) robotX);
             vec = new Vec2(X, Y);
+        }else{
+            isValue = false;
         }
 
-        try{
-            out.write("Position calculée (référentiel du robot) :" + vec);
-            out.newLine();
-            out.newLine();
-            out.flush();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        if (isValue) {
+            try {
+                out.write("Position calculée (référentiel du robot) :" + vec);
+                vec = changeRef(vec);
+                out.newLine();
+                out.write("Position calculée (référentiel de la table) :" + vec);
+                out.newLine();
+                out.newLine();
+                out.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        mTable.getObstacleManager().addObstacle(changeRef(vec), radius, 200);
+            mTable.getObstacleManager().addObstacle(vec, radius, 200);
+        }
     }
 
     /**
@@ -441,6 +457,9 @@ public class ThreadSensor extends AbstractThread
 
         try{
             out.write("Position calculée (référentiel du robot) :" + posEn);
+            posEn = changeRef(posEn);
+            out.newLine();
+            out.write("Position calculée (référentiel de la table) :" + posEn);
             out.newLine();
             out.newLine();
             out.flush();
@@ -448,7 +467,7 @@ public class ThreadSensor extends AbstractThread
             e.printStackTrace();
         }
 
-        mTable.getObstacleManager().addObstacle(changeRef(posEn), radius, 200);
+        mTable.getObstacleManager().addObstacle(posEn, radius, 200);
     }
 
     /**
@@ -475,6 +494,9 @@ public class ThreadSensor extends AbstractThread
 
         try{
             out.write("Position calculée (référentiel du robot) :" + posEn);
+            posEn = changeRef(posEn);
+            out.newLine();
+            out.write("Position calculée (référentiel de la table) :" + posEn);
             out.newLine();
             out.newLine();
             out.flush();
@@ -482,7 +504,7 @@ public class ThreadSensor extends AbstractThread
             e.printStackTrace();
         }
 
-        mTable.getObstacleManager().addObstacle(changeRef(posEn), radius, 200);
+        mTable.getObstacleManager().addObstacle(posEn, radius, 200);
     }
 
 

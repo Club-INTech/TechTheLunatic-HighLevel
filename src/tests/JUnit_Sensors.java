@@ -81,7 +81,7 @@ public class JUnit_Sensors extends JUnit_Test
 		config.set("capteurs_on", "true");
 		capteurs.updateConfig();
 				
-		//locomotion
+		//Locomotion
 		mLocomotion = container.getService(Locomotion.class);
 
 		mLocomotion.setPosition(Table.entryPosition);// milieu de table
@@ -97,7 +97,7 @@ public class JUnit_Sensors extends JUnit_Test
         container.getService(ThreadSensor.class);
 	}
 
-	// @Test
+	@Test
 	public void testDetect() throws Exception
 	{
 		log.debug("Test de detection");
@@ -106,7 +106,7 @@ public class JUnit_Sensors extends JUnit_Test
 		state.robot.switchSensor();
 		state.robot.setOrientation(Math.PI/2);
 		log.debug ("Orientation :" + state.robot.getOrientation());
-		state.robot.useActuator(ActuatorOrder.TIENT_BOULES, false);
+		state.robot.useActuator(ActuatorOrder.LIVRE_PELLE, false);
 		state.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE,true);
 
 		while (true) {
@@ -158,7 +158,7 @@ public class JUnit_Sensors extends JUnit_Test
 		}
 	}
 	
-	@Test
+	// @Test
 	public void testDetecting() throws Exception
 	{
 		log.debug("Test d'évitement");

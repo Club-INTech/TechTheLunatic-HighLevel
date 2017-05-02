@@ -43,7 +43,7 @@ public class JUnit_Match_scripted extends JUnit_Test{
         container.getService(ThreadSensor.class);
         container.getService(ThreadInterface.class);
         container.startInstanciedThreads();
-        //mRobot.robot.switchSensor();
+        mRobot.robot.switchSensor();
 
         scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(4, mRobot, new ArrayList<Hook>());
     }
