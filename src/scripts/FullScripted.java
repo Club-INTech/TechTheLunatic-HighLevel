@@ -79,10 +79,12 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
                 actualState.robot.moveLengthwise(190);
-                //stateToConsider.robot.turn(Math.PI-0.55);
-                // stateToConsider.robot.moveLengthwise(150);
-                actualState.robot.turn(Math.PI-0.55);
-                actualState.robot.moveLengthwise(300);
+
+                actualState.robot.turn(Math.PI-0.60);
+                actualState.robot.moveLengthwise(270);
+                actualState.robot.turn(Math.PI-0.67);
+                actualState.robot.moveLengthwise(25);
+                actualState.robot.turn(Math.PI-0.50);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -97,13 +99,11 @@ public class FullScripted extends AbstractScript
                 // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
                 actualState.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                actualState.robot.turn(Math.PI-0.55);
 
-                actualState.robot.moveLengthwise(-37);
-                actualState.robot.turn(Math.PI-0.40);
-
-                actualState.robot.moveLengthwise(-60);
+                actualState.robot.moveLengthwise(-129);
                 actualState.robot.turn(Math.PI/4);
-                actualState.robot.moveLengthwise(-40);
+                actualState.robot.moveLengthwise(-57);
                 // Drop un module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
@@ -115,14 +115,17 @@ public class FullScripted extends AbstractScript
                 //deuxième partie du match
 
                 actualState.robot.turn(-Math.PI/2);
-                actualState.robot.moveLengthwise(300);
-                actualState.robot.turn(Math.PI);
-
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+                actualState.robot.moveLengthwise(290);
+                //actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
-                actualState.robot.moveLengthwise(-123);
+                actualState.robot.turn(Math.PI);
+
+
+
+
+                actualState.robot.moveLengthwise(-80);
                 // Attraper le module
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
@@ -146,12 +149,13 @@ public class FullScripted extends AbstractScript
 
 
                 //Drop le module
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
                 actualState.robot.moveLengthwise(100);
-                actualState.robot.turn(-Math.PI/2);
 
-                actualState.robot.moveLengthwise(150);
+                actualState.robot.turn(-Math.PI/2 +0.12);
+
+                actualState.robot.moveLengthwise(193);
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
@@ -173,7 +177,7 @@ public class FullScripted extends AbstractScript
                 //monter les bras le plus haut \o/
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
-                actualState.robot.turn(Math.PI/2);
+
 
 
                 // Calcule de l'angle pour se diriger vers le centre du robot
@@ -201,8 +205,8 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
                 actualState.robot.moveLengthwise(-160);
-                actualState.robot.turn(-Math.PI/2);
-                actualState.robot.moveLengthwise(-100);
+                actualState.robot.turn(-Math.PI/2+0.12);
+                actualState.robot.moveLengthwise(161);
 
 
 
