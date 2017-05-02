@@ -147,7 +147,7 @@ public enum ActuatorOrder
 	//Position de livraison de boules de la pelle
 	LIVRE_PELLE("pf",1000),
 
-    //Reasservir pelle
+    //Reasservir pelle, a ne pas utiliser lors d'une prise de boules... Donner juste après un ordre de position(pret pelle, prend pelle ou tientboules)
     PELLE_REASSERV("pelreasserv"),
 
 
