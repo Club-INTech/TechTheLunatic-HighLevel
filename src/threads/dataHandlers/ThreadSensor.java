@@ -646,10 +646,8 @@ public class ThreadSensor extends AbstractThread
 		{
 			sensorFrequency = Integer.parseInt(config.getProperty("capteurs_frequence"));
 			//plus que cette distance (environ 50cm) on est beaucoup moins precis sur la position adverse (donc on ne l'ecrit pas !)
-            // TODO expliquer le calcul de la distance (???)
-			maxSensorRange = Integer.parseInt(config.getProperty("largeur_robot"))
-							 / Math.sin(Float.parseFloat(config.getProperty("angle_detection_capteur")));
 
+			maxSensorRange = Integer.parseInt(config.getProperty("horizon_capteurs"));
 			minSensorRange = Integer.parseInt(config.getProperty("portee_mini_capteurs"));
 			sensorPositionAngle = Float.parseFloat(config.getProperty("angle_position_capteur"));
 			detectionAngle = Float.parseFloat(config.getProperty("angle_detection_capteur"));

@@ -84,9 +84,6 @@ public class ObstacleManager
 	/** Temps de vie d'un robot ennemi */
 	private final int defaultLifetime = 1000;
 
-	/** Fichier de debug pour les capteurs */
-	private BufferedWriter outOM;
-
 	/**
      * Instancie un nouveau gestionnaire d'obstacle.
      *
@@ -107,19 +104,6 @@ public class ObstacleManager
 		mUntestedMobileObstacles= new ArrayList<ObstacleProximity>();
 
 		updateConfig();
-
-		try {
-			File file = new File("OManager.txt");
-
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-
-			outOM = new BufferedWriter(new FileWriter(file));
-
-		}catch(IOException e){
-			e.printStackTrace();
-		}
        
         //par defaut
         //mEnnemyRobot1 = new ObstacleCircular(new Vec2(0, 0), 200 + robotRadius);
@@ -287,19 +271,7 @@ public class ObstacleManager
 	    			{
 	    				isThereAnObstacleIntersecting=true;
 	    				mUntestedMobileObstacles.get(i).setLifeTime(lifetime);
-
 	    				mMobileObstacles.add(mUntestedMobileObstacles.get(i));
-
-	    				try {
-
-							outOM.newLine();
-							outOM.write("Nouvel ObstacleMobile :" + position);
-							outOM.flush();
-
-						}catch(IOException e){
-	    					e.printStackTrace();
-						}
-
 	    				mUntestedMobileObstacles.remove(i);
 	    			}
 	    		}
@@ -323,16 +295,6 @@ public class ObstacleManager
     		}
     		if (!isThereAnObstacleIntersecting) {
 				mUntestedMobileObstacles.add(new ObstacleProximity(new Circle(position, radius), timeToTestObstacle));
-
-				try {
-
-					outOM.newLine();
-					outOM.write("Nouvel UntestedObstacle :" + position);
-					outOM.flush();
-
-				}catch(IOException e){
-					e.printStackTrace();
-				}
 			}
     			
     		/*on ne test pas si la position est dans un obstacle deja existant 
@@ -340,17 +302,6 @@ public class ObstacleManager
     		 * et si on detecte une deuxieme fois l'ennemi on rajoute un obstacle sur lui
     		 */
     	}
-    	else
-    	{
-    		try{
-    			outOM.newLine();
-    			outOM.write("Obstacle hors de la table : " + position);
-    			outOM.newLine();
-				outOM.flush();
-			}catch (IOException e){
-    			e.printStackTrace();
-			}
-		}
     }
 
 	/**
