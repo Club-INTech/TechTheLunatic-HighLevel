@@ -78,17 +78,11 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
-
-
                 actualState.robot.moveLengthwise(190);
                 //stateToConsider.robot.turn(Math.PI-0.55);
                 // stateToConsider.robot.moveLengthwise(150);
                 actualState.robot.turn(Math.PI-0.55);
                 actualState.robot.moveLengthwise(300);
-
-
-
-
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -118,15 +112,10 @@ public class FullScripted extends AbstractScript
                 actualState.robot.turn(-Math.PI/3);
                 actualState.robot.moveLengthwise(800);
 
-
                 //deuxième partie du match
 
                 actualState.robot.turn(-Math.PI/2);
-
                 actualState.robot.moveLengthwise(300);
-
-
-
                 actualState.robot.turn(Math.PI);
 
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
@@ -159,9 +148,7 @@ public class FullScripted extends AbstractScript
                 //Drop le module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-
                 actualState.robot.moveLengthwise(100);
-
                 actualState.robot.turn(-Math.PI/2);
 
                 actualState.robot.moveLengthwise(150);

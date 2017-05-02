@@ -72,9 +72,9 @@ public class ThreadSensor extends AbstractThread
 	
 	// Valeurs par défaut s'il y a un problème de config
 	
-	/** fréquence de mise a jour des valeurs renvoyés par les capteurs. Valeurs par défaut de 5 fois par seconde s'il y a un problème de config */
-	// Overide par la config
-	private int sensorFrequency = 15;
+	/** fréquence de mise a jour des valeurs renvoyés par les capteurs. Valeurs par défaut de 5 fois par seconde s'il y a un problème de config
+	* Overide par la config */
+	private int sensorFrequency=15;
 
     /**
      * Temps maximal entre deux séries de valeurs (ms) : si cette série est incomplète, on la vire; cela évite les déclages
@@ -198,7 +198,7 @@ public class ThreadSensor extends AbstractThread
 	@Override
 	public void run()
 	{
-		updateConfig();
+	    updateConfig();
 
         try
         {
@@ -246,7 +246,7 @@ public class ThreadSensor extends AbstractThread
         }
 		
 		// boucle principale, celle qui dure tout le match
-		log.debug("Activation des capteurs");
+		// log.debug("Activation des capteurs");
 		while(!ThreadTimer.matchEnded)
 		{
 
@@ -300,23 +300,19 @@ public class ThreadSensor extends AbstractThread
         try {
 
             if (USvalues.get(0) != 0 && USvalues.get(1) != 0) {
-                out.newLine();
                 out.write("FrontBoth ");
                 addFrontObstacleBoth();
 
             } else if ((USvalues.get(0) != 0 || USvalues.get(1) != 0)) {
-                out.newLine();
                 out.write("FrontSingle ");
                 addFrontObstacleSingle(USvalues.get(0) != 0);
             }
 
             if (USvalues.get(2) != 0 && USvalues.get(3) != 0) {
-                out.newLine();
                 out.write("BackBoth ");
                 addBackObstacleBoth();
 
             } else if ((USvalues.get(2) != 0 || USvalues.get(3) != 0)) {
-                out.newLine();
                 out.write("BackSingle ");
                 addBackObstacleSingle(USvalues.get(2) != 0);
             }
@@ -365,6 +361,7 @@ public class ThreadSensor extends AbstractThread
         try{
             out.write("Position calculée (référentiel du robot) :" + vec);
             out.newLine();
+            out.newLine();
             out.flush();
         }catch(Exception e){
             e.printStackTrace();
@@ -407,6 +404,7 @@ public class ThreadSensor extends AbstractThread
         try{
             out.write("Position calculée (référentiel du robot) :" + vec);
             out.newLine();
+            out.newLine();
             out.flush();
         }catch(Exception e){
             e.printStackTrace();
@@ -444,6 +442,7 @@ public class ThreadSensor extends AbstractThread
         try{
             out.write("Position calculée (référentiel du robot) :" + posEn);
             out.newLine();
+            out.newLine();
             out.flush();
         }catch(Exception e){
             e.printStackTrace();
@@ -476,6 +475,7 @@ public class ThreadSensor extends AbstractThread
 
         try{
             out.write("Position calculée (référentiel du robot) :" + posEn);
+            out.newLine();
             out.newLine();
             out.flush();
         }catch(Exception e){
@@ -623,20 +623,17 @@ public class ThreadSensor extends AbstractThread
 		try
 		{
 			sensorFrequency = Integer.parseInt(config.getProperty("capteurs_frequence"));
-			
 			//plus que cette distance (environ 50cm) on est beaucoup moins precis sur la position adverse (donc on ne l'ecrit pas !)
             // TODO expliquer le calcul de la distance (???)
 			maxSensorRange = Integer.parseInt(config.getProperty("largeur_robot"))
 							 / Math.sin(Float.parseFloat(config.getProperty("angle_detection_capteur")));
 
 			minSensorRange = Integer.parseInt(config.getProperty("portee_mini_capteurs"));
-
 			sensorPositionAngle = Float.parseFloat(config.getProperty("angle_position_capteur"));
+			detectionAngle = Float.parseFloat(config.getProperty("angle_detection_capteur"));
 
-			detectionAngle=Float.parseFloat(config.getProperty("angle_detection_capteur"));
             symetry = config.getProperty("couleur").replaceAll(" ","").equals("violet");
-			
-			robotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
+
 			robotLenght = Integer.parseInt(config.getProperty("longueur_robot"));
             radius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
 

@@ -30,8 +30,6 @@ public class JUnit_Match_scripted extends JUnit_Test{
         log.debug("JUnit_DeplacementsTest.setUp()");
         mRobot = container.getService(GameState.class);
 
-
-
         //La position de depart est mise dans la Table (l'updtate config va la chercher)
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
@@ -45,7 +43,7 @@ public class JUnit_Match_scripted extends JUnit_Test{
         container.getService(ThreadSensor.class);
         container.getService(ThreadInterface.class);
         container.startInstanciedThreads();
-        //mRobot.robot.switchSensor();
+        mRobot.robot.switchSensor();
 
         scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(4, mRobot, new ArrayList<Hook>());
     }
@@ -60,8 +58,6 @@ public class JUnit_Match_scripted extends JUnit_Test{
             log.debug("Ramassage des balles");
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
             scriptManager.getScript(ScriptNames.FULLSCRIPTED).goToThenExec(0, mRobot, new ArrayList<Hook>());
-
-
         }
         catch(Exception e)
         {

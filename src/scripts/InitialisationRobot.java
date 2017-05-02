@@ -99,10 +99,9 @@ public class InitialisationRobot extends AbstractScript {
 
                 gameState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
 
-
                 // départ à l'endroit (pelleteuse vers PI)
                 // gameState.robot.turn(13 * Math.PI / 16);
-                gameState.robot.moveLengthwise(210);
+                // gameState.robot.moveLengthwise(210);
 
 
                 //départ à l'envers (pelleteuse vers 0)
@@ -111,11 +110,9 @@ public class InitialisationRobot extends AbstractScript {
                 gameState.robot.moveLengthwise(-50);
                 gameState.robot.turn(-3 * Math.PI / 16);
                 gameState.robot.moveLengthwise(-100);
-
-
             }
             else if (versionToExecute == 4) {
-                //gameState.robot.turn(Math.PI/2 +0.3;
+                // gameState.robot.turn(Math.PI/2 +0.3);
                 gameState.robot.moveLengthwise(-650);
 
 
