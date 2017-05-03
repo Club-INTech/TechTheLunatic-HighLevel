@@ -64,6 +64,7 @@ public class FullScripted extends AbstractScript
     private int distanceBeforeCatch2ndBalls = 161;
     private int finalMove = -150;
 
+    private boolean detect = false;
 
     /**
      * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -86,6 +87,11 @@ public class FullScripted extends AbstractScript
         updateConfig();
 
         try{
+
+            if(detect) {
+                actualState.robot.switchSensor();
+            }
+
             if (versionToExecute==0)
             {
                 actualState.robot.turn(angleToQuitBase);
@@ -134,6 +140,10 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+                if (detect){
+                    actualState.robot.switchSensor();
+                }
+
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
@@ -142,6 +152,11 @@ public class FullScripted extends AbstractScript
                 // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
                 actualState.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+
+                if(detect){
+                    actualState.robot.switchSensor();
+                }
+
                 actualState.robot.turn(angleToDisengage1stCrater);
 
                 actualState.robot.moveLengthwise(distanceToDisengage1stCrater);
@@ -197,6 +212,9 @@ public class FullScripted extends AbstractScript
                 actualState.robot.moveLengthwise(distanceBeforeDrop1stBalls);
 
                 //abaisser les bras au plus bas
+                if(detect){
+                    actualState.robot.switchSensor();
+                }
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 //rotation de la pelle jusqu'à la position de livraison
@@ -207,6 +225,9 @@ public class FullScripted extends AbstractScript
 
                 //lever les bras jusqu'à la position intermédiaire
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+                if(detect){
+                    actualState.robot.switchSensor();
+                }
 
                 //Reculer un peu
                 actualState.robot.moveLengthwise(distanceAfterDrop1stBalls);
@@ -233,6 +254,9 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
+                if(detect){
+                    actualState.robot.switchSensor();
+                }
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
@@ -241,11 +265,18 @@ public class FullScripted extends AbstractScript
                 // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
                 actualState.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                if(detect){
+                    actualState.robot.switchSensor();
+                }
+
                 actualState.robot.moveLengthwise(distanceToDisengageCloseZone);
                 actualState.robot.turn(angleBeforeCatch2ndBalls);
                 actualState.robot.moveLengthwise(distanceBeforeCatch2ndBalls);
 
                 //abaisser les bras au plus bas
+                if(detect){
+                    actualState.robot.switchSensor();
+                }
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
                 //rotation de la pelle jusqu'à la position de livraison
@@ -256,6 +287,9 @@ public class FullScripted extends AbstractScript
 
                 //lever les bras jusqu'à la position intermédiaire
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+                if(detect){
+                    actualState.robot.switchSensor();
+                }
 
                 //Reculer un peu
                 actualState.robot.moveLengthwise(finalMove);
@@ -265,6 +299,9 @@ public class FullScripted extends AbstractScript
 
                 //monter les bras le plus haut \o/
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+                if(detect){
+                    actualState.robot.switchSensor();
+                }
 
             }
 
@@ -338,6 +375,8 @@ public class FullScripted extends AbstractScript
             angleBeforeCatch2ndBalls = Double.parseDouble(config.getProperty("angle_av_catch_2ndBalls"));
             distanceBeforeCatch2ndBalls = Integer.parseInt(config.getProperty("distance_av_catch_2ndBalls"));
             finalMove = Integer.parseInt(config.getProperty("dernier_move"));
+
+            detect = Boolean.parseBoolean(config.getProperty("capteur_on"));
 
         }catch (ConfigPropertyNotFoundException e){
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
