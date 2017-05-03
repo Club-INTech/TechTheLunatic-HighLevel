@@ -577,7 +577,7 @@ public class Robot implements Service
      */
     public Vec2 getPositionFast()
     {
-        return position;
+        return mLocomotion.getPositionFast();
     }
 
     public void setOrientation(double orientation)

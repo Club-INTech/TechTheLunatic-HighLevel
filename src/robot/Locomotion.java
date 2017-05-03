@@ -1106,6 +1106,16 @@ public class Locomotion implements Service
     }
 
     /**
+     * Pour les Thread ayant régulierement besoin de la position, on utilise un Fast pour éviter de flood la série
+     * @return la dernière position connue de Locomotion
+     */
+    public Vec2 getPositionFast()
+    {
+        Vec2 out = highLevelPosition.clone();
+        return out;
+    }
+
+    /**
      * 
      * @return l'orientation du robot en debut de match
      */
