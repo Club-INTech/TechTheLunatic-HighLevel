@@ -307,6 +307,24 @@ public class Robot implements Service
         moveLengthwise(distance, new ArrayList<Hook>(), false);
     }
 
+	/**
+	 *
+	 * @param pointVise
+	 * @throws UnableToMoveException
+	 *
+	 * Pour aller à un point visé.
+	 * Utilisé dans les scripts de match sans pathfinding.
+	 *
+	 */
+    public void goTo(Vec2 pointVise) throws UnableToMoveException
+    {
+        Vec2 move = pointVise.minusNewVector(position);
+    	int r = (int) move.getR();
+		double a = move.getA();
+		moveLengthwise(r);
+		turn(a);
+    }
+
     /**
      * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
      * Attention, cette méthode suppose que l'on est pas sensé percuter un mur.
