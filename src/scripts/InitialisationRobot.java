@@ -4,6 +4,7 @@ import enums.ActuatorOrder;
 import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
+import exceptions.ConfigPropertyNotFoundException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
  */
 public class InitialisationRobot extends AbstractScript {
 
+    private boolean detect= false;
+
     protected InitialisationRobot(HookFactory hookFactory, Config config, Log log){
         super(hookFactory, config, log);
 
@@ -41,6 +44,7 @@ public class InitialisationRobot extends AbstractScript {
     public void execute(int versionToExecute, GameState gameState, ArrayList<Hook> hookToConsider) throws UnableToMoveException, ExecuteException, SerialConnexionException, BlockedActuatorException {
         try
         {
+            updateConfig();
             log.debug("Execution de l'Initialisation robot version " + versionToExecute);
 
             Hook catchMD = hookFactory.newPositionHook(Table.entryPosition.plusNewVector(new Vec2(440, 2.319)), (float)(2.319), 10, 100);
@@ -78,6 +82,10 @@ public class InitialisationRobot extends AbstractScript {
 
             gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
             gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+
+            if(detect){
+                gameState.robot.switchSensor();
+            }
 
             // Se dégage de la zone de départ
 
@@ -138,6 +146,15 @@ public class InitialisationRobot extends AbstractScript {
         else {
             log.debug("mauvaise version de script");
             throw new BadVersionException();
+        }
+    }
+
+    @Override
+    public void updateConfig(){
+        try{
+            detect = Boolean.parseBoolean(config.getProperty("capteur_on"));
+        }catch(ConfigPropertyNotFoundException e){
+            log.debug("Revoir le code : impossible de trouver la propriété :" + e.getPropertyNotFound());
         }
     }
 
