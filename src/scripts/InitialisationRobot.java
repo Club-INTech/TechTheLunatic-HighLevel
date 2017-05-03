@@ -60,7 +60,7 @@ public class InitialisationRobot extends AbstractScript {
             hookToConsider.add(replibrasD);
 
             // Initialisation des actionneurs
-            if(versionToExecute <= 4) {
+           /* if(versionToExecute <= 4) {
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
@@ -81,7 +81,7 @@ public class InitialisationRobot extends AbstractScript {
             }
 
             gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
-            gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+            gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);*/
 
             if(detect){
                 gameState.robot.switchSensor();
