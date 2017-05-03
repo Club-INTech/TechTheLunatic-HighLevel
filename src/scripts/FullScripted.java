@@ -27,10 +27,10 @@ public class FullScripted extends AbstractScript
 
     /** Distances & angles du script, override par la config */
 
-    private double angleToQuitBase = 5*Math.PI/4;
-    private int distanceToQuitBase = -380;
-    private double angleToFarZone = -Math.PI/2;
-    private int distanceToFarZone = -570;
+    private double angleToQuitBase = -Math.PI/2;
+    private int distanceToQuitBase = -570;
+    private double angleToFarZone = 5*Math.PI/4;;
+    private int distanceToFarZone = -380;
 
     private int distanceBeforeCatch1stMod = -130;
     private int distanceAfterCatch1stMod = 190;
@@ -225,7 +225,7 @@ public class FullScripted extends AbstractScript
 
                 // Manoeuvre pour se diriger vers le cratère
                 //stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
-                actualState.robot.turn(vec.getA());
+                actualState.robot.turn(vec.getA()+0.05);
                 actualState.robot.moveLengthwise(distanceBeforeCatch2ndBalls);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
@@ -310,10 +310,10 @@ public class FullScripted extends AbstractScript
             distanceBeforeCatch1stMod = Integer.parseInt(config.getProperty("distance_av_prise_1erMod"));
             distanceAfterCatch1stMod = Integer.parseInt(config.getProperty("distance_ap_prise_1erMod"));
 
-            angleWeirdMove1 = Double.parseDouble(config.getProperty("angle_man_chelou1"));
-            distanceWeirdMove1 = Integer.parseInt(config.getProperty("distance_man_chelou1"));
-            angleWeirdMove2 = Double.parseDouble(config.getProperty("angle_man_chelou2"));
-            distanceWeirdMove2 = Integer.parseInt(config.getProperty("distance_man_chelou2"));
+            angleWeirdMove1 = Double.parseDouble(config.getProperty("angle_man_chelou_1"));
+            distanceWeirdMove1 = Integer.parseInt(config.getProperty("distance_man_chelou_1"));
+            angleWeirdMove2 = Double.parseDouble(config.getProperty("angle_man_chelou_2"));
+            distanceWeirdMove2 = Integer.parseInt(config.getProperty("distance_man_chelou_2"));
 
             angleToDisengage1stCrater = Double.parseDouble(config.getProperty("angle_sortie_1erCratere"));
             distanceToDisengage1stCrater = Integer.parseInt(config.getProperty("distance_sortie_1erCratere"));
