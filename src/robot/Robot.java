@@ -598,7 +598,7 @@ public class Robot implements Service
      */
     public double getOrientationFast()
     {
-        return orientation;
+        return mLocomotion.getOrientationFast();
     }
 
 	public boolean setTurningStrategy(TurningStrategy turning)
