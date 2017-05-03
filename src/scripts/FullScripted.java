@@ -49,6 +49,22 @@ public class FullScripted extends AbstractScript
     private double angleToCloseZone = -Math.PI/3;
     private int distanceToCloseZone = 800;
 
+    private double angleManip2ndMod = -Math.PI/2;
+    private int distanceManip2ndMod = 500;
+    private double angleBeforeCatch2ndMod = Math.PI;
+    private int distanceBeforeCatch2ndMod = -210;
+    private int distanceAfterCatch2ndMod = 100;
+
+    private double angleBeforeDrop1stBalls = -1.45;
+    private int distanceBeforeDrop1stBalls = 193;
+    private int distanceAfterDrop1stBalls = -150;
+
+    private int distanceToDisengageCloseZone = -160;
+    private double angleBeforeCatch2ndBalls = -1.45;
+    private int distanceBeforeCatch2ndBalls = 161;
+    private int finalMove = -150;
+
+
     /**
      * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
      * Le constructeur se charge de renseigner la hookFactory, le système de config et de log.
@@ -141,15 +157,15 @@ public class FullScripted extends AbstractScript
                 actualState.robot.moveLengthwise(distanceToCloseZone);
 
                 //deuxième partie du match
-                actualState.robot.turn(-Math.PI/2);
-                actualState.robot.moveLengthwise(500);
+                actualState.robot.turn(angleManip2ndMod);
+                actualState.robot.moveLengthwise(distanceManip2ndMod);
                 //actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
-                actualState.robot.turn(Math.PI);
+                actualState.robot.turn(angleBeforeCatch2ndMod);
 
-                actualState.robot.moveLengthwise(-210);
+                actualState.robot.moveLengthwise(distanceBeforeCatch2ndMod);
                 // Attraper le module
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
@@ -171,15 +187,15 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
-
                 //Drop le module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-                actualState.robot.moveLengthwise(100);
+                actualState.robot.moveLengthwise(distanceAfterCatch2ndMod);
 
-                actualState.robot.turn(-Math.PI/2 +0.12);
+                actualState.robot.turn(angleBeforeDrop1stBalls);
 
-                actualState.robot.moveLengthwise(193);
+                actualState.robot.moveLengthwise(distanceBeforeDrop1stBalls);
+
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
@@ -193,15 +209,13 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
                 //Reculer un peu
-                actualState.robot.moveLengthwise(-150);
+                actualState.robot.moveLengthwise(distanceAfterDrop1stBalls);
 
                 //tourner la pelle jusqu'à la position initiale
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 //monter les bras le plus haut \o/
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
-
-
 
 
                 // Calcule de l'angle pour se diriger vers le centre du robot
@@ -212,7 +226,7 @@ public class FullScripted extends AbstractScript
                 // Manoeuvre pour se diriger vers le cratère
                 //stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.turn(vec.getA());
-                actualState.robot.moveLengthwise(160);
+                actualState.robot.moveLengthwise(distanceBeforeCatch2ndBalls);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -227,13 +241,9 @@ public class FullScripted extends AbstractScript
                 // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
                 actualState.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-
-                actualState.robot.moveLengthwise(-160);
-                actualState.robot.turn(-Math.PI/2+0.12);
-                actualState.robot.moveLengthwise(161);
-
-
-
+                actualState.robot.moveLengthwise(distanceToDisengageCloseZone);
+                actualState.robot.turn(angleBeforeCatch2ndBalls);
+                actualState.robot.moveLengthwise(distanceBeforeCatch2ndBalls);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -248,7 +258,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
                 //Reculer un peu
-                actualState.robot.moveLengthwise(-150);
+                actualState.robot.moveLengthwise(finalMove);
 
                 //tourner la pelle jusqu'à la position initiale
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
@@ -313,6 +323,21 @@ public class FullScripted extends AbstractScript
 
             angleToCloseZone = Double.parseDouble(config.getProperty("angle_zone_2eCratere"));
             distanceToCloseZone = Integer.parseInt(config.getProperty("distance_zone_2eCratere"));
+
+            angleManip2ndMod = Double.parseDouble(config.getProperty("angle_manip_2ndMod"));
+            distanceManip2ndMod = Integer.parseInt(config.getProperty("distance_manip_2ndMod"));
+            angleBeforeCatch2ndMod = Double.parseDouble(config.getProperty("angle_av_catch_2ndMod"));
+            distanceBeforeCatch2ndMod = Integer.parseInt(config.getProperty("distance_av_catch_2ndMod"));
+            distanceAfterCatch2ndMod = Integer.parseInt(config.getProperty("distance_ap_catch_2ndMod"));
+
+            angleBeforeDrop1stBalls = Double.parseDouble(config.getProperty("angle_av_drop_1stBalls"));
+            distanceBeforeDrop1stBalls = Integer.parseInt(config.getProperty("distance_av_drop_1stBalls"));
+            distanceAfterDrop1stBalls = Integer.parseInt(config.getProperty("distance_ap_drop_1stBalls"));
+
+            distanceToDisengageCloseZone = Integer.parseInt(config.getProperty("distance_degagement_zone_2ndCratere"));
+            angleBeforeCatch2ndBalls = Double.parseDouble(config.getProperty("angle_av_catch_2ndBalls"));
+            distanceBeforeCatch2ndBalls = Integer.parseInt(config.getProperty("distance_av_catch_2ndBalls"));
+            finalMove = Integer.parseInt(config.getProperty("dernier_move"));
 
         }catch (ConfigPropertyNotFoundException e){
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
