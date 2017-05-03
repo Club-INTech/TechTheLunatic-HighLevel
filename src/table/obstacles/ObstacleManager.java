@@ -402,8 +402,7 @@ public class ObstacleManager
 	    	//si aucun ennemi n'est détecté, on suppose que l'ennemi le plus proche est à 1m)
 	    	
 	    	int squaredDistanceToClosestEnemy = 10000000;
-	    	
-	    	
+
 	    	int squaredDistanceToEnemyUntested=10000000;
 	    	int squaredDistanceToEnemyTested=10000000 ;
 	    	
@@ -416,8 +415,7 @@ public class ObstacleManager
 	     	//trouve l'ennemi le plus proche parmis les obstacles confirmés
 	    	for(int i=0; i<mMobileObstacles.size(); i++)
 	    	{
-	    		Vec2 ennemyRelativeCoords = new Vec2((mMobileObstacles.get(i).position.getX() - position.getX()), 
-	    											  mMobileObstacles.get(i).position.getY() - position.getY());
+	    		Vec2 ennemyRelativeCoords = mMobileObstacles.get(i).getPosition().minusNewVector(position);
 	    		if(direction.dot(ennemyRelativeCoords) > 0)
 	    		{
 		    		squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength(); 
