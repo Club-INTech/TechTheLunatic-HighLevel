@@ -376,7 +376,7 @@ public class FullScripted extends AbstractScript
             distanceBeforeCatch2ndBalls = Integer.parseInt(config.getProperty("distance_av_catch_2ndBalls"));
             finalMove = Integer.parseInt(config.getProperty("dernier_move"));
 
-            detect = Boolean.parseBoolean(config.getProperty("capteur_on"));
+            detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
 
         }catch (ConfigPropertyNotFoundException e){
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
