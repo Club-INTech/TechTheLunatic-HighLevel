@@ -75,6 +75,16 @@ public class Vec2
 		r = Math.sqrt(x*x + y*y);
 		a = this.angle();
 	}
+	public int[] parseVec2(Vec2 vec) {
+
+		String[] vecTab = vec.toStringTableau();
+		int[] vecInt = {0,0};
+
+		vecInt[0] = Integer.parseInt(vecTab[0]);
+		vecInt[1] = Integer.parseInt(vecTab[1]);
+		return vecInt;
+
+	}
 
 	/**
 	 * Construit un vecteur à partir de ses coordonnées polaires
@@ -195,7 +205,13 @@ public class Vec2
 	{
 		return "("+x+","+y+") ("+r+","+a+")";
 	}
-	
+
+	public String[] toStringTableau()
+	{
+		String TableauVec[] = {"("+x+")","("+y+")","("+r+")","("+a+")"};
+		return TableauVec;
+	}
+
 	/**
 	 * transforme un point en un cercle de rayon nul
 	 * @return un cercle de centre ce Vec2 et de rayon nul.
