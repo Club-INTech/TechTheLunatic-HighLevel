@@ -1124,6 +1124,12 @@ public class Locomotion implements Service
         updateCurrentPositionAndOrientation();
         return highLevelOrientation;
     }
+
+    /** De meme que la position mais pour l'orientation */
+    public double getOrientationFast()
+    {
+        return highLevelOrientation;
+    }
     
     public TurningStrategy getTurningOrders()
     {
