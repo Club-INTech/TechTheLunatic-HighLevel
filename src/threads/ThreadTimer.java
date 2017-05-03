@@ -131,7 +131,7 @@ public class ThreadTimer extends AbstractThread
 		
 		// attends que le jumper soit retiré du robot
 
-		while(serialWrapper.isJumperAbsent())
+		/* while(serialWrapper.isJumperAbsent())
 		{
 			try {
 				Thread.sleep(100);
@@ -148,7 +148,7 @@ public class ThreadTimer extends AbstractThread
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
 
 		// maintenant que le jumper est retiré, le match a commencé
 		matchStarted = true;
@@ -161,7 +161,7 @@ public class ThreadTimer extends AbstractThread
 
 		matchStarted = true;
 
-		config.set("capteurs_on", "true");
+		// config.set("capteurs_on", "true");
 		serialWrapper.updateConfig();
 
 		log.debug("LE MATCH COMMENCE !");
@@ -192,10 +192,6 @@ public class ThreadTimer extends AbstractThread
                     e.printStackTrace();
                 }
             }
-			
-
-			// On retire périodiquement les obstacles périmés
-			table.getObstacleManager().removeOutdatedObstacles();
 			
 			//on rafraichit l'interface graphique de la table
 			/*if(isGraphicalInterfaceEnabled/* && window != null)
