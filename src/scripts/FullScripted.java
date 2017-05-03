@@ -3,6 +3,7 @@ package scripts;
 import enums.ActuatorOrder;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
+import exceptions.ConfigPropertyNotFoundException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
 import hook.Hook;
@@ -23,6 +24,31 @@ import java.util.ArrayList;
  */
 public class FullScripted extends AbstractScript
 {
+
+    /** Distances & angles du script, override par la config */
+
+    private double angleToQuitBase = 5*Math.PI/4;
+    private int distanceToQuitBase = -380;
+    private double angleToFarZone = -Math.PI/2;
+    private int distanceToFarZone = -570;
+
+    private int distanceBeforeCatch1stMod = -130;
+    private int distanceAfterCatch1stMod = 190;
+
+    private double angleWeirdMove1 = Math.PI - 0.60;
+    private int distanceWeirdMove1 = 270;
+    private double angleWeirdMove2 = Math.PI - 0.67;
+    private int distanceWeirdMove2 = 25;
+
+    private double angleToDisengage1stCrater = Math.PI - 0.55;
+    private int distanceToDisengage1stCrater = -129;
+
+    private int distanceBeforeDrop1stMod = -57;
+    private int distanceAfterDrop1stMod = 60;
+
+    private double angleToCloseZone = -Math.PI/3;
+    private int distanceToCloseZone = 800;
+
     /**
      * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
      * Le constructeur se charge de renseigner la hookFactory, le système de config et de log.
@@ -41,13 +67,15 @@ public class FullScripted extends AbstractScript
     @Override
     public void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException
     {
+        updateConfig();
+
         try{
             if (versionToExecute==0)
             {
-                actualState.robot.turn(5*Math.PI/4);
-                actualState.robot.moveLengthwise(-380);
-                actualState.robot.turn(-Math.PI/2);
-                actualState.robot.moveLengthwise(-570);
+                actualState.robot.turn(angleToQuitBase);
+                actualState.robot.moveLengthwise(distanceToQuitBase);
+                actualState.robot.turn(angleToFarZone);
+                actualState.robot.moveLengthwise(distanceToFarZone);
 
                 //Attraper le module avec le côté droit
 
@@ -55,7 +83,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
-                actualState.robot.moveLengthwise(-130);
+                actualState.robot.moveLengthwise(distanceBeforeCatch1stMod);
 
                 // Attraper le module
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
@@ -78,13 +106,12 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
-                actualState.robot.moveLengthwise(190);
+                actualState.robot.moveLengthwise(distanceAfterCatch1stMod);
 
-                actualState.robot.turn(Math.PI-0.60);
-                actualState.robot.moveLengthwise(270);
-                actualState.robot.turn(Math.PI-0.67);
-                actualState.robot.moveLengthwise(25);
-                actualState.robot.turn(Math.PI-0.50);
+                actualState.robot.turn(angleWeirdMove1);
+                actualState.robot.moveLengthwise(distanceWeirdMove1);
+                actualState.robot.turn(angleWeirdMove2);
+                actualState.robot.moveLengthwise(distanceWeirdMove2);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -99,34 +126,30 @@ public class FullScripted extends AbstractScript
                 // "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
                 actualState.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-                actualState.robot.turn(Math.PI-0.55);
+                actualState.robot.turn(angleToDisengage1stCrater);
 
-                actualState.robot.moveLengthwise(-129);
+                actualState.robot.moveLengthwise(distanceToDisengage1stCrater);
                 actualState.robot.turn(Math.PI/4);
-                actualState.robot.moveLengthwise(-57);
+                actualState.robot.moveLengthwise(distanceBeforeDrop1stMod);
 
                 // Drop un module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
-                actualState.robot.moveLengthwise(60);
-                actualState.robot.turn(-Math.PI/3);
-                actualState.robot.moveLengthwise(800);
+                actualState.robot.moveLengthwise(distanceAfterDrop1stMod);
+                actualState.robot.turn(angleToCloseZone);
+                actualState.robot.moveLengthwise(distanceToCloseZone);
 
                 //deuxième partie du match
-
                 actualState.robot.turn(-Math.PI/2);
-                actualState.robot.moveLengthwise(290);
+                actualState.robot.moveLengthwise(500);
                 //actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
                 actualState.robot.turn(Math.PI);
 
-
-
-
-                actualState.robot.moveLengthwise(-80);
+                actualState.robot.moveLengthwise(-210);
                 // Attraper le module
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
@@ -233,8 +256,6 @@ public class FullScripted extends AbstractScript
                 //monter les bras le plus haut \o/
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
-
-
             }
 
         }
@@ -268,6 +289,37 @@ public class FullScripted extends AbstractScript
     }
 
     @Override
+    public void updateConfig()
+    {
+        try{
+            angleToQuitBase = Double.parseDouble(config.getProperty("angle_quit_base"));
+            distanceToQuitBase = Integer.parseInt(config.getProperty("distance_quit_base"));
+            angleToFarZone = Double.parseDouble(config.getProperty("angle_zone_1erCratere"));
+            distanceToFarZone = Integer.parseInt(config.getProperty("distance_zone_1erCratere"));
+
+            distanceBeforeCatch1stMod = Integer.parseInt(config.getProperty("distance_av_prise_1erMod"));
+            distanceAfterCatch1stMod = Integer.parseInt(config.getProperty("distance_ap_prise_1erMod"));
+
+            angleWeirdMove1 = Double.parseDouble(config.getProperty("angle_man_chelou1"));
+            distanceWeirdMove1 = Integer.parseInt(config.getProperty("distance_man_chelou1"));
+            angleWeirdMove2 = Double.parseDouble(config.getProperty("angle_man_chelou2"));
+            distanceWeirdMove2 = Integer.parseInt(config.getProperty("distance_man_chelou2"));
+
+            angleToDisengage1stCrater = Double.parseDouble(config.getProperty("angle_sortie_1erCratere"));
+            distanceToDisengage1stCrater = Integer.parseInt(config.getProperty("distance_sortie_1erCratere"));
+
+            distanceBeforeDrop1stMod = Integer.parseInt(config.getProperty("distance_av_drop_1erMod"));
+            distanceAfterDrop1stMod = Integer.parseInt(config.getProperty("distance_ap_drop_1erMod"));
+
+            angleToCloseZone = Double.parseDouble(config.getProperty("angle_zone_2eCratere"));
+            distanceToCloseZone = Integer.parseInt(config.getProperty("distance_zone_2eCratere"));
+
+        }catch (ConfigPropertyNotFoundException e){
+            log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
+        }
+    }
+
+    @Override
     public void finalize(GameState state, Exception e) throws UnableToMoveException
     {
         log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
@@ -279,4 +331,3 @@ public class FullScripted extends AbstractScript
         return versions;
     }
 }
-

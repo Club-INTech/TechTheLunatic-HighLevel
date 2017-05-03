@@ -19,7 +19,6 @@
 
 package robot;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import container.Service;
 import enums.DirectionStrategy;
 import enums.Speed;
@@ -82,6 +81,9 @@ public class Locomotion implements Service
      *    			+----+ o        o 
      *   			          o  o
      */
+    private int detectionRay;
+
+    /** Distance de detection (sans disque de detection) */
     private int detectionDistance;
     
     /**
@@ -599,7 +601,7 @@ public class Locomotion implements Service
         	if(mustDetect)
         	{
         		if(!basicDetection)
-                    detectEnemyAtDistance(100, aim.minusNewVector(highLevelPosition.clone()));	// 85 mm est une bonne distance pour être safe.
+                    detectEnemyAtDistance(detectionDistance, aim.minusNewVector(highLevelPosition.clone()));	// 85 mm est une bonne distance pour être safe.
                 else
                 {
                     basicDetect(isMovementForward, false);
@@ -914,7 +916,7 @@ public class Locomotion implements Service
             signe = 1;
         
         //rayon du cercle de detection
-        int detectionRadius = robotLength/2 + detectionDistance;
+        int detectionRadius = robotLength/2 + detectionRay;
         
         //centre du cercle de detection
         Vec2 detectionCenter = new Vec2((int)(signe * detectionRadius * Math.cos(highLevelOrientation)), 
@@ -926,7 +928,7 @@ public class Locomotion implements Service
         if(isTurnOnly || isRobotTurning)
         	detectionCenter=highLevelPosition;
         
-        if(table.getObstacleManager().isDiscObstructed(detectionCenter, detectionDistance))
+        if(table.getObstacleManager().isDiscObstructed(detectionCenter, detectionRay))
         {
             log.warning("Lancement de UnexpectedObstacleOnPathException dans detectEnemyInLocatedDisk");
             throw new UnexpectedObstacleOnPathException();
@@ -941,7 +943,7 @@ public class Locomotion implements Service
     public void detectEnemyInLocatedDisk(Vec2 aim) throws UnexpectedObstacleOnPathException {
 
         //rayon du cercle de detection
-        int detectionRadius = robotLength/2 + detectionDistance;
+        int detectionRadius = robotLength/2 + detectionRay;
 
         if(table.getObstacleManager().isDiscObstructed(aim, detectionRadius))
         {
@@ -1016,6 +1018,7 @@ public class Locomotion implements Service
     {
     	try 
     	{
+	    	detectionRay = Integer.parseInt(config.getProperty("rayon_detection"));
 	    	detectionDistance = Integer.parseInt(config.getProperty("distance_detection"));
 	        distanceToDisengage = Integer.parseInt(config.getProperty("distance_degagement_robot"));
 	        feedbackLoopDelay = Integer.parseInt(config.getProperty("sleep_boucle_acquittement"));
