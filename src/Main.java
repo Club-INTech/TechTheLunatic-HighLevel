@@ -18,6 +18,8 @@
  */
 
 import container.Container;
+import enums.DirectionStrategy;
+import enums.ScriptNames;
 import enums.Speed;
 import exceptions.ContainerException;
 import graphics.AffichageDebug;
@@ -27,7 +29,9 @@ import robot.SerialWrapper;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
+import threads.ThreadInterface;
 import threads.ThreadTimer;
+import threads.dataHandlers.ThreadSensor;
 import utils.Config;
 import utils.Log;
 
@@ -72,13 +76,29 @@ public class Main
 			realState.robot.setOrientation(Math.PI);
 			realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-			container.startAllThreads();
+			container.getService(ThreadSensor.class);
+			container.getService(ThreadInterface.class);
+			container.getService(ThreadTimer.class);
+			container.startInstanciedThreads();
+
+			// container.startAllThreads();
 						waitMatchBegin();
 
 			System.out.println("Le robot commence le match");
 
 			// TODO : lancer l'IA
-			
+
+			try {
+
+				System.out.println("90 secondes pour faire des points Billy");
+				scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(4, realState, emptyHook);
+				realState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
+				scriptmanager.getScript(ScriptNames.FULLSCRIPTED).goToThenExec(0, realState, emptyHook);
+
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+
 			Log.stop();
 
 		} catch (ContainerException e) {

@@ -525,11 +525,15 @@ public class SerialWrapper implements Service
         return (!sensorAnswer[0].equals("0"));
     }
 
+    /** Active/desactive les capteurs en fonction de leur état courant
+     * @throws SerialConnexionException
+     */
     public void switchSensor() throws SerialConnexionException
     {
         serial.communiquer("sus", 0);
         areSensorsActive = !areSensorsActive;
     }
+
     public void switchAuto() throws SerialConnexionException
     {
         serial.communiquer("auto", 0);
