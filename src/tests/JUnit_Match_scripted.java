@@ -46,9 +46,6 @@ public class JUnit_Match_scripted extends JUnit_Test{
         container.getService(ThreadTimer.class);
 
         container.startInstanciedThreads();
-
-
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(4, mRobot, new ArrayList<Hook>());
     }
 
     @Test
@@ -57,10 +54,11 @@ public class JUnit_Match_scripted extends JUnit_Test{
         ArrayList<Hook> emptyList = new ArrayList<Hook>();
         try
         {
-            //On execute le script
+            // On execute le script
             log.debug("90 secondes pour faire des points Billy");
+            scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(4, mRobot, emptyList);
             mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
-            scriptManager.getScript(ScriptNames.FULLSCRIPTED).goToThenExec(0, mRobot, new ArrayList<Hook>());
+            scriptManager.getScript(ScriptNames.FULLSCRIPTED).goToThenExec(0, mRobot, emptyList);
         }
         catch(Exception e)
         {

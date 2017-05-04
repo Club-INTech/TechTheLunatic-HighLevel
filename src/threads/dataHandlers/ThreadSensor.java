@@ -128,6 +128,7 @@ public class ThreadSensor extends AbstractThread
 	 */
 	double detectionAngle;
 	double sensorPositionAngle;
+	int lifetimeForUntestedObstacle = 200;
 
     /**
      * Angles des capteurs relatifs à l'axe avant-arrière du robot (radians)
@@ -215,7 +216,7 @@ public class ThreadSensor extends AbstractThread
             e.printStackTrace();
         }
 
-        /*while(serialWrapper.isJumperAbsent())
+        while(serialWrapper.isJumperAbsent())
         {
             try {
                 Thread.sleep(100);
@@ -230,7 +231,7 @@ public class ThreadSensor extends AbstractThread
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
 
 		// maintenant que le jumper est retiré, le match a commencé
 		ThreadTimer.matchEnded = false;
@@ -374,7 +375,7 @@ public class ThreadSensor extends AbstractThread
                  e.printStackTrace();
              }
 
-             mTable.getObstacleManager().addObstacle(vec, radius, 200);
+             mTable.getObstacleManager().addObstacle(vec, radius, lifetimeForUntestedObstacle);
          }
     }
     /**
@@ -425,7 +426,7 @@ public class ThreadSensor extends AbstractThread
                 e.printStackTrace();
             }
 
-            mTable.getObstacleManager().addObstacle(vec, radius, 200);
+            mTable.getObstacleManager().addObstacle(vec, radius, lifetimeForUntestedObstacle);
         }
     }
 
@@ -467,7 +468,7 @@ public class ThreadSensor extends AbstractThread
             e.printStackTrace();
         }
 
-        mTable.getObstacleManager().addObstacle(posEn, radius, 200);
+        mTable.getObstacleManager().addObstacle(posEn, radius, lifetimeForUntestedObstacle);
     }
 
     /**
@@ -504,7 +505,7 @@ public class ThreadSensor extends AbstractThread
             e.printStackTrace();
         }
 
-        mTable.getObstacleManager().addObstacle(posEn, radius, 200);
+        mTable.getObstacleManager().addObstacle(posEn, radius, lifetimeForUntestedObstacle);
     }
 
 
@@ -656,6 +657,8 @@ public class ThreadSensor extends AbstractThread
 
 			robotLenght = Integer.parseInt(config.getProperty("longueur_robot"));
             radius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
+
+            lifetimeForUntestedObstacle = Integer.parseInt(config.getProperty("temps_untested_obstacle"));
 
 		}
 		catch (ConfigPropertyNotFoundException e)
