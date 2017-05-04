@@ -63,8 +63,7 @@ public class ScriptManager implements Service
 		instanciedScripts[ScriptNames.DROP_MODULE.ordinal()] = new DropModule(factory, config, log);
 		instanciedScripts[ScriptNames.INITIALISE_ROBOT.ordinal()] = new InitialisationRobot(factory, config, log);
 		instanciedScripts[ScriptNames.FULLSCRIPTED.ordinal()] = new FullScripted(factory, config, log);
-
-
+		instanciedScripts[ScriptNames.SCRIPTED_GO_TO.ordinal()] = new ScriptedGoTo(factory, config, log);
 	}
 	
 	/**
