@@ -133,7 +133,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.turn(angleWeirdMove1);
                 actualState.robot.moveLengthwise(distanceWeirdMove1);
                 actualState.robot.turn(angleWeirdMove2);
-                actualState.robot.moveLengthwise(distanceWeirdMove2);
+                //actualState.robot.moveLengthwise(distanceWeirdMove2);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
