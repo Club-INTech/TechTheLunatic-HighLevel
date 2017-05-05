@@ -21,6 +21,7 @@ package table;
 
 
 import container.Service;
+import enums.ColorModule;
 import smartMath.Vec2;
 import table.obstacles.ObstacleManager;
 import utils.Config;
@@ -57,6 +58,16 @@ public class Table implements Service
 	private Config config;
 	
 	//TODO : définir les éléments de jeu de la table
+	public Balls cratereDepart;
+	public Balls cratereBaseLunaire;
+	public Fusee fuseeDepart;
+	public Fusee fuseeBase;
+	public Cylindre devantDepart;
+	public Cylindre cratere;
+	public Cylindre cratereBase;
+	public Cylindre devantBase;
+	public Cylindre pleinMilieu;
+
 	// Au besoin, créer les classes nécessaires dans le package table
 
 	/** point de départ du match à modifier a chaque base roulante */
@@ -78,6 +89,15 @@ public class Table implements Service
 	
 	public void initialise() // initialise la table du debut du jeu
 	{
+		Balls cratereDepartB=new Balls(new Vec2(850, 540));
+		 Balls cratereBaseLunaire=new Balls(new Vec2(500,1850 ));
+		 Fusee fuseeDepart=new Fusee(new Vec2(350, 40), ColorModule.BLUE);
+		 Fusee fuseeBase=new Fusee(new Vec2(1460, 1350),ColorModule.MULTI);
+		 Cylindre devantDepart=new Cylindre(new Vec2(500,600),ColorModule.MULTI);
+		 Cylindre cratereDepart=new Cylindre(new Vec2(1300,600),ColorModule.BLUE);
+		 Cylindre cratereBase=new Cylindre(new Vec2(700,1850),ColorModule.BLUE);
+		 Cylindre devantBase=new Cylindre(new Vec2(600,1400),ColorModule.MULTI);
+		 Cylindre pleinMilieu=new Cylindre(new Vec2(1000,1100),ColorModule.MULTI);
 		// TODO : initialiser les éléments de jeu définis plus haut
 	}
 

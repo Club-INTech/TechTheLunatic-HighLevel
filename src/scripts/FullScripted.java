@@ -97,12 +97,9 @@ public class FullScripted extends AbstractScript
             ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
             hooksToConsider.add(ReposLargueModule);
 
-            if(detect) {
-                actualState.robot.switchSensor();
-            }
-
             if (versionToExecute==0)
             {
+                actualState.robot.moveLengthwise(-650);
                 actualState.robot.turn(angleToQuitBase);
                 actualState.robot.moveLengthwise(distanceToQuitBase);
                 actualState.robot.turn(angleToFarZone);
@@ -130,7 +127,7 @@ public class FullScripted extends AbstractScript
 
                 actualState.robot.turn(angleWeirdMove1);
                 actualState.robot.moveLengthwise(distanceWeirdMove1);
-                actualState.robot.turn(angleWeirdMove2);
+                // actualState.robot.turn(angleWeirdMove2);
                 //actualState.robot.moveLengthwise(distanceWeirdMove2);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
@@ -139,7 +136,7 @@ public class FullScripted extends AbstractScript
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
                 if (detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs off
                 }
 
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -152,7 +149,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs on
                 }
 
                 actualState.robot.turn(angleToDisengage1stCrater);
@@ -168,18 +165,18 @@ public class FullScripted extends AbstractScript
 
 
                 actualState.robot.turn(angleToCloseZone);
-                actualState.robot.moveLengthwise(distanceToCloseZone);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceToCloseZone,500);
 
                 //deuxième partie du match
                 actualState.robot.turn(angleManip2ndMod);
-                actualState.robot.moveLengthwise(distanceManip2ndMod);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceManip2ndMod,500);
                 //actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
                 actualState.robot.turn(angleBeforeCatch2ndMod);
 
-                actualState.robot.moveLengthwise(distanceBeforeCatch2ndMod);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceBeforeCatch2ndMod,500);
                 // Attraper le module
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
@@ -203,17 +200,18 @@ public class FullScripted extends AbstractScript
 
                 //Drop le module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
-                actualState.robot.moveLengthwise(distanceAfterCatch2ndMod);
+
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAfterCatch2ndMod,500);
 
 
                 actualState.robot.turn(angleBeforeDrop1stBalls);
 
-                actualState.robot.moveLengthwise(distanceBeforeDrop1stBalls);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceBeforeDrop1stBalls,500);
 
                 //abaisser les bras au plus bas
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs off
                 }
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
@@ -226,11 +224,11 @@ public class FullScripted extends AbstractScript
                 //lever les bras jusqu'à la position intermédiaire
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs on
                 }
 
                 //Reculer un peu
-                actualState.robot.moveLengthwise(distanceAfterDrop1stBalls);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAfterDrop1stBalls,500);
 
                 //tourner la pelle jusqu'à la position initiale
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
@@ -247,7 +245,7 @@ public class FullScripted extends AbstractScript
                 // Manoeuvre pour se diriger vers le cratère
                 //stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.turn(vec.getA()+0.05);
-                actualState.robot.moveLengthwise(distanceBeforeCatch2ndBalls);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceBeforeCatch2ndBalls,500);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -255,7 +253,7 @@ public class FullScripted extends AbstractScript
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs off
                 }
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
@@ -266,16 +264,16 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs on
                 }
 
-                actualState.robot.moveLengthwise(distanceToDisengageCloseZone);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceToDisengageCloseZone,500);
                 actualState.robot.turn(angleBeforeCatch2ndBalls);
-                actualState.robot.moveLengthwise(distanceBeforeCatch2ndBalls);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceBeforeCatch2ndBalls,500);
 
                 //abaisser les bras au plus bas
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs off
                 }
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
@@ -288,11 +286,11 @@ public class FullScripted extends AbstractScript
                 //lever les bras jusqu'à la position intermédiaire
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs on
                 }
 
                 //Reculer un peu
-                actualState.robot.moveLengthwise(finalMove);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(finalMove,500);
 
                 //tourner la pelle jusqu'à la position initiale
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
@@ -300,11 +298,9 @@ public class FullScripted extends AbstractScript
                 //monter les bras le plus haut \o/
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs off
                 }
-
             }
-
         }
         catch(Exception e)
         {
