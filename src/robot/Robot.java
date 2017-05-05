@@ -386,6 +386,52 @@ public class Robot implements Service
 		}*/
 
     }
+ /**
+	 *
+	 * @param pointVise
+	 * @throws UnableToMoveException
+	 *
+	 * Pour aller à un point visé.
+	 * Utilisé dans les scripts de match sans pathfinding.
+	 *  &
+	 */
+    public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException
+    {
+		position = getPositionFast();
+		orientation = getOrientationFast();
+		log.debug("position" + position);
+        Vec2 move = pointVise.minusNewVector(position);
+    	log.debug("move" + move);
+        int r = (int) move.getR();
+		double a = (double) move.getA();
+		double o = a-orientation;
+		if(o < 0){
+		    o = -o;
+        }
+
+
+        log.debug("a : "+ a);
+        log.debug("r : "+ r);
+        log.debug("o : "+ o);
+
+		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
+		if(directionStrategy == DirectionStrategy.FASTEST){
+		    log.debug("dans boucle");
+            if(3*Math.PI/2 < o || o < Math.PI/2 ){ //si il est orienté vers l'avant par rapport au point visé
+                log.debug("boucle 1");
+                turn(a);
+                moveLengthwise(r, hooksToConsider);
+            }
+            else if(3*Math.PI/2 >= o && o >= Math.PI/2){ //si il est orienté vers l'arrière par rapport au point visé
+                log.debug("boucle 2");
+                a = a + Math.PI;
+                turn(a);
+                moveLengthwise(-r, hooksToConsider);
+
+            }
+
+        }
+    }
 
     /**
      * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
