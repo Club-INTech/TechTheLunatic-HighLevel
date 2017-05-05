@@ -131,7 +131,7 @@ public class ThreadTimer extends AbstractThread
 		
 		// attends que le jumper soit retiré du robot
 
-		/* while(serialWrapper.isJumperAbsent())
+		while(serialWrapper.isJumperAbsent())
 		{
 			try {
 				Thread.sleep(100);
@@ -140,7 +140,6 @@ public class ThreadTimer extends AbstractThread
 			}
 		}
 
-
 		while(!serialWrapper.isJumperAbsent())
 		{
 			try {
@@ -148,7 +147,7 @@ public class ThreadTimer extends AbstractThread
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}*/
+		}
 
 		// maintenant que le jumper est retiré, le match a commencé
 		matchStarted = true;

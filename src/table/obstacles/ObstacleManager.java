@@ -429,7 +429,7 @@ public class ObstacleManager
 	      	
 	     	// trouve l'ennemi non confirmé le plus proche parmis les obstacles
 	    	// (et remplace la distance a l'ennemi le plus proche d'un ennemi confirmé par une distance a un ennemi non confirmé s'il est plus proche)
-	    	for(int i=0; i<mUntestedMobileObstacles.size(); i++)
+	    	/*for(int i=0; i<mUntestedMobileObstacles.size(); i++)
 	    	{
 	    		Vec2 ennemyRelativeCoords = new Vec2((mUntestedMobileObstacles.get(i).position.getX() - position.getX()), 
 	    											  mUntestedMobileObstacles.get(i).position.getY() - position.getY());
@@ -442,7 +442,7 @@ public class ObstacleManager
 		    			closestEnnemy = mUntestedMobileObstacles.get(i);
 		    		}
 	    		}
-	    	}
+	    	}*/
 	    	
 	    	if(squaredDistanceToClosestEnemy <= 0)
 	    		return 0;

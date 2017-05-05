@@ -273,8 +273,17 @@ public class Robot implements Service
 		mLocomotion.moveLengthwise(distance, hooksToConsider, expectsWallImpact, mustDetect);
 		speed = oldSpeed;
 	}
+	public void moveLengthwiseAndWaitIfNeeded(int distance,int temps)  {
+		try {
+			moveLengthwise(distance);
+		} catch (UnableToMoveException e) {
+			sleep(temps);
+			moveLengthwiseAndWaitIfNeeded(distance,temps);
 
-    public void moveLengthwiseWithoutDetection(int distance) throws UnableToMoveException
+		}
+	}
+
+	public void moveLengthwiseWithoutDetection(int distance) throws UnableToMoveException
     {
         log.debug("appel de Robot.moveLengthwiseWithoutDetection(" + distance + ")");
         moveLengthwiseWithoutDetection(distance, null, false);
