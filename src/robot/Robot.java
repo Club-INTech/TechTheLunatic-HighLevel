@@ -314,15 +314,132 @@ public class Robot implements Service
 	 *
 	 * Pour aller à un point visé.
 	 * Utilisé dans les scripts de match sans pathfinding.
+	 *  &
+	 */
+    public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException
+    {
+		position = getPosition();
+        Vec2 move = pointVise.minusNewVector(position);
+    	int r = (int) move.getR();
+		double a = (double) move.getA();
+		a = a % Math.PI;
+
+        //turnRelative(+a+Math.PI);
+        //moveLengthwise(-r);
+
+
+		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
+		if(directionStrategy == DirectionStrategy.FASTEST){
+            if(3*Math.PI < a && a < Math.PI){ //si il est orienté vers l'avant par rapport au point visé
+                log.debug("a : "+ a);
+                log.debug("r : "+ r);
+                turnRelative(a);
+                moveLengthwise(r, hooksToConsider);
+            }
+            else if(3*Math.PI > a && a > Math.PI){ //si il est orienté vers l'arrière par rapport au point visé
+                a = a + Math.PI;
+                a = a % Math.PI;
+                r = -r;
+                log.debug("a : "+ a);
+                log.debug("r : "+ r);
+                turnRelative(a);
+                moveLengthwise(r, hooksToConsider);
+
+            }
+
+        }
+		/*if(directionStrategy == DirectionStrategy.FORCE_BACK_MOTION){
+			if(3*Math.PI < a && a < Math.PI){ //si il est orienté vers l'avant par rapport au point visé
+				turnRelative(Math.PI+a);
+				moveLengthwise(-r);
+			}
+			else if(3*Math.PI > a && a > Math.PI){ //si il est bien orienté vers l'arrière
+				turnRelative(a-Math.PI);
+				moveLengthwise(-r);
+			}
+
+		}
+		else if(directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION){
+			if(3*Math.PI < a && a < Math.PI  ){ //si il est bien orienté vers l'avant
+				turnRelative(a);
+				moveLengthwise(r);
+			}
+			else if(3*Math.PI > a && a > Math.PI){ //si il est orienté vers l'arrière
+				turnRelative(-Math.PI+a);
+				moveLengthwise(r);
+			}
+
+		}*/
+
+    }
+
+    /**
 	 *
+	 * @param pointVise
+	 * @throws UnableToMoveException
+	 *
+	 * Pour aller à un point visé.
+	 * Utilisé dans les scripts de match sans pathfinding.
+	 *  &
 	 */
     public void goTo(Vec2 pointVise) throws UnableToMoveException
     {
+		position = getPosition();
+		orientation = getOrientation();
+		log.debug("position" + position);
         Vec2 move = pointVise.minusNewVector(position);
-    	int r = (int) move.getR();
-		double a = move.getA();
-		moveLengthwise(r);
-		turn(a);
+    	log.debug("move" + move);
+        int r = (int) move.getR();
+		double a = (double) move.getA();
+		double o = a-orientation;
+		if(o < 0){
+		    o = o + Math.PI;
+        }
+
+
+        log.debug("a : "+ a);
+        log.debug("r : "+ r);
+        log.debug("o : "+ o);
+
+		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
+		if(directionStrategy == DirectionStrategy.FASTEST){
+		    log.debug("dans boucle");
+            if(3*Math.PI < o || o < Math.PI ){ //si il est orienté vers l'avant par rapport au point visé
+                log.debug("boucle 1");
+                turn(a);
+                moveLengthwise(r);
+            }
+            else if(3*Math.PI >= o && o >= Math.PI){ //si il est orienté vers l'arrière par rapport au point visé
+                log.debug("boucle 2");
+                turn(-a);
+                moveLengthwise(-r);
+
+            }
+
+        }
+		/*if(directionStrategy == DirectionStrategy.FORCE_BACK_MOTION){
+			if(3*Math.PI < a && a < Math.PI){ //si il est orienté vers l'avant par rapport au point visé
+				turnRelative(Math.PI+a);
+				moveLengthwise(-r);
+			}
+			else if(3*Math.PI > a && a > Math.PI){ //si il est bien orienté vers l'arrière
+				turnRelative(a-Math.PI);
+				moveLengthwise(-r);
+			}
+
+		}
+		else if(directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION){
+			if(3*Math.PI < a && a < Math.PI  ){ //si il est bien orienté vers l'avant
+				turnRelative(a);
+				moveLengthwise(r);
+			}
+			else if(3*Math.PI > a && a > Math.PI){ //si il est orienté vers l'arrière
+				turnRelative(-Math.PI+a);
+				moveLengthwise(r);
+			}
+
+		}*/
+
     }
 
     /**

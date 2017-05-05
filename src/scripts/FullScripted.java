@@ -6,7 +6,10 @@ import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
+import hook.Callback;
 import hook.Hook;
+import hook.methods.PriseModule;
+import hook.methods.ReposLargueModule;
 import hook.types.HookFactory;
 import smartMath.Circle;
 import smartMath.Vec2;
@@ -87,6 +90,12 @@ public class FullScripted extends AbstractScript
         updateConfig();
 
         try{
+            Hook PriseModule = hookFactory.newPositionHook(new Vec2(80, 1850), (float) Math.PI/2, 100, 10000);
+            PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
+            hooksToConsider.add(PriseModule);
+            Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(550, 1650), (float) -Math.PI/4, 100, 10000);
+            ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
+            hooksToConsider.add(ReposLargueModule);
 
             if(detect) {
                 actualState.robot.switchSensor();
@@ -114,21 +123,10 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
-                // Et remonte-le à l'aide de l'ascenceur
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR,false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
-                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                actualState.robot.moveLengthwise(distanceAfterCatch1stMod, hooksToConsider);
 
-                // Replie le tout
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
-                actualState.robot.moveLengthwise(distanceAfterCatch1stMod);
+
 
                 actualState.robot.turn(angleWeirdMove1);
                 actualState.robot.moveLengthwise(distanceWeirdMove1);
@@ -165,9 +163,10 @@ public class FullScripted extends AbstractScript
 
                 // Drop un module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+                actualState.robot.moveLengthwise(distanceAfterDrop1stMod, hooksToConsider);
 
-                actualState.robot.moveLengthwise(distanceAfterDrop1stMod);
+
+
                 actualState.robot.turn(angleToCloseZone);
                 actualState.robot.moveLengthwise(distanceToCloseZone);
 
@@ -204,8 +203,9 @@ public class FullScripted extends AbstractScript
 
                 //Drop le module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
                 actualState.robot.moveLengthwise(distanceAfterCatch2ndMod);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
 
                 actualState.robot.turn(angleBeforeDrop1stBalls);
 
