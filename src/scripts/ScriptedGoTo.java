@@ -152,6 +152,8 @@ public class ScriptedGoTo extends AbstractScript
             if (versionToExecute==0)
             {
 
+                //actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                //actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 log.debug("point1" + point1MilieuTable);
                 actualState.robot.goTo(point1MilieuTable);
                 actualState.robot.goTo(point2EntreeFinTable);
