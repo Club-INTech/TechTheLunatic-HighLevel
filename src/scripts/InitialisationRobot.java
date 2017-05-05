@@ -80,8 +80,8 @@ public class InitialisationRobot extends AbstractScript {
                 gameState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
             }
 
-            gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
-            gameState.robot.useActuator(ActuatorOrder.TIENT_BOULES, true);
+            // gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+            // gameState.robot.useActuator(ActuatorOrder.TIENT_BOULES, true);
 
             if(detect){
                 gameState.robot.switchSensor(); // Capteurs on

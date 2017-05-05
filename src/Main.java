@@ -107,8 +107,6 @@ public class Main
 		}
 	}
 
-	
-
 	/**
 	 * Attend la mise en place puis le retrait du jumper pour lancer le robot dans son match
 	 * Méthode à appeler dans le main juste avant de lancer l'IA ou le match scripté
