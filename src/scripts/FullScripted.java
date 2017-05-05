@@ -88,12 +88,9 @@ public class FullScripted extends AbstractScript
 
         try{
 
-            if(detect) {
-                actualState.robot.switchSensor();
-            }
-
             if (versionToExecute==0)
             {
+                actualState.robot.moveLengthwise(-650);
                 actualState.robot.turn(angleToQuitBase);
                 actualState.robot.moveLengthwise(distanceToQuitBase);
                 actualState.robot.turn(angleToFarZone);
@@ -132,7 +129,7 @@ public class FullScripted extends AbstractScript
 
                 actualState.robot.turn(angleWeirdMove1);
                 actualState.robot.moveLengthwise(distanceWeirdMove1);
-                actualState.robot.turn(angleWeirdMove2);
+                // actualState.robot.turn(angleWeirdMove2);
                 //actualState.robot.moveLengthwise(distanceWeirdMove2);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
@@ -141,7 +138,7 @@ public class FullScripted extends AbstractScript
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
                 if (detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs off
                 }
 
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -154,7 +151,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs on
                 }
 
                 actualState.robot.turn(angleToDisengage1stCrater);
@@ -213,7 +210,7 @@ public class FullScripted extends AbstractScript
 
                 //abaisser les bras au plus bas
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs off
                 }
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
@@ -226,7 +223,7 @@ public class FullScripted extends AbstractScript
                 //lever les bras jusqu'à la position intermédiaire
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs on
                 }
 
                 //Reculer un peu
@@ -255,7 +252,7 @@ public class FullScripted extends AbstractScript
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs off
                 }
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
@@ -266,7 +263,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs on
                 }
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceToDisengageCloseZone,500);
@@ -275,7 +272,7 @@ public class FullScripted extends AbstractScript
 
                 //abaisser les bras au plus bas
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs off
                 }
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
@@ -288,7 +285,7 @@ public class FullScripted extends AbstractScript
                 //lever les bras jusqu'à la position intermédiaire
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs on
                 }
 
                 //Reculer un peu
@@ -300,11 +297,9 @@ public class FullScripted extends AbstractScript
                 //monter les bras le plus haut \o/
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
                 if(detect){
-                    actualState.robot.switchSensor();
+                    actualState.robot.switchSensor(); // Capteurs off
                 }
-
             }
-
         }
         catch(Exception e)
         {
