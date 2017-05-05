@@ -5,7 +5,10 @@ import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
+import hook.Callback;
 import hook.Hook;
+import hook.methods.PriseModule;
+import hook.methods.ReposLargueModule;
 import hook.types.HookFactory;
 import smartMath.Circle;
 import smartMath.Vec2;
@@ -27,11 +30,31 @@ public class ScriptedGoTo extends AbstractScript
     /** PointsVisés, dstances & angles du script, override par la config */
 
     private Vec2 point1MilieuTable = new Vec2();
-    private Vec2 point2EntreeFinTable = new Vec2();
-    private Vec2 point3AttrapperModule1 = new Vec2();
-    private Vec2 point4RepositionnementAvantDAllerAuCratere = new Vec2();
-    private Vec2 point5DevantCratere1 = new Vec2();
+    public void setPoint1MilieuTable(int X, int Y) {
+        this.point1MilieuTable.setX(X);
+        this.point1MilieuTable.setY(Y);
+    }
 
+    private Vec2 point2EntreeFinTable = new Vec2();
+    public void setPoint2EntreeFinTable(int X, int Y) {
+        this.point2EntreeFinTable.setX(X);
+        this.point2EntreeFinTable.setY(Y);
+    }
+    private Vec2 point3AttrapperModule1 = new Vec2();
+    public void setPoint3AttrapperModule1(int X, int Y) {
+        this.point3AttrapperModule1.setX(X);
+        this.point3AttrapperModule1.setY(Y);
+    }
+    private Vec2 point4RepositionnementAvantDAllerAuCratere = new Vec2();
+    public void setPoint4RepositionnementAvantDAllerAuCratere(int X, int Y) {
+        this.point4RepositionnementAvantDAllerAuCratere.setX(X);
+        this.point4RepositionnementAvantDAllerAuCratere.setY(Y);
+    }
+    private Vec2 point5DevantCratere1 = new Vec2();
+    public void setPoint5DevantCratere1(int X, int Y) {
+        this.point5DevantCratere1.setX(X);
+        this.point5DevantCratere1.setY(Y);
+    }
     private int distanceRepositionnementCratere = 0;
     private double angleRepositionnementCratere = 0;
 
@@ -39,18 +62,44 @@ public class ScriptedGoTo extends AbstractScript
     private int distancePartirDuCratere = 0;
 
     private Vec2 point6SortieFinTable = new Vec2();
+    public void setPoint6SortieFinTable(int X, int Y) {
+        this.point6SortieFinTable.setX(X);
+        this.point6SortieFinTable.setY(Y);
+    }
     private Vec2 point7AttrapperModule2 = new Vec2();
-
+    public void setPoint7AttrapperModule2(int X, int Y) {
+        this.point7AttrapperModule2.setX(X);
+        this.point7AttrapperModule2.setY(Y);
+    }
     private double angleAttrapperModule2 = 0;
 
     private Vec2 point8ReculerPourAttrapperModule2 = new Vec2();
+    public void setPoint8ReculerPourAttrapperModule2(int X, int Y) {
+        this.point8ReculerPourAttrapperModule2.setX(X);
+        this.point8ReculerPourAttrapperModule2.setY(Y);
+    }
     private Vec2 point9ReavancerApresModule2 = new Vec2();
+    public void setPoint9ReavancerApresModule2(int X, int Y) {
+        this.point9ReavancerApresModule2.setX(X);
+        this.point9ReavancerApresModule2.setY(Y);
+    }
     private Vec2 point10DevantCratere2 = new Vec2();
+    public void setPoint10DevantCratere2(int X, int Y) {
+        this.point10DevantCratere2.setX(X);
+        this.point10DevantCratere2.setY(Y);
+    }
     private double angleCratere2 = 0;
 
     private Vec2 point11ReculerDuCratere = new Vec2();
+    public void setPoint11ReculerDuCratere(int X, int Y) {
+        this.point11ReculerDuCratere.setX(X);
+        this.point11ReculerDuCratere.setY(Y);
+    }
     private Vec2 point12LarguerBalles = new Vec2();
-
+    public void setPoint12LarguerBalles(int X, int Y) {
+        this.point12LarguerBalles.setX(X);
+        this.point12LarguerBalles.setY(Y);
+    }
     private boolean detect = false;
 
     /**
@@ -74,6 +123,27 @@ public class ScriptedGoTo extends AbstractScript
         updateConfig();
 
         try{
+            detect = false;
+
+            setPoint1MilieuTable(578,800);
+            setPoint2EntreeFinTable(870,1400);
+            setPoint3AttrapperModule1(800,1960);
+            setPoint4RepositionnementAvantDAllerAuCratere(770,1620);
+            setPoint5DevantCratere1(0,0);
+            distanceRepositionnementCratere = 0;
+            angleRepositionnementCratere = 0;
+            anglePartirDuCratere = 0;
+            distancePartirDuCratere = 0;
+            setPoint6SortieFinTable(0,0);
+            setPoint7AttrapperModule2(0,0);
+            angleAttrapperModule2 = 0;
+            setPoint8ReculerPourAttrapperModule2(0,0);
+            setPoint9ReavancerApresModule2(0,0);
+            setPoint10DevantCratere2(0,0);
+            angleCratere2 = 0;
+            setPoint11ReculerDuCratere(0,0);
+            setPoint12LarguerBalles(0,0);
+
 
             if(detect) {
                 actualState.robot.switchSensor();
@@ -82,7 +152,32 @@ public class ScriptedGoTo extends AbstractScript
             if (versionToExecute==0)
             {
 
-                //script:...
+                log.debug("point1" + point1MilieuTable);
+                actualState.robot.goTo(point1MilieuTable);
+                actualState.robot.goTo(point2EntreeFinTable);
+                /*actualState.robot.goTo(point3AttrapperModule1);
+                actualState.robot.goTo(point4RepositionnementAvantDAllerAuCratere);
+                actualState.robot.goTo(point5DevantCratere1);
+                actualState.robot.moveLengthwise(distanceRepositionnementCratere);
+                actualState.robot.turn(angleRepositionnementCratere);
+                actualState.robot.turn(anglePartirDuCratere);
+                actualState.robot.moveLengthwise(distancePartirDuCratere);
+                actualState.robot.goTo(point6SortieFinTable);
+                actualState.robot.goTo(point7AttrapperModule2);
+                actualState.robot.turn(angleAttrapperModule2);
+                actualState.robot.goTo(point8ReculerPourAttrapperModule2);
+                actualState.robot.goTo(point9ReavancerApresModule2);
+                actualState.robot.goTo(point10DevantCratere2);
+                actualState.robot.turn(angleCratere2);
+                actualState.robot.goTo(point11ReculerDuCratere);
+                actualState.robot.goTo(point12LarguerBalles);*/
+
+                Hook PriseModule = hookFactory.newPositionHook(new Vec2(80, 1850), (float) Math.PI/2, 100, 10000);
+                PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
+                hooksToConsider.add(PriseModule);
+                Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(550, 1650), (float) -Math.PI/4, 100, 10000);
+                ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
+                hooksToConsider.add(ReposLargueModule);
 
             }
 
