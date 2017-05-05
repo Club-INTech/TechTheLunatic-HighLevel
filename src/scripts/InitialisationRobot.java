@@ -60,7 +60,7 @@ public class InitialisationRobot extends AbstractScript {
             hookToConsider.add(replibrasD);
 
             // Initialisation des actionneurs
-           /* if(versionToExecute <= 4) {
+           if(versionToExecute <= 4) {
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
@@ -81,10 +81,10 @@ public class InitialisationRobot extends AbstractScript {
             }
 
             gameState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
-            gameState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);*/
+            gameState.robot.useActuator(ActuatorOrder.TIENT_BOULES, true);
 
             if(detect){
-                gameState.robot.switchSensor();
+                gameState.robot.switchSensor(); // Capteurs on
             }
 
             // Se dégage de la zone de départ
@@ -152,7 +152,7 @@ public class InitialisationRobot extends AbstractScript {
     @Override
     public void updateConfig(){
         try{
-            detect = Boolean.parseBoolean(config.getProperty("capteur_on"));
+            detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
         }catch(ConfigPropertyNotFoundException e){
             log.debug("Revoir le code : impossible de trouver la propriété :" + e.getPropertyNotFound());
         }

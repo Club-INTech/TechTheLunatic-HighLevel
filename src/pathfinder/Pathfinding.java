@@ -175,7 +175,7 @@ public class Pathfinding implements Service {
                     // De même, on différencie les cas ou le robot est tangent, et celui ou il est perpendiculaire
                     // Perpendiculaire
                     if (Math.abs(robotOrientation - vecRef.getA()) < Math.PI / 4 || Math.abs(robotOrientation - vecRef.getA()) > 3 * Math.PI / 4) {
-                        vecRef.setR(radius + 1);
+                        vecRef.setR(radius + 2);
                         vecRef.setA(vecRef.getA() + Math.PI);
 
                         ArrayList<Vec2> newPath = Astarfoulah(obstacle.getPosition().plusNewVector(vecRef), arriveeV, robotOrientation, translationSpeed,rotationSpeed );

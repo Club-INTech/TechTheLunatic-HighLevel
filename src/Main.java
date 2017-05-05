@@ -73,8 +73,8 @@ public class Main
 
             // TODO : faire une initialisation du robot et de ses actionneurs
 			realState.robot.setPosition(Table.entryPosition);
-			realState.robot.setOrientation(Math.PI);
-			realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+			realState.robot.setOrientation(-Math.PI/2);
+			realState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
 			container.getService(ThreadSensor.class);
 			container.getService(ThreadInterface.class);
@@ -82,17 +82,18 @@ public class Main
 			container.startInstanciedThreads();
 
 			// container.startAllThreads();
-						waitMatchBegin();
-
-			System.out.println("Le robot commence le match");
+			try{
+				// waitMatchBegin();
+				// System.out.println("Le robot commence le match");
 
 			// TODO : lancer l'IA
 
-			try {
-
 				System.out.println("90 secondes pour faire des points Billy");
-				scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(4, realState, emptyHook);
+				scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, realState, emptyHook);
 				realState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
+
+				waitMatchBegin();
+				System.out.println("Le robot commence le match");
 				scriptmanager.getScript(ScriptNames.FULLSCRIPTED).goToThenExec(0, realState, emptyHook);
 
 			}catch (Exception e){
