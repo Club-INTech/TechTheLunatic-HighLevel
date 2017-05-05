@@ -90,10 +90,10 @@ public class FullScripted extends AbstractScript
         updateConfig();
 
         try{
-            Hook PriseModule = hookFactory.newPositionHook(new Vec2(80, 1850), (float) Math.PI/2, 100, 10000);
+            Hook PriseModule = hookFactory.newPositionHook(new Vec2(650, 1650), (float) -Math.PI/2, 120, 3140);
             PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
             hooksToConsider.add(PriseModule);
-            Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(550, 1650), (float) -Math.PI/4, 100, 10000);
+            Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(650, 1650), (float) -Math.PI/4, 120, 3140);
             ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
             hooksToConsider.add(ReposLargueModule);
 
@@ -121,9 +121,6 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
                 actualState.robot.moveLengthwise(distanceAfterCatch1stMod, hooksToConsider);
-
-
-
 
                 actualState.robot.turn(angleWeirdMove1);
                 actualState.robot.moveLengthwise(distanceWeirdMove1);
