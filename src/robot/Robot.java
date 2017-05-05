@@ -348,7 +348,7 @@ public class Robot implements Service
 		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
 		if(directionStrategy == DirectionStrategy.FASTEST){
 		    log.debug("dans boucle");
-            if(3*Math.PI/2 < o || o < Math.PI/2 ){ //si il est orienté vers l'avant par rapport au point visé
+            if(3*Math.PI/2 < o || o < Math.PI/2){ //si il est orienté vers l'avant par rapport au point visé
                 log.debug("boucle 1");
                 turn(a);
                 moveLengthwise(r);
@@ -358,34 +358,20 @@ public class Robot implements Service
                 a = a + Math.PI;
                 turn(a);
                 moveLengthwise(-r);
-
             }
-
         }
-		/*if(directionStrategy == DirectionStrategy.FORCE_BACK_MOTION){
-			if(3*Math.PI < a && a < Math.PI){ //si il est orienté vers l'avant par rapport au point visé
-				turnRelative(Math.PI+a);
-				moveLengthwise(-r);
-			}
-			else if(3*Math.PI > a && a > Math.PI){ //si il est bien orienté vers l'arrière
-				turnRelative(a-Math.PI);
-				moveLengthwise(-r);
-			}
-
+		if(directionStrategy == DirectionStrategy.FORCE_BACK_MOTION){
+                a = a + Math.PI;
+                turn(a);
+                moveLengthwise(-r);
 		}
 		else if(directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION){
-			if(3*Math.PI < a && a < Math.PI  ){ //si il est bien orienté vers l'avant
-				turnRelative(a);
-				moveLengthwise(r);
+                turn(a);
+                moveLengthwise(r);
 			}
-			else if(3*Math.PI > a && a > Math.PI){ //si il est orienté vers l'arrière
-				turnRelative(-Math.PI+a);
-				moveLengthwise(r);
-			}
+		}
 
-		}*/
 
-    }
  /**
 	 *
 	 * @param pointVise
@@ -427,9 +413,16 @@ public class Robot implements Service
                 a = a + Math.PI;
                 turn(a);
                 moveLengthwise(-r, hooksToConsider);
-
             }
-
+            if(directionStrategy == DirectionStrategy.FORCE_BACK_MOTION){
+                a = a + Math.PI;
+                turn(a);
+                moveLengthwise(-r, hooksToConsider);
+            }
+            else if(directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION){
+                turn(a);
+                moveLengthwise(r, hooksToConsider);
+            }
         }
     }
 
