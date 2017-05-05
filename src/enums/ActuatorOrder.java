@@ -138,6 +138,9 @@ public enum ActuatorOrder
 	// Position avant prise de boules
 	PRET_PELLE("pd",1700),
 
+	//Position initiale, de rangement de la pelle
+	RANGE_PELLE("pb", 1000),
+
 	// Position intermédiaire de la pelle, maintient les boules
 	PREND_PELLE("pm",2000),//avant:2000
 

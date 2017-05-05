@@ -1,5 +1,7 @@
 package scripts;
 
+import enums.ActuatorOrder;
+import enums.DirectionStrategy;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
@@ -126,9 +128,9 @@ public class ScriptedGoTo extends AbstractScript
             detect = false;
 
             setPoint1MilieuTable(578,800);
-            setPoint2EntreeFinTable(870,1400);
-            setPoint3AttrapperModule1(800,1960);
-            setPoint4RepositionnementAvantDAllerAuCratere(770,1620);
+            setPoint2EntreeFinTable(850,1400);
+            setPoint3AttrapperModule1(850,1750);
+            setPoint4RepositionnementAvantDAllerAuCratere(670,1740);
             setPoint5DevantCratere1(0,0);
             distanceRepositionnementCratere = 0;
             angleRepositionnementCratere = 0;
@@ -155,11 +157,33 @@ public class ScriptedGoTo extends AbstractScript
                 //actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
                 //actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 log.debug("point1" + point1MilieuTable);
+
                 actualState.robot.goTo(point1MilieuTable);
+
                 actualState.robot.goTo(point2EntreeFinTable);
-                /*actualState.robot.goTo(point3AttrapperModule1);
+
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false); //se prépare à prendre le module
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+
+                actualState.robot.goTo(point3AttrapperModule1);
+
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, false);
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
+                actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
+
                 actualState.robot.goTo(point4RepositionnementAvantDAllerAuCratere);
-                actualState.robot.goTo(point5DevantCratere1);
+
+                actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+
+
+     /*           actualState.robot.goTo(point5DevantCratere1);
                 actualState.robot.moveLengthwise(distanceRepositionnementCratere);
                 actualState.robot.turn(angleRepositionnementCratere);
                 actualState.robot.turn(anglePartirDuCratere);
