@@ -32,6 +32,9 @@ public class ScriptedGoTo extends AbstractScript
     /** PointsVisés, dstances & angles du script, override par la config */
 
     private Vec2 point1MilieuTable = new Vec2();
+    private int distanceCratereFondApresBoules;
+
+
     public void setPoint1MilieuTable(int X, int Y) {
         this.point1MilieuTable.setX(X);
         this.point1MilieuTable.setY(Y);
@@ -47,21 +50,21 @@ public class ScriptedGoTo extends AbstractScript
         this.point3AttrapperModule1.setX(X);
         this.point3AttrapperModule1.setY(Y);
     }
-    private Vec2 point4RepositionnementAvantDAllerAuCratere = new Vec2();
-    public void setPoint4RepositionnementAvantDAllerAuCratere(int X, int Y) {
-        this.point4RepositionnementAvantDAllerAuCratere.setX(X);
-        this.point4RepositionnementAvantDAllerAuCratere.setY(Y);
+    private Vec2 arriveDevantCratereFond = new Vec2();
+    public void arriveDevantCratereFond(int X, int Y) {
+        this.arriveDevantCratereFond.setX(X);
+        this.arriveDevantCratereFond.setY(Y);
     }
-    private Vec2 point5DevantCratere1 = new Vec2();
-    public void setPoint5DevantCratere1(int X, int Y) {
-        this.point5DevantCratere1.setX(X);
-        this.point5DevantCratere1.setY(Y);
-    }
-    private int distanceRepositionnementCratere = 0;
-    private double angleRepositionnementCratere = 0;
 
-    private double anglePartirDuCratere = 0;
-    private int distancePartirDuCratere = 0;
+    private int distanceCratereFondAvantDepotModule;
+    private double angleCratereFondAvantDepotModule;
+    private int distanceCratereFondApresDepotModule;
+
+    private Vec2 sortieCratereFond=new Vec2();
+    public void setSortieCratereFond(int X, int Y) {
+        this.sortieCratereFond.setX(X);
+        this.sortieCratereFond.setY(Y);
+    }
 
     private Vec2 point6SortieFinTable = new Vec2();
     public void setPoint6SortieFinTable(int X, int Y) {
@@ -129,14 +132,18 @@ public class ScriptedGoTo extends AbstractScript
 
             setPoint1MilieuTable(578,800);
             setPoint2EntreeFinTable(850,1400);
-            setPoint3AttrapperModule1(850,1750);
-            setPoint4RepositionnementAvantDAllerAuCratere(670,1740);
-            setPoint5DevantCratere1(0,0);
-            distanceRepositionnementCratere = 0;
-            angleRepositionnementCratere = 0;
-            anglePartirDuCratere = 0;
-            distancePartirDuCratere = 0;
-            setPoint6SortieFinTable(0,0);
+
+            setPoint3AttrapperModule1(850,1760);
+
+            arriveDevantCratereFond(625,1810);
+            distanceCratereFondApresBoules=-130;
+
+            angleCratereFondAvantDepotModule=Math.PI/4;
+            distanceCratereFondAvantDepotModule=-120;
+            distanceCratereFondApresDepotModule=110;
+
+            setSortieCratereFond(1000,1200);
+
             setPoint7AttrapperModule2(0,0);
             angleAttrapperModule2 = 0;
             setPoint8ReculerPourAttrapperModule2(0,0);
@@ -154,8 +161,6 @@ public class ScriptedGoTo extends AbstractScript
             if (versionToExecute==0)
             {
 
-                //actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-                //actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 log.debug("point1" + point1MilieuTable);
 
                 actualState.robot.goTo(point1MilieuTable);
@@ -171,20 +176,36 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, false);
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
-                actualState.robot.goTo(point4RepositionnementAvantDAllerAuCratere);
+                actualState.robot.goTo(arriveDevantCratereFond);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
+                actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+                actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
 
+                actualState.robot.moveLengthwise(distanceCratereFondApresBoules);
+                actualState.robot.turn(angleCratereFondAvantDepotModule);
+                actualState.robot.moveLengthwise(distanceCratereFondAvantDepotModule);
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+                actualState.robot.moveLengthwise(distanceCratereFondApresDepotModule);
+                actualState.robot.goTo(sortieCratereFond);
 
      /*           actualState.robot.goTo(point5DevantCratere1);
                 actualState.robot.moveLengthwise(distanceRepositionnementCratere);
+                actualState.robot.moveLengthwise(reculCratereFondAvantDepotModule);
                 actualState.robot.turn(angleRepositionnementCratere);
                 actualState.robot.turn(anglePartirDuCratere);
                 actualState.robot.moveLengthwise(distancePartirDuCratere);
