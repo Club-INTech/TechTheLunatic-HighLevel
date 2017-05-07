@@ -408,6 +408,7 @@ public class SerialWrapper implements Service
             else
                 log.debug("Probleme de lecture de f");
         }
+
         return parsedInfos;
     }
 

@@ -603,7 +603,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     standardBuffer.add(buffer);
                 }
                 else
-                    Sleep.sleep(5);
+                    Sleep.sleep(2);
 
             }
             catch (IOException e)
@@ -796,7 +796,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         while((res = standardBuffer.poll()) == null && System.currentTimeMillis() - startTime < 2*TIME_OUT)
         {
             try {
-                Thread.sleep(100);
+                Thread.sleep(2);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
