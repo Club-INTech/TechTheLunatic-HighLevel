@@ -96,6 +96,7 @@ public class Main
 				System.out.println("Le robot commence le match");
 				scriptmanager.getScript(ScriptNames.FULLSCRIPTED).goToThenExec(0, realState, emptyHook);
 
+
 			}catch (Exception e){
 				e.printStackTrace();
 			}
