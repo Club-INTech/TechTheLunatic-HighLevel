@@ -78,7 +78,7 @@ public class Main
 
 			container.getService(ThreadSensor.class);
 			container.getService(ThreadInterface.class);
-			container.getService(ThreadTimer.class);
+			// container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
 
 			// container.startAllThreads();
@@ -95,7 +95,6 @@ public class Main
 				waitMatchBegin();
 				System.out.println("Le robot commence le match");
 				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(0, realState, emptyHook);
-
 
 			}catch (Exception e){
 				e.printStackTrace();
