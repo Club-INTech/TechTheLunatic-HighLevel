@@ -90,10 +90,10 @@ public class FullScripted extends AbstractScript
         updateConfig();
 
         try{
-            Hook PriseModule = hookFactory.newPositionHook(new Vec2(650, 1650), (float) -Math.PI/2, 120, 3140);
+            Hook PriseModule = hookFactory.newPositionHook(new Vec2(860, 1670), (float) -Math.PI/2, 200, 3140);
             PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
             hooksToConsider.add(PriseModule);
-            Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(650, 1650), (float) -Math.PI/4, 120, 3140);
+            Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(700, 1670), (float) -Math.PI/4, 200, 3140);
             ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
             hooksToConsider.add(ReposLargueModule);
 
