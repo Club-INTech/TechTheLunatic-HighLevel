@@ -32,6 +32,8 @@ import table.obstacles.ObstacleCircular;
 import table.obstacles.ObstacleProximity;
 import threads.AbstractThread;
 import threads.ThreadTimer;
+import utils.Config;
+import utils.Log;
 import utils.Sleep;
 
 import java.io.BufferedWriter;
@@ -186,7 +188,7 @@ public class ThreadSensor extends AbstractThread
 	 * @param table La table a l'intérieure de laquelle le thread doit croire évoluer
 	 * @param sensorsCardWrapper La carte capteurs avec laquelle le thread va parler
 	 */
-	public ThreadSensor (Table table, Robot robot, SerialWrapper sensorsCardWrapper, ThreadSerial serial)
+	public ThreadSensor (Config config, Log log, Table table, Robot robot, SerialWrapper sensorsCardWrapper, ThreadSerial serial)
 	{
 		super(config, log);
 		this.serialWrapper = sensorsCardWrapper;
