@@ -345,9 +345,10 @@ public class ThreadSensor extends AbstractThread
         Integer Y = new Integer((int) robotY);
 
         b = -2 * positionLF.getX();
-        c = square(positionLF.getX()) - 0.5*(square(R1) + square(R2)) + square(positionLF.getY());
+        // c = square(positionLF.getX()) - 0.5*(square(R1) + square(R2)) + square(positionLF.getY());
 
-        delta = b*b - 4*c;
+        // delta = b*b - 4*c;
+        delta = 2*(square(R1) + square(R2)) - square(positionLF.getY());
 
         if (delta > 1) {
             robotX = ((-b + Math.sqrt(delta)) / 2.0);
@@ -364,9 +365,7 @@ public class ThreadSensor extends AbstractThread
 
          if (isValue) {
              try{
-                 out.write("Position calculée (référentiel du robot) :" + vec);
                  vec = changeRef(vec);
-                 out.newLine();
                  out.write("Position calculée (référentiel de la table) :" + vec);
                  out.newLine();
                  out.newLine();
@@ -387,9 +386,9 @@ public class ThreadSensor extends AbstractThread
         double robotX;
         double robotY;
         double b, c, delta;
-        int constante, R1, R2;
+        int R1, R2;
         Vec2 vec = new Vec2();
-        boolean isValue=true;
+        boolean isValue = true;
 
         R1 = USvalues.get(2) + radius;
         R2 = USvalues.get(3) + radius;
@@ -397,9 +396,10 @@ public class ThreadSensor extends AbstractThread
         Integer Y = new Integer((int) robotY);
 
         b = -2 * positionLB.getX();
-        c = square(positionLB.getX()) - 0.5*(square(R1) + square(R2)) + square(positionLB.getY());
+        // c = square(positionLB.getX()) - 0.5*(square(R1) + square(R2)) + square(positionLB.getY());
 
-        delta = b*b - 4*c;
+        // delta = b*b - 4*c;
+        delta = 2*(square(R1) + square(R2)) + square(positionLB.getY());
         if (delta > 1) {
             robotX = (int) ((-b - Math.sqrt(delta)) / 2);
             Integer X = new Integer((int) robotX);
@@ -415,9 +415,7 @@ public class ThreadSensor extends AbstractThread
 
         if (isValue) {
             try {
-                out.write("Position calculée (référentiel du robot) :" + vec);
                 vec = changeRef(vec);
-                out.newLine();
                 out.write("Position calculée (référentiel de la table) :" + vec);
                 out.newLine();
                 out.newLine();
@@ -439,9 +437,7 @@ public class ThreadSensor extends AbstractThread
         // On modélise les arcs de cercle detecté par l'un des capteurs, puis on prend le point le plus à l'exterieur
         // Et on place le robot ennemie tangent en ce point : la position calculée n'est pas la position réelle du robot adverse mais elle suffit
 
-        Circle arcL = new Circle(positionLF, USvalues.get(0), detectionAngle, angleLF, false);
-        Circle arcR = new Circle(positionRF, USvalues.get(1), detectionAngle, angleRF, false);
-        Vec2 posEn = new Vec2();
+        Vec2 posEn;
 
         if (isLeft){
             // On choisit le point à l'extrémité de l'arc à coté du capteur pour la position de l'ennemie: à courte distance, la position est réaliste,
@@ -457,9 +453,7 @@ public class ThreadSensor extends AbstractThread
         }
 
         try{
-            out.write("Position calculée (référentiel du robot) :" + posEn);
             posEn = changeRef(posEn);
-            out.newLine();
             out.write("Position calculée (référentiel de la table) :" + posEn);
             out.newLine();
             out.newLine();
@@ -478,8 +472,6 @@ public class ThreadSensor extends AbstractThread
     private void addBackObstacleSingle(boolean isLeft) {
         // De meme qu'avec le front
 
-        Circle arcL = new Circle(positionLB, USvalues.get(2), detectionAngle, angleLB, false);
-        Circle arcR = new Circle(positionRB, USvalues.get(3), detectionAngle, angleRB, false);
         Vec2 posEn;
 
         if (isLeft){
@@ -494,9 +486,7 @@ public class ThreadSensor extends AbstractThread
         }
 
         try{
-            out.write("Position calculée (référentiel du robot) :" + posEn);
             posEn = changeRef(posEn);
-            out.newLine();
             out.write("Position calculée (référentiel de la table) :" + posEn);
             out.newLine();
             out.newLine();

@@ -330,8 +330,10 @@ public class Robot implements Service
     {
 		position = getPositionFast();
 		orientation = getOrientationFast();
-		log.debug("position" + position);
+		log.debug("position :" + position);
+		log.debug("orientation :" + orientation);
         Vec2 move = pointVise.minusNewVector(position);
+        log.debug("Point visé :" + pointVise);
     	log.debug("move" + move);
         int r = (int) move.getR();
 		double a = (double) move.getA();
@@ -339,11 +341,6 @@ public class Robot implements Service
 		if(o < 0){
 		    o = -o;
         }
-
-
-        log.debug("a : "+ a);
-        log.debug("r : "+ r);
-        log.debug("o : "+ o);
 
 		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
 		if(directionStrategy == DirectionStrategy.FASTEST){

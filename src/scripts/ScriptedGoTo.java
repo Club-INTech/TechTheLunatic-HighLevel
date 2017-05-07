@@ -31,25 +31,24 @@ import java.util.ArrayList;
 public class ScriptedGoTo extends AbstractScript
 {
 
-
     /** PointsVisés, dstances & angles du script, override par la config */
 
-    private Vec2 point1MilieuTable = new Vec2(578,800);
+    private Vec2 point1MilieuTable = new Vec2(580,800);
     private Vec2 point2EntreeFinTable = new Vec2(850,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(850,1760);
     private Vec2 point4arriveDevantCratereFond = new Vec2(625,1810);
     private int distanceCratereFondApresBoules = -130;
     private double angleCratereFondAvantDepotModule = Math.PI/4;
-    private int distanceCratereFondAvantDepotModule = -120;
+    private int distanceCratereFondAvantDepotModule = -124;
     private int distanceCratereFondApresDepotModule = 110;
     private Vec2 point5sortieCratereFond=new Vec2(1000,1200);
 
-    private Vec2 point6SortieFinTable = new Vec2();
-    private Vec2 point7AttrapperModule2 = new Vec2();
+    private Vec2 point6SortieFinTable = new Vec2(1100, 790);
+    private Vec2 point7AttrapperModule2 = new Vec2(1200, 790);
     private double angleAttrapperModule2 = 0;
     private Vec2 point8ReculerPourAttrapperModule2 = new Vec2();
-    private Vec2 point9ReavancerApresModule2 = new Vec2();
-    private Vec2 point10DevantCratere2 = new Vec2();
+    private Vec2 point9ReavancerApresModule2 = new Vec2(1100, 790);
+    private Vec2 point10DevantCratere2 = new Vec2(1040, 680);
     private double angleCratere2 = 0;
     private Vec2 point11ReculerDuCratere = new Vec2();
     private Vec2 point12LarguerBalles = new Vec2();
@@ -93,7 +92,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.goTo(point2EntreeFinTable);
 
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRInitialisationAPE_D, false); //se prépare à prendre le module
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false); //se prépare à prendre le module
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
 
@@ -129,13 +128,36 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwise(distanceCratereFondApresDepotModule);
                 actualState.robot.goTo(point5sortieCratereFond);
 
-                /*actualState.robot.goTo(point6SortieFinTable);
+                actualState.robot.goTo(point6SortieFinTable);
+
+                actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
                 actualState.robot.goTo(point7AttrapperModule2);
-                actualState.robot.turn(angleAttrapperModule2);
-                actualState.robot.goTo(point8ReculerPourAttrapperModule2);
+
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
+                actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+
+                // actualState.robot.turn(angleAttrapperModule2);
+                // actualState.robot.goTo(point8ReculerPourAttrapperModule2);
                 actualState.robot.goTo(point9ReavancerApresModule2);
                 actualState.robot.goTo(point10DevantCratere2);
-                actualState.robot.turn(angleCratere2);
+
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
+                actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+                actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
+
+                /*actualState.robot.turn(angleCratere2);
                 actualState.robot.goTo(point11ReculerDuCratere);
                 actualState.robot.goTo(point12LarguerBalles);*/
 
