@@ -90,11 +90,11 @@ public class Main
 
 				System.out.println("90 secondes pour faire des points Billy");
 				scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, realState, emptyHook);
-				realState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
+				realState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
 				waitMatchBegin();
 				System.out.println("Le robot commence le match");
-				scriptmanager.getScript(ScriptNames.FULLSCRIPTED).goToThenExec(0, realState, emptyHook);
+				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(0, realState, emptyHook);
 
 
 			}catch (Exception e){
