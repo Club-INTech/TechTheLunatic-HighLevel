@@ -62,7 +62,7 @@ public class Main
 		{
 			container = new Container();
 			config = container.getService(Config.class);
-			AffichageDebug aff = container.getService(AffichageDebug.class);
+			//AffichageDebug aff = container.getService(AffichageDebug.class);
 			realState = container.getService(GameState.class);
 			scriptmanager = container.getService(ScriptManager.class);
 			mSerialWrapper = container.getService(SerialWrapper.class);
@@ -77,7 +77,7 @@ public class Main
 			realState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
 			container.getService(ThreadSensor.class);
-			container.getService(ThreadInterface.class);
+			// container.getService(ThreadInterface.class);
 			// container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
 
