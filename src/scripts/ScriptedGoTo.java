@@ -48,14 +48,16 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 pointAvantModule2 = new Vec2(1080, 760);
     private int distanceApresModule2=150;
 
-    private Vec2 pointAvantDeposeBoules1 = new Vec2(1100, 790);
-    private Vec2 point10DevantCratere2 = new Vec2(1040, 680);
-    private double angleCratere2 = 0;
-    private Vec2 point11ReculerDuCratere = new Vec2();
+    private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
+    private int distanceAvantDeposeBoules1=240;
+    private int distanceReculApresDepotBoule1=-200;
+
+    private Vec2 pointDevantCratere2 = new Vec2(1100, 650);
+
     private Vec2 point12LarguerBalles = new Vec2();
 
     private boolean detect = false;
-    private int distanceAvantDeposeBoules1=240;
+
 
 
     /**
@@ -79,7 +81,6 @@ public class ScriptedGoTo extends AbstractScript
     public void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException
     {
         updateConfig();
-        detect=false;//TODO:enlever quand on aura re un support capteurs
         try{
 
             if(detect) {
@@ -173,15 +174,14 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.moveLengthwise(distanceAvantDeposeBoules1);
 
-    //            actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
-      //          actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
-        //        actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
-          //      actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
+                actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
-                /*actualState.robot.turn(angleCratere2);
-                actualState.robot.goTo(point11ReculerDuCratere);
-                actualState.robot.goTo(point12LarguerBalles);*/
-
+                actualState.robot.moveLengthwise(distanceReculApresDepotBoule1);
+                actualState.robot.goTo(pointDevantCratere2);
+                actualState.robot.turn(-7*Math.PI/8);
 
 
                 //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
