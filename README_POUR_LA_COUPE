@@ -35,7 +35,7 @@ Il va vous demander le mot de passe, c'est "intech".
 
 Connectez-vous à la raspi par SSH (obviously, vous devez être connecté au hotspot) avec cette commande :
 
-ssh pi@192.168.1.100
+ssh intech@192.168.1.100
 
 Avec pour mot de passe "intech"
 
