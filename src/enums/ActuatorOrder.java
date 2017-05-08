@@ -170,7 +170,7 @@ public enum ActuatorOrder
 	MID_ATTRAPE_D("ammd",500),
 
 	// Position de livraison
-	PREND_MODULE_D("amfd",2000),
+	PREND_MODULE_D("amfd",1500),
 
 	//Côté gauche
 	REPOS_ATTRAPE_G("amdg",500),
@@ -192,19 +192,19 @@ public enum ActuatorOrder
 	REPLI_CALLE_D("cmdd",300),
 
 	//Position repos
-	REPOS_CALLE_D("cmmd",150),
+	REPOS_CALLE_D("cmmd",350),
 
 	// Position basse
-	LIVRE_CALLE_D("cmfd",450),
+	LIVRE_CALLE_D("cmfd",600),
 
 	// Position haut
 	REPLI_CALLE_G("cmdg",300),
 
 	//Poition de repos
-	REPOS_CALLE_G("cmmg",150),
+	REPOS_CALLE_G("cmmg",350),
 
 	// Position basse
-	LIVRE_CALLE_G("cmfg",450),
+	LIVRE_CALLE_G("cmfg",550),
 
 
 /*			 ___________________
@@ -220,7 +220,7 @@ public enum ActuatorOrder
 	// Position de poussée
 	POUSSE_LARGUEUR("lmf", 800),
 	// Position de poussée en mode lent
-	POUSSE_LARGUEUR_LENT("lmfl", 900),
+	POUSSE_LARGUEUR_LENT("lmfl", 1000),
 
     //Réasservissement largue module
     REASSERV_LARGEUR("lmreasserv"),
