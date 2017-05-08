@@ -160,6 +160,7 @@
   <target name="all" depends="build.modules" description="build all"/>
 
   <target name="jar" depends="all">
+      <delete file="highlevel-techthelunatic.jar"/>
     <jar destfile="highlevel-techthelunatic.jar" basedir="${highlevel-techthelunatic.output.dir}">
       <manifest>
         <attribute name="Main-Class" value="Main"/>
