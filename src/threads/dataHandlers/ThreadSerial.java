@@ -830,12 +830,12 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
         long startTime = System.currentTimeMillis();
 
-        res = standardBuffer.poll();
+        res = standardBuffer.peek();
         while((res == null) && ((System.currentTimeMillis() - startTime) < 2*TIME_OUT))
         {
             try {
                 Thread.sleep(2);
-                res = standardBuffer.poll();
+                res = standardBuffer.peek();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -844,6 +844,8 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         if(res == null) {
             log.debug("Null dans le buffer");
             return "";
+        } else {
+            standardBuffer.poll();
         }
 
         return res;
