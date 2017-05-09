@@ -344,7 +344,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
         synchronized(serialPort)
         {
-            standardBuffer.clear();
+           // standardBuffer.clear();
             String inputLines[] = new String[nb_lignes_reponse];
             boolean ignoredOrderForLogging = !this.debug || this.ignoredOrders.contains(messages[0]);
             try
@@ -824,7 +824,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      * On attend la disponibilité d'une réponse traité par la partie thread (pour l'ancien système)
      * @return la réponse
      */
-    private String waitAndGetResponse()
+    private synchronized String waitAndGetResponse()
     {
         String res;
 
