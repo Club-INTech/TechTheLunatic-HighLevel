@@ -416,7 +416,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                             outFull.write("Reception de "+inputLines[i]+" , en réponse à " + messages[0] + " envoi du message a nouveau");
                             outFull.newLine();
                             outFull.newLine();
-
+                            outFull.flush();
                         }
                         if(debug)
                         {
@@ -425,6 +425,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                             out.write("Reception de "+inputLines[i]+" , en réponse à " + messages[0] + " envoi du message a nouveau");
                             out.newLine();
                             out.newLine();
+                            out.flush();
                         }
                         communiquer(messages, nb_lignes_reponse);
                     }
@@ -627,9 +628,19 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         standardBuffer.add(buffer);
                         continue;
                     }
+
+                    if(fulldebugofthedead)
+                    {
+                        outFull.newLine();
+                        outFull.newLine();
+                        outFull.write("DROPPED : "+buffer);
+                        outFull.newLine();
+                        outFull.newLine();
+                        outFull.flush();
+                    }
                 }
 
-                Sleep.sleep(2);
+                Sleep.sleep(4);
 
             }
             catch (IOException e)
