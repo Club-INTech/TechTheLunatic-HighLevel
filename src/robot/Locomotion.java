@@ -26,6 +26,7 @@ import enums.TurningStrategy;
 import enums.UnableToMoveReason;
 import exceptions.ConfigPropertyNotFoundException;
 import exceptions.Locomotion.BlockedException;
+import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.Locomotion.UnexpectedObstacleOnPathException;
 import exceptions.serial.SerialConnexionException;
@@ -343,7 +344,7 @@ public class Locomotion implements Service
     	//si un singe a mie de pain null pour les hooks on le gere
     	if(hooks == null)
     		hooks = new ArrayList<Hook>();
-    	
+
     	//un simple for (on vas au point 0 puis au point 1 etc.)
     	finalAim = path.get(path.size()-1);
   
