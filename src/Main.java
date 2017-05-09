@@ -77,8 +77,8 @@ public class Main
 			realState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
 			container.getService(ThreadSensor.class);
-			// container.getService(ThreadInterface.class);
-			// container.getService(ThreadTimer.class);
+			container.getService(ThreadInterface.class);
+			container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
 
 			// container.startAllThreads();
