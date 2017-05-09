@@ -347,7 +347,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             {
                 for (String m : messages)
                 {
-					//log.debug("Envoi serie : '" + m  + "'");
+                    //log.debug("Envoi serie : '" + m  + "'");
                     m += "\r";
 
                     output.flush();
@@ -370,12 +370,12 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         String resposeFromCard = waitAndGetResponse();
 
                         //TODO commenter.
-						//log.debug("Reception acquitement : '" + resposeFromCard  + "'");
+                        //log.debug("Reception acquitement : '" + resposeFromCard  + "'");
 
                         for(int i=0 ; i < resposeFromCard.length() ; i++)
                             acquitte = acquitte || (resposeFromCard.charAt(i) == '_');
 
-                       // acquittement = resposeFromCard.charAt(resposeFromCard.length()-1);
+                        // acquittement = resposeFromCard.charAt(resposeFromCard.length()-1);
                         if (!acquitte)
                         {
                             output.write(m.getBytes());
@@ -401,7 +401,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     inputLines[i] = waitAndGetResponse();
 
                     //TODO commenter.
-					//log.debug("Ligne "+i+": '"+inputLines[i]+"'");
+                    //log.debug("Ligne "+i+": '"+inputLines[i]+"'");
                     if(inputLines[i].equals(null) || inputLines[i].replaceAll(" ", "").equals("")|| inputLines[i].replaceAll(" ", "").equals("-"))
                     {
                         log.critical("Reception de "+inputLines[i]+" , en réponse à " + messages[0] + " envoi du message a nouveau");
@@ -569,39 +569,39 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                 if(available())
                 {
                     buffer = readLine();
-                     log.debug("readLine : " + buffer);
+                    // log.debug("readLine : " + buffer);
 
-                    if(buffer.length() < 2 && (!(buffer==null || buffer.replaceAll(" ", "").equals("")|| buffer.replaceAll(" ", "").equals("-"))))
+                    if(buffer.length()>=2 && !(buffer == null || buffer.replaceAll(" ", "").equals("")|| buffer.replaceAll(" ", "").equals("-")))
+                    {
+                        if (buffer.toCharArray()[0] == eventHeader[0] && buffer.toCharArray()[1] == eventHeader[1]) {
+                            eventBuffer.add(buffer);
+                            continue;
+                        } else if (buffer.toCharArray()[0] == ultrasoundHeader[0] && buffer.toCharArray()[1] == ultrasoundHeader[1]) {
+                            ultrasoundBuffer.add(buffer);
+                            continue;
+                        } else if (buffer.toCharArray()[0] == debugHeader[0] && buffer.toCharArray()[1] == debugHeader[1]) {
+                            if (!printLLDebug) continue;
+                            outLL.write(buffer.substring(2));
+                            outLL.newLine();
+                            outLL.flush();
+
+                            // log.debug("Debug LL : "+buffer.substring(2));
+                            continue;
+                        }
+                        else
+                        {
+                            standardBuffer.add(buffer);
+                            continue;
+                        }
+                    }
+                    else if (!(buffer == null || buffer.replaceAll(" ", "").equals("")|| buffer.replaceAll(" ", "").equals("-")))
                     {
                         standardBuffer.add(buffer);
                         continue;
                     }
-
-                    else if(buffer.toCharArray()[0] == eventHeader[0] && buffer.toCharArray()[1] == eventHeader[1])
-                    {
-                        eventBuffer.add(buffer);
-                        continue;
-                    }
-
-                    else if(buffer.toCharArray()[0] == ultrasoundHeader[0] && buffer.toCharArray()[1] == ultrasoundHeader[1])
-                    {
-                        ultrasoundBuffer.add(buffer);
-                        continue;
-                    }
-
-                    else if(buffer.toCharArray()[0] == debugHeader[0] && buffer.toCharArray()[1] == debugHeader[1])
-                    {
-                        if(!printLLDebug) continue;
-                        outLL.write(buffer.substring(2));
-                        outLL.newLine();
-                        outLL.flush();
-
-                        // log.debug("Debug LL : "+buffer.substring(2));
-                        continue;
-                    }
                 }
-                else
-                    Sleep.sleep(2);
+
+                Sleep.sleep(2);
 
             }
             catch (IOException e)
@@ -688,16 +688,16 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      */
     public int read() throws IOException
     {
-            if (input.available() == 0)
-                Sleep.sleep(5); // On attend un tout petit peu, au cas où
+        if (input.available() == 0)
+            Sleep.sleep(5); // On attend un tout petit peu, au cas où
 
-            if (input.available() == 0)
-                throw new IOException(); // visiblement on ne recevra rien de plus
+        if (input.available() == 0)
+            throw new IOException(); // visiblement on ne recevra rien de plus
 
-            byte out = (byte) input.read();
+        byte out = (byte) input.read();
 
 
-            return out & 0xFF;
+        return out & 0xFF;
 
     }
 
@@ -708,76 +708,76 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     private String readLine()
     {
         String res = "";
-            try {
-                int lastReceived;
+        try {
+            int lastReceived;
 
-                long time = System.currentTimeMillis();
-                while (!available())
+            long time = System.currentTimeMillis();
+            while (!available())
+            {
+                if(System.currentTimeMillis() - time > TIME_OUT)
                 {
-                    if(System.currentTimeMillis() - time > TIME_OUT)
-                    {
-                        log.critical("Il ne daigne même pas répondre !");
-                        return (res+(char)260);
-                    }
-                    Thread.sleep(5);
+                    log.critical("Il ne daigne même pas répondre !");
+                    return (res+(char)260);
                 }
+                Thread.sleep(5);
+            }
 
-                while (available()) {
+            while (available()) {
 
-                    if ((lastReceived = read()) == 13)
-                        break;
+                if ((lastReceived = read()) == 13)
+                    break;
 
-                    res += (char) lastReceived;
-
-                    time = System.currentTimeMillis();
-                    while (!available())
-                    {
-                        if(System.currentTimeMillis() - time > TIME_OUT)
-                        {
-                            log.critical("blocaqe attente nouveau char (pas de /r ?) dernier : "+ lastReceived);
-                            return (res+(char)260);
-                        }
-                        Thread.sleep(5);
-                    }
-                }
+                res += (char) lastReceived;
 
                 time = System.currentTimeMillis();
                 while (!available())
                 {
                     if(System.currentTimeMillis() - time > TIME_OUT)
                     {
-                        log.critical("bloquage attente newChar (normalement newLine)");
+                        log.critical("blocaqe attente nouveau char (pas de /r ?) dernier : "+ lastReceived);
                         return (res+(char)260);
                     }
                     Thread.sleep(5);
                 }
-
-                while(available()) {
-
-                    if (read() == 10)
-                        break;
-                    time = System.currentTimeMillis();
-                    while (!available())
-                    {
-                        if(System.currentTimeMillis() - time > TIME_OUT)
-                        {
-                            log.critical("Bloquage attente newLine");
-                            return (res+(char)260);
-                        }
-                        Thread.sleep(5);
-                    }
-                }
-
-            } catch (IOException e) {
-                log.debug("On a perdu la série !!");
-                while (ping() == null) {
-                    Sleep.sleep(100);
-                }
-                res+=(char)260;
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
-            return res;
+
+            time = System.currentTimeMillis();
+            while (!available())
+            {
+                if(System.currentTimeMillis() - time > TIME_OUT)
+                {
+                    log.critical("bloquage attente newChar (normalement newLine)");
+                    return (res+(char)260);
+                }
+                Thread.sleep(5);
+            }
+
+            while(available()) {
+
+                if (read() == 10)
+                    break;
+                time = System.currentTimeMillis();
+                while (!available())
+                {
+                    if(System.currentTimeMillis() - time > TIME_OUT)
+                    {
+                        log.critical("Bloquage attente newLine");
+                        return (res+(char)260);
+                    }
+                    Thread.sleep(5);
+                }
+            }
+
+        } catch (IOException e) {
+            log.debug("On a perdu la série !!");
+            while (ping() == null) {
+                Sleep.sleep(100);
+            }
+            res+=(char)260;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return res;
 
     }
 
