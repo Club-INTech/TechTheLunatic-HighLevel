@@ -344,14 +344,12 @@ public class Robot implements Service
 
 		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
 		if(directionStrategy == DirectionStrategy.FASTEST){
-		    log.debug("dans boucle");
             if(3*Math.PI/2 < o || o < Math.PI/2){ //si il est orienté vers l'avant par rapport au point visé
                 log.debug("boucle 1");
                 turn(a);
                 moveLengthwise(r);
             }
             else if(3*Math.PI/2 >= o && o >= Math.PI/2){ //si il est orienté vers l'arrière par rapport au point visé
-                log.debug("boucle 2");
                 a = a + Math.PI;
                 turn(a);
                 moveLengthwise(-r);
@@ -399,14 +397,11 @@ public class Robot implements Service
 
 		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
 		if(directionStrategy == DirectionStrategy.FASTEST){
-		    log.debug("dans boucle");
             if(3*Math.PI/2 < o || o < Math.PI/2 ){ //si il est orienté vers l'avant par rapport au point visé
-                log.debug("boucle 1");
                 turn(a);
                 moveLengthwise(r, hooksToConsider);
             }
             else if(3*Math.PI/2 >= o && o >= Math.PI/2){ //si il est orienté vers l'arrière par rapport au point visé
-                log.debug("boucle 2");
                 a = a + Math.PI;
                 turn(a);
                 moveLengthwise(-r, hooksToConsider);
