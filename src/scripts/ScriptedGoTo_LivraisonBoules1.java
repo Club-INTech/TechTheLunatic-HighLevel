@@ -68,7 +68,7 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
                 if (versionToExecute==0)
                 {
 
-                    actualState.robot.goTo(pointAvantDeposeBoules1);
+                    //actualState.robot.goTo(pointAvantDeposeBoules1);
                     actualState.robot.turn(-Math.PI/2);
                     actualState.robot.moveLengthwise(distanceAvantDeposeBoules1);
 
