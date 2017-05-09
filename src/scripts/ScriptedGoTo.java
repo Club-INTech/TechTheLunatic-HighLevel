@@ -46,7 +46,7 @@ public class ScriptedGoTo extends AbstractScript
     private int distanceReculModule2=-110;
 
     private Vec2 pointAvantModule2 = new Vec2(1080, 760);
-    private int distanceApresModule2=150;                                       //TODO: peut être voir comment réduire ça, il avance trop et tourne sur lui même
+    private int distanceApresModule2=100;                                       //TODO: peut être voir comment réduire ça, il avance trop et tourne sur lui même
 
     private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
     private int distanceAvantDeposeBoules1=240;
@@ -184,7 +184,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.moveLengthwise(distanceReculApresDepotBoule1);
                 actualState.robot.goTo(pointDevantCratere2);
-                actualState.robot.turn(-15*Math.PI/16);
+                actualState.robot.turn(-7*Math.PI/8);
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(120);
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);

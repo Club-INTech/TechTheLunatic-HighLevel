@@ -81,11 +81,15 @@ public abstract class AbstractScript implements Service
 	 */
 	public void goToThenExec(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws UnableToMoveException, BadVersionException, SerialConnexionException, ExecuteException, BlockedActuatorException, PointInObstacleException {
 		// va jusqu'au point d'entrée de la version demandée
-		log.debug("Lancement de " + this + " version " + versionToExecute);
+		log.debug("Lancement de " + this.toString().substring(9) + " version " + versionToExecute);
 		try 
 		{
-			if(!actualState.robot.getPosition().equals(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPosition()).getCenter()))
-				actualState.robot.moveToCircle(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPositionFast()), hooksToConsider, actualState.table);
+			if(!actualState.robot.getPosition().equals(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPosition()).getCenter())) {
+
+				log.debug("Appel au PathFinding, car Position du robot :" + actualState.robot.getPosition() + " et entrée du script :" + entryPosition(versionToExecute, actualState.robot.getRobotRadius(), actualState.robot.getPosition()).getClass());
+
+				actualState.robot.moveToCircle(entryPosition(versionToExecute, actualState.robot.getRobotRadius(), actualState.robot.getPositionFast()), hooksToConsider, actualState.table);
+			}
 		}
 		catch (UnableToMoveException e)
 		{
