@@ -404,13 +404,13 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 					//log.debug("Ligne "+i+": '"+inputLines[i]+"'");
                     if(inputLines[i].equals(null) || inputLines[i].replaceAll(" ", "").equals("")|| inputLines[i].replaceAll(" ", "").equals("-"))
                     {
-                        log.critical("='( , envoi de "+inputLines[i]+" envoi du message a nouveau");
+                        log.critical("Reception de "+inputLines[i]+" , en réponse à " + messages[0] + " envoi du message a nouveau");
                         communiquer(messages, nb_lignes_reponse);
                     }
 
                     if(!isAsciiExtended(inputLines[i]))
                     {
-                        log.critical("='( , envoi de "+inputLines[i]+" envoi du message a nouveau");
+                        log.critical("Reception de "+inputLines[i]+" (non Ascii) , en réponse à "+ messages[0] + " envoi du message a nouveau");
                         communiquer(messages, nb_lignes_reponse); // On retente
                     }
 
@@ -569,27 +569,27 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                 if(available())
                 {
                     buffer = readLine();
-                    // log.debug("readLine" + buffer);
+                     log.debug("readLine : " + buffer);
 
-                    if(buffer.length() < 2)
+                    if(buffer.length() < 2 && (!(buffer==null || buffer.replaceAll(" ", "").equals("")|| buffer.replaceAll(" ", "").equals("-"))))
                     {
                         standardBuffer.add(buffer);
                         continue;
                     }
 
-                    if(buffer.toCharArray()[0] == eventHeader[0] && buffer.toCharArray()[1] == eventHeader[1])
+                    else if(buffer.toCharArray()[0] == eventHeader[0] && buffer.toCharArray()[1] == eventHeader[1])
                     {
                         eventBuffer.add(buffer);
                         continue;
                     }
 
-                    if(buffer.toCharArray()[0] == ultrasoundHeader[0] && buffer.toCharArray()[1] == ultrasoundHeader[1])
+                    else if(buffer.toCharArray()[0] == ultrasoundHeader[0] && buffer.toCharArray()[1] == ultrasoundHeader[1])
                     {
                         ultrasoundBuffer.add(buffer);
                         continue;
                     }
 
-                    if(buffer.toCharArray()[0] == debugHeader[0] && buffer.toCharArray()[1] == debugHeader[1])
+                    else if(buffer.toCharArray()[0] == debugHeader[0] && buffer.toCharArray()[1] == debugHeader[1])
                     {
                         if(!printLLDebug) continue;
                         outLL.write(buffer.substring(2));
@@ -599,8 +599,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         // log.debug("Debug LL : "+buffer.substring(2));
                         continue;
                     }
-
-                    standardBuffer.add(buffer);
                 }
                 else
                     Sleep.sleep(2);
@@ -793,17 +791,21 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
         long startTime = System.currentTimeMillis();
 
-        while((res = standardBuffer.poll()) == null && System.currentTimeMillis() - startTime < 2*TIME_OUT)
+        res = standardBuffer.poll();
+        while((res == null) && ((System.currentTimeMillis() - startTime) < 2*TIME_OUT))
         {
             try {
                 Thread.sleep(2);
+                res = standardBuffer.poll();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
 
-        if(res == null)
+        if(res == null) {
+            log.debug("Null dans le buffer");
             return "";
+        }
 
         return res;
     }
