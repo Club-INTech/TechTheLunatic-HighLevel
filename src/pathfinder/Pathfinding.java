@@ -87,7 +87,7 @@ public class Pathfinding implements Service {
             // Il recule/avance juste pour rentrer dans la table (ya pas d'obstacle derriere, faut pas déconner)
 
             if (departV.getY() < oManager.mRobotRadius && (Math.abs(robotOrientation) > Math.PI/4 && Math.abs(robotOrientation) < 3 * Math.PI/4)) {
-                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), oManager.mRobotRadius + 1), arriveeV, robotOrientation,translationSpeed,rotationSpeed );
+                ArrayList<Vec2> newPath = Astarfoulah(new Vec2(departV.getX(), oManager.mRobotRadius + 5), arriveeV, robotOrientation,translationSpeed,rotationSpeed );
                 newPath.add(0, departV);
                 return newPath;
             } else if (departV.getY() > 2000 - oManager.mRobotRadius && Math.abs(robotOrientation) > Math.PI / 4 && Math.abs(robotOrientation) < 3 * Math.PI / 4) {
@@ -212,12 +212,12 @@ public class Pathfinding implements Service {
 
                     // Perpendiculaire
                     if (angleref < Math.PI / 4 || angleref > 3 * Math.PI / 4) {
-                        ArrayList<Vec2> newPath = Astarfoulah(newDepartV, arriveeV, robotOrientation, translationSpeed,rotationSpeed );
+                        ArrayList<Vec2> newPath = Astarfoulah(newDepartV, arriveeV, robotOrientation, translationSpeed,rotationSpeed);
                         newPath.add(0, departV);
                         return newPath;
                     }
 
-                    //Tangent
+                    /* //Tangent
                     else {
                         double radiusRef = departV.minusNewVector(newDepartV).length();
                         double marge = Math.acos((double) oManager.getmRobotLenght() / (2 * oManager.mRobotRadius)) - Math.acos((oManager.mRobotRadius - radiusRef) / oManager.mRobotRadius);
@@ -243,6 +243,10 @@ public class Pathfinding implements Service {
                         ArrayList<Vec2> newPath = Astarfoulah(departV.plusNewVector(vecPropoFW), arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                         newPath.add(0, departV);
                         return newPath;
+                    }*/
+                    else{
+                        log.debug("No Path Found, depart :" + departV);
+                        throw new PointInObstacleException(departV);
                     }
                 }
             }
