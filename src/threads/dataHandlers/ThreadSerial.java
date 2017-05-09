@@ -85,6 +85,8 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
     private BufferedWriter out;
     private BufferedWriter outLL;
     private boolean debug = true;
+    private BufferedWriter outFull;
+    private boolean fulldebugofthedead = true;
 
     /**
      * Permet de couper la communication, oui c'est dégueulasse
@@ -152,6 +154,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             {
                 File file = new File("orders.txt");
                 File fileDebug = new File("debugLL.txt");
+                File fileFull = new File("debugfull.txt");
                 if (!file.exists())
                 {
                     //file.delete();
@@ -163,6 +166,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                 }
                 out = new BufferedWriter(new FileWriter(file));
                 outLL = new BufferedWriter(new FileWriter(fileDebug));
+                outFull = new BufferedWriter(new FileWriter(fileFull));
 
             } catch (IOException e) {
                 log.critical("Manque de droits pour l'output des ordres");
@@ -405,6 +409,15 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     if(inputLines[i].equals(null) || inputLines[i].replaceAll(" ", "").equals("")|| inputLines[i].replaceAll(" ", "").equals("-"))
                     {
                         log.critical("Reception de "+inputLines[i]+" , en réponse à " + messages[0] + " envoi du message a nouveau");
+                        if(fulldebugofthedead)
+                        {
+                            outFull.newLine();
+                            outFull.newLine();
+                            outFull.write("Reception de "+inputLines[i]+" , en réponse à " + messages[0] + " envoi du message a nouveau");
+                            outFull.newLine();
+                            outFull.newLine();
+
+                        }
                         communiquer(messages, nb_lignes_reponse);
                     }
 
@@ -570,6 +583,13 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                 {
                     buffer = readLine();
                     // log.debug("readLine : " + buffer);
+
+                    if(fulldebugofthedead)
+                    {
+                        outFull.write(buffer);
+                        outFull.newLine();
+                        outFull.flush();
+                    }
 
                     if(buffer.length()>=2 && !(buffer == null || buffer.replaceAll(" ", "").equals("")|| buffer.replaceAll(" ", "").equals("-")))
                     {
