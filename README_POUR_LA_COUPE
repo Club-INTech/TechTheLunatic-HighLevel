@@ -1,0 +1,62 @@
+
+N'ayant pas d'accès internet à la coupe, nous utilisons la raspi du robot comme dépôt git et serveur de compilation.
+
+
+#### Pour se connecter ####
+
+La RPI est configurée en hotspot WIFI :
+
+SSID : INTECH_RPI
+MDP : intechrtc
+
+(ces identifiants vont probablement changer)
+
+
+#### Pour push sur le dépôt ####
+
+Vous allez devoir ajouter un "remote", c'est-à-dire une nouvelle cible vers laquelle envoyer vos commit.
+
+Pour cela, exécutez cette commande :
+
+git remote add rpi intech@192.168.1.100:~/highlevel-techthelunatic.git
+
+N'exécutez-là qu'une seule fois.
+
+Pour push sur la raspi, vous devez être connecté à son hotspot et vous devez faire :
+
+git push rpi
+
+Il va vous demander le mot de passe, c'est "intech".
+
+
+
+
+#### Pour compiler le jar ####
+
+Connectez-vous à la raspi par SSH (obviously, vous devez être connecté au hotspot) avec cette commande :
+
+ssh intech@192.168.1.100
+
+Avec pour mot de passe "intech"
+
+Une fois connecté, déplacez-vous dans le dossier highlevel-techthelunatic (cd highlevel-techthelunatic)
+et exécutez cette commande :
+
+ant jar
+
+Cela va compiler et créer le jar du HL.
+
+
+
+
+#### Pour lancer le HL ####
+
+Connectez-vous en SSH  à la RPI et déplacez-vous dans le dossier highlevel-techthelunatic (cf. la partie précédente)
+
+Vérifiez que vous êtes bien à la dernière version compilée du HL (cf. la partie précédente sinon)
+
+Exécutez :
+
+java -jar highlevel-techthelunatic.jar
+
+Et voilà le HL est lancé !
