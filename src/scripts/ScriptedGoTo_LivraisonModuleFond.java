@@ -86,13 +86,15 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
 
             if (versionToExecute==0)
             {
+
                 //Livraison modules
                 actualState.robot.moveLengthwise(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
+                actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);    //Ralentit pour éviter de défoncer la zone
                 actualState.robot.moveLengthwise(distanceCratereFondAvantDepotModule);
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
                 actualState.robot.moveLengthwise(distanceCratereFondApresDepotModule);
                 actualState.robot.goTo(point5sortieCratereFond);
