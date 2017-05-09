@@ -220,7 +220,7 @@ public enum ActuatorOrder
 	// Position de poussée
 	POUSSE_LARGUEUR("lmf", 800),
 	// Position de poussée en mode lent
-	POUSSE_LARGUEUR_LENT("lmfl", 1500),
+	POUSSE_LARGUEUR_LENT("lmfl", 2000),
 
     //Réasservissement largue module
     REASSERV_LARGEUR("lmreasserv"),

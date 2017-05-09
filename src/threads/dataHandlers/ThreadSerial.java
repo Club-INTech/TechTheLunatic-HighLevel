@@ -344,7 +344,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
         synchronized(serialPort)
         {
-           // standardBuffer.clear();
+            standardBuffer.clear();
             String inputLines[] = new String[nb_lignes_reponse];
             boolean ignoredOrderForLogging = !this.debug || this.ignoredOrders.contains(messages[0]);
             try
@@ -382,7 +382,12 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         // acquittement = resposeFromCard.charAt(resposeFromCard.length()-1);
                         if (!acquitte)
                         {
+                            log.critical("NON ACQUITEMENT SUR "+m+" : "+resposeFromCard);
                             output.write(m.getBytes());
+                        } else if (debug) {
+                            out.write("\t"+resposeFromCard);
+                            out.newLine();
+                            out.flush();
                         }
                         if (nb_tests > 10)
                         {

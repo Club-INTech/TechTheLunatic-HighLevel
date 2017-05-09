@@ -27,12 +27,7 @@ import smartMath.Vec2;
 import utils.Config;
 import utils.Log;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UnknownFormatConversionException;
 
 /**
  * Traite tout ce qui concerne la gestion des obstacles sur la table.
@@ -350,6 +345,7 @@ public class ObstacleManager
     	for(int i = 0; i < mMobileObstacles.size(); i++)
     		if(mMobileObstacles.get(i).getOutDatedTime() < System.currentTimeMillis())
     		{
+    			log.debug("Retire l'obstacle :" + mMobileObstacles.get(i).getPosition());
     			mMobileObstacles.remove(i--);
     		}
     	
