@@ -40,10 +40,10 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
     private int distanceCratereFondApresBoules = -130;
     private double angleCratereFondAvantDepotModule = Math.PI/4;
-    private int distanceCratereFondAvantDepotModule = -130;
+    private int distanceCratereFondAvantDepotModule = -121;
     private int distanceCratereFondApresDepotModule = 110;
     private Vec2 point5sortieCratereFond=new Vec2(1150,1150);
-    private int distanceReculModule2=-100;
+    private int distanceReculModule2=-110;
 
     private Vec2 pointAvantModule2 = new Vec2(1080, 760);
     private int distanceApresModule2=150;                                       //TODO: peut être voir comment réduire ça, il avance trop et tourne sur lui même
@@ -114,7 +114,12 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
+                //changement de vitesse pour ne pas pousser les balles
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
                 actualState.robot.goTo(point4arriveDevantCratereFond);
+
+                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
                 //Prise des boules
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
@@ -161,7 +166,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
 
 
