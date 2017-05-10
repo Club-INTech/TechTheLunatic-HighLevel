@@ -561,8 +561,8 @@ public class Locomotion implements Service
             	immobilise();
             	
                 //long detectionTime = System.currentTimeMillis();
-                /*
-            	while(System.currentTimeMillis() - detectionTime < maxTimeToWaitForEnemyToLeave)
+
+            	/*while(System.currentTimeMillis() - detectionTime < maxTimeToWaitForEnemyToLeave)
             	{
             		try
             		{
