@@ -99,7 +99,7 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
                 actualState.robot.moveLengthwise(distanceCratereFondApresDepotModule);
                 actualState.robot.goTo(point5sortieCratereFond);
 
-
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
 
 
 

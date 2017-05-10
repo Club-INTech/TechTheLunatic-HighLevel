@@ -116,6 +116,25 @@ public class Robot implements Service {
 	 */
 	private Locomotion mLocomotion;
 
+	private	boolean rempliDeBoules=false;
+
+	private int chargementModule=0;
+
+	public int getChargementModule() {
+		return chargementModule;
+	}
+
+	public void setRempliDeBoules(boolean rempliDeBoules) {
+		this.rempliDeBoules = rempliDeBoules;
+	}
+
+	public void setChargementModule(int chargementModule) {
+		this.chargementModule = chargementModule;
+	}
+
+	public boolean isRempliDeBoules() {
+		return rempliDeBoules;
+	}
 
 	/**
 	 * Constructeur

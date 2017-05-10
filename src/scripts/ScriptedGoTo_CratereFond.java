@@ -38,6 +38,8 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
 
 
 
+
+
     /**
      * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
      * Le constructeur se charge de renseigner la hookFactory, le système de config et de log.
@@ -83,7 +85,8 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
 
-
+                actualState.robot.setRempliDeBoules(true);
+                actualState.table.cratereBaseLunaire.isStillThere=false;
 
 
 
@@ -96,6 +99,7 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
                 Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(550, 1650), (float) -Math.PI/4, 100, 10000);
                 ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
                 hooksToConsider.add(ReposLargueModule);
+
 
             }
 

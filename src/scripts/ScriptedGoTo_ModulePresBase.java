@@ -102,8 +102,9 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
 
+                actualState.table.cratere.isStillThere=false;
                 actualState.robot.moveLengthwise(distanceApresModule2);
-
+                actualState.obtainedPoints+=10;
 
 
 
