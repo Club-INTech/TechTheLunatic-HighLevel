@@ -299,7 +299,8 @@ public class Locomotion implements Service
          * aim est la visée du haut niveau, qui commence toujours à droite
          * TODO; trouver ce que veut dire ce commentaire
          */
-        Vec2 aim = highLevelPosition.plusNewVector(new Vec2(distance, highLevelOrientation));
+        Double dist = (double) distance;
+        Vec2 aim = highLevelPosition.plusNewVector(new Vec2(dist, highLevelOrientation));
         
         // aim.setX((int) (highLevelPosition.getX() + distance*Math.cos(highLevelOrientation)));
         // aim.setY((int) (highLevelPosition.getY() + distance*Math.sin(highLevelOrientation)));
@@ -322,7 +323,8 @@ public class Locomotion implements Service
 
     public void moveLengthwiseAndWaitIfEnnemy(int distance, ArrayList<Hook> hooks) throws UnableToMoveException
     {
-        Vec2 aim = new Vec2(distance, highLevelOrientation);
+        Double dist = (double) distance;
+        Vec2 aim = new Vec2(dist, highLevelOrientation);
 
         int closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
 
