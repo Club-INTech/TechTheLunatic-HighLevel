@@ -135,7 +135,7 @@ public class InitialisationRobot extends AbstractScript {
 
         if(version==0 || version==1 || version==2 || version==4){
 
-            return new Circle(robotPosition);
+            return new Circle(robotPosition,10);
         }
         else {
             log.debug("mauvaise version de script");
