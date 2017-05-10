@@ -31,6 +31,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Classe implémentant le concept d'une connexion série.
@@ -113,11 +114,11 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
     //=================BUFFERS LinkedList<String>=======================
 
-    private LinkedList<String> standardBuffer = new LinkedList<>();
+    private ConcurrentLinkedQueue<String> standardBuffer = new ConcurrentLinkedQueue<>();
 
-    private LinkedList<String> eventBuffer = new LinkedList<>();
+    private ConcurrentLinkedQueue<String> eventBuffer = new ConcurrentLinkedQueue<>();
 
-    private LinkedList<String> ultrasoundBuffer = new LinkedList<>();
+    private ConcurrentLinkedQueue<String> ultrasoundBuffer = new ConcurrentLinkedQueue<>();
 
 //   .
 //   .
@@ -863,7 +864,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         return res;
     }
 
-    LinkedList<String> getEventBuffer() {return eventBuffer;}
+    ConcurrentLinkedQueue<String> getEventBuffer() {return eventBuffer;}
 
-    LinkedList<String> getUltrasoundBuffer() {return ultrasoundBuffer;}
+    ConcurrentLinkedQueue<String> getUltrasoundBuffer() {return ultrasoundBuffer;}
 }
