@@ -560,7 +560,7 @@ public class Locomotion implements Service
             	immobilise();
 
             	moveLengthwiseAndWaitIfEnnemy((int)finalAim.minusNewVector(highLevelPosition).length(), hooks);
-            	
+
                 //long detectionTime = System.currentTimeMillis();
 
             	/*while(System.currentTimeMillis() - detectionTime < maxTimeToWaitForEnemyToLeave)
