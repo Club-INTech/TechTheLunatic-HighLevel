@@ -328,14 +328,13 @@ public class Locomotion implements Service
 
         int closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
 
-        if(!(closest <= distance && closest > -150))
+        while (closest <= distance && closest > -150)
         {
-            moveLengthwise(distance, hooks, false, true);
-        }
-        else{
             Sleep.sleep(timeToWaitIfEnnemy);
-            moveLengthwiseAndWaitIfEnnemy(distance, hooks);
+            log.debug ("Ennemie détecté dans le sens de marche, on attend");
         }
+
+        moveLengthwise(distance, hooks, false, true);
     }
 
     /**
@@ -559,6 +558,8 @@ public class Locomotion implements Service
                 log.warning("Ennemi detecté : Catch de "+unexpectedObstacle); 
     			log.warning( unexpectedObstacle.logStack());
             	immobilise();
+
+            	moveLengthwiseAndWaitIfEnnemy((int)finalAim.minusNewVector(highLevelPosition).length(), hooks);
             	
                 //long detectionTime = System.currentTimeMillis();
 
