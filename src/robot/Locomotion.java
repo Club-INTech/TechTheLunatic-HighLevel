@@ -323,6 +323,7 @@ public class Locomotion implements Service
 
     public void moveLengthwiseAndWaitIfEnnemy(int distance, ArrayList<Hook> hooks) throws UnableToMoveException
     {
+        log.debug("WaitEnnemy appelée");
         Double dist = (double) distance;
         Vec2 aim = new Vec2(dist, highLevelOrientation);
 

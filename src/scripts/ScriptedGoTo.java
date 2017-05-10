@@ -94,12 +94,12 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
 
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(-120,emptyHook);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(-130,emptyHook);
 
 
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
@@ -112,9 +112,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
+                //actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-100, emptyHook);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                //actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
 
 
                 //Aller au cratère du fond
@@ -216,10 +216,22 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
 
+                // Manoeuvre degueu pour se décaler
+                actualState.robot.moveLengthwise(60, hooksToConsider, false);
+                // Bon discord tu vas geuler mais j'avais la flemme
+                actualState.robot.turn(Math.PI - Math.asin(110.0 / 150));
+                actualState.robot.moveLengthwise(150);
+                actualState.robot.turn(Math.PI);
+                // Callage contre le depose-module
+                actualState.robot.moveLengthwise(-200, hooksToConsider, true, false, Speed.SLOW_ALL);
+                // Drop un module
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
 
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2, emptyHook);
-                //actualState.robot.goTo(pointAvantDeposeBoules1);
+                actualState.robot.goTo(pointAvantDeposeBoules1);
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1, emptyHook);
 
@@ -251,12 +263,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
 
 
-                //Drop le dernier module
-                actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
-                actualState.robot.goTo(new Vec2(1140,1020));
-                actualState.robot.turn(Math.PI);
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
 
 
 
@@ -279,7 +285,7 @@ public class ScriptedGoTo extends AbstractScript
         }
         catch(Exception e)
         {
-            log.critical("Robot ou actionneur bloqué dans DropBalls");
+            log.critical("Robot ou actionneur bloqué dans ScriptedGoTo");
             finalize(actualState, e);
         }
     }
