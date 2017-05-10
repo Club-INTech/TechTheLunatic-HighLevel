@@ -147,8 +147,8 @@ public class ThreadSensor extends AbstractThread
      * Positions relatives au centre du robot
      */
 
-    private final Vec2 positionLF = new Vec2(240, 150);
-    private final Vec2 positionRF = new Vec2(240, -150);
+    private final Vec2 positionLF = new Vec2(160, 150);
+    private final Vec2 positionRF = new Vec2(160, -150);
     private final Vec2 positionLB = new Vec2(-150,135);
     private final Vec2 positionRB = new Vec2(-150,-135);
 

@@ -157,7 +157,10 @@ public class Locomotion implements Service
     
     /** nombre d'essais en cours après un BlockedException*/
     private int actualRetriesIfBlocked=0;
-    
+
+    /** temps d'attente lorsqu'il y a un ennemie devant */
+    private int timeToWaitIfEnnemy;
+
     /** Indique si le robot est en marche avant, utile pour les capteurs*/
     public boolean isRobotMovingForward;
     
@@ -296,10 +299,10 @@ public class Locomotion implements Service
          * aim est la visée du haut niveau, qui commence toujours à droite
          * TODO; trouver ce que veut dire ce commentaire
          */
-        Vec2 aim = new Vec2(); 
+        Vec2 aim = highLevelPosition.plusNewVector(new Vec2(distance, highLevelOrientation));
         
-        aim.setX((int) (highLevelPosition.getX() + distance*Math.cos(highLevelOrientation)));
-        aim.setY((int) (highLevelPosition.getY() + distance*Math.sin(highLevelOrientation)));
+        // aim.setX((int) (highLevelPosition.getX() + distance*Math.cos(highLevelOrientation)));
+        // aim.setY((int) (highLevelPosition.getY() + distance*Math.sin(highLevelOrientation)));
         finalAim = aim;
         // l'appel à cette méthode sous-entend que le robot ne tourne pas
         // il va donc en avant si la distance est positive, en arrière si elle est négative
@@ -316,7 +319,23 @@ public class Locomotion implements Service
 
 		actualRetriesIfBlocked=0;// on reinitialise
     }
-        
+
+    public void moveLengthwiseAndWaitIfEnnemy(int distance, ArrayList<Hook> hooks) throws UnableToMoveException
+    {
+        Vec2 aim = new Vec2(distance, highLevelOrientation);
+
+        int closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
+
+        if(!(closest <= distance && closest > -150))
+        {
+            moveLengthwise(distance, hooks, false, true);
+        }
+        else{
+            Sleep.sleep(timeToWaitIfEnnemy);
+            moveLengthwiseAndWaitIfEnnemy(distance, hooks);
+        }
+    }
+
     /**
      * Suit un chemin en ligne brisee
      * @param path le chemin a suivre (un arraylist de Vec2 qui sont les point de rotation du robot)
@@ -1028,6 +1047,7 @@ public class Locomotion implements Service
 			robotLength = Integer.parseInt(config.getProperty("longueur_robot").replaceAll(" ",""));
             basicDetectDistance = Integer.parseInt(config.getProperty("basic_distance").replaceAll(" ",""));
             basicDetection = Boolean.parseBoolean(config.getProperty("basic_detection"));
+            timeToWaitIfEnnemy = Integer.parseInt(config.getProperty("duree_attente_ennemie"));
     	}
     	catch (ConfigPropertyNotFoundException e)
     	{
