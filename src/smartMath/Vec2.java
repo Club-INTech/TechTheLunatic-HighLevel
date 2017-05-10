@@ -360,5 +360,9 @@ public class Vec2
 		x = (int) (r*Math.cos(a));
 		y = (int) (r*Math.sin(a));
 	}
+
+	public boolean veryClose(Vec2 other){
+		return ((Math.abs(x-other.getX()) < 3) && (Math.abs(y-other.y) < 3));
+	}
 }
 

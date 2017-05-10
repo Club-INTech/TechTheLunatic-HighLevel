@@ -211,7 +211,7 @@ public class ThreadSensor extends AbstractThread
             e.printStackTrace();
         }
 
-        while(serialWrapper.isJumperAbsent())
+        /*while(serialWrapper.isJumperAbsent())
         {
             try {
                 Thread.sleep(100);
@@ -226,7 +226,7 @@ public class ThreadSensor extends AbstractThread
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
 		// maintenant que le jumper est retiré, le match a commencé
 		ThreadTimer.matchEnded = false;
