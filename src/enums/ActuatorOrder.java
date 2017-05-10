@@ -177,7 +177,7 @@ public enum ActuatorOrder
 
 	MID_ATTRAPE_G("ammg",300),
 
-	PREND_MODULE_G("amfg",1000),
+	PREND_MODULE_G("amfg",1500),
 
 
 /*			 ___________________

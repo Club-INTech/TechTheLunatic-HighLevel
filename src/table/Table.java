@@ -71,7 +71,7 @@ public class Table implements Service
 	// Au besoin, créer les classes nécessaires dans le package table
 
 	/** point de départ du match à modifier a chaque base roulante */
-	public static final Vec2 entryPosition = new Vec2(580,196); //Position d'entrée (578, 208)
+	public static final Vec2 entryPosition = new Vec2(615,206);
 	
 	/**
 	 * Instancie une nouvelle table
