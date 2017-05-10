@@ -93,6 +93,8 @@ public class ScriptedGoTo_ModuleFond extends AbstractScript {
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
+                actualState.table.cratereBase.isStillThere=false;
 
 
 

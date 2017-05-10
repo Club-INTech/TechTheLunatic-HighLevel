@@ -79,6 +79,8 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
+                actualState.robot.setRempliDeBoules(true);
+                actualState.table.cratereDepart.isStillThere=false;
 
 
 
@@ -93,6 +95,7 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
                 Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(550, 1650), (float) -Math.PI/4, 100, 10000);
                 ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
                 hooksToConsider.add(ReposLargueModule);
+
 
             }
 

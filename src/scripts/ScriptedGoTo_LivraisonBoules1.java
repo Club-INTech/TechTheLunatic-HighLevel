@@ -78,6 +78,9 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
                     actualState.robot.moveLengthwise(distanceReculApresDepotBoule1);
+                    actualState.robot.setRempliDeBoules(false);
+                    actualState.obtainedPoints+=15;
+
 
 
 
