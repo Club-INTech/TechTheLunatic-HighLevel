@@ -108,6 +108,8 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
      */
     private boolean serialReady = false;
 
+    private boolean receivingInProgress = false;
+
 
     //=================BUFFERS LinkedList<String>=======================
 
@@ -595,8 +597,12 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             {
                 if(available())
                 {
+                    receivingInProgress = false;
+
                     buffer = readLine();
                     // log.debug("readLine : " + buffer);
+
+                    receivingInProgress = true;
 
                     if(fulldebugofthedead)
                     {
@@ -605,7 +611,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         outFull.flush();
                     }
 
-                    if(buffer.length()>=2 && !(buffer == null || buffer.replaceAll(" ", "").equals("")|| buffer.replaceAll(" ", "").equals("-")))
+                    if(buffer.length()>=2 && !(buffer.replaceAll(" ", "").equals("")/*|| buffer.replaceAll(" ", "").equals("-")*/))
                     {
                         if (buffer.toCharArray()[0] == eventHeader[0] && buffer.toCharArray()[1] == eventHeader[1]) {
                             eventBuffer.add(buffer);
@@ -628,7 +634,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                             continue;
                         }
                     }
-                    else if (!(buffer == null || buffer.replaceAll(" ", "").equals("")|| buffer.replaceAll(" ", "").equals("-")))
+                    else if (!(buffer.replaceAll(" ", "").equals("")/*|| buffer.replaceAll(" ", "").equals("-")*/))
                     {
                         standardBuffer.add(buffer);
                         continue;
@@ -644,8 +650,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         outFull.flush();
                     }
                 }
-
-                Sleep.sleep(4);
 
             }
             catch (IOException e)
@@ -835,13 +839,17 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
         long startTime = System.currentTimeMillis();
 
-        res = standardBuffer.peek();
+        res = null;
         while((res == null) && ((System.currentTimeMillis() - startTime) < 2*TIME_OUT))
         {
-            try {
-                Thread.sleep(2);
-                res = standardBuffer.peek();
-            } catch (InterruptedException e) {
+            try
+            {
+                if(!receivingInProgress) res = standardBuffer.peek();
+
+                Thread.sleep(4);
+            }
+            catch (InterruptedException e)
+            {
                 e.printStackTrace();
             }
         }
