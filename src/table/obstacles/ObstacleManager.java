@@ -266,6 +266,10 @@ public class ObstacleManager
 	    			{
 	    				isThereAnObstacleIntersecting=true;
 	    				mUntestedMobileObstacles.get(i).setLifeTime(lifetime);
+
+	    				log.debug("Confirmation d'obstacle, lifetime : " + lifetime + " Temps courant :" + System.currentTimeMillis() + " OutdatedTime :" + mUntestedMobileObstacles.get(i).getOutDatedTime());
+	    				log.debug("Liste d'obstacles confirmés :" + mUntestedMobileObstacles.get(i).getPosition());
+
 	    				mMobileObstacles.add(mUntestedMobileObstacles.get(i));
 	    				mUntestedMobileObstacles.remove(i);
 	    			}
@@ -282,6 +286,9 @@ public class ObstacleManager
     				mMobileObstacles.get(i).position.set(position);
     				mMobileObstacles.get(i).setRadius(radius);
     				mMobileObstacles.get(i).setLifeTime(lifetime);
+
+    				log.debug("Obstacle confirmé qui bouge ! OutdatedTime :" + mMobileObstacles.get(i).getOutDatedTime() + " Temps courant : "+ System.currentTimeMillis());
+    				log.debug("Liste d'obstacles confirmés :" + mMobileObstacles.get(i).getPosition());
     				
     				// si on l'a deja vu plein de fois
     				if(mMobileObstacles.get(i).numberOfTimeDetected >= mMobileObstacles.get(i).getMaxNumberOfTimeDetected())
