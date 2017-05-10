@@ -252,10 +252,11 @@ public class Locomotion implements Service
     	 * calcul de la position visee du haut niveau
     	 *   on vise une position eloignee mais on ne s'y deplacera pas, le robot ne fera que tourner
     	 */
-    	Vec2 aim = new Vec2(
+    	Vec2 aim = highLevelPosition.plusNewVector(new Vec2(1000.0,angle));
+    	/*Vec2 aim = new Vec2(
         (int) (highLevelPosition.getX() + 1000*Math.cos(angle)),
         (int) (highLevelPosition.getY() + 1000*Math.sin(angle))
-        );
+        );*/
     	finalAim = aim;
 
         isRobotMovingForward=true;
@@ -301,9 +302,7 @@ public class Locomotion implements Service
          */
         Double dist = (double) distance;
         Vec2 aim = highLevelPosition.plusNewVector(new Vec2(dist, highLevelOrientation));
-        
-        // aim.setX((int) (highLevelPosition.getX() + distance*Math.cos(highLevelOrientation)));
-        // aim.setY((int) (highLevelPosition.getY() + distance*Math.sin(highLevelOrientation)));
+
         finalAim = aim;
         // l'appel à cette méthode sous-entend que le robot ne tourne pas
         // il va donc en avant si la distance est positive, en arrière si elle est négative
@@ -323,11 +322,11 @@ public class Locomotion implements Service
 
     public void moveLengthwiseAndWaitIfEnnemy(int distance, ArrayList<Hook> hooks) throws UnableToMoveException
     {
-        log.debug("WaitEnnemy appelée");
         Double dist = (double) distance;
         Vec2 aim = new Vec2(dist, highLevelOrientation);
 
         int closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
+        log.debug("Distance à l'ennemie le plus proche dans le sens de la marche :" + closest);
 
         while (closest <= distance && closest > -150)
         {

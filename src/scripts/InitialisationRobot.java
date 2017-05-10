@@ -63,7 +63,6 @@ public class InitialisationRobot extends AbstractScript {
            if(versionToExecute <= 4) {
                 gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
-
                 gameState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
                 gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
