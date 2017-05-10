@@ -89,30 +89,27 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.goTo(new Vec2(320, 250));
                 actualState.robot.turn(Math.PI);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(80,emptyHook);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(120,emptyHook);
 
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
-
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(-100,emptyHook);
-
-                // Attrape le module
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
-
-                // Recule l'attrape module pour laisser passer le bras de la calle
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
-
-                // Calle le module dans l'ascenceur
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
-
-                // Repli l'attrape-module
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G,false);
-
-                // Repli les calles
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(-120,emptyHook);
+
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
 
                 //Aller au cratère du fond
