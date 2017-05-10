@@ -371,29 +371,27 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
                     while (!acquitte)
                     {
-                        nb_tests++;
-
-                        String resposeFromCard = waitAndGetResponse();
+                        String responseFromCard = waitAndGetResponse();
 
                         //TODO commenter.
-                        //log.debug("Reception acquitement : '" + resposeFromCard  + "'");
+                        //log.debug("Reception acquitement : '" + responseFromCard  + "'");
 
-                        for(int i=0 ; i < resposeFromCard.length() ; i++)
-                            acquitte = acquitte || (resposeFromCard.charAt(i) == '_');
+                        for(int i=0 ; i < responseFromCard.length() ; i++)
+                            acquitte = acquitte || (responseFromCard.charAt(i) == '_');
 
-                        // acquittement = resposeFromCard.charAt(resposeFromCard.length()-1);
+                        // acquittement = responseFromCard.charAt(responseFromCard.length()-1);
                         if (!acquitte)
                         {
-                            log.critical("NON ACQUITEMENT SUR "+m+" : "+resposeFromCard);
+                            log.critical("NON ACQUITEMENT SUR "+m.replaceAll("\r", "").replaceAll("\n", "")+" : "+responseFromCard);
                             output.write(m.getBytes());
                         } else if (debug) {
-                            out.write("\t"+resposeFromCard);
+                            out.write("\t"+responseFromCard);
                             out.newLine();
                             out.flush();
                         }
-                        if (nb_tests > 10)
+                        if (++nb_tests > 10)
                         {
-                            log.critical("La série " + this.name + " ne répond pas après " + nb_tests + " tentatives (envoyé : '" + m + "', reponse : '" + resposeFromCard + "')");
+                            log.critical("La série " + this.name + " ne répond pas après " + nb_tests + " tentatives (envoyé : '" + m + "', reponse : '" + responseFromCard + "')");
                             break;
                         }
                     }
@@ -413,14 +411,14 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
                     //TODO commenter.
                     //log.debug("Ligne "+i+": '"+inputLines[i]+"'");
-                    if(inputLines[i].equals(null) || inputLines[i].replaceAll(" ", "").equals("")|| inputLines[i].replaceAll(" ", "").equals("-"))
+                    if(inputLines[i]==null || inputLines[i].replaceAll(" ", "").equals("")|| inputLines[i].replaceAll(" ", "").equals("-"))
                     {
-                        log.critical("Reception de "+inputLines[i]+" , en réponse à " + messages[0] + " envoi du message a nouveau");
+                        log.critical("Reception de "+inputLines[i]+" , en réponse à " + messages[0].replaceAll("\r", "").replaceAll("\n", "") + " envoi du message a nouveau");
                         if(fulldebugofthedead)
                         {
                             outFull.newLine();
                             outFull.newLine();
-                            outFull.write("Reception de "+inputLines[i]+" , en réponse à " + messages[0] + " envoi du message a nouveau");
+                            outFull.write("Reception de "+inputLines[i]+" , en réponse à " + messages[0].replaceAll("\r", "").replaceAll("\n", "") + " envoi du message a nouveau");
                             outFull.newLine();
                             outFull.newLine();
                             outFull.flush();
@@ -429,7 +427,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         {
                             out.newLine();
                             out.newLine();
-                            out.write("Reception de "+inputLines[i]+" , en réponse à " + messages[0] + " envoi du message a nouveau");
+                            out.write("Reception de "+inputLines[i]+" , en réponse à " + messages[0].replaceAll("\r", "").replaceAll("\n", "") + " envoi du message a nouveau");
                             out.newLine();
                             out.newLine();
                             out.flush();
@@ -439,7 +437,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
 
                     if(!isAsciiExtended(inputLines[i]))
                     {
-                        log.critical("Reception de "+inputLines[i]+" (non Ascii) , en réponse à "+ messages[0] + " envoi du message a nouveau");
+                        log.critical("Reception de "+inputLines[i]+" (non Ascii) , en réponse à "+ messages[0].replaceAll("\r", "").replaceAll("\n", "") + " envoi du message a nouveau");
                         communiquer(messages, nb_lignes_reponse); // On retente
                     }
 
@@ -644,7 +642,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     {
                         outFull.newLine();
                         outFull.newLine();
-                        outFull.write("DROPPED : "+buffer);
+                        outFull.write("DROPPED : "+buffer.replaceAll("\r", "").replaceAll("\n", ""));
                         outFull.newLine();
                         outFull.newLine();
                         outFull.flush();
