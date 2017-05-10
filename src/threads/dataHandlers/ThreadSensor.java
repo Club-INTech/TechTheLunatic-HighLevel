@@ -23,13 +23,8 @@ import exceptions.ConfigPropertyNotFoundException;
 import graphics.Window;
 import robot.Robot;
 import robot.SerialWrapper;
-import smartMath.Circle;
 import smartMath.Vec2;
-import smartMath.Geometry;
 import table.Table;
-import table.obstacles.Obstacle;
-import table.obstacles.ObstacleCircular;
-import table.obstacles.ObstacleProximity;
 import threads.AbstractThread;
 import threads.ThreadTimer;
 import utils.Config;
@@ -40,11 +35,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import static java.lang.Math.PI;
 import static smartMath.Geometry.isBetween;
 import static smartMath.Geometry.square;
 
@@ -367,6 +360,8 @@ public class ThreadSensor extends AbstractThread
 
          if (isValue) {
              try{
+                 out.write("Position calculée (référentiel du robot :" + vec);
+                 out.newLine();
                  vec = changeRef(vec);
                  out.write("Position calculée (référentiel de la table) :" + vec);
                  out.newLine();
@@ -417,6 +412,8 @@ public class ThreadSensor extends AbstractThread
 
         if (isValue) {
             try {
+                out.write("Position calculée (référentiel du robot) :" + vec);
+                out.newLine();
                 vec = changeRef(vec);
                 out.write("Position calculée (référentiel de la table) :" + vec);
                 out.newLine();
@@ -455,6 +452,8 @@ public class ThreadSensor extends AbstractThread
         }
 
         try{
+            out.write("Position calculée (référentiel du robot) :" + posEn);
+            out.newLine();
             posEn = changeRef(posEn);
             out.write("Position calculée (référentiel de la table) :" + posEn);
             out.newLine();
@@ -488,6 +487,8 @@ public class ThreadSensor extends AbstractThread
         }
 
         try{
+            out.write("Position calculée (référentiel du robot) :" + posEn);
+            out.newLine();
             posEn = changeRef(posEn);
             out.write("Position calculée (référentiel de la table) :" + posEn);
             out.newLine();
