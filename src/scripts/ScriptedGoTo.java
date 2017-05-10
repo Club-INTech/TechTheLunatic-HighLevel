@@ -10,7 +10,9 @@ import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
 import hook.Callback;
 import hook.Hook;
+import hook.methods.CatchModuleD;
 import hook.methods.PriseModule;
+import hook.methods.RepliAllActionneurs;
 import hook.methods.ReposLargueModule;
 import hook.types.HookFactory;
 import smartMath.Circle;
@@ -81,6 +83,29 @@ public class ScriptedGoTo extends AbstractScript
         updateConfig();
         try{
 
+            //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
+            //Hook prise module 1
+            /*Hook PriseModule = hookFactory.newPositionHook(new Vec2(80, 1850), (float) Math.PI/2, 100, 10000);
+            PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
+            hooksToConsider.add(PriseModule);
+            //Hook prise module fusée
+            Hook PriseModulef = hookFactory.newPositionHook(new Vec2(320, 250), (float) Math.PI/2, 100, 10000);
+            PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
+            hooksToConsider.add(PriseModulef);
+            //Hook repli du largue module
+            Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(550, 1650), (float) -Math.PI/4, 100, 10000);
+            ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
+            hooksToConsider.add(ReposLargueModule);*/
+
+            Hook replieTout = hookFactory.newPositionHook(new Vec2 (480, 350), (float) Math.PI/2, 100, 400);
+            replieTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
+            Hook priseModuleDroit = hookFactory.newPositionHook(new Vec2 (780, 1200), (float) Math.PI/2, 100, 400);
+            priseModuleDroit.addCallback(new Callback(new CatchModuleD(), true, actualState));
+
+            hooksToConsider.add(replieTout);
+            hooksToConsider.add(priseModuleDroit);
+
+
             ArrayList<Hook> emptyHook = new ArrayList<Hook>();
             if (versionToExecute==0)
             {
@@ -121,11 +146,11 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
                 actualState.robot.goTo(point1MilieuTable, hooksToConsider);
 
-                actualState.robot.goTo(point2EntreeFinTable);
+                actualState.robot.goTo(point2EntreeFinTable, hooksToConsider);
 
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                // actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+                // actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                // actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
 
                 actualState.robot.goTo(point3AttrapperModule1);
 
@@ -217,18 +242,16 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
 
                 // Manoeuvre degueu pour se décaler
-                actualState.robot.moveLengthwise(60, hooksToConsider, false);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(60, emptyHook);
                 // Bon discord tu vas geuler mais j'avais la flemme
                 actualState.robot.turn(Math.PI - Math.asin(110.0 / 150));
-                actualState.robot.moveLengthwise(150);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(150, emptyHook);
                 actualState.robot.turn(Math.PI);
                 // Callage contre le depose-module
                 actualState.robot.moveLengthwise(-200, hooksToConsider, true, false, Speed.SLOW_ALL);
                 // Drop un module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-
-
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2, emptyHook);
                 actualState.robot.goTo(pointAvantDeposeBoules1);
@@ -261,25 +284,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
-
-
-
-
-
-                //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-                //Hook prise module 1
-                Hook PriseModule = hookFactory.newPositionHook(new Vec2(80, 1850), (float) Math.PI/2, 100, 10000);
-                PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
-                hooksToConsider.add(PriseModule);
-                //Hook prise module fusée
-                Hook PriseModulef = hookFactory.newPositionHook(new Vec2(320, 250), (float) Math.PI/2, 100, 10000);
-                PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
-                hooksToConsider.add(PriseModulef);
-                //Hook repli du largue module
-                Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(550, 1650), (float) -Math.PI/4, 100, 10000);
-                ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
-                hooksToConsider.add(ReposLargueModule);
-
             }
 
         }
