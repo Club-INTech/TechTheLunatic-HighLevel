@@ -37,6 +37,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static smartMath.Geometry.isBetween;
 import static smartMath.Geometry.square;
@@ -60,7 +61,7 @@ public class ThreadSensor extends AbstractThread
 	private SerialWrapper serialWrapper;
 
     /** Buffer de valeurs */
-    private LinkedList<String> valuesReceived;
+    private ConcurrentLinkedQueue<String> valuesReceived;
 	
 	/** interface graphique */
 	public Window window;
