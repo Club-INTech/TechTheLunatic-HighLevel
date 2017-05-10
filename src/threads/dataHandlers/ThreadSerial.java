@@ -597,12 +597,12 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             {
                 if(available())
                 {
-                    receivingInProgress = false;
+                 //   receivingInProgress = false;
 
                     buffer = readLine();
                     // log.debug("readLine : " + buffer);
 
-                    receivingInProgress = true;
+                //    receivingInProgress = true;
 
                     if(fulldebugofthedead)
                     {
@@ -844,7 +844,8 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         {
             try
             {
-                if(!receivingInProgress) res = standardBuffer.peek();
+                //if(!receivingInProgress)
+                res = standardBuffer.peek();
 
                 Thread.sleep(4);
             }
