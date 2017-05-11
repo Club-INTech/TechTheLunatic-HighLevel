@@ -38,6 +38,7 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point2EntreeFinTable = new Vec2(850,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(850,1760);
     private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
+    private double angleDevantCratereFond = Math.PI - 0.4;
     private int distanceCratereFondApresBoules = -130;
     private double angleCratereFondAvantDepotModule = Math.PI/4;
     private int distanceCratereFondAvantDepotModule = -121;
@@ -124,6 +125,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.goTo(point4arriveDevantCratereFond);
+                actualState.robot.turn(angleDevantCratereFond);
 
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
