@@ -97,7 +97,7 @@ public class JUnit_Sensors extends JUnit_Test
         container.getService(ThreadSensor.class);
 	}
 
-	@Test
+	//@Test
 	public void testDetect() throws Exception
 	{
 		log.debug("Test de detection");
@@ -161,7 +161,7 @@ public class JUnit_Sensors extends JUnit_Test
 		}
 	}
 	
-	// @Test
+	@Test
 	public void testDetecting() throws Exception
 	{
 		log.debug("Test d'évitement");
@@ -170,11 +170,11 @@ public class JUnit_Sensors extends JUnit_Test
 		try 
 		{
 			state.robot.setOrientation(Math.PI/2);
-			state.robot.useActuator(ActuatorOrder.TIENT_BOULES, false);
-			state.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+			//state.robot.useActuator(ActuatorOrder.TIENT_BOULES, false);
+		//	state.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 			state.robot.switchSensor();
-			state.robot.moveLengthwise(800);
-		} 
+			state.robot.moveLengthwiseAndWaitIfNeeded(600,new ArrayList<Hook>());
+		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
