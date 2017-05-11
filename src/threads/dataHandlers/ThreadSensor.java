@@ -37,6 +37,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static smartMath.Geometry.isBetween;
 import static smartMath.Geometry.square;
@@ -60,7 +61,7 @@ public class ThreadSensor extends AbstractThread
 	private SerialWrapper serialWrapper;
 
     /** Buffer de valeurs */
-    private LinkedList<String> valuesReceived;
+    private ConcurrentLinkedQueue<String> valuesReceived;
 	
 	/** interface graphique */
 	public Window window;
@@ -140,8 +141,8 @@ public class ThreadSensor extends AbstractThread
      * Positions relatives au centre du robot
      */
 
-    private final Vec2 positionLF = new Vec2(240, 150);
-    private final Vec2 positionRF = new Vec2(240, -150);
+    private final Vec2 positionLF = new Vec2(160, 150);
+    private final Vec2 positionRF = new Vec2(160, -150);
     private final Vec2 positionLB = new Vec2(-150,135);
     private final Vec2 positionRB = new Vec2(-150,-135);
 
@@ -211,7 +212,7 @@ public class ThreadSensor extends AbstractThread
             e.printStackTrace();
         }
 
-        while(serialWrapper.isJumperAbsent())
+        /*while(serialWrapper.isJumperAbsent())
         {
             try {
                 Thread.sleep(100);
@@ -226,7 +227,7 @@ public class ThreadSensor extends AbstractThread
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
 		// maintenant que le jumper est retiré, le match a commencé
 		ThreadTimer.matchEnded = false;

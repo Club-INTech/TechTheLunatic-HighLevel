@@ -25,6 +25,7 @@ import threads.AbstractThread;
 import utils.Sleep;
 
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  *  Gestionnaire des events LL
@@ -38,7 +39,7 @@ public class ThreadEvents extends AbstractThread
     Robot robot;
 
     /** Buffer de lecture des events, rempli par ThreadSerial */
-    LinkedList<String> events;
+    ConcurrentLinkedQueue<String> events;
 
     public ThreadEvents(Table table, Robot robot, ThreadSerial serial)
     {

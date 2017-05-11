@@ -28,6 +28,7 @@ import utils.Config;
 import utils.Log;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 /**
  * Traite tout ce qui concerne la gestion des obstacles sur la table.
@@ -68,6 +69,7 @@ public class ObstacleManager
 	//les dimensions réels de notre robot
 	private int mRobotLenght;
 	private int mRobotWidth;
+	private int mEnnemyRadius;
 	
 	// TODO virer : juste du debug / interface graphique
 	private int radiusDetectionDisc=0;
@@ -77,7 +79,7 @@ public class ObstacleManager
 	private final int timeToTestObstacle = 1000;
 
 	/** Temps de vie d'un robot ennemi */
-	private final int defaultLifetime = 1000;
+	private int defaultLifetime = 1000;
 
 	/**
      * Instancie un nouveau gestionnaire d'obstacle.
@@ -214,7 +216,6 @@ public class ObstacleManager
     
     /**
      * Ajoute un obstacle sur la table a la position spécifiée (de type obstacleProximity)
-     *
      * @param position position ou ajouter l'obstacle
      */
     public synchronized void addObstacle(final Vec2 position)
@@ -241,7 +242,7 @@ public class ObstacleManager
     public synchronized void addObstacle(final Vec2 position, final int radius, final int lifetime)
     {
     	//vérification que l'on ne détecte pas un obstacle "normal"
-    	if (position.getX()>-1500+mRobotRadius+100 && position.getX()<1500-mRobotRadius-100 && position.getY()>mRobotRadius+100 && position.getY()<2000-mRobotRadius-100) //hors de la table
+    	if (position.getX()>-1500+mEnnemyRadius-80 && position.getX()<1500- mEnnemyRadius+80 && position.getY() >mEnnemyRadius-80 && position.getY()<2000-mEnnemyRadius+80) //hors de la table
 			// TODO: Prévoir les cas où l'on détecte des éléments de jeu dans la condition
     	{
     		boolean isThereAnObstacleIntersecting=false;
@@ -258,18 +259,15 @@ public class ObstacleManager
     				mUntestedMobileObstacles.get(i).setLifeTime(lifetime);
     				
     				// si on l'a deja vu plein de fois
-    				if(mUntestedMobileObstacles.get(i).numberOfTimeDetected >= mUntestedMobileObstacles.get(i).getMaxNumberOfTimeDetected())
-    					mUntestedMobileObstacles.get(i).numberOfTimeDetected = mUntestedMobileObstacles.get(i).getMaxNumberOfTimeDetected();
+    				if(mUntestedMobileObstacles.get(i).numberOfTimeDetected >= mUntestedMobileObstacles.get(i).getMaxNumberOfTimeDetected()) {
+						mUntestedMobileObstacles.get(i).numberOfTimeDetected = mUntestedMobileObstacles.get(i).getMaxNumberOfTimeDetected();
+					}
 
 	    			// si on valide sa vision 
 	    			if(mUntestedMobileObstacles.get(i).numberOfTimeDetected >= mUntestedMobileObstacles.get(i).getThresholdConfirmedOrUnconfirmed())
 	    			{
 	    				isThereAnObstacleIntersecting=true;
-	    				mUntestedMobileObstacles.get(i).setLifeTime(lifetime);
-
-	    				log.debug("Confirmation d'obstacle, lifetime : " + lifetime + " Temps courant :" + System.currentTimeMillis() + " OutdatedTime :" + mUntestedMobileObstacles.get(i).getOutDatedTime());
-	    				log.debug("Liste d'obstacles confirmés :" + mUntestedMobileObstacles.get(i).getPosition());
-
+	    				mUntestedMobileObstacles.get(i).setLifeTime(defaultLifetime);
 	    				mMobileObstacles.add(mUntestedMobileObstacles.get(i));
 	    				mUntestedMobileObstacles.remove(i);
 	    			}
@@ -286,9 +284,6 @@ public class ObstacleManager
     				mMobileObstacles.get(i).position.set(position);
     				mMobileObstacles.get(i).setRadius(radius);
     				mMobileObstacles.get(i).setLifeTime(lifetime);
-
-    				log.debug("Obstacle confirmé qui bouge ! OutdatedTime :" + mMobileObstacles.get(i).getOutDatedTime() + " Temps courant : "+ System.currentTimeMillis());
-    				log.debug("Liste d'obstacles confirmés :" + mMobileObstacles.get(i).getPosition());
     				
     				// si on l'a deja vu plein de fois
     				if(mMobileObstacles.get(i).numberOfTimeDetected >= mMobileObstacles.get(i).getMaxNumberOfTimeDetected())
@@ -692,9 +687,11 @@ public class ObstacleManager
 		try 
 		{
 			mRobotRadius = Integer.parseInt(config.getProperty("rayon_robot"));
+			mEnnemyRadius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
 			mRobotLenght = Integer.parseInt(config.getProperty("longueur_robot"));
 			mRobotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
 		    defaultObstacleRadius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
+		    defaultLifetime = Integer.parseInt(config.getProperty("duree_peremption_obstacles"));
 		}
 	    catch (ConfigPropertyNotFoundException e)
     	{

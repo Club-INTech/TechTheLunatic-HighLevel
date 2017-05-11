@@ -63,7 +63,6 @@ public class InitialisationRobot extends AbstractScript {
            if(versionToExecute <= 4) {
                 gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
-
                 gameState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
                 gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 gameState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
@@ -135,7 +134,7 @@ public class InitialisationRobot extends AbstractScript {
 
         if(version==0 || version==1 || version==2 || version==4){
 
-            return new Circle(robotPosition);
+            return new Circle(robotPosition,10);
         }
         else {
             log.debug("mauvaise version de script");
