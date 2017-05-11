@@ -332,6 +332,7 @@ public class Locomotion implements Service
         {
             Sleep.sleep(timeToWaitIfEnnemy);
             log.debug ("Ennemie détecté dans le sens de marche, on attend");
+            closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
         }
 
         moveLengthwise(distance, hooks, false, true);
@@ -578,11 +579,11 @@ public class Locomotion implements Service
             		}
             	}*/
 
-                if(!doItAgain)
+                /* if(!doItAgain)
                 {
                     log.warning("UnableToMoveException dans MoveToPointException, visant "+finalAim.getX()+" :: "+finalAim.getY()+" cause : detection d'obstacle");
                     throw new UnableToMoveException(finalAim, UnableToMoveReason.OBSTACLE_DETECTED);
-                }
+                }*/
 			}
             catch(SerialConnexionException e)
             {
