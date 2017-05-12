@@ -10,7 +10,7 @@ import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
 import hook.Callback;
 import hook.Hook;
-import hook.methods.CatchModuleD;
+import hook.methods.*;
 import hook.methods.RepliAllActionneurs;
 import hook.types.HookFactory;
 import smartMath.Circle;
@@ -99,14 +99,14 @@ public class ScriptedGoTo extends AbstractScript
 
             Hook replieTout = hookFactory.newPositionHook(new Vec2 (480, 350), (float) Math.PI/2, 100, 400);
             replieTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
-            Hook priseModuleDroit = hookFactory.newPositionHook(new Vec2 (780, 1200), (float) Math.PI/2, 100, 400);
-            priseModuleDroit.addCallback(new Callback(new CatchModuleD(), true, actualState));
+            Hook priseModuleDroit = hookFactory.newPositionHook(new Vec2 (780, 1200), (float) Math.PI/2, 100, 500);
+            priseModuleDroit.addCallback(new Callback(new PrepareToCatchModD(), true, actualState));
 
             hooksToConsider.add(replieTout);
             hooksToConsider.add(priseModuleDroit);
 
-
             ArrayList<Hook> emptyHook = new ArrayList<Hook>();
+
             if (versionToExecute==0)
             {
 
@@ -120,7 +120,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-130,emptyHook);
-
 
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
@@ -141,7 +140,6 @@ public class ScriptedGoTo extends AbstractScript
                 //actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-150, emptyHook);
                 //actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-
 
                 //Aller au cratère du fond
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
