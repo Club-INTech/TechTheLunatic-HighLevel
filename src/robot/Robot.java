@@ -144,7 +144,7 @@ public class Robot implements Service {
 	 */
 	public void updateConfig() {
 		try {
-			symmetry = config.getProperty("couleur").replaceAll(" ", "").equals("violet"); // TODO : modifier la couleur adverse
+			symmetry = config.getProperty("couleur").replaceAll(" ", "").equals("jaune"); // TODO : modifier la couleur adverse
 			robotRay = Integer.parseInt(config.getProperty("rayon_robot"));
 			position = Table.entryPosition;
 			orientation = Math.PI;

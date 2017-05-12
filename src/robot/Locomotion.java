@@ -252,10 +252,11 @@ public class Locomotion implements Service
     	 * calcul de la position visee du haut niveau
     	 *   on vise une position eloignee mais on ne s'y deplacera pas, le robot ne fera que tourner
     	 */
-    	Vec2 aim = new Vec2(
+    	Vec2 aim = highLevelPosition.plusNewVector(new Vec2(1000.0,angle));
+    	/*Vec2 aim = new Vec2(
         (int) (highLevelPosition.getX() + 1000*Math.cos(angle)),
         (int) (highLevelPosition.getY() + 1000*Math.sin(angle))
-        );
+        );*/
     	finalAim = aim;
 
         isRobotMovingForward=true;
@@ -301,9 +302,7 @@ public class Locomotion implements Service
          */
         Double dist = (double) distance;
         Vec2 aim = highLevelPosition.plusNewVector(new Vec2(dist, highLevelOrientation));
-        
-        // aim.setX((int) (highLevelPosition.getX() + distance*Math.cos(highLevelOrientation)));
-        // aim.setY((int) (highLevelPosition.getY() + distance*Math.sin(highLevelOrientation)));
+
         finalAim = aim;
         // l'appel à cette méthode sous-entend que le robot ne tourne pas
         // il va donc en avant si la distance est positive, en arrière si elle est négative
@@ -323,16 +322,17 @@ public class Locomotion implements Service
 
     public void moveLengthwiseAndWaitIfEnnemy(int distance, ArrayList<Hook> hooks) throws UnableToMoveException
     {
-        log.debug("WaitEnnemy appelée");
         Double dist = (double) distance;
         Vec2 aim = new Vec2(dist, highLevelOrientation);
 
         int closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
+        log.debug("Distance à l'ennemie le plus proche dans le sens de la marche :" + closest);
 
         while (closest <= distance && closest > -150)
         {
             Sleep.sleep(timeToWaitIfEnnemy);
             log.debug ("Ennemie détecté dans le sens de marche, on attend");
+            closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
         }
 
         moveLengthwise(distance, hooks, false, true);
@@ -419,7 +419,7 @@ public class Locomotion implements Service
 	        Vec2 delta = aim.clone();
 	        delta.minus(lowLevelPosition);
 	        // Le coeff 1000 vient du fait que Vec2 est constitué d'entiers
-	        Vec2 orientationVec = new Vec2((int)(1000*Math.cos(lowLevelOrientation)), (int)(1000*Math.sin(lowLevelOrientation)));
+	        Vec2 orientationVec = new Vec2(1000.0, lowLevelOrientation);
 	     
 	        // On regarde le produit scalaire; si c'est positif, alors on est dans le bon sens, et inversement
 	        boolean isFastestDirectionForward = delta.dot(orientationVec) >= 0;
@@ -558,10 +558,10 @@ public class Locomotion implements Service
             {
                 log.warning("Ennemi detecté : Catch de "+unexpectedObstacle); 
     			log.warning( unexpectedObstacle.logStack());
-            	immobilise();
+            	// immobilise();
 
             	moveLengthwiseAndWaitIfEnnemy((int)finalAim.minusNewVector(highLevelPosition).length(), hooks);
-            	
+
                 //long detectionTime = System.currentTimeMillis();
 
             	/*while(System.currentTimeMillis() - detectionTime < maxTimeToWaitForEnemyToLeave)
@@ -579,11 +579,11 @@ public class Locomotion implements Service
             		}
             	}*/
 
-                if(!doItAgain)
+                /* if(!doItAgain)
                 {
                     log.warning("UnableToMoveException dans MoveToPointException, visant "+finalAim.getX()+" :: "+finalAim.getY()+" cause : detection d'obstacle");
                     throw new UnableToMoveException(finalAim, UnableToMoveReason.OBSTACLE_DETECTED);
-                }
+                }*/
 			}
             catch(SerialConnexionException e)
             {
@@ -996,6 +996,20 @@ public class Locomotion implements Service
     }
 
     /**
+     * Lance une exception si un ennemi se trouve sur le chemin à "detection Distance"
+     * @param movementDirection direction du robot
+     * @throws UnexpectedObstacleOnPathException si l'obstacle est sur le chemin
+     */
+    public void detectEnemyAtDistance2(Vec2 movementDirection) throws UnexpectedObstacleOnPathException
+    {
+        if(table.getObstacleManager().isEnnemyForwardorBackWard(highLevelPosition, movementDirection, highLevelOrientation)){
+            log.debug("DetectEnemyAtDistance voir un ennemi sur le chemin");
+            immobilise();
+            throw new UnexpectedObstacleOnPathException();
+        }
+    }
+
+    /**
      * Met à jour position et orientation via la carte d'asservissement.
      * Donne la veritable positions du robot sur la table
      * @throws SerialConnexionException
@@ -1047,7 +1061,7 @@ public class Locomotion implements Service
 	        distanceToDisengage = Integer.parseInt(config.getProperty("distance_degagement_robot"));
 	        feedbackLoopDelay = Integer.parseInt(config.getProperty("sleep_boucle_acquittement"));
 	        angleToDisengage = Double.parseDouble(config.getProperty("angle_degagement_robot"));
-			symetry = config.getProperty("couleur").replaceAll(" ","").equals("violet");
+			symetry = config.getProperty("couleur").replaceAll(" ","").equals("jaune");
 			robotLength = Integer.parseInt(config.getProperty("longueur_robot").replaceAll(" ",""));
             basicDetectDistance = Integer.parseInt(config.getProperty("basic_distance").replaceAll(" ",""));
             basicDetection = Boolean.parseBoolean(config.getProperty("basic_detection"));

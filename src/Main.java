@@ -22,12 +22,14 @@ import enums.DirectionStrategy;
 import enums.ScriptNames;
 import enums.Speed;
 import exceptions.ContainerException;
+import graphics.AffichageDebug;
 import hook.Hook;
 import robot.Locomotion;
 import robot.SerialWrapper;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
+import threads.ThreadInterface;
 import threads.ThreadTimer;
 import threads.dataHandlers.ThreadSensor;
 import utils.Config;
@@ -74,8 +76,8 @@ public class Main
 			realState.robot.setOrientation(Math.PI);
 			realState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
-			container.getService(ThreadSensor.class);
-			//container.getService(ThreadInterface.class);
+			//container.getService(ThreadSensor.class);
+			container.getService(ThreadInterface.class);
 			container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
 
