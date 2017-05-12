@@ -647,7 +647,7 @@ public class ThreadSensor extends AbstractThread
 			sensorPositionAngle = Float.parseFloat(config.getProperty("angle_position_capteur"));
 			detectionAngle = Float.parseFloat(config.getProperty("angle_detection_capteur"));
 
-            symetry = config.getProperty("couleur").replaceAll(" ","").equals("violet");
+            symetry = config.getProperty("couleur").replaceAll(" ","").equals("jaune");
 
 			robotLenght = Integer.parseInt(config.getProperty("longueur_robot"));
             radius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
