@@ -81,6 +81,9 @@ public class ObstacleManager
 	/** Temps de vie d'un robot ennemi */
 	private int defaultLifetime = 1000;
 
+	/** Distance de detection (sans disque de detection) */
+	private int detectionDistance;
+
 	/**
      * Instancie un nouveau gestionnaire d'obstacle.
      *
@@ -460,7 +463,24 @@ public class ObstacleManager
     	}
     }
 
-    /**
+	/** Retourne true si le robot ennemie se trouve dans un rectangle devant / derriere de robot, ce rectangle étant
+	 * la zone où notre cher Billy pourrait percuter le robot ennemie s'il avancait (sans tourner)
+	 * @param aim la position de visé
+	 * @param pos la position de billy
+	 * @param orientation l'orientation de billy
+	 */
+	public boolean isEnnemyForwardorBackWard(Vec2 pos, Vec2 aim, double orientation){
+
+		// Changement de référentiel (de la table au robot)
+		Vec2 aimRobot = aim.minusNewVector(pos);
+		aimRobot.setA(aimRobot.getA() - orientation);
+
+		Vec2 direction = new Vec2(100.0, orientation);
+
+		return (Math.abs(aimRobot.getY()) < detectionDistance && Math.abs(aimRobot.getX()) < mRobotRadius + mEnnemyRadius + 20);
+	}
+
+	/**
      * Change le position d'un robot adverse.
      *
      * @param ennemyID numéro du robot
@@ -692,6 +712,7 @@ public class ObstacleManager
 			mRobotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
 		    defaultObstacleRadius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
 		    defaultLifetime = Integer.parseInt(config.getProperty("duree_peremption_obstacles"));
+		    detectionDistance = Integer.parseInt(config.getProperty("distance_detection"));
 		}
 	    catch (ConfigPropertyNotFoundException e)
     	{

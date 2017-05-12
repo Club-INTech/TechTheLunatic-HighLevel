@@ -419,7 +419,7 @@ public class Locomotion implements Service
 	        Vec2 delta = aim.clone();
 	        delta.minus(lowLevelPosition);
 	        // Le coeff 1000 vient du fait que Vec2 est constitué d'entiers
-	        Vec2 orientationVec = new Vec2((int)(1000*Math.cos(lowLevelOrientation)), (int)(1000*Math.sin(lowLevelOrientation)));
+	        Vec2 orientationVec = new Vec2(1000.0, lowLevelOrientation);
 	     
 	        // On regarde le produit scalaire; si c'est positif, alors on est dans le bon sens, et inversement
 	        boolean isFastestDirectionForward = delta.dot(orientationVec) >= 0;
@@ -558,7 +558,7 @@ public class Locomotion implements Service
             {
                 log.warning("Ennemi detecté : Catch de "+unexpectedObstacle); 
     			log.warning( unexpectedObstacle.logStack());
-            	immobilise();
+            	// immobilise();
 
             	moveLengthwiseAndWaitIfEnnemy((int)finalAim.minusNewVector(highLevelPosition).length(), hooks);
 
@@ -996,6 +996,20 @@ public class Locomotion implements Service
     }
 
     /**
+     * Lance une exception si un ennemi se trouve sur le chemin à "detection Distance"
+     * @param movementDirection direction du robot
+     * @throws UnexpectedObstacleOnPathException si l'obstacle est sur le chemin
+     */
+    public void detectEnemyAtDistance2(Vec2 movementDirection) throws UnexpectedObstacleOnPathException
+    {
+        if(table.getObstacleManager().isEnnemyForwardorBackWard(highLevelPosition, movementDirection, highLevelOrientation)){
+            log.debug("DetectEnemyAtDistance voir un ennemi sur le chemin");
+            immobilise();
+            throw new UnexpectedObstacleOnPathException();
+        }
+    }
+
+    /**
      * Met à jour position et orientation via la carte d'asservissement.
      * Donne la veritable positions du robot sur la table
      * @throws SerialConnexionException
@@ -1047,7 +1061,7 @@ public class Locomotion implements Service
 	        distanceToDisengage = Integer.parseInt(config.getProperty("distance_degagement_robot"));
 	        feedbackLoopDelay = Integer.parseInt(config.getProperty("sleep_boucle_acquittement"));
 	        angleToDisengage = Double.parseDouble(config.getProperty("angle_degagement_robot"));
-			symetry = config.getProperty("couleur").replaceAll(" ","").equals("violet");
+			symetry = config.getProperty("couleur").replaceAll(" ","").equals("jaune");
 			robotLength = Integer.parseInt(config.getProperty("longueur_robot").replaceAll(" ",""));
             basicDetectDistance = Integer.parseInt(config.getProperty("basic_distance").replaceAll(" ",""));
             basicDetection = Boolean.parseBoolean(config.getProperty("basic_detection"));

@@ -11,6 +11,7 @@ import exceptions.Locomotion.UnableToMoveException;
 import hook.Callback;
 import hook.Hook;
 import hook.methods.*;
+import hook.methods.RepliAllActionneurs;
 import hook.types.HookFactory;
 import smartMath.Circle;
 import smartMath.Vec2;
@@ -37,6 +38,7 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point2EntreeFinTable = new Vec2(850,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(850,1760);
     private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
+    private double angleDevantCratereFond = Math.PI - 0.35;
     private int distanceCratereFondApresBoules = -130;
     private double angleCratereFondAvantDepotModule = Math.PI/4;
     private int distanceCratereFondAvantDepotModule = -121;
@@ -44,6 +46,7 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point5sortieCratereFond=new Vec2(1150,1150);
     private int distanceReculModule2=-110;
 
+    private Vec2 point7AttrapperModule2 = new Vec2(1220,750);
     private Vec2 pointAvantModule2 = new Vec2(1080, 760);
     private int distanceApresModule2=100;                                       //TODO: peut être voir comment réduire ça, il avance trop et tourne sur lui même
 
@@ -96,7 +99,7 @@ public class ScriptedGoTo extends AbstractScript
 
             Hook replieTout = hookFactory.newPositionHook(new Vec2 (480, 350), (float) Math.PI/2, 100, 400);
             replieTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
-            Hook priseModuleDroit = hookFactory.newPositionHook(new Vec2 (780, 1200), (float) Math.PI/2, 100, 400);
+            Hook priseModuleDroit = hookFactory.newPositionHook(new Vec2 (780, 1200), (float) Math.PI/2, 100, 500);
             priseModuleDroit.addCallback(new Callback(new PrepareToCatchModD(), true, actualState));
 
             hooksToConsider.add(replieTout);
@@ -118,7 +121,6 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-130,emptyHook);
 
-
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
@@ -134,10 +136,10 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
                 //actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-100, emptyHook);
                 //actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-
 
                 //Aller au cratère du fond
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
@@ -149,13 +151,21 @@ public class ScriptedGoTo extends AbstractScript
                 // actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
                 // actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
 
+
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                //actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+
                 actualState.robot.goTo(point3AttrapperModule1);
 
                 //prise du module du fond
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
+                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
+                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
@@ -169,15 +179,22 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
                 //changement de vitesse pour ne pas pousser les balles
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
+                actualState.robot.moveLengthwise(100);
+
                 actualState.robot.goTo(point4arriveDevantCratereFond);
+                actualState.robot.turn(angleDevantCratereFond);
 
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
@@ -245,7 +262,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(150, emptyHook);
                 actualState.robot.turn(Math.PI);
                 // Callage contre le depose-module
-                actualState.robot.moveLengthwise(-200, hooksToConsider, true, false, Speed.SLOW_ALL);
+                actualState.robot.moveLengthwise(-190, hooksToConsider, true, false, Speed.SLOW_ALL);
                 // Drop un module
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
