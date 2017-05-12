@@ -139,7 +139,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
                 //actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(-100, emptyHook);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(-150, emptyHook);
                 //actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
 
 
@@ -283,7 +283,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(pointDevantCratere2);
                 actualState.robot.turn(-29*Math.PI/32);
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(120, emptyHook);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(130, emptyHook);
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
