@@ -112,7 +112,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 //Choper un/plusieurs modules de la fusée
 
-                actualState.robot.goTo(new Vec2(320, 250));
+                actualState.robot.goTo(new Vec2(320, 255));
                 actualState.robot.turn(Math.PI);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(120,emptyHook);
 
