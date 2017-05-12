@@ -97,11 +97,8 @@ public class JUnit_Sensors extends JUnit_Test
         container.getService(ThreadSensor.class);
 	}
 
-<<<<<<< HEAD
 //	@Test
-=======
-	//@Test
->>>>>>> ec568a9bb35b2a107d20f6a3f2ca279e8f2d8a8a
+
 	public void testDetect() throws Exception
 	{
 		log.debug("Test de detection");
