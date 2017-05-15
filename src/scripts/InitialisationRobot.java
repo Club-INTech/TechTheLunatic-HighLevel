@@ -154,7 +154,9 @@ public class InitialisationRobot extends AbstractScript {
     @Override
     public void finalize(GameState state, Exception e) throws UnableToMoveException
     {
-        log.debug("Exception " + e + "dans InitialisationRobot : Lancement du Finalize !");
+        if(e != null) log.debug("Exception " + e + " dans InitialisationRobot : Lancement du Finalize !");
+        else log.debug("Exception null dans InitialisationRobot : Lancement du Finalize !");
+
         state.robot.setBasicDetection(false);
     }
 

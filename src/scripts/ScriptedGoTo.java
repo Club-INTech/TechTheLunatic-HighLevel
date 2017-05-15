@@ -46,9 +46,9 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point5sortieCratereFond=new Vec2(1150,1150);
     private int distanceReculModule2=-110;
 
-    private Vec2 point7AttrapperModule2 = new Vec2(1220,750);
+    private Vec2 point7AttrapperModule2 = new Vec2(1200,740);
     private Vec2 pointAvantModule2 = new Vec2(1080, 760);
-    private int distanceApresModule2=100;                                       //TODO: peut être voir comment réduire ça, il avance trop et tourne sur lui même
+    private int distanceApresModule2=110;                                       //TODO: peut être voir comment réduire ça, il avance trop et tourne sur lui même
 
     private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
     private int distanceAvantDeposeBoules1=240;
