@@ -76,8 +76,8 @@ public class Main
 			realState.robot.setOrientation(Math.PI);
 			realState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
-			container.getService(ThreadSensor.class);
-			container.getService(ThreadInterface.class);
+			//container.getService(ThreadSensor.class);
+			//container.getService(ThreadInterface.class);
 			container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
 
