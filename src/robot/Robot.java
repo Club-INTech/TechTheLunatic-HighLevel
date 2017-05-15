@@ -300,7 +300,9 @@ public class Robot implements Service {
 	public void moveLengthwiseAndWaitIfNeeded(int distance, ArrayList<Hook> hooks) throws UnableToMoveException{
 		mLocomotion.moveLengthwiseAndWaitIfEnnemy(distance, hooks);
 	}
-
+	public void moveLengthwiseAndWaitIfNeeded(int distance) throws UnableToMoveException{
+		mLocomotion.moveLengthwiseAndWaitIfEnnemy(distance);
+	}
 	public void moveLengthwiseWithoutDetection(int distance) throws UnableToMoveException {
 		log.debug("appel de Robot.moveLengthwiseWithoutDetection(" + distance + ")");
 		moveLengthwiseWithoutDetection(distance, null, false);

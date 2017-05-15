@@ -24,6 +24,7 @@ import robot.Robot;
 import robot.SerialWrapper;
 import table.Table;
 import threads.dataHandlers.ThreadSerial;
+import utils.Config;
 import utils.Log;
 
 import java.io.BufferedWriter;
@@ -81,9 +82,11 @@ public class ThreadTimer extends AbstractThread
 	 * @param table La table sur laquelle le thread doit croire évoluer
 	 * @param locomotionCardWrapper La carte d'asservissement avec laquelle on doit communiquer
 	 */
-	
-	ThreadTimer(Table table, Robot robot, SerialWrapper locomotionCardWrapper)
+
+	ThreadTimer(Config config, Log log, Table table, Robot robot, SerialWrapper locomotionCardWrapper)
 	{
+		super(config, log);
+
 		this.table = table;
 		this.serialWrapper = locomotionCardWrapper;
 		this.robot=robot;
