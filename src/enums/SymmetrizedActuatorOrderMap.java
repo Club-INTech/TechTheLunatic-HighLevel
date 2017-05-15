@@ -48,6 +48,7 @@ public class SymmetrizedActuatorOrderMap
 
     //Bras Pelleteuse
 
+        mCorrespondenceMap.put(ActuatorOrder.DEPLOYER_PELLETEUSE_BAS, ActuatorOrder.DEPLOYER_PELLETEUSE_BAS);
         mCorrespondenceMap.put(ActuatorOrder.DEPLOYER_PELLETEUSE, ActuatorOrder.DEPLOYER_PELLETEUSE);
         mCorrespondenceMap.put(ActuatorOrder.REPLIER_PELLETEUSE, ActuatorOrder.REPLIER_PELLETEUSE);
         mCorrespondenceMap.put(ActuatorOrder.MED_PELLETEUSE, ActuatorOrder.MED_PELLETEUSE);
@@ -58,6 +59,7 @@ public class SymmetrizedActuatorOrderMap
         mCorrespondenceMap.put(ActuatorOrder.PREND_PELLE, ActuatorOrder.PREND_PELLE);
         mCorrespondenceMap.put(ActuatorOrder.LIVRE_PELLE, ActuatorOrder.LIVRE_PELLE);
         mCorrespondenceMap.put(ActuatorOrder.RANGE_PELLE, ActuatorOrder.RANGE_PELLE);
+        mCorrespondenceMap.put(ActuatorOrder.PELLE_REASSERV, ActuatorOrder.PELLE_REASSERV);
 
 /*			 ___________________
  * 		   *|                   |*
@@ -70,18 +72,24 @@ public class SymmetrizedActuatorOrderMap
         mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE_G, ActuatorOrder.LIVRE_CALLE_D);
         mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE_D, ActuatorOrder.LIVRE_CALLE_G);
 
+        mCorrespondenceMap.put(ActuatorOrder.REPOS_CALLE_D, ActuatorOrder.REPOS_CALLE_G);
+        mCorrespondenceMap.put(ActuatorOrder.REPOS_CALLE_G, ActuatorOrder.REPOS_CALLE_D);
+
+
         mCorrespondenceMap.put(ActuatorOrder.LEVE_ASC, ActuatorOrder.LEVE_ASC);
         mCorrespondenceMap.put(ActuatorOrder.BAISSE_ASC, ActuatorOrder.BAISSE_ASC);
 
         mCorrespondenceMap.put(ActuatorOrder.REPOS_LARGUEUR, ActuatorOrder.REPOS_LARGUEUR);
         mCorrespondenceMap.put(ActuatorOrder.POUSSE_LARGUEUR, ActuatorOrder.POUSSE_LARGUEUR);
 
-        mCorrespondenceMap.put(ActuatorOrder.REPLI_CALLE_D, ActuatorOrder.REPLI_CALLE_G);
-        mCorrespondenceMap.put(ActuatorOrder.LIVRE_CALLE_D, ActuatorOrder.LIVRE_CALLE_G);
 
         mCorrespondenceMap.put(ActuatorOrder.REPOS_ATTRAPE_D, ActuatorOrder.REPOS_ATTRAPE_G);
         mCorrespondenceMap.put(ActuatorOrder.MID_ATTRAPE_D, ActuatorOrder.MID_ATTRAPE_G);
         mCorrespondenceMap.put(ActuatorOrder.PREND_MODULE_D, ActuatorOrder.PREND_MODULE_G);
+
+        mCorrespondenceMap.put(ActuatorOrder.REPOS_ATTRAPE_G, ActuatorOrder.REPOS_ATTRAPE_D);
+        mCorrespondenceMap.put(ActuatorOrder.MID_ATTRAPE_G, ActuatorOrder.MID_ATTRAPE_D);
+        mCorrespondenceMap.put(ActuatorOrder.PREND_MODULE_G, ActuatorOrder.PREND_MODULE_D);
 
     }
     
