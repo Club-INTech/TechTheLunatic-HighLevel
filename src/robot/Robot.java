@@ -301,6 +301,10 @@ public class Robot implements Service {
 		mLocomotion.moveLengthwiseAndWaitIfEnnemy(distance, hooks);
 	}
 
+	public void moveLengthwiseAndWaitIfNeeded(int distance) throws UnableToMoveException{
+		moveLengthwiseAndWaitIfNeeded(distance, new ArrayList<Hook>());
+	}
+
 	public void moveLengthwiseWithoutDetection(int distance) throws UnableToMoveException {
 		log.debug("appel de Robot.moveLengthwiseWithoutDetection(" + distance + ")");
 		moveLengthwiseWithoutDetection(distance, null, false);
@@ -342,50 +346,8 @@ public class Robot implements Service {
 	 *                               &
 	 */
 	public void goTo(Vec2 pointVise) throws UnableToMoveException {
-		position = getPositionFast();
-		orientation = getOrientationFast();
-		log.debug("position :" + position);
-		log.debug("orientation :" + orientation);
-		Vec2 move = pointVise.minusNewVector(position);
-		log.debug("Point visé :" + pointVise);
-		log.debug("move" + move);
-		int r = (int) move.getR();
-		double a = move.getA();
-		double o = a - orientation;
-		ArrayList<Hook> emptyHook = new ArrayList<Hook>();
-
-		if (o < 0) {
-			o = -o;
-		}
-
-		log.debug("a : "+ a);
-		log.debug("r : "+ r);
-		log.debug("o : "+ o);
-
-		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
-		if (directionStrategy == DirectionStrategy.FASTEST) {
-			if (3 * Math.PI / 2 < o || o < Math.PI / 2) { //si il est orienté vers l'avant par rapport au point visé
-				log.debug("boucle 1");
-				turn(a);
-				moveLengthwiseAndWaitIfNeeded(r, emptyHook);
-
-			} else if (3 * Math.PI / 2 >= o && o >= Math.PI / 2) { //si il est orienté vers l'arrière par rapport au point visé
-				a = a + Math.PI;
-				turn(a);
-				moveLengthwiseAndWaitIfNeeded(-r, emptyHook);
-			}
-		}
-
-		if (directionStrategy == DirectionStrategy.FORCE_BACK_MOTION) {
-			a = a + Math.PI;
-			turn(a);
-			moveLengthwiseAndWaitIfNeeded(-r, emptyHook);
-		} else if (directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION) {
-			turn(a);
-			moveLengthwiseAndWaitIfNeeded(r, emptyHook);
-		}
+		goTo(pointVise, new ArrayList<Hook>());
 	}
-
 
  /**
 	 *
@@ -396,45 +358,42 @@ public class Robot implements Service {
 	 * Utilisé dans les scripts de match sans pathfinding.
 	 *  &
 	 */
-    public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException
-    {
+    public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
 		position = getPositionFast();
 		orientation = getOrientationFast();
 		log.debug("position" + position);
-        Vec2 move = pointVise.minusNewVector(position);
-    	log.debug("move" + move);
-        int r = (int) move.getR();
+		Vec2 move = pointVise.minusNewVector(position);
+		log.debug("move" + move);
+		int r = (int) move.getR();
 		double a = (double) move.getA();
-		double o = a-orientation;
-		if(o < 0){
-		    o = -o;
-        }
+		double o = a - orientation;
+		if (o < 0) {
+			o = -o;
+		}
 
-        log.debug("a : "+ a);
-        log.debug("r : "+ r);
-        log.debug("o : "+ o);
+		log.debug("a : " + a);
+		log.debug("r : " + r);
+		log.debug("o : " + o);
 
 		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
-		if(directionStrategy == DirectionStrategy.FASTEST){
-            if(3*Math.PI/2 < o || o < Math.PI/2 ){ //si il est orienté vers l'avant par rapport au point visé
-                turn(a);
+		if (directionStrategy == DirectionStrategy.FASTEST) {
+			if (3 * Math.PI / 2 < o || o < Math.PI / 2) { //si il est orienté vers l'avant par rapport au point visé
+				turn(a);
 				moveLengthwiseAndWaitIfNeeded(r, hooksToConsider);
-            }
-            else if(3*Math.PI/2 >= o && o >= Math.PI/2){ //si il est orienté vers l'arrière par rapport au point visé
-                a = a + Math.PI;
-                turn(a);
+			} else if (3 * Math.PI / 2 >= o && o >= Math.PI / 2) { //si il est orienté vers l'arrière par rapport au point visé
+				a = a + Math.PI;
+				turn(a);
 				moveLengthwiseAndWaitIfNeeded(-r, hooksToConsider);
-            }
-            if(directionStrategy == DirectionStrategy.FORCE_BACK_MOTION){
-                a = a + Math.PI;
-                turn(a);
-				moveLengthwiseAndWaitIfNeeded(-r, hooksToConsider);
-            }
-            else if(directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION){
-                turn(a);
-				moveLengthwiseAndWaitIfNeeded(r, hooksToConsider);
-            }
-        }
+			}
+		}
+		if (directionStrategy == DirectionStrategy.FORCE_BACK_MOTION) {
+			a = a + Math.PI;
+			turn(a);
+			moveLengthwiseAndWaitIfNeeded(-r, hooksToConsider);
+		} else if (directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION) {
+			turn(a);
+			moveLengthwiseAndWaitIfNeeded(r, hooksToConsider);
+		}
     }
 
     /**
