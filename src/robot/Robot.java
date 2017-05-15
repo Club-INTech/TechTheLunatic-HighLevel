@@ -365,7 +365,7 @@ public class Robot implements Service {
 		Vec2 move = pointVise.minusNewVector(position);
 		log.debug("move" + move);
 		int r = (int) move.getR();
-		double a = (double) move.getA();
+		double a = move.getA();
 		double o = a - orientation;
 		if (o < 0) {
 			o = -o;
