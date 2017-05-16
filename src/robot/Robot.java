@@ -421,6 +421,19 @@ public class Robot implements Service {
     }
 
     /**
+     * Méthode pour se tourner vers un point
+     * @param pointVise
+     * @throws UnableToMoveException
+     */
+    public void turnTo(Vec2 pointVise) throws UnableToMoveException {
+        position = getPositionFast();
+        Vec2 move = pointVise.minusNewVector(position);
+        double a = move.getA();
+        turn(a);
+    }
+
+
+    /**
      * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
      * Attention, cette méthode suppose que l'on est pas sensé percuter un mur.
      * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
