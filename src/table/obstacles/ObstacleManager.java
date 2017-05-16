@@ -403,8 +403,6 @@ public class ObstacleManager
 	    	//si aucun ennemi n'est détecté, on suppose que l'ennemi le plus proche est à 1m)
 	    	
 	    	int squaredDistanceToClosestEnemy = 10000000;
-
-	    	int squaredDistanceToEnemyUntested=10000000;
 	    	int squaredDistanceToEnemyTested=10000000 ;
 	    	
 	    	ObstacleCircular closestEnnemy = null;
@@ -427,23 +425,6 @@ public class ObstacleManager
 		    		}
 	    		}
 	    	}
-	      	
-	     	// trouve l'ennemi non confirmé le plus proche parmis les obstacles
-	    	// (et remplace la distance a l'ennemi le plus proche d'un ennemi confirmé par une distance a un ennemi non confirmé s'il est plus proche)
-	    	/*for(int i=0; i<mUntestedMobileObstacles.size(); i++)
-	    	{
-	    		Vec2 ennemyRelativeCoords = new Vec2((mUntestedMobileObstacles.get(i).position.getX() - position.getX()), 
-	    											  mUntestedMobileObstacles.get(i).position.getY() - position.getY());
-	    		if(direction.dot(ennemyRelativeCoords) > 0)
-	    		{
-		    		squaredDistanceToEnemyUntested = ennemyRelativeCoords.squaredLength(); 
-		    		if(squaredDistanceToEnemyUntested < squaredDistanceToClosestEnemy)
-		    		{
-		    			squaredDistanceToClosestEnemy = squaredDistanceToEnemyUntested;
-		    			closestEnnemy = mUntestedMobileObstacles.get(i);
-		    		}
-	    		}
-	    	}*/
 	    	
 	    	if(squaredDistanceToClosestEnemy <= 0)
 	    		return 0;
@@ -462,6 +443,54 @@ public class ObstacleManager
     		throw e;
     	}
     }
+
+	/**
+	 * Retourne l'ennemie le plus proche, afin de pouvoir en faire un obstacle permanant
+	 * (appelé seulement en cas de crash du robot adverse)
+	 * @param position la position de notre robot
+	 * @param direction direction selon laquelle on doit considérer les ennemies
+	 * @return l'ennemie le plus proche
+	 */
+	public synchronized void crashEnnemyAdd (Vec2 position, Vec2 direction){
+
+		try
+		{
+			//si aucun ennemi n'est détecté, on suppose que l'ennemi le plus proche est à 1m)
+
+			int squaredDistanceToClosestEnemy = 10000000;
+			int squaredDistanceToEnemyTested=10000000 ;
+
+			ObstacleCircular closestEnnemy = null;
+
+			//trouve l'ennemi le plus proche parmis les obstacles confirmés
+			for(int i=0; i<mMobileObstacles.size(); i++)
+			{
+				Vec2 ennemyRelativeCoords = mMobileObstacles.get(i).getPosition().minusNewVector(position);
+				if(direction.dot(ennemyRelativeCoords) > 0)
+				{
+					squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
+					if(squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy)
+					{
+						squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
+						closestEnnemy = mMobileObstacles.get(i);
+					}
+				}
+			}
+
+			if(closestEnnemy != null){
+				
+				log.debug("Crash de l'ennemie, on l'ajoute ici :" + closestEnnemy.getPosition());
+				ObstacleCircular ennemyToAdd = closestEnnemy.clone();
+				ennemyToAdd.setRadius(mEnnemyRadius + mRobotRadius);
+				mCircularObstacle.add(ennemyToAdd);
+			}
+		}
+		catch(IndexOutOfBoundsException e)
+		{
+			log.critical("Ah bah oui, out of bound");
+			throw e;
+		}
+	}
 
 	/** Retourne true si le robot ennemie se trouve dans un rectangle devant / derriere de robot, ce rectangle étant
 	 * la zone où notre cher Billy pourrait percuter le robot ennemie s'il avancait (sans tourner)
