@@ -82,10 +82,12 @@ public class ThreadTimer extends AbstractThread
 	 * @param table La table sur laquelle le thread doit croire évoluer
 	 * @param locomotionCardWrapper La carte d'asservissement avec laquelle on doit communiquer
 	 */
+
 	
 	ThreadTimer(Config config, Log log, Table table, Robot robot, SerialWrapper locomotionCardWrapper)
 	{
 		super(config, log);
+
 		this.table = table;
 		this.serialWrapper = locomotionCardWrapper;
 		this.robot=robot;

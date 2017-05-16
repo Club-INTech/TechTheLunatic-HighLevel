@@ -85,18 +85,20 @@ public class InitialisationRobot extends AbstractScript {
             if (versionToExecute == 1) {
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
-                gameState.robot.turn(2.35);   // 250, 580 <- 578, 208
-                gameState.robot.moveLengthwise(550);
+                gameState.robot.moveLengthwise(80);
+                gameState.robot.turn(2*Math.PI/3);   // 250, 580 <- 578, 208
+                gameState.robot.moveLengthwise(600);
                 gameState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
 
-                gameState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 gameState.robot.moveLengthwise(-547, hookToConsider);
+                gameState.robot.turn(Math.PI/2);
                 gameState.robot.setLocomotionSpeed(Speed.FAST_ALL);
                 gameState.robot.moveLengthwise(250);
 
                 // gameState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 // gameState.robot.moveLengthwise(-400, hookToConsider);
-                gameState.robot.turn(5 * Math.PI / 8);
+                //gameState.robot.turn(5 * Math.PI / 8);
 
                 gameState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
 
@@ -154,7 +156,9 @@ public class InitialisationRobot extends AbstractScript {
     @Override
     public void finalize(GameState state, Exception e) throws UnableToMoveException
     {
-        log.debug("Exception " + e + "dans InitialisationRobot : Lancement du Finalize !");
+        if(e != null) log.debug("Exception " + e + " dans InitialisationRobot : Lancement du Finalize !");
+        else log.debug("Exception null dans InitialisationRobot : Lancement du Finalize !");
+
         state.robot.setBasicDetection(false);
     }
 
