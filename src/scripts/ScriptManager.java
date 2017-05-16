@@ -64,6 +64,13 @@ public class ScriptManager implements Service
 		instanciedScripts[ScriptNames.INITIALISE_ROBOT.ordinal()] = new InitialisationRobot(factory, config, log);
 		instanciedScripts[ScriptNames.FULLSCRIPTED.ordinal()] = new FullScripted(factory, config, log);
 		instanciedScripts[ScriptNames.SCRIPTED_GO_TO.ordinal()] = new ScriptedGoTo(factory, config, log);
+		instanciedScripts[ScriptNames.SCRIPTED_GO_TO_CRATEREFOND.ordinal()] = new ScriptedGoTo_CratereFond(factory, config, log);
+		instanciedScripts[ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE.ordinal()] = new ScriptedGoTo_CraterePresBase(factory, config, log);
+		instanciedScripts[ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1.ordinal()] = new ScriptedGoTo_LivraisonBoules1(factory, config, log);
+		instanciedScripts[ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES2.ordinal()] = new ScriptedGoTo_LivraisonBoules2(factory, config, log);
+		instanciedScripts[ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND.ordinal()] = new ScriptedGoTo_LivraisonModuleFond(factory, config, log);
+		instanciedScripts[ScriptNames.SCRIPTED_GO_TO_MODULEFOND.ordinal()] = new ScriptedGoTo_ModuleFond(factory, config, log);
+		instanciedScripts[ScriptNames.SCRIPTED_GO_TO_MODULEPRESBASE.ordinal()] = new ScriptedGoTo_ModulePresBase(factory, config, log);
 	}
 	
 	/**
