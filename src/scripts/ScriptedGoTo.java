@@ -43,11 +43,11 @@ public class ScriptedGoTo extends AbstractScript
     private int distanceCratereFondApresBoules = -125;
     private double angleCratereFondAvantDepotModule = Math.PI/4;
 
-    private int distanceCratereFondAvantDepotModule = -115;
+    private int distanceCratereFondAvantDepotModule = -110;
     private int distanceCratereFondApresDepotModule = 55;
 
 
-    private Vec2 pointSortieCratereFond =new Vec2(1210,1210);
+    private Vec2 pointSortieCratereFond =new Vec2(1190,1210);
 
 
     private Vec2 pointAvantModule2 = new Vec2(990, 720);
@@ -295,7 +295,7 @@ public class ScriptedGoTo extends AbstractScript
             {
 
 
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
                 actualState.robot.moveLengthwise(80);
                 actualState.robot.turn(2*Math.PI/3);   // 250, 580 <- 578, 208
