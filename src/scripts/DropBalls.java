@@ -106,8 +106,8 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
 
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_T_MEDIUM_R);
-                actualState.robot.moveLengthwise(-250);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.moveLengthwise(-280);
 
                 // Chope le module billy !
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
@@ -128,11 +128,16 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
 
+                actualState.robot.moveLengthwise(-80);
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+
+                actualState.robot.moveLengthwise(80);
+
                 // Et maintenant dépose les boules
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.turn(-Math.PI/4);
 
-                actualState.robot.moveLengthwise(95);
+                actualState.robot.moveLengthwise(110);
                 actualState.robot.turn(-Math.PI/2);
 
 
@@ -149,7 +154,7 @@ public class DropBalls extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 //monter les bras le plus haut \o/
-                actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
                 // Manoeuvre pour se dégager (On test le pathfinding en même temps puisqu'on le lâche dans un obstacle)
                 //actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);

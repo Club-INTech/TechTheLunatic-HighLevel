@@ -46,7 +46,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
         container.getService(ThreadSensor.class);
         container.getService(ThreadInterface.class);
         container.startInstanciedThreads();
-        //mRobot.robot.switchSensor();
+
 
         scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, new ArrayList<Hook>());
     }
@@ -69,7 +69,7 @@ public class JUnit_MagicBalls extends JUnit_Test {
             //scriptManager.getScript(ScriptNames.DROP_BALLS).goToThenExec(1, mRobot, emptyList);
 
             returnToEntryPosition(mRobot);
-            //mRobot.robot.switchSensor();
+
         }
         catch(Exception e)
         {
