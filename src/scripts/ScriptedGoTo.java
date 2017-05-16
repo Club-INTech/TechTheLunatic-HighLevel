@@ -39,7 +39,7 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point2EntreeFinTable = new Vec2(860,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(880,1760);
     private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
-    private double angleDevantCratereFond = Math.PI - 0.37;
+    private double angleDevantCratereFond = Math.PI - 0.39;
     private int distanceCratereFondApresBoules = -125;
     private double angleCratereFondAvantDepotModule = Math.PI/4;
 
@@ -48,7 +48,7 @@ public class ScriptedGoTo extends AbstractScript
 
 
     private Vec2 point5sortieCratereFond=new Vec2(1130,1150);
-    private int distanceReculModule2=-120;
+    private int distanceReculModule2=-145;
 
 
     private Vec2 point7AttrapperModule2 = new Vec2(1200,740);
@@ -237,6 +237,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
+
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
@@ -244,6 +245,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
+
+
 
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
@@ -394,7 +397,10 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 
-                actualState.robot.goTo(point5sortieCratereFond);
+                //actualState.robot.goTo(point5sortieCratereFond);
+
+                actualState.robot.goTo(new Vec2(1215,1210), hooksToConsider);
+
                 actualState.robot.goTo(pointAvantModule2);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
@@ -409,6 +415,7 @@ public class ScriptedGoTo extends AbstractScript
                 //actualState.robot.goTo(point7AttrapperModule2);
 
                 //Prise de module 2
+
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
