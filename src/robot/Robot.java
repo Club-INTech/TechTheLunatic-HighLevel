@@ -116,6 +116,11 @@ public class Robot implements Service {
 	 */
 	private Locomotion mLocomotion;
 
+    /**
+     * Dernière position demandée par un goTo ou un goToMove
+     */
+    private Vec2 pointPrecedent;
+
 
 	/**
 	 * Constructeur
@@ -345,6 +350,7 @@ public class Robot implements Service {
 	 */
 	public void goTo(Vec2 pointVise) throws UnableToMoveException {
 		goTo(pointVise, new ArrayList<Hook>());
+		pointPrecedent = pointVise;
 	}
 
  /**
@@ -357,7 +363,8 @@ public class Robot implements Service {
 	 *  &
 	 */
     public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
-		log.debug("goTo: " + pointVise);
+		pointPrecedent = pointVise;
+        log.debug("goTo: " + pointVise);
     	position = getPositionFast();
 		orientation = getOrientationFast();
 		log.debug("position" + position);
@@ -418,6 +425,23 @@ public class Robot implements Service {
      */
     public void goToMove(Vec2 pointActuel, int distance) throws UnableToMoveException {
         goToMove(pointActuel, distance, new ArrayList<>());
+    }
+
+    /**
+     * @param distance
+     * @param hooksToConsider
+     * @throws UnableToMoveException
+     */
+    public void goToMove(int distance, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
+        goToMove(pointPrecedent, distance, hooksToConsider);
+    }
+
+    /**
+     * @param distance
+     * @throws UnableToMoveException
+     */
+    public void goToMove(int distance) throws UnableToMoveException {
+        goToMove(pointPrecedent, distance, new ArrayList<>());
     }
 
     /**

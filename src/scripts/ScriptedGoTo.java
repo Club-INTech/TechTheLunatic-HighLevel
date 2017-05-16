@@ -297,10 +297,10 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-                actualState.robot.turnTo(new Vec2(815,500));
+
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
-                actualState.robot.moveLengthwise(80);
+                actualState.robot.goToMove(new Vec2(615,206), 80);
                 actualState.robot.turn(2*Math.PI/3);   // 250, 580 <- 578, 208
                 actualState.robot.moveLengthwise(600);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
@@ -354,6 +354,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 //changement de vitesse pour ne pas pousser les balles
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.goToMove(point3AttrapperModule1, 80);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
