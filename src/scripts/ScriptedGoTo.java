@@ -297,7 +297,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-                actualState.robot.goToMove(new Vec2(615,206), 50);
+                actualState.robot.turnTo(new Vec2(815,500));
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
                 actualState.robot.moveLengthwise(80);
