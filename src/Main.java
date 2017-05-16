@@ -91,7 +91,7 @@ public class Main
 
 				waitMatchBegin();
 				System.out.println("Le robot commence le match");
-				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(0, realState, emptyHook);
+				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(1, realState, emptyHook);
 
 			}catch (Exception e){
 				e.printStackTrace();
