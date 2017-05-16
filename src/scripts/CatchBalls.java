@@ -109,7 +109,7 @@ public class CatchBalls extends AbstractScript {
 
                 //stateToConsider.robot.switchSensor();
                 stateToConsider.robot.turn(vec.getA());
-                stateToConsider.robot.moveLengthwise(150); // TODO config
+                stateToConsider.robot.moveLengthwise(200); // TODO config
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 stateToConsider.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -338,7 +338,7 @@ public class CatchBalls extends AbstractScript {
         }
         else if (version == 1)
         {
-            return new Circle(new Vec2(850,540), ray + 155, -Math.PI/6, 5*Math.PI/6, true);
+            return new Circle(new Vec2(850,620), ray + 155, -Math.PI/6, 5*Math.PI/6, true);
         }
         else if (version == 2)
         {
