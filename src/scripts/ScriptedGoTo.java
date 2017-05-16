@@ -38,22 +38,21 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point1MilieuTable = new Vec2(620,800);
     private Vec2 point2EntreeFinTable = new Vec2(860,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(880,1760);
-    private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
+    private Vec2 point4arriveDevantCratereFond = new Vec2(600,1810);
     private double angleDevantCratereFond = Math.PI - 0.39;
     private int distanceCratereFondApresBoules = -125;
     private double angleCratereFondAvantDepotModule = Math.PI/4;
 
-    private int distanceCratereFondAvantDepotModule = -112;
-    private int distanceCratereFondApresDepotModule = 60;
+    private int distanceCratereFondAvantDepotModule = -115;
+    private int distanceCratereFondApresDepotModule = 55;
 
 
-    private Vec2 point5sortieCratereFond=new Vec2(1130,1150);
+    private Vec2 pointSortieCratereFond =new Vec2(1210,1210);
+
+
+    private Vec2 pointAvantModule2 = new Vec2(990, 720);
     private int distanceReculModule2=-145;
-
-
-    private Vec2 point7AttrapperModule2 = new Vec2(1200,740);
-    private Vec2 pointAvantModule2 = new Vec2(995, 740);
-    private int distanceApresModule2=220;                                       //TODO: peut être voir comment réduire ça, il avance trop et tourne sur lui même
+    private int distanceApresModule2=220;
 
     private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
     private int distanceAvantDeposeBoules1=240;
@@ -200,7 +199,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 
-                actualState.robot.goTo(point5sortieCratereFond);
+                actualState.robot.goTo(pointSortieCratereFond);
                 actualState.robot.goTo(pointAvantModule2);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
@@ -383,13 +382,11 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 
-                //actualState.robot.goTo(point5sortieCratereFond);
+                //actualState.robot.goTo(pointSortieCratereFond);
 
-                actualState.robot.goTo(new Vec2(1215,1210), hooksToConsider);
+                actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
 
                 actualState.robot.goTo(pointAvantModule2);
-
-                actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
 
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);

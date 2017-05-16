@@ -25,10 +25,12 @@ import enums.Speed;
 import enums.TurningStrategy;
 import enums.UnableToMoveReason;
 import exceptions.ConfigPropertyNotFoundException;
-import exceptions.Locomotion.*;
+import exceptions.Locomotion.BlockedException;
+import exceptions.Locomotion.EnnemyCrashedException;
+import exceptions.Locomotion.UnableToMoveException;
+import exceptions.Locomotion.UnexpectedObstacleOnPathException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
-import org.omg.IOP.ENCODING_CDR_ENCAPS;
 import smartMath.Vec2;
 import table.Table;
 import utils.Config;
@@ -330,7 +332,7 @@ public class Locomotion implements Service
         int closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
         log.debug("Distance à l'ennemie le plus proche dans le sens de la marche :" + closest);
 
-        while (closest <= detectionDistance + (int) (robotLength/2.0) + 100 && closest > -150 && totalTime < timeOutEnnemyMove)
+        while (closest <= detectionDistance + (int) (robotLength/2.0) && closest > -150 && totalTime < timeOutEnnemyMove)
         {
             Sleep.sleep(timeToWaitIfEnnemy);
             totalTime += timeToWaitIfEnnemy;

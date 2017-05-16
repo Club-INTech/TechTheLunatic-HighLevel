@@ -28,7 +28,6 @@ import utils.Config;
 import utils.Log;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 
 /**
  * Traite tout ce qui concerne la gestion des obstacles sur la table.
@@ -479,7 +478,7 @@ public class ObstacleManager
 
 			if(closestEnnemy != null){
 				
-				log.debug("Crash de l'ennemie, on l'ajoute ici :" + closestEnnemy.getPosition());
+				log.debug("Crash de l'ennemi, on l'ajoute ici :" + closestEnnemy.getPosition());
 				ObstacleCircular ennemyToAdd = closestEnnemy.clone();
 				ennemyToAdd.setRadius(mEnnemyRadius + mRobotRadius);
 				mCircularObstacle.add(ennemyToAdd);
