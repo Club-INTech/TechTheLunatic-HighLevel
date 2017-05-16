@@ -21,12 +21,19 @@ import container.Container;
 import enums.DirectionStrategy;
 import enums.ScriptNames;
 import enums.Speed;
+import exceptions.BadVersionException;
 import exceptions.ContainerException;
+import exceptions.Locomotion.EnnemyCrashedException;
+import exceptions.Locomotion.UnableToMoveException;
 import hook.Hook;
+import pathfinder.Pathfinding;
 import robot.Locomotion;
 import robot.SerialWrapper;
 import scripts.ScriptManager;
+import smartMath.Geometry;
+import smartMath.Vec2;
 import strategie.GameState;
+import strategie.IA;
 import table.Table;
 import threads.ThreadInterface;
 import threads.ThreadTimer;
@@ -55,22 +62,20 @@ public class Main
 // dans la config de debut de match, toujours demander une entrée clavier assez longue (ex "oui" au lieu de "o", pour éviter les fautes de frappes. Une erreur a ce stade coûte cher.
 // ---> En même temps si tu tapes n à la place de o, c'est que tu es vraiment con.  -Discord
 // PS : Les vérifications et validations c'est pas pour les chiens.
-	public static void main(String[] args) throws InterruptedException
-	{
-		try
-		{
+	public static void main(String[] args) throws InterruptedException {
+		try {
 			container = new Container();
 			config = container.getService(Config.class);
 			//AffichageDebug aff = container.getService(AffichageDebug.class);
 			realState = container.getService(GameState.class);
 			scriptmanager = container.getService(ScriptManager.class);
 			mSerialWrapper = container.getService(SerialWrapper.class);
-			mLocomotion= container.getService(Locomotion.class);
+			mLocomotion = container.getService(Locomotion.class);
 			config.updateConfig();
 
-            Thread.currentThread().setPriority(6);
+			Thread.currentThread().setPriority(6);
 
-            // TODO : faire une initialisation du robot et de ses actionneurs
+			// TODO : faire une initialisation du robot et de ses actionneurs
 			realState.robot.setPosition(Table.entryPosition);
 			realState.robot.setOrientation(Math.PI);
 			realState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
@@ -81,12 +86,12 @@ public class Main
 			container.startInstanciedThreads();
 
 			// container.startAllThreads();
-			try{
+			try {
 				// waitMatchBegin();
 				// System.out.println("Le robot commence le match");
 
-			// TODO : lancer l'IA
 
+// TODO boolééens sur chaque script a vérifier/Ajouter les infos de matchs sur le fullScript/ Changer l'entryPosition/ Catch des exceptions supplémentaires comme unableToMove.
 				System.out.println("90 secondes pour faire des points Billy");
 				scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, realState, emptyHook);
 				realState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
@@ -95,16 +100,28 @@ public class Main
 				System.out.println("Le robot commence le match");
 				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(1, realState, emptyHook);
 
-			}catch (Exception e){
-				e.printStackTrace();
-			}
+			} catch (EnnemyCrashedException e) {//TODO mettre des boucles ou des appels récursifs
+				// On lance l'IA et la pathFinding
+				Pathfinding pf = container.getService(Pathfinding.class);
+				IA.decision(realState,scriptmanager,pf);
 
-			Log.stop();
+			}
+			catch (UnableToMoveException e)
+			{
+				Pathfinding pf = container.getService(Pathfinding.class);
+				IA.decision(realState,scriptmanager,pf);
+			}
 
 		} catch (ContainerException e) {
 			e.printStackTrace();
 		}
+		catch (Exception e)
+		{
+			System.out.println("Meh wtf exception caught");
+			e.printStackTrace();
+		}
 	}
+
 
 	/**
 	 * Attend la mise en place puis le retrait du jumper pour lancer le robot dans son match
