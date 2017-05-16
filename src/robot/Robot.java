@@ -396,6 +396,44 @@ public class Robot implements Service {
     }
 
     /**
+     * goTo qui se comporte comme un moveLenghwise(distance) en calculant à quel point il doit se rendre
+     *
+     * @param pointActuel
+     * @param distance
+     * @param hooksToConsider
+     * @throws UnableToMoveException
+     */
+    public void goToMove(Vec2 pointActuel, int distance, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
+        log.debug("goToMove: pointActuel "+ pointActuel + ",distance "+ distance);
+        orientation = getOrientationFast();
+        Vec2 pointVise = pointActuel.plusNewVector(new Vec2((double)distance, orientation)) ;
+        goTo(pointVise, hooksToConsider);
+    }
+
+    /**
+     *
+     * @param pointActuel
+     * @param distance
+     * @throws UnableToMoveException
+     */
+    public void goToMove(Vec2 pointActuel, int distance) throws UnableToMoveException {
+        goToMove(pointActuel, distance, new ArrayList<>());
+    }
+
+    /**
+     * Méthode pour se tourner vers un point
+     * @param pointVise
+     * @throws UnableToMoveException
+     */
+    public void turnTo(Vec2 pointVise) throws UnableToMoveException {
+        position = getPositionFast();
+        Vec2 move = pointVise.minusNewVector(position);
+        double a = move.getA();
+        turn(a);
+    }
+
+
+    /**
      * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
      * Attention, cette méthode suppose que l'on est pas sensé percuter un mur.
      * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
