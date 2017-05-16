@@ -24,14 +24,12 @@ import enums.*;
 import exceptions.ConfigPropertyNotFoundException;
 import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
-import exceptions.Locomotion.UnexpectedObstacleOnPathException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
 import pathfinder.Pathfinding;
 import smartMath.Circle;
 import smartMath.Geometry;
 import smartMath.Vec2;
-import strategie.GameState;
 import table.Table;
 import utils.Config;
 import utils.Log;
@@ -359,7 +357,8 @@ public class Robot implements Service {
 	 *  &
 	 */
     public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
-		position = getPositionFast();
+		log.debug("goTo: " + pointVise);
+    	position = getPositionFast();
 		orientation = getOrientationFast();
 		log.debug("position" + position);
 		Vec2 move = pointVise.minusNewVector(position);
