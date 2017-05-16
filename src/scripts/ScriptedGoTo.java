@@ -35,7 +35,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** PointsVisés, dstances & angles du script, override par la config */
 
-    private Vec2 point1MilieuTable = new Vec2(580,800);
+    private Vec2 point1MilieuTable = new Vec2(620,800);
     private Vec2 point2EntreeFinTable = new Vec2(850,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(850,1760);
     private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
@@ -88,7 +88,7 @@ public class ScriptedGoTo extends AbstractScript
         try{
 
             //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-            Hook replieTout0 = hookFactory.newPositionHook(new Vec2 (480, 255), (float) -Math.PI/2, 100, 400);
+            Hook replieTout0 = hookFactory.newPositionHook(new Vec2 (480, 600), (float) -Math.PI/2, 100, 400);
             replieTout0.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
             Hook priseModuleDroit = hookFactory.newPositionHook(point2EntreeFinTable, (float) -Math.PI/2, 300, 400);
             priseModuleDroit.addCallback(new Callback(new PrepareToCatchModD(), true, actualState));
@@ -321,9 +321,13 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(point1MilieuTable, hooksToConsider);
                 actualState.robot.goTo(point2EntreeFinTable, hooksToConsider);
 
+                actualState.robot.turn(-Math.PI/2);
+
                 actualState.robot.goTo(point3AttrapperModule1);
 
                 //prise du module du fond
+
+
 
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
@@ -424,17 +428,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
-                // Manoeuvre degueu pour se décaler
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(60);
-                // Bon discord tu vas geuler mais j'avais la flemme
-                actualState.robot.turn(Math.PI - Math.asin(110.0 / 150));
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(150);
-                actualState.robot.turn(Math.PI);
-                // Callage contre le depose-module
-                actualState.robot.moveLengthwise(-190, hooksToConsider, true, false, Speed.SLOW_ALL);
-                // Drop un module
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
                 actualState.robot.goTo(pointAvantDeposeBoules1);
