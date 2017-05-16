@@ -103,22 +103,12 @@ public class ScriptedGoTo extends AbstractScript
             if (versionToExecute==0)
             {
 
-
-
-
                 actualState.robot.goTo(new Vec2(320, 267));
-
                 actualState.robot.turn(Math.PI);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(120);
-
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-
-
-
-
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-150);
-
 
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
@@ -295,8 +285,6 @@ public class ScriptedGoTo extends AbstractScript
 
             }
 
-
-
             Hook catchMD = hookFactory.newPositionHook(Table.entryPosition.plusNewVector(new Vec2(440, 2.319)), (float)(2.319), 10, 100);
             catchMD.addCallback(new Callback(new CatchModuleD(), true, actualState));
             hooksToConsider.add(catchMD);
@@ -328,8 +316,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(point3AttrapperModule1);
 
                 //prise du module du fond
-
-
 
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
@@ -432,11 +418,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
-
-
-
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
                 actualState.robot.goTo(pointAvantDeposeBoules1);
@@ -469,7 +451,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-150);
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(165);
-
 
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);

@@ -589,7 +589,6 @@ public class ThreadSensor extends AbstractThread
                 }
             }
 
-            // Etant donnée que l'on travaille sur le référentiel du robot, la symétrie devrait normalement etre inutile => A tester
             if(symetry) //Inversion gauche/droite pour symétriser
             {
                 int temp = USvalues.get(0);
