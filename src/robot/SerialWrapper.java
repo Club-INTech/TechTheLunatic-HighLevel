@@ -31,6 +31,7 @@ import utils.Config;
 import utils.Log;
 import utils.Sleep;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
@@ -361,6 +362,7 @@ public class SerialWrapper implements Service
                 parsedInfos[i] = Float.parseFloat(infosBuffer[i]);
             } catch (NumberFormatException e)
             {
+                log.critical("BAD POSITION RECEIVED BY LL : "+ Arrays.toString(parsedInfos));
                 return null;
             }
         }
