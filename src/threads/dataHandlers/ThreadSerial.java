@@ -30,7 +30,6 @@ import utils.Sleep;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -846,7 +845,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                 //if(!receivingInProgress)
                 res = standardBuffer.peek();
 
-                Thread.sleep(4);
+                Thread.sleep(1);
             }
             catch (InterruptedException e)
             {
