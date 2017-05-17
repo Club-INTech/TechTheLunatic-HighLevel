@@ -40,14 +40,14 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point3AttrapperModule1 = new Vec2(880,1760);
     private Vec2 point4arriveDevantCratereFond = new Vec2(600,1810);
     private double angleDevantCratereFond = Math.PI - 0.39;
-    private int distanceCratereFondApresBoules = -125;
+    private int distanceCratereFondApresBoules = -145;
     private double angleCratereFondAvantDepotModule = Math.PI/4;
 
     private int distanceCratereFondAvantDepotModule = -115;
     private int distanceCratereFondApresDepotModule = 55;
 
 
-    private Vec2 pointSortieCratereFond =new Vec2(1210,1210);
+    private Vec2 pointSortieCratereFond =new Vec2(1190,1210);
 
 
     private Vec2 pointAvantModule2 = new Vec2(990, 720);
@@ -354,7 +354,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 //changement de vitesse pour ne pas pousser les balles
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                actualState.robot.goToMove(point3AttrapperModule1, 80);
+                actualState.robot.goToMove(80);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
