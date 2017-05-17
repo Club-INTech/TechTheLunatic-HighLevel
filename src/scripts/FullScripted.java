@@ -135,7 +135,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
@@ -199,7 +199,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceBeforeDrop1stBalls,emptyHook);
 
                 //abaisser les bras au plus bas
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 //rotation de la pelle jusqu'à la position de livraison
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
@@ -235,7 +235,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
@@ -249,7 +249,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceBeforeCatch2ndBalls,emptyHook);
 
                 //abaisser les bras au plus bas
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 //rotation de la pelle jusqu'à la position de livraison
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);

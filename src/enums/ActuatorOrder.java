@@ -128,7 +128,7 @@ public enum ActuatorOrder
 	DEPLOYER_PELLETEUSE_BAS("bpra",700),
 
 	// Déploiement de la pelleteuse
-	DEPLOYER_PELLETEUSE("bpd",600),
+	LIVRAISON_PELLETEUSE("bpd",600),
 
 	// Position intermédiaire de la pelleteuse, pour rotations de la pelle
 	MED_PELLETEUSE("bpm",300),

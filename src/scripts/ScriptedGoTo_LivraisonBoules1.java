@@ -72,7 +72,7 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
                     actualState.robot.turn(-Math.PI/2);
                     actualState.robot.moveLengthwise(distanceAvantDeposeBoules1);
 
-                    actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                    actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
                     actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
                     actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);

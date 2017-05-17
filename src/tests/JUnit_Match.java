@@ -11,9 +11,7 @@ import org.junit.Test;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
-import threads.ThreadInterface;
 import threads.dataHandlers.ThreadEvents;
-import threads.dataHandlers.ThreadSensor;
 
 import java.util.ArrayList;
 
@@ -71,7 +69,7 @@ public class JUnit_Match extends JUnit_Test {
 
             //drop balls
             //abaisser les bras au plus bas
-            mRobot.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+            mRobot.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
             //rotation de la pelle jusqu'à la position de livraison
             mRobot.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);

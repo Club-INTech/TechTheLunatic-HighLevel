@@ -31,7 +31,6 @@ import hook.types.HookFactory;
 import smartMath.Circle;
 import smartMath.Vec2;
 import strategie.GameState;
-import table.obstacles.ObstacleManager;
 import utils.Config;
 import utils.Log;
 
@@ -84,7 +83,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, false);
@@ -116,7 +115,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, false);
@@ -177,7 +176,7 @@ public class CatchBalls extends AbstractScript {
             stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
             // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-            stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+            stateToConsider.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
             // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
             stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
@@ -266,7 +265,7 @@ public class CatchBalls extends AbstractScript {
 
                 stateToConsider.robot.moveLengthwise(150);
                 //abaisser les bras au plus bas
-                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 //rotation de la pelle jusqu'à la position de livraison
                 stateToConsider.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
@@ -304,7 +303,7 @@ public class CatchBalls extends AbstractScript {
                 stateToConsider.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
                 // Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-                stateToConsider.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                stateToConsider.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 // Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
                 stateToConsider.robot.useActuator(ActuatorOrder.PREND_PELLE, true);

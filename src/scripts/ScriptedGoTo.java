@@ -40,7 +40,7 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point1MilieuTable = new Vec2(620,800);
     private Vec2 point2EntreeFinTable = new Vec2(890,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(890,1760);
-    private Vec2 point4arriveDevantCratereFond = new Vec2(610,1800);
+    private Vec2 point4arriveDevantCratereFond = new Vec2(630,1790);
     private double angleDevantCratereFond = Math.PI - 0.42;
     private int distanceCratereFondApresBoules = -150;
 
@@ -174,7 +174,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 //Prise des boules
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
@@ -251,7 +251,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
 
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
@@ -265,7 +265,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
@@ -274,7 +274,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(150);
 
 
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
 
@@ -360,7 +360,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 //Prise des boules
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
@@ -422,7 +422,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
 
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
@@ -441,7 +441,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
@@ -449,7 +449,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(165);
 
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
 
@@ -540,7 +540,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 //Prise des boules
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
@@ -569,7 +569,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
-                actualState.robot.turn(Math.PI-0.1);
+                actualState.robot.turn(Math.PI);
 
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
@@ -579,7 +579,7 @@ public class ScriptedGoTo extends AbstractScript
                 newPos.setX(1225);
                 newPos.setR(oldPos.getR());
                 actualState.robot.setPosition(newPos);
-                actualState.robot.setOrientation(0);
+                actualState.robot.setOrientation(Math.PI);
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
@@ -614,7 +614,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
 
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRASON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
@@ -635,7 +635,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
@@ -643,7 +643,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(165);
 
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
 
@@ -670,7 +670,7 @@ public class ScriptedGoTo extends AbstractScript
     @Override
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException
     {
-        if (version == 0 || version ==1) {
+        if (version == 0 || version ==1 || version ==2) {
             return new Circle(robotPosition);
         }
 

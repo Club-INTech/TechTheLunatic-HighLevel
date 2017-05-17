@@ -24,7 +24,6 @@ import enums.TurningStrategy;
 import exceptions.serial.SerialConnexionException;
 import robot.Robot;
 
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -104,7 +103,7 @@ public class Keyboard implements KeyListener {
 		else if (isPpressed) {
 			try {
 				// Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-				mRobot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+				mRobot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
 				// Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
 				mRobot.useActuator(ActuatorOrder.PREND_PELLE, true);
@@ -126,7 +125,7 @@ public class Keyboard implements KeyListener {
 		}else if (isDpressed){
 			try{
 				//abaisser les bras au plus bas
-				mRobot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+				mRobot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
 				//rotation de la pelle jusqu'à la position de livraison
 				mRobot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
