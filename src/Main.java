@@ -28,9 +28,7 @@ import robot.SerialWrapper;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
-import threads.ThreadInterface;
 import threads.ThreadTimer;
-import threads.dataHandlers.ThreadSensor;
 import utils.Config;
 import utils.Log;
 
