@@ -844,15 +844,15 @@ public class Locomotion implements Service
                 {
                     if (Math.abs(delta) > maxRotationCorrectionThreeshold) {// on ne tourne vraiment que si l'angle souhaité est vraiment different.
                         isRobotTurning = true;// prochain ordre : on tourne
-                        serialWrapper.turn(angle, TurningStrategy.FASTEST);
                     }
+                    serialWrapper.turn(angle, TurningStrategy.FASTEST);
                 }
                 else if (!isCorrection)// Si ca n'est pas  une correction et qu'on dépasse l'angle limite
                 {
                     if (Math.abs(delta) > maxRotationCorrectionThreeshold) {// on ne tourne vraiment que si l'angle souhaité est vraiment different.
                         isRobotTurning = true;// prochain ordre : on tourne
-                        serialWrapper.turn(angle, cTurningStrategy);
                     }
+                    serialWrapper.turn(angle, cTurningStrategy);
                 }
 
                 // sans virage : la première rotation est bloquante
