@@ -424,7 +424,7 @@ public class Robot implements Service {
      * @throws UnableToMoveException
      */
     public void goToMove(Vec2 pointActuel, int distance) throws UnableToMoveException {
-        goToMove(pointActuel, distance, new ArrayList<>());
+        goToMove(pointActuel, distance, new ArrayList<Hook>());
     }
 
     /**
@@ -441,7 +441,7 @@ public class Robot implements Service {
      * @throws UnableToMoveException
      */
     public void goToMove(int distance) throws UnableToMoveException {
-        goToMove(pointPrecedent, distance, new ArrayList<>());
+        goToMove(pointPrecedent, distance, new ArrayList<Hook>());
     }
 
     /**
