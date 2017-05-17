@@ -38,28 +38,27 @@ public class ScriptedGoTo extends AbstractScript
     /** PointsVisés, dstances & angles du script, override par la config */
 
     private Vec2 point1MilieuTable = new Vec2(620,800);
-    private Vec2 point2EntreeFinTable = new Vec2(880,1400);
-    private Vec2 point3AttrapperModule1 = new Vec2(900,1760);
-    private Vec2 point4arriveDevantCratereFond = new Vec2(600,1810);
-    private double angleDevantCratereFond = Math.PI - 0.39;
-    private int distanceCratereFondApresBoules = -145;
+    private Vec2 point2EntreeFinTable = new Vec2(890,1400);
+    private Vec2 point3AttrapperModule1 = new Vec2(890,1760);
+    private Vec2 point4arriveDevantCratereFond = new Vec2(595,1810);
+    private double angleDevantCratereFond = Math.PI - 0.42;
+    private int distanceCratereFondApresBoules = -150;
 
     private double angleCratereFondAvantDepotModule = Math.PI/4;
-    private int distanceCratereFondAvantDepotModule = -95;
+
+    private int distanceCratereFondAvantDepotModule = -92;
     private int distanceCratereFondApresDepotModule = 55;
 
     private Vec2 pointSortieCratereFond =new Vec2(1190,1210);
-    private Vec2 pointAvantModule2 = new Vec2(990, 720);
+    private Vec2 pointAvantModule2 = new Vec2(1000, 720);
     private int distanceReculModule2=-160;
-    private int distanceApresModule2=150;
+    private int distanceApresModule2=100;
 
     private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
     private int distanceAvantDeposeBoules1=240;
     private int distanceReculApresDepotBoule1=-200;
     private Vec2 pointDevantCratere2 = new Vec2(1100, 650);
     private boolean detect = false;
-
-
 
     /**
      * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -129,7 +128,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
                 actualState.robot.goTo(point1MilieuTable, hooksToConsider);
                 actualState.robot.goTo(point2EntreeFinTable, hooksToConsider);
-
                 actualState.robot.goTo(point3AttrapperModule1);
 
                 //prise du module du fond
@@ -319,6 +317,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
@@ -348,8 +347,8 @@ public class ScriptedGoTo extends AbstractScript
 
                 //changement de vitesse pour ne pas pousser les balles
 
-                actualState.robot.goToMove(80);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
+                actualState.robot.goToMove(178, hooksToConsider);
+                //actualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
@@ -619,6 +618,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+
+                actualState.robot.useActuator(ActuatorOrder.MOVE_BACKWARD.PELLE_REASSERV, false);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculApresDepotBoule1);
                 actualState.robot.goTo(pointDevantCratere2);

@@ -765,7 +765,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     log.critical("Il ne daigne même pas répondre !");
                     return (res+(char)260);
                 }
-                Thread.sleep(5);
+                Thread.sleep(0, 500);
             }
 
             while (available()) {
@@ -783,7 +783,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         log.critical("blocaqe attente nouveau char (pas de /r ?) dernier : "+ lastReceived);
                         return (res+(char)260);
                     }
-                    Thread.sleep(5);
+                    Thread.sleep(0, 500);
                 }
             }
 
@@ -795,7 +795,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     log.critical("bloquage attente newChar (normalement newLine)");
                     return (res+(char)260);
                 }
-                Thread.sleep(5);
+                Thread.sleep(0, 500);
             }
 
             while(available()) {
@@ -810,7 +810,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         log.critical("Bloquage attente newLine");
                         return (res+(char)260);
                     }
-                    Thread.sleep(5);
+                    Thread.sleep(0, 500);
                 }
             }
 
