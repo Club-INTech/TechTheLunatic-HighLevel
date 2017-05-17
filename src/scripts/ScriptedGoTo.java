@@ -37,24 +37,21 @@ public class ScriptedGoTo extends AbstractScript
     /** PointsVisés, dstances & angles du script, override par la config */
 
     private Vec2 point1MilieuTable = new Vec2(620,800);
-    private Vec2 point2EntreeFinTable = new Vec2(860,1400);
-    private Vec2 point3AttrapperModule1 = new Vec2(880,1760);
-    private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
-    private double angleDevantCratereFond = Math.PI - 0.39;
-    private int distanceCratereFondApresBoules = -125;
+    private Vec2 point2EntreeFinTable = new Vec2(890,1400);
+    private Vec2 point3AttrapperModule1 = new Vec2(890,1760);
+    private Vec2 point4arriveDevantCratereFond = new Vec2(630,1790);
+    private double angleDevantCratereFond = Math.PI - 0.42;
+    private int distanceCratereFondApresBoules = -150;
+
     private double angleCratereFondAvantDepotModule = Math.PI/4;
 
-    private int distanceCratereFondAvantDepotModule = -112;
-    private int distanceCratereFondApresDepotModule = 60;
+    private int distanceCratereFondAvantDepotModule = -92;
+    private int distanceCratereFondApresDepotModule = 55;
 
-
-    private Vec2 point5sortieCratereFond=new Vec2(1130,1150);
-    private int distanceReculModule2=-145;
-
-
-    private Vec2 point7AttrapperModule2 = new Vec2(1200,740);
-    private Vec2 pointAvantModule2 = new Vec2(995, 740);
-    private int distanceApresModule2=220;                                       //TODO: peut être voir comment réduire ça, il avance trop et tourne sur lui même
+    private Vec2 pointSortieCratereFond =new Vec2(1160,1210);
+    private Vec2 pointAvantModule2 = new Vec2(1000, 720);
+    private int distanceReculModule2=-160;
+    private int distanceApresModule2=100;
 
     private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
     private int distanceAvantDeposeBoules1=240;
@@ -104,12 +101,13 @@ public class ScriptedGoTo extends AbstractScript
             if (versionToExecute==0)
             {
 
+                actualState.robot.goTo(new Vec2(320, 267));
                 actualState.robot.turn(Math.PI);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(120);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-150);
-                actualState.table.devantDepart.isStillThere=false;
+                actualState.table.cylindreDevantDepart.isStillThere=false;
 
 
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
@@ -159,7 +157,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
                 //La on devrait avoir le module
-                actualState.table.cratereBase.isStillThere=false;
+                actualState.table.cylindreCratereBase.isStillThere=false;
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
 
 
@@ -201,7 +199,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
 
                 actualState.robot.setRempliDeBoules(true);
-                actualState.table.cratereBaseLunaire.isStillThere=false;
+                actualState.table.ballsCratereBaseLunaire.isStillThere=false;
 
 
                 //Livraison module
@@ -225,7 +223,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 
-                actualState.robot.goTo(point5sortieCratereFond);
+                actualState.robot.goTo(pointSortieCratereFond);
 
                 //Ici commence livraison boules1
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1,true);
@@ -258,7 +256,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 //y a un cylindre de plus
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
-                actualState.table.cratere.isStillThere=false;
+                actualState.table.cylindreCratereDepart.isStillThere=false;
 
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
@@ -341,7 +339,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(Math.PI/2);
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
                 actualState.robot.moveLengthwise(250);
-                actualState.table.devantDepart.isStillThere=false;
+
+                actualState.table.cylindreDevantDepart.isStillThere=false;
 
                 //Aller au cratère du fond
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,true);
@@ -370,7 +369,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 //La on devrait avoir le module
-                actualState.table.cratereBase.isStillThere=false;
+                actualState.table.cylindreCratereBase.isStillThere=false;
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
 
                 /*
@@ -411,7 +410,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
 // la on a des boulasses
                 actualState.robot.setRempliDeBoules(true);
-                actualState.table.cratereBaseLunaire.isStillThere=false;
+                actualState.table.ballsCratereBaseLunaire.isStillThere=false;
 
 
                 //Livraison module
@@ -471,7 +470,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 // la on a le module 2
 
-                actualState.table.cratereDepart.isStillThere=false;
+                actualState.table.ballsCratereDepart.isStillThere=false;
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
 
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
@@ -525,7 +524,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
                 actualState.robot.setRempliDeBoules(true);
-                actualState.table.cratereDepart.isStillThere=false;
+                actualState.table.ballsCratereDepart.isStillThere=false;
 
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES2,true);
 
@@ -544,10 +543,17 @@ public class ScriptedGoTo extends AbstractScript
 
 
         }
+        catch(UnableToMoveException e)
+        {
+            log.critical("Robot ou actionneur bloqué dans ScriptedGoTo");
+            finalize(actualState, e);
+
+        }
         catch(Exception e)
         {
             log.critical("Robot ou actionneur bloqué dans ScriptedGoTo");
             finalize(actualState, e);
+
         }
     }
 
@@ -584,12 +590,20 @@ public class ScriptedGoTo extends AbstractScript
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
         }
     }
+@Override
+public void finalize(GameState state, Exception e) throws UnableToMoveException
+{
+    log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
+    state.robot.setBasicDetection(false);
 
-    @Override
-    public void finalize(GameState state, Exception e) throws UnableToMoveException
+}
+
+
+    public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
     {
         log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
         state.robot.setBasicDetection(false);
+        throw e;
     }
 
     @Override

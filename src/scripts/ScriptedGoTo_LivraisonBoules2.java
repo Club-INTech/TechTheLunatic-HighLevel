@@ -113,6 +113,11 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
                 }
 
             }
+            catch(UnableToMoveException e)
+            {
+                log.critical("Robot ou actionneur bloqué dans DropBalls");
+                finalize(actualState, e);
+            }
             catch(Exception e)
             {
                 log.critical("Robot ou actionneur bloqué dans DropBalls");
@@ -153,7 +158,12 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
                 log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
             }
         }
-
+    public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
+    {
+        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
+        state.robot.setBasicDetection(false);
+        throw e;
+    }
         @Override
         public void finalize(GameState state, Exception e) throws UnableToMoveException
         {
