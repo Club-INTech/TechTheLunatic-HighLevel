@@ -838,14 +838,13 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         long startTime = System.currentTimeMillis();
 
         res = null;
-        while((res == null) && ((System.currentTimeMillis() - startTime) < 2*TIME_OUT))
+        while((System.currentTimeMillis() - startTime) < 2*TIME_OUT)
         {
             try
             {
-                //if(!receivingInProgress)
-                res = standardBuffer.peek();
+                if((res = standardBuffer.peek()) != null) break;
 
-                Thread.sleep(1);
+                Thread.sleep(2);
             }
             catch (InterruptedException e)
             {
