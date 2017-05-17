@@ -526,27 +526,29 @@ public class Locomotion implements Service
 	                        	// on alterne rotation à gauche et à droite
 	                        	if((unexpectedWallImpactCounter & 1) == 0) {
                                     serialWrapper.turn(lowLevelOrientation + angleToDisengage);
-                                    while (!isMotionEnded()) ;
+                                    log.debug("Première tentative de dégagement turn");
+                                    while (!isMotionEnded());
                                 }
 	                        	else {
                                     serialWrapper.turn(lowLevelOrientation - angleToDisengage);
+                                    log.debug("Deuxième tentative de dégagement turn");
                                     while (!isMotionEnded());
                                 }
 	                        }
 	                        else if(isMovementForward) {
-	                            log.debug("Tentative de dégagement");
                                 serialWrapper.moveLengthwise(-distanceToDisengage);
-                                while(!isMotionEnded());
+                                log.debug("Recule Billy !");
                             }
 	                        else {
                                 serialWrapper.moveLengthwise(distanceToDisengage);
-                                while (!isMotionEnded());
-                                if(maxRetriesIfDisengage < 2) {
-                                    doItAgain = true; // si on est arrivé ici c'est qu'aucune exception n'a été levée
-                                }
-                                else{
-                                    doItAgain = false;
-                                }
+                            }
+
+                            while (!isMotionEnded());
+                            if(maxRetriesIfDisengage < 2) {
+                                doItAgain = true; // si on est arrivé ici c'est qu'aucune exception n'a été levée
+                            }
+                            else{
+                                doItAgain = false;
                             }
 	                    } 
 	                    catch (SerialConnexionException e1)
@@ -558,7 +560,9 @@ public class Locomotion implements Service
 	                    {
 	            			log.critical( e1.logStack());
 	                        log.debug("Catch de "+e1+" dans moveToPointException");
-	                    	immobilise();                       
+	                    	immobilise();
+
+	                    	doItAgain = (maxRetriesIfDisengage < 2);
 
 		                    if(!doItAgain)
 		                    {
