@@ -2,6 +2,7 @@ package scripts;
 
 import enums.ActuatorOrder;
 import enums.DirectionStrategy;
+import enums.ScriptNames;
 import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
@@ -103,12 +104,13 @@ public class ScriptedGoTo extends AbstractScript
             if (versionToExecute==0)
             {
 
-                actualState.robot.goTo(new Vec2(320, 267));
                 actualState.robot.turn(Math.PI);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(120);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-150);
+                actualState.table.devantDepart.isStillThere=false;
+
 
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
@@ -131,6 +133,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-150);
 
                 //Aller au cratère du fond
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,true);
+
+
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
                 actualState.robot.goTo(point1MilieuTable, hooksToConsider);
                 actualState.robot.goTo(point2EntreeFinTable, hooksToConsider);
@@ -153,6 +158,12 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
+                //La on devrait avoir le module
+                actualState.table.cratereBase.isStillThere=false;
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
+
+
+
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
@@ -166,6 +177,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
+
+
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,true);
 
                 //changement de vitesse pour ne pas pousser les balles
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
@@ -186,7 +200,14 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
 
+                actualState.robot.setRempliDeBoules(true);
+                actualState.table.cratereBaseLunaire.isStillThere=false;
+
+
                 //Livraison module
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND,true);
+
+
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
                 actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
@@ -196,11 +217,19 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
+                //On vide un module
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
+
+
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresDepotModule);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 
                 actualState.robot.goTo(point5sortieCratereFond);
+
+                //Ici commence livraison boules1
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1,true);
+
                 actualState.robot.goTo(pointAvantModule2);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
@@ -227,6 +256,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
+                //y a un cylindre de plus
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
+                actualState.table.cratere.isStillThere=false;
 
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
@@ -239,6 +271,7 @@ public class ScriptedGoTo extends AbstractScript
 
 
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
                 // Manoeuvre degueu pour se décaler
@@ -308,8 +341,11 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(Math.PI/2);
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
                 actualState.robot.moveLengthwise(250);
+                actualState.table.devantDepart.isStillThere=false;
 
                 //Aller au cratère du fond
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,true);
+
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
                 actualState.robot.goTo(point1MilieuTable, hooksToConsider);
                 actualState.robot.goTo(point2EntreeFinTable, hooksToConsider);
@@ -333,6 +369,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+//La on devrait avoir le module
+                actualState.table.cratereBase.isStillThere=false;
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
 
                 /*
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
@@ -351,6 +390,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
                 //changement de vitesse pour ne pas pousser les balles
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,true);
+
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
 
@@ -368,8 +409,14 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
+// la on a des boulasses
+                actualState.robot.setRempliDeBoules(true);
+                actualState.table.cratereBaseLunaire.isStillThere=false;
+
 
                 //Livraison module
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND,true);
+
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
                 actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
@@ -377,6 +424,11 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule);
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                //La on l'a largué
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
+
+
+
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresDepotModule);
@@ -397,6 +449,10 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
                 actualState.robot.turn(Math.PI-0.1);
+
+                //Là on commence le script livraison 1 (à vérifier)
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1,true);
+
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculModule2);
                 //actualState.robot.goTo(point7AttrapperModule2);
 
@@ -413,6 +469,10 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+// la on a le module 2
+
+                actualState.table.cratereDepart.isStillThere=false;
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
 
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
@@ -423,6 +483,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
 
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+//la on drop le module
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
+
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
@@ -436,6 +499,12 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+
+                //la on drop nos BALLS et on lance le script suivant
+                actualState.robot.setRempliDeBoules(false);
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE,true);
+
+
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculApresDepotBoule1);
                 actualState.robot.goTo(pointDevantCratere2);
@@ -455,6 +524,11 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
+                actualState.robot.setRempliDeBoules(true);
+                actualState.table.cratereDepart.isStillThere=false;
+
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES2,true);
+
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-150);
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(165);
@@ -464,6 +538,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+                actualState.robot.setRempliDeBoules(false);
                 actualState.robot.moveLengthwise(-120);
             }
 

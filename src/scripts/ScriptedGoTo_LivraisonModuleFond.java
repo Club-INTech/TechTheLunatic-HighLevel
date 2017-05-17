@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
@@ -86,7 +87,7 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
 
             if (versionToExecute==0)
             {
-
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND,true);
                 //Livraison modules
                 actualState.robot.moveLengthwise(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);

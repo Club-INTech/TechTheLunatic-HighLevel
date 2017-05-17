@@ -27,6 +27,7 @@ import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
 import pathfinder.Pathfinding;
+import scripts.ScriptManager;
 import smartMath.Circle;
 import smartMath.Geometry;
 import smartMath.Vec2;
@@ -36,6 +37,7 @@ import utils.Log;
 import utils.Sleep;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Effectue le lien entre le code et la réalité (permet de parler aux actionneurs, d'interroger les capteurs, etc.)
@@ -136,6 +138,9 @@ public class Robot implements Service {
 		return rempliDeBoules;
 	}
 
+	public HashMap<ScriptNames,Boolean> dejaFait=new HashMap<ScriptNames,Boolean>();// Doublet nom de script / déjà fait
+
+
 	/**
 	 * Constructeur
 	 *
@@ -165,6 +170,13 @@ public class Robot implements Service {
 			robotRay = Integer.parseInt(config.getProperty("rayon_robot"));
 			position = Table.entryPosition;
 			orientation = Math.PI;
+			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,false);
+			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE,false);
+			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1,false);
+			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES2,false);
+			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,false);
+			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND,false);
+			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEPRESBASE,false);
 		} catch (ConfigPropertyNotFoundException e) {
 			log.critical(e.logStack());
 			log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());

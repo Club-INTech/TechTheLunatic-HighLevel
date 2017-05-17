@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
@@ -67,6 +68,7 @@ public class ScriptedGoTo_ModuleFond extends AbstractScript {
 
             if (versionToExecute==0)
             {
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,true);
                 //Aller au cratère du fond
                 actualState.robot.goTo(point1MilieuTable);
 

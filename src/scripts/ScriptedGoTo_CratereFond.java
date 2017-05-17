@@ -2,6 +2,7 @@ package scripts;
 
 import enums.ActuatorOrder;
 import enums.DirectionStrategy;
+import enums.ScriptNames;
 import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
@@ -69,6 +70,7 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
 
             if (versionToExecute==0)
             {
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,true);
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
                 //changement de vitesse pour ne pas pousser les balles
