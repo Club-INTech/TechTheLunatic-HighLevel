@@ -19,6 +19,8 @@
 
 package enums;
 
+import tests.container.A;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +54,7 @@ public class SymmetrizedActuatorOrderMap
         mCorrespondenceMap.put(ActuatorOrder.DEPLOYER_PELLETEUSE, ActuatorOrder.DEPLOYER_PELLETEUSE);
         mCorrespondenceMap.put(ActuatorOrder.REPLIER_PELLETEUSE, ActuatorOrder.REPLIER_PELLETEUSE);
         mCorrespondenceMap.put(ActuatorOrder.MED_PELLETEUSE, ActuatorOrder.MED_PELLETEUSE);
+        mCorrespondenceMap.put(ActuatorOrder.LIVRASON_PELLETEUSE, ActuatorOrder.LIVRASON_PELLETEUSE);
 
     //Pelle
 

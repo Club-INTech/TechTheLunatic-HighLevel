@@ -448,7 +448,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
-                actualState.robot.useActuator(ActuatorOrder.MOVE_BACKWARD.PELLE_REASSERV, false);
+                actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculApresDepotBoule1);
                 actualState.robot.goTo(pointDevantCratere2);
