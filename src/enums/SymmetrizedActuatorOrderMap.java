@@ -52,7 +52,7 @@ public class SymmetrizedActuatorOrderMap
         mCorrespondenceMap.put(ActuatorOrder.LIVRAISON_PELLETEUSE, ActuatorOrder.LIVRAISON_PELLETEUSE);
         mCorrespondenceMap.put(ActuatorOrder.REPLIER_PELLETEUSE, ActuatorOrder.REPLIER_PELLETEUSE);
         mCorrespondenceMap.put(ActuatorOrder.MED_PELLETEUSE, ActuatorOrder.MED_PELLETEUSE);
-        mCorrespondenceMap.put(ActuatorOrder.LIVRASON_PELLETEUSE, ActuatorOrder.LIVRASON_PELLETEUSE);
+        mCorrespondenceMap.put(ActuatorOrder.LIVRAISON_PELLETEUSE, ActuatorOrder.LIVRAISON_PELLETEUSE);
 
     //Pelle
 

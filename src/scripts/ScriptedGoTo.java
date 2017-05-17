@@ -46,7 +46,7 @@ public class ScriptedGoTo extends AbstractScript
 
     private double angleCratereFondAvantDepotModule = Math.PI/4;
 
-    private int distanceCratereFondAvantDepotModule = -92;
+    private int distanceCratereFondAvantDepotModule = -82;
     private int distanceCratereFondApresDepotModule = 55;
 
     private Vec2 pointSortieCratereFond =new Vec2(1160,1210);
