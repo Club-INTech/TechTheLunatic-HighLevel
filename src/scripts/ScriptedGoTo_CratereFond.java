@@ -76,7 +76,7 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
 
                 //Prise des boules
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
