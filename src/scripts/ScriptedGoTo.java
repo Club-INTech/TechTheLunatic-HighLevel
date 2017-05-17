@@ -91,7 +91,7 @@ public class ScriptedGoTo extends AbstractScript
         try{
 
             //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-            Hook replieTout0 = hookFactory.newPositionHook(new Vec2 (480, 600), (float) -Math.PI/2, 100, 400);
+            Hook replieTout0 = hookFactory.newPositionHook(new Vec2 (-480, -600), (float) -Math.PI/2, 100, 400);
             replieTout0.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
             Hook priseModuleDroit = hookFactory.newPositionHook(point2EntreeFinTable, (float) -Math.PI/2, 300, 400);
             priseModuleDroit.addCallback(new Callback(new PrepareToCatchModD(), true, actualState));
