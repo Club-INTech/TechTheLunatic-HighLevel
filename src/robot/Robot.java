@@ -67,7 +67,6 @@ public class Robot implements Service {
 	 * la position du robot
 	 */
 	protected Vec2 position;
-
 	protected Pathfinding pathfinding;
 
 	/**
@@ -80,6 +79,16 @@ public class Robot implements Service {
 	 * Le rayon est la distance entre le centre des roues et le point le plus éloigné du centre
 	 */
 	private int robotRay;
+
+	/**
+	 * Largeur du robot
+	 */
+	public int robotWidth;
+
+	/**
+	 * Longueur du robot
+	 */
+	public int robotLength;
 
 	/**
 	 * chemin en court par le robot, utilise par l'interface graphique
@@ -149,6 +158,8 @@ public class Robot implements Service {
 		try {
 			symmetry = config.getProperty("couleur").replaceAll(" ", "").equals("jaune"); // TODO : modifier la couleur adverse
 			robotRay = Integer.parseInt(config.getProperty("rayon_robot"));
+			robotLength = Integer.parseInt(config.getProperty("longueur_robot"));
+			robotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
 			position = Table.entryPosition;
 			orientation = Math.PI;
 		} catch (ConfigPropertyNotFoundException e) {
