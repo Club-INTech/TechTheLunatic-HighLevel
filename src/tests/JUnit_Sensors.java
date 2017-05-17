@@ -170,10 +170,10 @@ public class JUnit_Sensors extends JUnit_Test
 
 		try 
 		{
-			state.robot.setOrientation(3*Math.PI/4);
-			state.robot.switchSensor();
+			state.robot.setOrientation(0);
 			Sleep.sleep(2000);
-			state.robot.moveLengthwiseAndWaitIfNeeded(1000);
+			state.robot.moveLengthwiseAndWaitIfNeeded(500);
+			state.robot.turn(Math.PI/2);
 		} 
 
 		catch (Exception e)

@@ -99,7 +99,7 @@ public class JUnit_Locomotion extends JUnit_Test
 	@Test
 	public void testMoveLengthwise() 
 	{
-		try 
+		try
 		{
 			int distance = 210;
 			while(true)
@@ -113,7 +113,7 @@ public class JUnit_Locomotion extends JUnit_Test
 				}
 				if(cardWrapper.isRobotMovingAndAbnormal()[1])
 					throw new Exception();
-				
+
 				mLocomotion.moveLengthwise(-distance, null, false);
 				while(cardWrapper.isRobotMovingAndAbnormal()[0])
 				{
@@ -131,8 +131,7 @@ public class JUnit_Locomotion extends JUnit_Test
 			log.debug(e);
 			return;
 		}
-		
-	}	
+	}
 
 	/**
 	 * Test_tourner.

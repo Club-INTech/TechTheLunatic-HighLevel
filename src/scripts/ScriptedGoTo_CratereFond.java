@@ -71,9 +71,7 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
 
                 //changement de vitesse pour ne pas pousser les balles
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-
                 actualState.robot.goTo(point4arriveDevantCratereFond);
-
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
                 //Prise des boules
@@ -82,10 +80,6 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
-
-
-
-
 
                 //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
                 //Hook prise module 1
