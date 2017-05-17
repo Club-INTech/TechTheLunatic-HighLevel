@@ -116,7 +116,7 @@ public class ThreadTimer extends AbstractThread
 		log.debug("Lancement du thread timer");
 
 		// on eteind les capteursgetObstacleManager
-		config.set("capteurs_on", "true");
+		//config.set("capteurs_on", "true");
 		serialWrapper.updateConfig();
 
         try
