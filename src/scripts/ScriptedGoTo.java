@@ -37,8 +37,8 @@ public class ScriptedGoTo extends AbstractScript
 
     private Vec2 point1MilieuTable = new Vec2(620,800);
 
-    private Vec2 point2EntreeFinTable = new Vec2(860,1400);
-    private Vec2 point3AttrapperModule1 = new Vec2(880,1760);
+    private Vec2 point2EntreeFinTable = new Vec2(880,1400);
+    private Vec2 point3AttrapperModule1 = new Vec2(900,1760);
     private Vec2 point4arriveDevantCratereFond = new Vec2(600,1810);
     private double angleDevantCratereFond = Math.PI - 0.39;
     private int distanceCratereFondApresBoules = -145;
@@ -179,7 +179,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(point4arriveDevantCratereFond);
                 actualState.robot.turn(angleDevantCratereFond);
 
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 //Prise des boules
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
@@ -194,7 +194,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);    //Ralentit pour éviter de défoncer la zone
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule);
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
@@ -270,7 +270,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(-29*Math.PI/32);
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(130);
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
@@ -312,7 +312,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-547, hooksToConsider);
                 actualState.robot.turn(Math.PI/2);
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.moveLengthwise(250);
 
                 //Aller au cratère du fond
@@ -361,7 +361,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goToMove(80);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
 
-                //actualState.robot.goToMove(point3AttrapperModule1, 80);
+
 
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
@@ -370,7 +370,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(point4arriveDevantCratereFond);
                 actualState.robot.turn(angleDevantCratereFond);
 
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 //Prise des boules
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
@@ -385,7 +385,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);    //Ralentit pour éviter de défoncer la zone
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule);
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
@@ -455,7 +455,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(vec.getA());
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(140);
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
