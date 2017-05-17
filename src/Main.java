@@ -91,7 +91,7 @@ public class Main
 				// System.out.println("Le robot commence le match");
 
 
-// TODO boolééens sur chaque script a vérifier/Changer l'entryPosition/Système de zone
+
 				System.out.println("90 secondes pour faire des points Billy");
 				scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, realState, emptyHook);
 				realState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
@@ -100,12 +100,22 @@ public class Main
 				System.out.println("Le robot commence le match");
 				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(1, realState, emptyHook);
 
-			} catch (EnnemyCrashedException e) {//TODO mettre des boucles ou des appels récursifs
+			} catch (EnnemyCrashedException e) {
 				// On lance l'IA et la pathFinding
 				Pathfinding pf = container.getService(Pathfinding.class);
 
-
-				IA.decision(realState,scriptmanager,pf);
+				while(!ThreadTimer.matchEnded)
+				{
+				try {
+					IA.decision(realState, scriptmanager, pf);
+				}
+				catch (UnableToMoveException errorIa)
+				{
+					System.out.println("Unable to move dans l'ia");
+					//dans le cas ou on bloque dans l'ia on refait le graphe.
+					pf = container.getService(Pathfinding.class);
+				}
+				}
 
 			}
 			catch (UnableToMoveException e)
