@@ -45,7 +45,7 @@ public class ScriptedGoTo extends AbstractScript
 
     private double angleCratereFondAvantDepotModule = Math.PI/4;
 
-    private int distanceCratereFondAvantDepotModule = -105;
+    private int distanceCratereFondAvantDepotModule = -92;
     private int distanceCratereFondApresDepotModule = 55;
 
 
@@ -329,6 +329,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
@@ -397,6 +398,8 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
 
+                actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
+
                 actualState.robot.goTo(pointAvantModule2);
 
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
@@ -445,6 +448,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 
+                actualState.robot.useActuator(ActuatorOrder.MOVE_BACKWARD.PELLE_REASSERV, false);
+
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculApresDepotBoule1);
                 actualState.robot.goTo(pointDevantCratere2);
 
@@ -454,7 +459,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.turn(vec.getA());
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(155);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(140);
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
