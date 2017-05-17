@@ -40,7 +40,7 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point1MilieuTable = new Vec2(620,800);
     private Vec2 point2EntreeFinTable = new Vec2(890,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(890,1760);
-    private Vec2 point4arriveDevantCratereFond = new Vec2(595,1810);
+    private Vec2 point4arriveDevantCratereFond = new Vec2(610,1800);
     private double angleDevantCratereFond = Math.PI - 0.42;
     private int distanceCratereFondApresBoules = -150;
 
@@ -49,7 +49,7 @@ public class ScriptedGoTo extends AbstractScript
     private int distanceCratereFondAvantDepotModule = -92;
     private int distanceCratereFondApresDepotModule = 55;
 
-    private Vec2 pointSortieCratereFond =new Vec2(1190,1210);
+    private Vec2 pointSortieCratereFond =new Vec2(1160,1210);
     private Vec2 pointAvantModule2 = new Vec2(1000, 720);
     private int distanceReculModule2=-160;
     private int distanceApresModule2=100;
