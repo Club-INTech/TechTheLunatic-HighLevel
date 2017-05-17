@@ -81,7 +81,7 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
                 actualState.robot.setRempliDeBoules(true);
-                actualState.table.cratereDepart.isStillThere=false;
+                actualState.table.ballsCratereDepart.isStillThere=false;
 
 
 
@@ -101,6 +101,12 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
             }
 
         }
+        catch(UnableToMoveException e)
+        {
+            log.critical("Robot ou actionneur bloqué dans DropBalls");
+            finalize(actualState, e);
+        }
+
         catch(Exception e)
         {
             log.critical("Robot ou actionneur bloqué dans DropBalls");
@@ -147,6 +153,12 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
     {
         log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
         state.robot.setBasicDetection(false);
+    }
+    public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
+    {
+        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
+        state.robot.setBasicDetection(false);
+        throw e;
     }
 
     @Override

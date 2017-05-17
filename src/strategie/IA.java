@@ -1,6 +1,5 @@
 package strategie;
 
-import enums.DirectionStrategy;
 import enums.ScriptNames;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
@@ -11,11 +10,7 @@ import exceptions.serial.SerialConnexionException;
 import hook.Hook;
 import pathfinder.Pathfinding;
 import scripts.ScriptManager;
-import smartMath.Geometry;
 import smartMath.Vec2;
-import tests.JUnit_Match_scripted;
-import threads.ThreadTimer;
-import utils.Log;
 
 import java.util.ArrayList;
 
@@ -90,14 +85,14 @@ public class IA {
         }Inclu dans la livraison de boules 1 */
         ArrayList<Hook> emptyHook = new ArrayList<>();
 //Là on regarde ce qui est nul ou pas et on prend en conséquence
-        if(!cheminModuleFond.isEmpty() && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_MODULEFOND) && realState.table.cratereBase.isStillThere && realState.robot.getChargementModule()<=2)
+        if(!cheminModuleFond.isEmpty() && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_MODULEFOND) && realState.table.cylindreCratereBase.isStillThere && realState.robot.getChargementModule()<=2)
         {
                 realState.robot.followPath(cheminModuleFond, emptyHook);
                 scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_MODULEFOND).goToThenExec(0,realState,emptyHook);
 
 
         }
-        else if(realState.table.cratereBaseLunaire.isStillThere && !realState.robot.isRempliDeBoules() &&
+        else if(realState.table.ballsCratereBaseLunaire.isStillThere && !realState.robot.isRempliDeBoules() &&
                 !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND)
                 && (!cheminCratereFond.isEmpty() ||(realState.robot.getPosition().getY()>1400||realState.robot.getPosition().getX()>1100)))//(!chemincratèrefond.isEmpty) On ne teste pas l'existence du chemin pathfinding car on est dans un objet?
         {
@@ -125,14 +120,14 @@ public class IA {
                 scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND).goToThenExec(0,realState,emptyHook);
 
         }
-        else if(!cheminLivraisonBoules1.isEmpty() &&!realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1)  && realState.robot.isRempliDeBoules() && realState.table.cratere.isStillThere)//si on peut y aller et qu'on a nos boulasses et que le module est toujours là
+        else if(!cheminLivraisonBoules1.isEmpty() &&!realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1)  && realState.robot.isRempliDeBoules() && realState.table.cylindreCratereDepart.isStillThere)//si on peut y aller et qu'on a nos boulasses et que le module est toujours là
         {
                  realState.robot.followPath(cheminLivraisonBoules1, emptyHook);
                 scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1).goToThenExec(0,realState,emptyHook);
 
         }
 
-        else if(!cheminCraterePresBase.isEmpty()&& !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE)  && !realState.robot.isRempliDeBoules() && realState.table.cratere.isStillThere)//si on peut y aller et qu'on a pas de boulasses cratère est plein
+        else if(!cheminCraterePresBase.isEmpty()&& !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE)  && !realState.robot.isRempliDeBoules() && realState.table.cylindreCratereDepart.isStillThere)//si on peut y aller et qu'on a pas de boulasses cratère est plein
         {
                 realState.robot.followPath(cheminCratereFond, emptyHook);
                 scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE).goToThenExec(0,realState,emptyHook);
