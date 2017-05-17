@@ -61,7 +61,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
         pf = container.getService(Pathfinding.class);
     }
 
-    @Test
+    //@Test
     public void testClickedPF() throws Exception {
         Graphe graphe = pf.getGraphe();
         ArrayList<Vec2> graph = new ArrayList<>();
@@ -107,7 +107,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(Math.PI);
-        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
         scriptManager = container.getService(ScriptManager.class);
         mRobot.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
@@ -121,24 +121,34 @@ public class JUnit_Pathfinding extends JUnit_Test {
             graph.add(n.position);
         }
 
-        int randomYarr = ThreadLocalRandom.current().nextInt(0, 2000);
-        int randomXarr = ThreadLocalRandom.current().nextInt(-1500, 1500);
+        mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
+        int randomYarr = ThreadLocalRandom.current().nextInt(400, 1000);
+        int randomXarr = ThreadLocalRandom.current().nextInt(-400, 400);
         ArrayList<Vec2> path = pf.Astarfoulah(mRobot.robot.getPosition(),new Vec2(randomXarr,randomYarr),mRobot.robot.getOrientation(),mRobot.robot.getLocomotionSpeed().translationSpeed,mRobot.robot.getLocomotionSpeed().rotationSpeed  );
 
         mRobot.robot.followPath(path, new ArrayList<Hook>());
 
-        for (int i=0; i<100; i++) {
+        for (int i=0; i<10; i++) {
 
             win.getPanel().drawArrayList(path);
             win.getPanel().repaint();
             win.getPanel().drawGraphe(graph);
             win.getPanel().drawLinesGraph(graphe.getlNoeuds());
 
-            randomYarr = ThreadLocalRandom.current().nextInt(0, 2000);
-            randomXarr = ThreadLocalRandom.current().nextInt(-1500, 1500);
+            randomYarr = ThreadLocalRandom.current().nextInt(400, 1000);
+            randomXarr = ThreadLocalRandom.current().nextInt(-400, 400);
             path = pf.Astarfoulah(mRobot.robot.getPosition(), new Vec2(randomXarr, randomYarr), mRobot.robot.getOrientation(), mRobot.robot.getLocomotionSpeed().translationSpeed,mRobot.robot.getLocomotionSpeed().rotationSpeed );
             mRobot.robot.followPath(path, new ArrayList<Hook>());
         }
-        returnToEntryPosition(mRobot);
+        mRobot.robot.goTo(new Vec2(500, 850));
+        mRobot.robot.turn(0);
+        mRobot.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+        mRobot.robot.moveLengthwise(900, new ArrayList<Hook>(), true, false);
+
+        log.debug("Position ou le robot pense etre :" + mRobot.robot.getPosition() + " Orientation :" + mRobot.robot.getOrientationFast());
+        double posRay = mRobot.robot.getPositionFast().getR();
+        Vec2 newPos = new Vec2(1390 - mRobot.robot.robotWidth/2,mRobot.robot.getPositionFast().getY());
+        newPos.setR(posRay);
+        log.debug("Nouvelle position possible :" + newPos);
     }
 }

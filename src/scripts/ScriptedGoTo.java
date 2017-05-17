@@ -25,7 +25,9 @@ import java.util.ArrayList;
 
 
 /** Script sans pathfinding utilisant goTo(pointVisé)
- *
+ * version 0 : prend le module dans a fuée au début
+ * version 1 : prend le module multicolore devant la zone de départ à la place de la fusée
+ * version 2 : meme chose que la version 1 mais avec 2 manoeuvres de recalages
  * @author melanie
  */
 
@@ -36,7 +38,6 @@ public class ScriptedGoTo extends AbstractScript
     /** PointsVisés, dstances & angles du script, override par la config */
 
     private Vec2 point1MilieuTable = new Vec2(620,800);
-
     private Vec2 point2EntreeFinTable = new Vec2(880,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(900,1760);
     private Vec2 point4arriveDevantCratereFond = new Vec2(600,1810);
@@ -44,15 +45,10 @@ public class ScriptedGoTo extends AbstractScript
     private int distanceCratereFondApresBoules = -145;
 
     private double angleCratereFondAvantDepotModule = Math.PI/4;
-
     private int distanceCratereFondAvantDepotModule = -95;
     private int distanceCratereFondApresDepotModule = 55;
 
-
-
     private Vec2 pointSortieCratereFond =new Vec2(1190,1210);
-
-
     private Vec2 pointAvantModule2 = new Vec2(990, 720);
     private int distanceReculModule2=-160;
     private int distanceApresModule2=150;
@@ -60,9 +56,7 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
     private int distanceAvantDeposeBoules1=240;
     private int distanceReculApresDepotBoule1=-200;
-
     private Vec2 pointDevantCratere2 = new Vec2(1100, 650);
-
     private boolean detect = false;
 
 
@@ -127,7 +121,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
-
 
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-150);
@@ -297,10 +290,7 @@ public class ScriptedGoTo extends AbstractScript
             if (versionToExecute==1)
             {
 
-
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-
-
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
 
@@ -361,9 +351,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goToMove(80);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
 
-
-
-
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
 
@@ -396,7 +383,6 @@ public class ScriptedGoTo extends AbstractScript
                 //actualState.robot.goTo(pointSortieCratereFond);
 
                 actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
-
                 actualState.robot.goTo(pointAvantModule2);
 
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
@@ -405,11 +391,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
                 actualState.robot.turn(Math.PI-0.1);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculModule2);
-                //actualState.robot.goTo(point7AttrapperModule2);
 
                 //Prise de module 2
-
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
@@ -475,6 +458,197 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwise(-120);
             }
 
+            if(versionToExecute == 2){
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
+                // Avec le Hook pour prendre le module multicolore pret de la zone de départ
+
+                actualState.robot.goToMove(new Vec2(615,206), 80);
+                actualState.robot.turn(2*Math.PI/3);   // 250, 580 <- 578, 208
+                actualState.robot.moveLengthwise(600);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                actualState.robot.moveLengthwise(-547, hooksToConsider);
+                actualState.robot.turn(Math.PI/2);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.moveLengthwise(250);
+
+                //Aller au cratère du fond
+                actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+                actualState.robot.goTo(point1MilieuTable, hooksToConsider);
+                actualState.robot.goTo(point2EntreeFinTable, hooksToConsider);
+                actualState.robot.turn(-Math.PI/2);
+
+                actualState.robot.goTo(point3AttrapperModule1);
+
+                //prise du module du fond
+
+                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+
+                /*
+                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
+                */
+
+                // Recalage
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true);
+                Vec2 oldPos = actualState.robot.getPosition();
+                Vec2 newPos = oldPos.clone();
+                newPos.setY(1835);
+                newPos.setR(oldPos.getR());
+                actualState.robot.setPosition(newPos);
+                actualState.robot.setOrientation(-Math.PI/2);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(80);
+
+                actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
+
+                //changement de vitesse pour ne pas pousser les balles
+
+                actualState.robot.goToMove(80);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
+
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
+
+                actualState.robot.goTo(point4arriveDevantCratereFond);
+                actualState.robot.turn(angleDevantCratereFond);
+
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
+                //Prise des boules
+                actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
+                actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+                actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
+
+                //Livraison module
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
+                actualState.robot.turn(angleCratereFondAvantDepotModule);
+                actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);    //Ralentit pour éviter de défoncer la zone
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresDepotModule);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+
+                //actualState.robot.goTo(pointSortieCratereFond);
+
+                actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
+                actualState.robot.goTo(pointAvantModule2);
+
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+
+                actualState.robot.turn(Math.PI-0.1);
+
+                // Recalage
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true, false);
+                oldPos = actualState.robot.getPosition();
+                newPos = oldPos.clone();
+                newPos.setX(1225);
+                newPos.setR(oldPos.getR());
+                actualState.robot.setPosition(newPos);
+                actualState.robot.setOrientation(0);
+
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
+                //Prise de module 2
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+
+                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
+
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
+                actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
+                //actualState.robot.goTo(pointAvantDeposeBoules1);
+                actualState.robot.turn(-Math.PI/2);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
+
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
+                actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
+                actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculApresDepotBoule1);
+                actualState.robot.goTo(pointDevantCratere2);
+
+                Vec2 posCratere= new Vec2(850, 540);
+                Vec2 posRobot=actualState.robot.getPosition();
+                Vec2 vec = posCratere.minusNewVector(posRobot);
+
+                actualState.robot.turn(vec.getA());
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(140);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(-150);
+                actualState.robot.turn(-Math.PI/2);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(165);
+
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
+                actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
+
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+                actualState.robot.moveLengthwise(-120);
+            }
 
         }
         catch(Exception e)
