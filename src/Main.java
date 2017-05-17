@@ -91,7 +91,7 @@ public class Main
 				// System.out.println("Le robot commence le match");
 
 
-// TODO boolééens sur chaque script a vérifier/Ajouter les infos de matchs sur le fullScript/ Changer l'entryPosition/ Catch des exceptions supplémentaires comme unableToMove.
+// TODO boolééens sur chaque script a vérifier/Changer l'entryPosition/Système de zone
 				System.out.println("90 secondes pour faire des points Billy");
 				scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, realState, emptyHook);
 				realState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
@@ -103,6 +103,8 @@ public class Main
 			} catch (EnnemyCrashedException e) {//TODO mettre des boucles ou des appels récursifs
 				// On lance l'IA et la pathFinding
 				Pathfinding pf = container.getService(Pathfinding.class);
+
+
 				IA.decision(realState,scriptmanager,pf);
 
 			}

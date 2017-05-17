@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
@@ -66,7 +67,7 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
 
             if (versionToExecute==0)
             {
-
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE,true);
                 actualState.robot.goTo(pointDevantCratere2);
                 actualState.robot.turn(-15*Math.PI/16);
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);

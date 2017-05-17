@@ -90,7 +90,7 @@ public class IA {
         }
         ArrayList<Hook> emptyHook = new ArrayList<>();
 //Là on regarde ce qui est nul ou pas et on prend en conséquence
-        if(!cheminModuleFond.isEmpty() && realState.table.cratereBase.isStillThere && realState.robot.getChargementModule()==0)
+        if(!cheminModuleFond.isEmpty() && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_MODULEFOND) && realState.table.cratereBase.isStillThere && realState.robot.getChargementModule()<=2)
         {
             try {
                 realState.robot.followPath(cheminModuleFond, emptyHook);
@@ -102,7 +102,7 @@ public class IA {
             }
 
         }
-        else if(realState.table.cratereBaseLunaire.isStillThere && !realState.robot.isRempliDeBoules())//(!chemincratèrefond.isEmpty) On ne teste pas l'existence du chemin pathfinding car on est dans un objet?
+        else if(realState.table.cratereBaseLunaire.isStillThere && !realState.robot.isRempliDeBoules() && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND))//(!chemincratèrefond.isEmpty) On ne teste pas l'existence du chemin pathfinding car on est dans un objet?
         {
             try {
              //   realState.robot.followPath(cheminCratereFond, emptyHook);
@@ -114,7 +114,7 @@ public class IA {
             }
 
         }
-        else if( realState.robot.getChargementModule()>=1)//Pareil qu'au dessus !cheminLivraisonModuleFond.isEmpty() &&
+        else if( realState.robot.getChargementModule()>=1 && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND))//Pareil qu'au dessus !cheminLivraisonModuleFond.isEmpty() &&
         {
             try {
                // realState.robot.followPath(cheminCratereFond, emptyHook);
@@ -126,7 +126,7 @@ public class IA {
             }
 
         }
-        else if(!cheminLivraisonBoules1.isEmpty()  && realState.robot.isRempliDeBoules() && realState.table.cratere.isStillThere)//si on peut y aller et qu'on a nos boulasses et que le module est toujours là
+        else if(!cheminLivraisonBoules1.isEmpty() &&!realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1)  && realState.robot.isRempliDeBoules() && realState.table.cratere.isStillThere)//si on peut y aller et qu'on a nos boulasses et que le module est toujours là
         {
             try {
                  realState.robot.followPath(cheminLivraisonBoules1, emptyHook);
@@ -139,11 +139,11 @@ public class IA {
 
         }
 
-        else if(!cheminCraterePresBase.isEmpty()  && !realState.robot.isRempliDeBoules() && realState.table.cratere.isStillThere)//si on peut y aller et qu'on a pas de boulasses cratère est plein
+        else if(!cheminCraterePresBase.isEmpty()&& !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE)  && !realState.robot.isRempliDeBoules() && realState.table.cratere.isStillThere)//si on peut y aller et qu'on a pas de boulasses cratère est plein
         {
             try {
                 realState.robot.followPath(cheminCratereFond, emptyHook);
-                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1).goToThenExec(0,realState,emptyHook);
+                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE).goToThenExec(0,realState,emptyHook);
             }
             catch (Exception e)
             {
@@ -151,7 +151,7 @@ public class IA {
             }
 
         }
-        else if(!cheminLivraisonBoules2.isEmpty()  && realState.robot.isRempliDeBoules())//si on peut y aller et qu'on a nos boulasses
+        else if(!cheminLivraisonBoules2.isEmpty()  && realState.robot.isRempliDeBoules() &&!realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_MODULEFOND))//si on peut y aller et qu'on a nos boulasses
         {
             try {
                 realState.robot.followPath(cheminLivraisonBoules2, emptyHook);

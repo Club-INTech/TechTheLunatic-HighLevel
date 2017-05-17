@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
@@ -83,7 +84,7 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
 
                 if (versionToExecute==0)
                 {
-
+                    actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES2,true);
                     actualState.robot.moveLengthwise(-150);
                     actualState.robot.turn(-Math.PI/2);
                     actualState.robot.moveLengthwise(150);

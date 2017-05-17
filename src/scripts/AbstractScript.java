@@ -56,7 +56,6 @@ public abstract class AbstractScript implements Service
 	/**  Liste des versions du script. */
 	protected Integer[] versions;
 
-	protected boolean dejaFaitCeScript=false;
 	
 	/**
 	 * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.

@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
@@ -71,6 +72,7 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
 
             if (versionToExecute==0)
             {
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEPRESBASE,true);
 
                 actualState.robot.goTo(pointAvantModule2);
 
