@@ -40,7 +40,7 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point1MilieuTable = new Vec2(620,800);
     private Vec2 point2EntreeFinTable = new Vec2(890,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(890,1760);
-    private Vec2 point4arriveDevantCratereFond = new Vec2(630,1790);
+    private Vec2 point4arriveDevantCratereFond = new Vec2(700,1820);
     private double angleDevantCratereFond = Math.PI - 0.42;
     private int distanceCratereFondApresBoules = -150;
 
@@ -500,7 +500,6 @@ public class ScriptedGoTo extends AbstractScript
                 Vec2 oldPos = actualState.robot.getPosition();
                 Vec2 newPos = oldPos.clone();
                 newPos.setY(1835);
-                newPos.setR(oldPos.getR());
                 actualState.robot.setPosition(newPos);
                 actualState.robot.setOrientation(-Math.PI/2);
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
@@ -553,12 +552,11 @@ public class ScriptedGoTo extends AbstractScript
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true, false);
-                oldPos = actualState.robot.getPosition();
+            /*    oldPos = actualState.robot.getPosition();
                 newPos = oldPos.clone();
                 newPos.setX(1225);
-                newPos.setR(oldPos.getR());
                 actualState.robot.setPosition(newPos);
-                actualState.robot.setOrientation(Math.PI);
+                actualState.robot.setOrientation(Math.PI);*/
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
