@@ -324,12 +324,21 @@ public class Locomotion implements Service
 		actualRetriesIfBlocked=0;// on reinitialise
     }
 
-    public void moveLengthwiseAndWaitIfEnnemy(int distance, ArrayList<Hook> hooks) throws UnableToMoveException
+    /**
+     * Vérifie qu'il n'y a pas d'ennemi AVANT d'avancer tous les timeToWaitEnnemy, puis lance un moveLengthwise classique
+     * Si l'attente est très longue, on considère que l'ennemi a crash et on ajoute un obstacle permanent sur la table
+     * On laisse l'IA gérer la suite
+     * @param distance
+     * @param hooks
+     * @param expectedWallImpact
+     * @param isDetect
+     * @throws UnableToMoveException
+     */
+    public void moveLengthwiseAndWaitIfEnnemy(int distance, ArrayList<Hook> hooks, boolean expectedWallImpact, boolean isDetect) throws UnableToMoveException
     {
         Double dist = (double) distance;
         Vec2 aim = new Vec2(dist, highLevelOrientation);
         int totalTime = 0;
-
         int closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
         log.debug("Distance à l'ennemie le plus proche dans le sens de la marche :" + closest);
 
@@ -349,7 +358,7 @@ public class Locomotion implements Service
         }
 
         else{
-            moveLengthwise(distance, hooks, false, true);
+            moveLengthwise(distance, hooks, expectedWallImpact, isDetect);
         }
     }
 
@@ -590,7 +599,7 @@ public class Locomotion implements Service
                     sens = 1;
                 }
 
-                moveLengthwiseAndWaitIfEnnemy((int) finalAim.minusNewVector(highLevelPosition).length()*sens, hooks);
+                moveLengthwiseAndWaitIfEnnemy((int) finalAim.minusNewVector(highLevelPosition).length()*sens, hooks, headingToWall, mustDetect);
 			}
             catch(SerialConnexionException e)
             {

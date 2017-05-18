@@ -125,12 +125,6 @@ public class Robot implements Service {
 	 */
 	private Locomotion mLocomotion;
 
-    /**
-     * Dernière position demandée par un goTo ou un goToMove
-     */
-    private Vec2 pointPrecedent;
-
-
 	/**
 	 * Constructeur
 	 *
@@ -311,12 +305,16 @@ public class Robot implements Service {
 		speed = oldSpeed;
 	}
 
+	public void moveLengthwiseAndWaitIfNeeded(int distance, ArrayList<Hook> hooks, boolean expectedWallImpact, boolean isDetect) throws UnableToMoveException{
+		mLocomotion.moveLengthwise(distance, hooks, expectedWallImpact, isDetect);
+	}
+
 	public void moveLengthwiseAndWaitIfNeeded(int distance, ArrayList<Hook> hooks) throws UnableToMoveException{
-		mLocomotion.moveLengthwiseAndWaitIfEnnemy(distance, hooks);
+		moveLengthwiseAndWaitIfNeeded(distance, hooks, false, true);
 	}
 
 	public void moveLengthwiseAndWaitIfNeeded(int distance) throws UnableToMoveException{
-		moveLengthwiseAndWaitIfNeeded(distance, new ArrayList<Hook>());
+		moveLengthwiseAndWaitIfNeeded(distance, new ArrayList<Hook>(), false, true);
 	}
 
 	public void moveLengthwiseWithoutDetection(int distance) throws UnableToMoveException {
@@ -352,29 +350,14 @@ public class Robot implements Service {
 		moveLengthwise(distance, new ArrayList<Hook>(), false);
 	}
 
-
-	/**
+    /** Effectue un mouvement en ligne droite jusqu'au point désiré.
 	 * @param pointVise
-	 * @throws UnableToMoveException Pour aller à un point visé.
-	 *                               Utilisé dans les scripts de match sans pathfinding.
-	 *                               &
-	 */
-	public void goTo(Vec2 pointVise) throws UnableToMoveException {
-		goTo(pointVise, new ArrayList<Hook>());
-		pointPrecedent = pointVise;
-	}
-
- /**
-	 *
-	 * @param pointVise
+	 * @param hooksToConsider
+	 * @param expectedWallImpact
+	 * @param isDetect
 	 * @throws UnableToMoveException
-	 *
-	 * Pour aller à un point visé.
-	 * Utilisé dans les scripts de match sans pathfinding.
-	 *  &
 	 */
-    public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
-		pointPrecedent = pointVise;
+    public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider, boolean expectedWallImpact, boolean isDetect) throws UnableToMoveException {
         log.debug("goTo: " + pointVise);
     	position = getPositionFast();
 		orientation = getOrientationFast();
@@ -395,65 +378,43 @@ public class Robot implements Service {
 		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
 		if (directionStrategy == DirectionStrategy.FASTEST) {
 			if (3 * Math.PI / 2 < o || o < Math.PI / 2) { //si il est orienté vers l'avant par rapport au point visé
-				turn(a);
-				moveLengthwiseAndWaitIfNeeded(r, hooksToConsider);
+				turn(a, hooksToConsider, expectedWallImpact, false);
+				moveLengthwiseAndWaitIfNeeded(r, hooksToConsider, expectedWallImpact, isDetect);
 			} else if (3 * Math.PI / 2 >= o && o >= Math.PI / 2) { //si il est orienté vers l'arrière par rapport au point visé
 				a = a + Math.PI;
-				turn(a);
-				moveLengthwiseAndWaitIfNeeded(-r, hooksToConsider);
+				turn(a, hooksToConsider, expectedWallImpact, false);
+				moveLengthwiseAndWaitIfNeeded(-r, hooksToConsider, expectedWallImpact, isDetect);
 			}
 		}
 		if (directionStrategy == DirectionStrategy.FORCE_BACK_MOTION) {
 			a = a + Math.PI;
-			turn(a);
-			moveLengthwiseAndWaitIfNeeded(-r, hooksToConsider);
+			turn(a, hooksToConsider, expectedWallImpact, false);
+			moveLengthwiseAndWaitIfNeeded(-r, hooksToConsider, expectedWallImpact, isDetect);
 		} else if (directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION) {
-			turn(a);
-			moveLengthwiseAndWaitIfNeeded(r, hooksToConsider);
+			turn(a, hooksToConsider, expectedWallImpact, false);
+			moveLengthwiseAndWaitIfNeeded(r, hooksToConsider, expectedWallImpact, isDetect);
 		}
     }
 
-    /**
-     * goTo qui se comporte comme un moveLenghwise(distance) en calculant à quel point il doit se rendre
-     *
-     * @param pointActuel
-     * @param distance
-     * @param hooksToConsider
-     * @throws UnableToMoveException
-     */
-    public void goToMove(Vec2 pointActuel, int distance, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
-        log.debug("goToMove: pointActuel "+ pointActuel + ",distance "+ distance);
-        orientation = getOrientationFast();
-        Vec2 pointVise = pointActuel.plusNewVector(new Vec2((double)distance, orientation)) ;
-        goTo(pointVise, hooksToConsider);
-    }
+	/**
+	 * Effectue un trajet en ligne droite jusqu'au point désiré
+	 * @param pointVise
+	 * @param hooksToConsider
+	 * @throws UnableToMoveException
+	 */
+	public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
+    	goTo(pointVise, hooksToConsider, false, true);
+	}
 
-    /**
-     *
-     * @param pointActuel
-     * @param distance
-     * @throws UnableToMoveException
-     */
-    public void goToMove(Vec2 pointActuel, int distance) throws UnableToMoveException {
-        goToMove(pointActuel, distance, new ArrayList<Hook>());
-    }
+	/**
+	 * De meme
+	 * @param pointVise
+	 * @throws UnableToMoveException
+	 */
 
-    /**
-     * @param distance
-     * @param hooksToConsider
-     * @throws UnableToMoveException
-     */
-    public void goToMove(int distance, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
-        goToMove(pointPrecedent, distance, hooksToConsider);
-    }
-
-    /**
-     * @param distance
-     * @throws UnableToMoveException
-     */
-    public void goToMove(int distance) throws UnableToMoveException {
-        goToMove(pointPrecedent, distance, new ArrayList<Hook>());
-    }
+	public void goTo(Vec2 pointVise) throws UnableToMoveException{
+    	goTo(pointVise, new ArrayList<Hook>(), false, true);
+	}
 
     /**
      * Méthode pour se tourner vers un point

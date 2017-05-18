@@ -292,8 +292,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
-
-                actualState.robot.goToMove(new Vec2(615,206), 80);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(80);
                 actualState.robot.turn(2*Math.PI/3);   // 250, 580 <- 578, 208
                 actualState.robot.moveLengthwise(600);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
@@ -314,7 +313,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(point3AttrapperModule1);
 
                 //prise du module du fond
-
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
@@ -348,7 +346,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 //changement de vitesse pour ne pas pousser les balles
 
-                actualState.robot.goToMove(178, hooksToConsider);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(178, hooksToConsider);
                 //actualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
@@ -462,8 +460,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
-
-                actualState.robot.goToMove(new Vec2(615,206), 80);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(80);
                 actualState.robot.turn(2*Math.PI/3);   // 250, 580 <- 578, 208
                 actualState.robot.moveLengthwise(600);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
@@ -483,7 +480,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(point3AttrapperModule1);
 
                 //prise du module du fond
-
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
@@ -498,20 +494,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
-                /*
-                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
-                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
-                */
-
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true);
@@ -522,15 +504,11 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setPosition(newPos);
                 actualState.robot.setOrientation(-Math.PI/2);
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(80);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(140, hooksToConsider);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
                 //changement de vitesse pour ne pas pousser les balles
-
-                actualState.robot.goToMove(80);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
-
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
 
