@@ -44,6 +44,34 @@ public class IA {
 
         }
 
+        catch(StackOverflowError err)
+        {
+            ObstacleManager oManager = realState.table.getObstacleManager();
+            boolean depInObstacle=false;
+            int j=0;
+            while (!depInObstacle && j < oManager.getmCircularObstacle().size()) {
+
+                if (oManager.getmCircularObstacle().get(j).isInObstacle(safePointFond)) {
+                    depInObstacle=true;
+                }
+
+                j++;
+            }
+            if(realState.robot.getPosition().getY()>1400 && !depInObstacle)// On change le point de départ si
+            {
+                cheminCraterePresBase = pf.Astarfoulah(safePointFond, new Vec2(1100, 650),realState.robot.getOrientation(), realState.robot.getLocomotionSpeed().translationSpeed, realState.robot.getLocomotionSpeed().rotationSpeed);
+                if(!cheminCratereFond.isEmpty())
+                {
+                    cheminCraterePresBase.add(0,safePointFond);
+                }
+            }
+            else
+            {
+                System.out.println("Mec j'ai tout essayé là");
+            }
+
+        }
+
         try {
              cheminCraterePresBase = pf.Astarfoulah(realState.robot.getPosition(), new Vec2(1100, 650),
             realState.robot.getOrientation(), realState.robot.getLocomotionSpeed().translationSpeed, realState.robot.getLocomotionSpeed().rotationSpeed);
@@ -156,11 +184,67 @@ public class IA {
             System.out.println("Pointinobstacle");
 
         }
+
+        catch(StackOverflowError err)
+        {
+            ObstacleManager oManager = realState.table.getObstacleManager();
+            boolean depInObstacle=false;
+            int j=0;
+            while (!depInObstacle && j < oManager.getmCircularObstacle().size()) {
+
+                if (oManager.getmCircularObstacle().get(j).isInObstacle(safePointFond)) {
+                    depInObstacle=true;
+                }
+
+                j++;
+            }
+            if(realState.robot.getPosition().getY()>1400 && !depInObstacle)// On change le point de départ si
+            {
+                cheminCraterePresBase = pf.Astarfoulah(safePointFond, new Vec2(1100, 650),realState.robot.getOrientation(), realState.robot.getLocomotionSpeed().translationSpeed, realState.robot.getLocomotionSpeed().rotationSpeed);
+                if(!cheminCratereFond.isEmpty())
+                {
+                    cheminCraterePresBase.add(0,safePointFond);
+                }
+            }
+            else
+            {
+                System.out.println("Mec j'ai tout essayé là");
+            }
+
+        }
         try {
             cheminModuleFond = pf.Astarfoulah(realState.robot.getPosition(),safePointFond,
                     realState.robot.getOrientation(), realState.robot.getLocomotionSpeed().translationSpeed, realState.robot.getLocomotionSpeed().rotationSpeed);
         } catch (PointInObstacleException v) {
             System.out.println("Pointinobstacle");
+
+        }
+
+        catch(StackOverflowError err)
+        {
+            ObstacleManager oManager = realState.table.getObstacleManager();
+            boolean depInObstacle=false;
+            int j=0;
+            while (!depInObstacle && j < oManager.getmCircularObstacle().size()) {
+
+                if (oManager.getmCircularObstacle().get(j).isInObstacle(safePointFond)) {
+                    depInObstacle=true;
+                }
+
+                j++;
+            }
+            if(realState.robot.getPosition().getY()>1400 && !depInObstacle)// On change le point de départ si
+            {
+                cheminCraterePresBase = pf.Astarfoulah(safePointFond, new Vec2(1100, 650),realState.robot.getOrientation(), realState.robot.getLocomotionSpeed().translationSpeed, realState.robot.getLocomotionSpeed().rotationSpeed);
+                if(!cheminCratereFond.isEmpty())
+                {
+                    cheminCraterePresBase.add(0,safePointFond);
+                }
+            }
+            else
+            {
+                System.out.println("Mec j'ai tout essayé là");
+            }
 
         }
         /*
