@@ -62,7 +62,8 @@ public class Main
 // dans la config de debut de match, toujours demander une entrée clavier assez longue (ex "oui" au lieu de "o", pour éviter les fautes de frappes. Une erreur a ce stade coûte cher.
 // ---> En même temps si tu tapes n à la place de o, c'est que tu es vraiment con.  -Discord
 // PS : Les vérifications et validations c'est pas pour les chiens.
-	public static void main(String[] args) throws InterruptedException {
+	public static void main(String[] args) throws InterruptedException
+	{
 		try {
 			container = new Container();
 			config = container.getService(Config.class);
@@ -78,19 +79,19 @@ public class Main
 			// TODO : faire une initialisation du robot et de ses actionneurs
 			realState.robot.setPosition(Table.entryPosition);
 			realState.robot.setOrientation(Math.PI);
-			realState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
+			realState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
 
-			container.getService(ThreadSensor.class);
-			container.getService(ThreadInterface.class);
+			//container.getService(ThreadSensor.class);
+			//container.getService(ThreadInterface.class);
 			container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
 		}
-		catch (ContainerException container)
+		catch(ContainerException p)
 		{
 			System.out.println("bug container");
 		}
 			// container.startAllThreads();
-		try {
+			try{
 				// waitMatchBegin();
 				// System.out.println("Le robot commence le match");
 
@@ -100,7 +101,7 @@ public class Main
 
 				waitMatchBegin();
 				System.out.println("Le robot commence le match");
-				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(1, realState, emptyHook);
+				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(2, realState, emptyHook);
 
 			} catch (EnnemyCrashedException e) {
 				// On lance l'IA et la pathFinding
