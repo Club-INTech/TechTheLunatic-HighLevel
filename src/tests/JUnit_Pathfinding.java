@@ -57,6 +57,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
         super.setUp();
         log = container.getService(Log.class);
         table = container.getService(Table.class);
+        mRobot=container.getService(GameState.class);
         win = new Window(table);
         pf = container.getService(Pathfinding.class);
     }
@@ -100,7 +101,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
         }
     }
 
-     @Test
+
     public void testrandom() throws Exception
     {
         mRobot = container.getService(GameState.class);
