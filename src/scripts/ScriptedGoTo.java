@@ -658,7 +658,7 @@ public class ScriptedGoTo extends AbstractScript
         try{
 
             detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
-            recalageThresholdOrientation = Double.parseDouble("tolerance_orientation_recalage");
+            recalageThresholdOrientation = Double.parseDouble(config.getProperty("tolerance_orientation_recalage"));
 
         } catch (ConfigPropertyNotFoundException e){
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
