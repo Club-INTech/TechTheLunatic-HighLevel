@@ -42,11 +42,11 @@ public class ScriptedGoTo extends AbstractScript
     private Vec2 point3AttrapperModule1 = new Vec2(875,1760);
     private Vec2 point4arriveDevantCratereFond = new Vec2(710,1795);
     private double angleDevantCratereFond = Math.PI - 0.25;
-    private int distanceCratereFondApresBoules = -155;
+    private int distanceCratereFondApresBoules = -160;
 
     private double angleCratereFondAvantDepotModule = Math.PI/4;
 
-    private int distanceCratereFondAvantDepotModule = -147;
+    private int distanceCratereFondAvantDepotModule = -148;
     private int distanceCratereFondApresDepotModule = 55;
 
     private Vec2 pointSortieCratereFond =new Vec2(1160,1210);
@@ -474,6 +474,7 @@ public class ScriptedGoTo extends AbstractScript
                 //Aller au cratère du fond
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
                 actualState.robot.goTo(point1MilieuTable, hooksToConsider);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
                 actualState.robot.goTo(point2EntreeFinTable, hooksToConsider);
                 actualState.robot.turn(-Math.PI/2);
 
@@ -513,7 +514,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.goTo(point4arriveDevantCratereFond);
                 actualState.robot.turn(angleDevantCratereFond);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(60);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(65);
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
