@@ -38,29 +38,30 @@ public class ScriptedGoTo extends AbstractScript
 
     /** PointsVisés, dstances & angles du script, override par la config */
 
-    private Vec2 point1MilieuTable = new Vec2(620,800);             //
-    private Vec2 point2EntreeFinTable = new Vec2(890,1400);         //
-    private Vec2 point3AttrapperModule1 = new Vec2(890,1760);       //
-    private Vec2 point4arriveDevantCratereFond = new Vec2(630,1790);//
-    private double angleDevantCratereFond = Math.PI - 0.42;                                //
-    private int distanceCratereFondApresBoules = -150;                                     //
+    private Vec2 point1MilieuTable = new Vec2(620,800);
+    private Vec2 point2EntreeFinTable = new Vec2(890,1400);
+    private Vec2 point3AttrapperModule1 = new Vec2(875,1760);
+    private Vec2 point4arriveDevantCratereFond = new Vec2(710,1794);
+    private double angleDevantCratereFond = Math.PI - 0.28;
+    private int distanceCratereFondApresBoules = -170;
 
     private double angleCratereFondAvantDepotModule = Math.PI/4;                           //
+    private int distanceCratereFondAvantDepotModule = -152;
+    private int distanceCratereFondApresDepotModule = 55;
 
-    private int distanceCratereFondAvantDepotModule = -82;                                 //
-    private int distanceCratereFondApresDepotModule = 55;                                  //
+    private Vec2 pointSortieCratereFond =new Vec2(1150,1210);
+    private Vec2 pointIntermediaireVersModule =new Vec2(1150,950);
+    private Vec2 pointAvantModule2 = new Vec2(1030, 710);
+    private int distanceReculModule2=-150;
+    private int distanceApresModule2=60;
 
-    private Vec2 pointSortieCratereFond =new Vec2(1160,1210);       //
-    private Vec2 pointAvantModule2 = new Vec2(1000, 720);           //
-    private int distanceReculModule2=-160;                                                 //
-    private int distanceApresModule2=100;                                                  //
+    private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
+    private int distanceAvantDeposeBoules1=180;
+    private int distanceReculApresDepotBoule1=-200;
+    private Vec2 pointDevantCratere2 = new Vec2(1100, 680);
 
-    private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);     //
-    private int distanceAvantDeposeBoules1=240;                                            //
-    private int distanceReculApresDepotBoule1=-200;                                        //
-    private Vec2 pointDevantCratere2 = new Vec2(1100, 650);         //
-    private boolean detect = false;                                                        //
-    private double recalageThresholdOrientation;                                           //
+    private boolean detect = false;
+    private double recalageThresholdOrientation;
 
     /**
      * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -88,7 +89,7 @@ public class ScriptedGoTo extends AbstractScript
             //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
             Hook replieTout0 = hookFactory.newPositionHook(new Vec2 (-480, -600), (float) -Math.PI/2, 100, 400);
             replieTout0.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
-            Hook priseModuleDroit = hookFactory.newPositionHook(point2EntreeFinTable, (float) -Math.PI/2, 300, 400);
+            Hook priseModuleDroit = hookFactory.newPositionHook(new Vec2(890,1500), (float) -Math.PI/2, 300, 400);
             priseModuleDroit.addCallback(new Callback(new PrepareToCatchModD(), true, actualState));
             Hook repliTout1 = hookFactory.newPositionHook(point3AttrapperModule1, (float) -Math.PI/2, 50, 100);
             repliTout1.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
@@ -457,12 +458,18 @@ public class ScriptedGoTo extends AbstractScript
                 //Aller au cratère du fond
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
                 actualState.robot.goTo(point1MilieuTable, hooksToConsider);
-                actualState.robot.goTo(point2EntreeFinTable, hooksToConsider);
-                actualState.robot.turn(-Math.PI / 2);
+
+                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                actualState.robot.goTo(point2EntreeFinTable);
+                actualState.robot.turn(-Math.PI/2);
+
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
 
                 actualState.robot.goTo(point3AttrapperModule1);
 
                 //prise du module du fond
+
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
@@ -471,6 +478,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
@@ -483,7 +491,6 @@ public class ScriptedGoTo extends AbstractScript
                 Vec2 oldPos = actualState.robot.getPosition();
                 Vec2 newPos = oldPos.clone();
                 newPos.setY(1835);
-                newPos.setR(oldPos.getR());
                 actualState.robot.setPosition(newPos);
 
                 log.debug("Orientation :" + actualState.robot.getOrientationFast());
@@ -493,7 +500,7 @@ public class ScriptedGoTo extends AbstractScript
                 }
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(140, hooksToConsider);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(187, hooksToConsider);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
@@ -503,12 +510,13 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.goTo(point4arriveDevantCratereFond);
                 actualState.robot.turn(angleDevantCratereFond);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(75);
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 //Prise des boules
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE_BAS, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
@@ -527,7 +535,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 
-                actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
+                actualState.robot.goTo(pointSortieCratereFond);
+                actualState.robot.goTo(pointIntermediaireVersModule);
+
                 actualState.robot.goTo(pointAvantModule2);
 
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
@@ -543,7 +553,6 @@ public class ScriptedGoTo extends AbstractScript
                 oldPos = actualState.robot.getPosition();
                 newPos = oldPos.clone();
                 newPos.setX(1225);
-                newPos.setR(oldPos.getR());
                 actualState.robot.setPosition(newPos);
 
                 log.debug("Orientation :" + actualState.robot.getOrientationFast());
@@ -601,7 +610,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.turn(vec.getA());
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(155);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(135);
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -610,9 +619,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(-150);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(-190);
                 actualState.robot.turn(-Math.PI/2);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(165);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(130);
 
                 actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
