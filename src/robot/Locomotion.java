@@ -1042,7 +1042,16 @@ public class Locomotion implements Service
             
             lowLevelPosition.setX((int)infos[0]);
             lowLevelPosition.setY((int)infos[1]);
-            lowLevelOrientation = infos[2]; // car getCurrentPositionAndOrientation renvoie des radians
+
+            double orientationConvention = infos[2]%(2*Math.PI);
+            if (orientationConvention > Math.PI){
+                orientationConvention -= 2*Math.PI;
+            }
+            else if(orientationConvention < -Math.PI){
+                orientationConvention += 2*Math.PI;
+            }
+
+            lowLevelOrientation = orientationConvention;
             
             highLevelPosition=lowLevelPosition.clone();
             highLevelOrientation=lowLevelOrientation;

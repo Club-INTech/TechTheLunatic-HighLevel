@@ -62,7 +62,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
         pf = container.getService(Pathfinding.class);
     }
 
-    //@Test
+    // @Test
     public void testClickedPF() throws Exception {
         Graphe graphe = pf.getGraphe();
         ArrayList<Vec2> graph = new ArrayList<>();
@@ -101,7 +101,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
         }
     }
 
-
+    // @Test
     public void testrandom() throws Exception
     {
         mRobot = container.getService(GameState.class);
