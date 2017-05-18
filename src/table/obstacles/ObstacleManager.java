@@ -492,6 +492,49 @@ public class ObstacleManager
 		}
 	}
 
+	/**
+	 * Retourne l'ennemie le plus proche, afin de pouvoir en faire un obstacle permanant
+	 * (appelé seulement en cas de crash du robot adverse)
+	 * @param position la position de notre robot
+	 * @param direction direction selon laquelle on doit considérer les ennemies
+	 * @return l'ennemie le plus proche
+	 */
+	public synchronized ObstacleCircular getClosestObstacle (Vec2 position, Vec2 direction){
+
+		try
+		{
+			//si aucun ennemi n'est détecté, on suppose que l'ennemi le plus proche est à 1m)
+
+			int squaredDistanceToClosestEnemy = 10000000;
+			int squaredDistanceToEnemyTested=10000000 ;
+
+			ObstacleCircular closestEnnemy = null;
+
+			//trouve l'ennemi le plus proche parmis les obstacles confirmés
+			for(int i=0; i<mMobileObstacles.size(); i++)
+			{
+				Vec2 ennemyRelativeCoords = mMobileObstacles.get(i).getPosition().minusNewVector(position);
+				if(direction.dot(ennemyRelativeCoords) > 0)
+				{
+					squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
+					if(squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy)
+					{
+						squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
+						closestEnnemy = mMobileObstacles.get(i);
+					}
+				}
+			}
+			return closestEnnemy;
+		}
+		catch(IndexOutOfBoundsException e)
+		{
+			log.critical("Ah bah oui, out of bound");
+			throw e;
+
+		}
+	}
+
+
 	/** Retourne true si le robot ennemie se trouve dans un rectangle devant / derriere de robot, ce rectangle étant
 	 * la zone où notre cher Billy pourrait percuter le robot ennemie s'il avancait (sans tourner)
 	 * @param aim la position de visé
