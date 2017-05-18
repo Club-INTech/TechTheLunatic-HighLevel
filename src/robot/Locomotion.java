@@ -257,6 +257,7 @@ public class Locomotion implements Service
     	 */
     	Vec2 aim = highLevelPosition.plusNewVector(new Vec2(1000.0,angle));
     	/*Vec2 aim = new Vec2(
+
         (int) (highLevelPosition.getX() + 1000*Math.cos(angle)),
         (int) (highLevelPosition.getY() + 1000*Math.sin(angle))
         );*/
