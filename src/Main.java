@@ -35,9 +35,7 @@ import smartMath.Vec2;
 import strategie.GameState;
 import strategie.IA;
 import table.Table;
-import threads.ThreadInterface;
 import threads.ThreadTimer;
-import threads.dataHandlers.ThreadSensor;
 import utils.Config;
 import utils.Log;
 

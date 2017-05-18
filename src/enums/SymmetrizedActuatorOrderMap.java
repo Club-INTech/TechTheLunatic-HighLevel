@@ -57,6 +57,8 @@ public class SymmetrizedActuatorOrderMap
     //Pelle
 
         mCorrespondenceMap.put(ActuatorOrder.PRET_PELLE, ActuatorOrder.PRET_PELLE);
+        mCorrespondenceMap.put(ActuatorOrder.P1, ActuatorOrder.P1);
+        mCorrespondenceMap.put(ActuatorOrder.P2, ActuatorOrder.P2);
         mCorrespondenceMap.put(ActuatorOrder.PREND_PELLE, ActuatorOrder.PREND_PELLE);
         mCorrespondenceMap.put(ActuatorOrder.LIVRE_PELLE, ActuatorOrder.LIVRE_PELLE);
         mCorrespondenceMap.put(ActuatorOrder.RANGE_PELLE, ActuatorOrder.RANGE_PELLE);
