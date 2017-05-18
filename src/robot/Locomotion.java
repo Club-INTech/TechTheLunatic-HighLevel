@@ -513,7 +513,8 @@ public class Locomotion implements Service
 
 		                    else 
 		                    	isRobotMovingBackward=true;
-		                	moveToPointException(aim, hooks, isMovementForward, headingToWall, turnOnlyAndGiveSense, mustDetect); // on rentente s'il a y eu un probleme
+		                    log.debug("doit on avancer pour se dégager?: "+isMovementForward);
+                            moveToPointException(aim, hooks, isMovementForward, headingToWall, turnOnlyAndGiveSense, mustDetect); // on rentente s'il a y eu un probleme
 		                	isRobotMovingForward=false;
 		                	isRobotMovingBackward=false;
 		                }
@@ -557,18 +558,18 @@ public class Locomotion implements Service
 	                            serialWrapper.moveLengthwise(-distanceToDisengage);
 	                        while(!isMotionEnded());
 	                    		doItAgain = true; // si on est arrivé ici c'est qu'aucune exception n'a été levée
-	                    } 
+	                    }
 	                    catch (SerialConnexionException e1)
 	                    {
 	            			log.critical( e1.logStack());
 	                        log.debug("On ne fait rien après ceci: Catch de "+e1+" dans moveToPointException");
-	                    } 
+	                    }
 	                    catch (BlockedException e1)
 	                    {
 	            			log.critical( e1.logStack());
 	                        log.debug("Catch de "+e1+" dans moveToPointException");
-	                    	immobilise();                       
-	                        
+	                    	immobilise();
+
 
 		                    if(!doItAgain)
 		                    {

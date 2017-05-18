@@ -35,7 +35,9 @@ import smartMath.Vec2;
 import strategie.GameState;
 import strategie.IA;
 import table.Table;
+import threads.ThreadInterface;
 import threads.ThreadTimer;
+import threads.dataHandlers.ThreadSensor;
 import utils.Config;
 import utils.Log;
 
@@ -82,13 +84,15 @@ public class Main
 			container.getService(ThreadInterface.class);
 			container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
-
+		}
+		catch (ContainerException container)
+		{
+			System.out.println("bug container");
+		}
 			// container.startAllThreads();
-			try {
+		try {
 				// waitMatchBegin();
 				// System.out.println("Le robot commence le match");
-
-
 
 				System.out.println("90 secondes pour faire des points Billy");
 				scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, realState, emptyHook);
@@ -100,37 +104,71 @@ public class Main
 
 			} catch (EnnemyCrashedException e) {
 				// On lance l'IA et la pathFinding
+			try {
 				Pathfinding pf = container.getService(Pathfinding.class);
 
-				while(!ThreadTimer.matchEnded)
-				{
-				try {
-					IA.decision(realState, scriptmanager, pf);
-				}
-				catch (UnableToMoveException errorIa)
-				{
-					System.out.println("Unable to move dans l'ia");
-					//dans le cas ou on bloque dans l'ia on refait le graphe.
-					pf = container.getService(Pathfinding.class);
-				}
-				}
+				while (!ThreadTimer.matchEnded) {
+					try {
+						IA.decision(realState, scriptmanager, pf);
+					} catch (UnableToMoveException errorIa) {
+						System.out.println("Unable to move dans l'ia");
+						//dans le cas ou on bloque dans l'ia on refait le graphe.
 
+
+					}
+					catch (Exception autre) {
+						System.out.println("wtf exception caught");
+						//dans le cas ou on bloque dans l'ia on refait le graphe.
+
+
+					}
+				}
 			}
-			catch (UnableToMoveException e)
+			catch (ContainerException container)
 			{
+				System.out.println("bug container");
+			}
+				}
+
+		catch (UnableToMoveException unabletomove)
+		{
+			try {
 				Pathfinding pf = container.getService(Pathfinding.class);
-				IA.decision(realState,scriptmanager,pf);
+
+				while (!ThreadTimer.matchEnded) {
+					try {
+						IA.decision(realState, scriptmanager, pf);
+					} catch (UnableToMoveException errorIa) {
+						System.out.println("Unable to move dans l'ia");
+						//dans le cas ou on bloque dans l'ia on refait le graphe.
+
+
+					}
+					catch (Exception autre) {
+						System.out.println("wtf exception caught");
+						//dans le cas ou on bloque dans l'ia on refait le graphe.
+
+
+					}
+				}
+			}
+			catch (ContainerException container)
+			{
+				System.out.println("bug container");
+			}
+		}
+
+
+
+		catch (Exception k) {
+			System.out.println("bon je bug hard");
+
+				}
+
+
 			}
 
-		} catch (ContainerException e) {
-			e.printStackTrace();
-		}
-		catch (Exception e)
-		{
-			System.out.println("Meh wtf exception caught");
-			e.printStackTrace();
-		}
-	}
+
 
 
 	/**

@@ -200,8 +200,18 @@ public class Robot implements Service {
 			sleep(order.getDuration());
 		}
 	}
+	/* Effectue un mouvement en ligne droite jusqu'au point désiré.
+            * @param pointVise
+	 * @throws UnableToMoveException Pour aller à un point visé.
+	 *                               Utilisé dans les scripts de match sans pathfinding.
+            *                               &
 
-	/**
+    public void goTo(Vec2 pointVise) throws UnableToMoveException {
+        goTo(pointVise, new ArrayList<Hook>());
+    }
+*/
+
+    /**
 	 * Renvoie la valeur d'un capteur de contact
 	 *
 	 * @param sensor le capteur en question
@@ -371,15 +381,6 @@ public class Robot implements Service {
 		moveLengthwise(distance, new ArrayList<Hook>(), false);
 	}
 
-    /** Effectue un mouvement en ligne droite jusqu'au point désiré.
-	 * @param pointVise
-	 * @throws UnableToMoveException Pour aller à un point visé.
-	 *                               Utilisé dans les scripts de match sans pathfinding.
-	 *                               &
-	 */
-	public void goTo(Vec2 pointVise) throws UnableToMoveException {
-		goTo(pointVise, new ArrayList<Hook>());
-	}
 
  /**
 	 *
@@ -390,8 +391,6 @@ public class Robot implements Service {
 	 * @throws UnableToMoveException
 	 */
     public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider, boolean expectedWallImpact, boolean isDetect) throws UnableToMoveException {
-        log.debug("goTo: " + pointVise);
-    public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
 		log.debug("goTo: " + pointVise);
     	position = getPositionFast();
 		orientation = getOrientationFast();
