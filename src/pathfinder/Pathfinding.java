@@ -169,7 +169,13 @@ public class Pathfinding implements Service {
                 log.debug("Point de départ dans un obstacle :" + departV);
                 // Cas des obstacles circulaires
                 if (obstacle instanceof ObstacleCircular) {
-                    Vec2 vecRef = obstacle.getPosition().minusNewVector(departV);
+
+                    Vec2 toReturn = Geometry.pointExterieur(departV, ((ObstacleCircular) obstacle).getCircle());
+                    ArrayList<Vec2> newPath = Astarfoulah(toReturn, arriveeV, robotOrientation, translationSpeed,rotationSpeed );
+                    newPath.add(0, departV);
+                    return newPath;
+
+                    /* Vec2 vecRef = obstacle.getPosition().minusNewVector(departV);
                     double radius = ((ObstacleCircular) obstacle).getRadius();
 
                     // De même, on différencie les cas ou le robot est tangent, et celui ou il est perpendiculaire
@@ -198,7 +204,7 @@ public class Pathfinding implements Service {
                             newPath.add(0, departV);
                             return newPath;
                         }
-                    }
+                    }*/
                 }
 
                 // TODO Optimisier le cas des obstacles rectangulaires
