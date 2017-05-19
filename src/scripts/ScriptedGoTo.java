@@ -39,10 +39,10 @@ public class ScriptedGoTo extends AbstractScript
     /** PointsVisés, dstances & angles du script, override par la config */
 
     private Vec2 point1MilieuTable = new Vec2(620,800);
-    private Vec2 point2EntreeFinTable = new Vec2(895,1400);
+    private Vec2 point2EntreeFinTable = new Vec2(888,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(875,1760);
-    private Vec2 point4arriveDevantCratereFond = new Vec2(710,1794);
-    private double angleDevantCratereFond = Math.PI - 0.28;
+    private Vec2 point4arriveDevantCratereFond = new Vec2(700,1805);
+    private double angleDevantCratereFond = Math.PI - 0.35;
     private int distanceCratereFondApresBoules = -170;
 
     private double angleCratereFondAvantDepotModule = Math.PI/4;                           //
@@ -442,7 +442,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(140);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(85);
                 actualState.robot.turn(2 * Math.PI / 3 + 0.1);   // 250, 580 <- 578, 208
                 actualState.robot.moveLengthwise(600);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
@@ -488,7 +488,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
                 // Recalage
-               /* actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true);
                 Vec2 oldPos = actualState.robot.getPosition();
                 Vec2 newPos = oldPos.clone();
@@ -499,10 +499,10 @@ public class ScriptedGoTo extends AbstractScript
                 if (Math.abs(actualState.robot.getOrientationFast() + Math.PI/2)%(2*Math.PI) < recalageThresholdOrientation) {
                     log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() + Math.PI/2)%(2*Math.PI));
                     actualState.robot.setOrientation(-Math.PI / 2);
-                }*/
+                }
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(187, hooksToConsider);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(180, hooksToConsider);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
@@ -512,7 +512,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.goTo(point4arriveDevantCratereFond);
                 actualState.robot.turn(angleDevantCratereFond);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(75);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(70);
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
@@ -552,7 +552,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(Math.PI);
 
                 // Recalage
-                /*actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true, false);
                 oldPos = actualState.robot.getPosition();
                 newPos = oldPos.clone();
@@ -563,7 +563,7 @@ public class ScriptedGoTo extends AbstractScript
                 if (Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI) < recalageThresholdOrientation) {
                     log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI));
                     actualState.robot.setOrientation(Math.PI);
-                }*/
+                }
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
@@ -683,7 +683,7 @@ public class ScriptedGoTo extends AbstractScript
     @Override
     public void finalize(GameState state, Exception e) throws UnableToMoveException
     {
-        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
+        log.debug("Exception " + e +"dans ScriptedGoTo Lancement du finalize !");
         state.robot.setBasicDetection(false);
     }
 
