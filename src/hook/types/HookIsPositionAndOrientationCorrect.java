@@ -62,9 +62,9 @@ public class HookIsPositionAndOrientationCorrect extends Hook
 	{
 		if(  mState.robot.getPosition().distance(mPoint) < mTolerancyPoint ) //verification de la distance au point
 		{
-			if(Math.abs(mState.robot.getOrientation()-mOrientation) < mTolerancyOrientation)// verification de l'orientation 
+			if(Math.abs(mState.robot.getOrientationFast()-mOrientation) < mTolerancyOrientation)// verification de l'orientation
 			{
-				log.debug("en position ("+mState.robot.getPosition().getX()+", "+mState.robot.getPosition().getY()+") et orientation "+mState.robot.getOrientation()+" au trigger du Hook de position et d'orientation");
+				log.debug("en position ("+mState.robot.getPositionFast().getX()+", "+mState.robot.getPositionFast().getY()+") et orientation "+mState.robot.getOrientationFast()+" au trigger du Hook de position et d'orientation");
 				return trigger();
 			}
 		}
