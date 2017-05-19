@@ -30,7 +30,7 @@ import java.util.ArrayList;
 /**
  * Obstacle de forme circulaire.
  *
- * @author pf, marsu
+ * @author pf,
  */
 public class ObstacleCircular extends Obstacle
 {

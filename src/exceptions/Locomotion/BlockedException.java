@@ -25,7 +25,7 @@ import java.io.StringWriter;
 
 /**
  * Exception lancée en cas de blocage mécanique du robot (les moteurs forcent sans que les codeuses tournent)
- * @author pf, marsu
+ * @author pf
  *
  */
 public class BlockedException extends Exception

@@ -45,7 +45,7 @@ import java.util.ArrayList;
 
 /**
  * Code qui démarre le robot en début de match
- * @author marsu, paul
+ * @author paul
  *
  */
 public class Main

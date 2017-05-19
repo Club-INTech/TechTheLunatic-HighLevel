@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 /**
  * Classe implémentant le concept d'une connexion série.
  * Utilisable pour parler à la carte bas-niveau
- * @author karton, dede, kayou, pf, discord
+ * @author dede, kayou, pf, discord
  *
  * Fonctionne désormais en thread séparant les informations en différents canaux, le canal principal
  * restant dans cette classe

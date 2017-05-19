@@ -28,7 +28,7 @@ import utils.Log;
 
 /**
   * Classe enregistrée comme service qui instancie puis fournira les scripts.
-  * @author pf, marsu
+  * @author pf
   */
  
 public class ScriptManager implements Service

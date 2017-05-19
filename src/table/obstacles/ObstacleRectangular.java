@@ -29,7 +29,7 @@ import java.util.ArrayList;
 /**
  * Obstacle rectangulaire sont les bords sont alignés avec les axes X et Y (pas de possibilité de faire un rectangle en biais).
  * 
- * @author pf, marsu
+ * @author pf,
  */
 public class ObstacleRectangular extends Obstacle
 {

@@ -23,7 +23,7 @@ import smartMath.Vec2;
 /**
  * classe abstraite pour les obstacles sur la table.
  * Les obstacles peuvent avoir différentes formes, et être soit fixes d'un match a l'autre, soit mobiles (un robot adverse est par exemple un obstacle mobile)
- * @author pf, marsu
+ * @author pf,
  *
  */
 public abstract class Obstacle

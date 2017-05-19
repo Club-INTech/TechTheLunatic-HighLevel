@@ -30,7 +30,7 @@ import java.util.GregorianCalendar;
 /**
  * Service de log, affiche à l'écran et enregistre dans des fichiers de logs des informations avec différents niveaux de couleurs.
  *
- * @author pf, marsu
+ * @author pf,
  */
 
 public class Log implements Service
