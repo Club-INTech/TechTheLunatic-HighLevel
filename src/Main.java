@@ -76,13 +76,13 @@ public class Main
 
 			Thread.currentThread().setPriority(6);
 
-			// TODO : faire une initialisation du robot et de ses actionneurs
+            // TODO : faire une initialisation du robot et de ses actionneurs
 			realState.robot.setPosition(Table.entryPosition);
 			realState.robot.setOrientation(Math.PI);
 			realState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
 
-			//container.getService(ThreadSensor.class);
-			//container.getService(ThreadInterface.class);
+			container.getService(ThreadSensor.class);
+			container.getService(ThreadInterface.class);
 			container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
 		}
@@ -105,7 +105,10 @@ public class Main
 
 			} catch (EnnemyCrashedException e) {
 				// On lance l'IA et la pathFinding
+				System.out.println("Et l'IA répondra a cet appel");
 			try {
+				System.out.println("Pour l'IA et le PATHFINDING!!!!");
+
 				Pathfinding pf = container.getService(Pathfinding.class);
 
 				while (!ThreadTimer.matchEnded) {
@@ -118,6 +121,7 @@ public class Main
 
 					}
 					catch (Exception autre) {
+						autre.printStackTrace();
 						System.out.println("wtf exception caught");
 						//dans le cas ou on bloque dans l'ia on refait le graphe.
 

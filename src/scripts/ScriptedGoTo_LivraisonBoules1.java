@@ -68,12 +68,12 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
 
                 if (versionToExecute==0)
                 {
-                    actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1,true);
+                    actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
                     //actualState.robot.goTo(pointAvantDeposeBoules1);
                     actualState.robot.turn(-Math.PI/2);
                     actualState.robot.moveLengthwise(distanceAvantDeposeBoules1);
 
-                    actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                    actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
                     actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
                     actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
@@ -147,12 +147,7 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
                 log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
             }
         }
-    public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
-    {
-        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
-        state.robot.setBasicDetection(false);
-        throw e;
-    }
+
         @Override
         public void finalize(GameState state, Exception e) throws UnableToMoveException
         {

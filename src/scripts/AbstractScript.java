@@ -55,7 +55,6 @@ public abstract class AbstractScript implements Service
 
 	/**  Liste des versions du script. */
 	protected Integer[] versions;
-
 	
 	/**
 	 * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -85,7 +84,7 @@ public abstract class AbstractScript implements Service
 		log.debug("Lancement de " + this.toString() + " version " + versionToExecute);
 		try 
 		{
-			if(!actualState.robot.getPosition().veryClose(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPosition()).getCenter())) {
+			if(!actualState.robot.getPosition().equals(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPositionFast()).getCenter())) {
 
 				log.debug("Appel au PathFinding, car Position du robot :" + actualState.robot.getPosition() + " et entrée du script :" + entryPosition(versionToExecute, actualState.robot.getRobotRadius(), actualState.robot.getPosition()).getCenter());
 

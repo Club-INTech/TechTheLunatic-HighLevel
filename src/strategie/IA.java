@@ -14,6 +14,8 @@ import smartMath.Circle;
 import smartMath.Geometry;
 import smartMath.Segment;
 import smartMath.Vec2;
+import table.obstacles.Obstacle;
+import table.obstacles.ObstacleCircular;
 import table.obstacles.ObstacleManager;
 
 import java.util.ArrayList;
@@ -43,23 +45,43 @@ public class IA {
             System.out.println("Pointinobstacle");
 
         }
-
         catch(StackOverflowError err)
         {
+            System.out.println("Stackoverflow, on serait-y-pas dans un obstacle?");
             ObstacleManager oManager = realState.table.getObstacleManager();
+            boolean depSecoursInObstacle=false;
             boolean depInObstacle=false;
+            ObstacleCircular dedans=null;
             int j=0;
-            while (!depInObstacle && j < oManager.getmCircularObstacle().size()) {
+            while (!depSecoursInObstacle && !depInObstacle && j < oManager.getmCircularObstacle().size()) {
 
                 if (oManager.getmCircularObstacle().get(j).isInObstacle(safePointFond)) {
-                    depInObstacle=true;
+                    depSecoursInObstacle=true;
+
                 }
+
+            if (oManager.getmCircularObstacle().get(j).isInObstacle(realState.robot.getPosition())) {// a ajouter les rects
+                System.out.println("J'ai trouve l'obstacle");
+                depInObstacle=true;
+                dedans=oManager.getmCircularObstacle().get(j);
+            }
 
                 j++;
             }
             if(realState.robot.getPosition().getY()>1400 && !depInObstacle)// On change le point de départ si
             {
+                System.out.println("utilisation de la zone");
                 cheminCraterePresBase = pf.Astarfoulah(safePointFond, new Vec2(1100, 650),realState.robot.getOrientation(), realState.robot.getLocomotionSpeed().translationSpeed, realState.robot.getLocomotionSpeed().rotationSpeed);
+                if(!cheminCratereFond.isEmpty())
+                {
+                    cheminCraterePresBase.add(0,safePointFond);
+                }
+            }
+            else if(dedans!=null)
+            {
+                System.out.println("Utilisation de noeudProche");
+              Vec2 pointext=pf.getGraphe().noeudProche(realState.robot.getPosition());
+                cheminCraterePresBase=pf.Astarfoulah(pointext,new Vec2(1100, 650),realState.robot.getOrientation(), realState.robot.getLocomotionSpeed().translationSpeed, realState.robot.getLocomotionSpeed().rotationSpeed);
                 if(!cheminCratereFond.isEmpty())
                 {
                     cheminCraterePresBase.add(0,safePointFond);
@@ -275,41 +297,41 @@ public class IA {
 
         }
 
-        else if( realState.robot.getChargementModule()>=1 && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND) )//Pareil qu'au dessus !cheminLivraisonModuleFond.isEmpty() &&
+        else if( realState.robot.getChargementModule()>=1 && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND) )//Pareil qu'au dessus !cheminLivraisonModuleFond.isEmpty() &&
         {
                  realState.robot.followPath(cheminLivraisonModuleFond, emptyHook);
-                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND).goToThenExec(0,realState,emptyHook);
+                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND).goToThenExec(0,realState,emptyHook);
 
         }
-        else if( realState.robot.getChargementModule()>=1 && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND) &&
+        else if( realState.robot.getChargementModule()>=1 && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND) &&
         (!cheminLivraisonModuleFond.isEmpty() ||(realState.robot.getPosition().getY()>1400||realState.robot.getPosition().getX()>1100)))//Pareil qu'au dessus !cheminLivraisonModuleFond.isEmpty() &&
         {
                // realState.robot.followPath(cheminCratereFond, emptyHook);
-                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND).goToThenExec(0,realState,emptyHook);
+                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND).goToThenExec(0,realState,emptyHook);
 
         }
-        else if( realState.robot.getChargementModule()>=1 && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND)){
+        else if( realState.robot.getChargementModule()>=1 && !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND)){
                  realState.robot.followPath(cheminModuleFond, emptyHook);
-                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND).goToThenExec(0,realState,emptyHook);
+                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND).goToThenExec(0,realState,emptyHook);
 
         }
-        else if(!cheminLivraisonBoules1.isEmpty() &&!realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1)  && realState.robot.isRempliDeBoules() && realState.table.cylindreCratereDepart.isStillThere)//si on peut y aller et qu'on a nos boulasses et que le module est toujours là
+        else if(!cheminLivraisonBoules1.isEmpty() &&!realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1)  && realState.robot.isRempliDeBoules() && realState.table.cylindreCratereDepart.isStillThere)//si on peut y aller et qu'on a nos boulasses et que le module est toujours là
         {
                  realState.robot.followPath(cheminLivraisonBoules1, emptyHook);
-                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1).goToThenExec(0,realState,emptyHook);
+                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1).goToThenExec(0,realState,emptyHook);
 
         }
 
-        else if(!cheminCraterePresBase.isEmpty()&& !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE)  && !realState.robot.isRempliDeBoules() && realState.table.cylindreCratereDepart.isStillThere)//si on peut y aller et qu'on a pas de boulasses cratère est plein
+        else if(!cheminCraterePresBase.isEmpty()&& !realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE)  && !realState.robot.isRempliDeBoules() && realState.table.cylindreCratereDepart.isStillThere)//si on peut y aller et qu'on a pas de boulasses cratère est plein
         {
                 realState.robot.followPath(cheminCratereFond, emptyHook);
-                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE).goToThenExec(0,realState,emptyHook);
+                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE).goToThenExec(0,realState,emptyHook);
 
         }
         else if(!cheminLivraisonBoules2.isEmpty()  && realState.robot.isRempliDeBoules() &&!realState.robot.dejaFait.get(ScriptNames.SCRIPTED_GO_TO_MODULEFOND))//si on peut y aller et qu'on a nos boulasses
         {
                 realState.robot.followPath(cheminLivraisonBoules2, emptyHook);
-                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES2).goToThenExec(0,realState,emptyHook);
+                scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2).goToThenExec(0,realState,emptyHook);
 
         }
 

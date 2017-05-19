@@ -10,6 +10,7 @@ import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
+import exceptions.serial.SerialConnexionException;
 import hook.Callback;
 import hook.Hook;
 import hook.methods.*;
@@ -82,7 +83,7 @@ public class ScriptedGoTo extends AbstractScript
 
 
     @Override
-    public void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException
+    public void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException,SerialConnexionException
     {
         updateConfig();
         try{
@@ -204,7 +205,7 @@ public class ScriptedGoTo extends AbstractScript
 
 
                 //Livraison module
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND,true);
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
@@ -227,7 +228,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(pointSortieCratereFond);
 
                 //Ici commence livraison boules1
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1,true);
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
 
                 actualState.robot.goTo(pointAvantModule2);
 
@@ -356,6 +357,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
@@ -572,7 +574,7 @@ public class ScriptedGoTo extends AbstractScript
 
 
                 //Livraison module
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND,true);
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
@@ -607,7 +609,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(Math.PI);
 
                 //Là on commence le script livraison 1 (à vérifier)
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1,true);
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true, false);
@@ -670,7 +672,7 @@ public class ScriptedGoTo extends AbstractScript
                 //la on drop nos BALLS et on lance le script suivant
 
                 actualState.robot.setRempliDeBoules(false);
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE,true);
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,true);
 
 
 
@@ -695,7 +697,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereDepart.isStillThere=false;
 
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES2,true);
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,true);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-190);
                 actualState.robot.turn(-Math.PI/2);
@@ -716,6 +718,7 @@ public class ScriptedGoTo extends AbstractScript
         {
             log.critical("Robot ou actionneur bloqué dans ScriptedGoTo");
             finalize(actualState, e);
+            throw e;
 
         }
     }
@@ -755,11 +758,12 @@ public class ScriptedGoTo extends AbstractScript
         }
     }
 
-    @Override
+
     public void finalize(GameState state, Exception e) throws UnableToMoveException
     {
-        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
+        log.debug("Exception " + e +"dans scriptedGOTO : Lancement du finalize !");
         state.robot.setBasicDetection(false);
+
 
     }
 
