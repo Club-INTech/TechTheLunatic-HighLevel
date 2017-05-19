@@ -141,10 +141,10 @@ public enum ActuatorOrder
 	PRET_PELLE("pd",1700),
 
 	// Position 1 pour éviter le blocage des boules dans la pelle
-	P1("p1", 200),
+	P1("p1", 400),
 
 	// Position 2, à faire juste après la position 1 et avant de finir le mouvement habituel de la pelle
-	P2("p2", 200),
+	P2("p2", 400),
 
 	//Position initiale, de rangement de la pelle
 	RANGE_PELLE("pb", 1000),
