@@ -211,7 +211,7 @@ public class Pathfinding implements Service {
                 // Cas des obstacles rectangulaires (similaire au cas de la table)
                 if (obstacle instanceof ObstacleRectangular) {
                     // Vec2 newDepartV = ((ObstacleRectangular) obstacle).pointProche(departV);
-                    Vec2 newDepartV = graphe.NoeudProche(departV);
+                    Vec2 newDepartV = graphe.noeudProche(departV);
                     log.debug("Nouveau départ :" + newDepartV);
                     double angleTest = newDepartV.minusNewVector(departV).getA();
                     double angleref = Math.abs(Math.abs(angleTest) - Math.abs(robotOrientation));
@@ -307,7 +307,7 @@ public class Pathfinding implements Service {
                 return newPath;
             }
             else if(obstacle instanceof ObstacleRectangular){
-                return Astarfoulah(departV, graphe.NoeudProche(arriveeV), robotOrientation, translationSpeed,rotationSpeed );
+                return Astarfoulah(departV, graphe.noeudProche(arriveeV), robotOrientation, translationSpeed,rotationSpeed );
             }
         }
 

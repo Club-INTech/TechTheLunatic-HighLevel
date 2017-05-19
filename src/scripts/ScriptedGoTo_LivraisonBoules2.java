@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
@@ -83,7 +84,7 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
 
                 if (versionToExecute==0)
                 {
-
+                    actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,true);
                     actualState.robot.moveLengthwise(-150);
                     actualState.robot.turn(-Math.PI/2);
                     actualState.robot.moveLengthwise(150);
@@ -92,7 +93,8 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                     actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
                     actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
-
+                    actualState.robot.setRempliDeBoules(true);
+                    actualState.obtainedPoints+=15;
 
 
 
@@ -110,6 +112,11 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
 
                 }
 
+            }
+            catch(UnableToMoveException e)
+            {
+                log.critical("Robot ou actionneur bloqué dans DropBalls");
+                finalize(actualState, e);
             }
             catch(Exception e)
             {
@@ -151,7 +158,12 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
                 log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
             }
         }
-
+    public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
+    {
+        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
+        state.robot.setBasicDetection(false);
+        throw e;
+    }
         @Override
         public void finalize(GameState state, Exception e) throws UnableToMoveException
         {
