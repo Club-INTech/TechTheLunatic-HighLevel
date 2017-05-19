@@ -1,6 +1,5 @@
 package scripts;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import enums.ActuatorOrder;
 import enums.DirectionStrategy;
 import enums.Speed;
@@ -11,7 +10,8 @@ import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
 import hook.Callback;
 import hook.Hook;
-import hook.methods.*;
+import hook.methods.CatchModuleD;
+import hook.methods.PrepareToCatchModD;
 import hook.methods.RepliAllActionneurs;
 import hook.types.HookFactory;
 import smartMath.Circle;
@@ -39,7 +39,7 @@ public class ScriptedGoTo extends AbstractScript
     /** PointsVisés, dstances & angles du script, override par la config */
 
     private Vec2 point1MilieuTable = new Vec2(620,800);
-    private Vec2 point2EntreeFinTable = new Vec2(890,1400);
+    private Vec2 point2EntreeFinTable = new Vec2(895,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(875,1760);
     private Vec2 point4arriveDevantCratereFond = new Vec2(710,1794);
     private double angleDevantCratereFond = Math.PI - 0.28;
@@ -442,8 +442,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 // Avec le Hook pour prendre le module multicolore pret de la zone de départ
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(80);
-                actualState.robot.turn(2 * Math.PI / 3);   // 250, 580 <- 578, 208
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(140);
+                actualState.robot.turn(2 * Math.PI / 3 + 0.1);   // 250, 580 <- 578, 208
                 actualState.robot.moveLengthwise(600);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
 
@@ -452,6 +452,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(Math.PI / 2);
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.moveLengthwise(250);
+                log.debug("position"+actualState.robot.getPosition());
+                log.debug("positionFast"+actualState.robot.getPositionFast());
 
                 log.debug("Orientation du HL :" + actualState.robot.getOrientationFast());
 
@@ -486,7 +488,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
                 // Recalage
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+               /* actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true);
                 Vec2 oldPos = actualState.robot.getPosition();
                 Vec2 newPos = oldPos.clone();
@@ -497,7 +499,7 @@ public class ScriptedGoTo extends AbstractScript
                 if (Math.abs(actualState.robot.getOrientationFast() + Math.PI/2)%(2*Math.PI) < recalageThresholdOrientation) {
                     log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() + Math.PI/2)%(2*Math.PI));
                     actualState.robot.setOrientation(-Math.PI / 2);
-                }
+                }*/
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(187, hooksToConsider);
@@ -517,6 +519,8 @@ public class ScriptedGoTo extends AbstractScript
                 //Prise des boules
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE_BAS, true);
+                actualState.robot.useActuator(ActuatorOrder.P1, true);
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
@@ -548,7 +552,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(Math.PI);
 
                 // Recalage
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                /*actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true, false);
                 oldPos = actualState.robot.getPosition();
                 newPos = oldPos.clone();
@@ -559,7 +563,7 @@ public class ScriptedGoTo extends AbstractScript
                 if (Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI) < recalageThresholdOrientation) {
                     log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI));
                     actualState.robot.setOrientation(Math.PI);
-                }
+                }*/
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
@@ -615,6 +619,8 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
+                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.P1, true);
                 actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
