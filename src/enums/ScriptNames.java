@@ -21,7 +21,7 @@ package enums;
 
 /**
  * Enumération des noms des différents scripts.
- * @author pf, marsu
+ * @author pf
  *
  */
 

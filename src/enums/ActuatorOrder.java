@@ -22,7 +22,7 @@ package enums;
 /**
  * Protocole des actionneurs.
  * contient pour chaque actionneur le nom des consignes java, la chaine à transmetttre à la carte actionneurs et la durée que cette action prend
- * @author pf, marsu
+ * @author pf
  *
  */
 

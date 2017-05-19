@@ -28,7 +28,6 @@ import java.io.StringWriter;
 /**
  * 
  * Exception lancée lorsque l'on demande une information a un Service dont le type ne permet pas de fournir l'information demandée
- * @author karton
  *
  */
 public class ServiceTypeException extends Exception
