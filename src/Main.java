@@ -21,14 +21,23 @@ import container.Container;
 import enums.DirectionStrategy;
 import enums.ScriptNames;
 import enums.Speed;
+import exceptions.BadVersionException;
 import exceptions.ContainerException;
+import exceptions.Locomotion.EnnemyCrashedException;
+import exceptions.Locomotion.UnableToMoveException;
 import hook.Hook;
+import pathfinder.Pathfinding;
 import robot.Locomotion;
 import robot.SerialWrapper;
 import scripts.ScriptManager;
+import smartMath.Geometry;
+import smartMath.Vec2;
 import strategie.GameState;
+import strategie.IA;
 import table.Table;
+import threads.ThreadInterface;
 import threads.ThreadTimer;
+import threads.dataHandlers.ThreadSensor;
 import utils.Config;
 import utils.Log;
 
@@ -55,35 +64,36 @@ public class Main
 // PS : Les vérifications et validations c'est pas pour les chiens.
 	public static void main(String[] args) throws InterruptedException
 	{
-		try
-		{
+		try {
 			container = new Container();
 			config = container.getService(Config.class);
 			//AffichageDebug aff = container.getService(AffichageDebug.class);
 			realState = container.getService(GameState.class);
 			scriptmanager = container.getService(ScriptManager.class);
 			mSerialWrapper = container.getService(SerialWrapper.class);
-			mLocomotion= container.getService(Locomotion.class);
+			mLocomotion = container.getService(Locomotion.class);
 			config.updateConfig();
 
-            Thread.currentThread().setPriority(6);
+			Thread.currentThread().setPriority(6);
 
             // TODO : faire une initialisation du robot et de ses actionneurs
 			realState.robot.setPosition(Table.entryPosition);
 			realState.robot.setOrientation(Math.PI);
 			realState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
 
-			//container.getService(ThreadSensor.class);
-			//container.getService(ThreadInterface.class);
+			container.getService(ThreadSensor.class);
+			container.getService(ThreadInterface.class);
 			container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
-
+		}
+		catch(ContainerException p)
+		{
+			System.out.println("bug container");
+		}
 			// container.startAllThreads();
 			try{
 				// waitMatchBegin();
 				// System.out.println("Le robot commence le match");
-
-			// TODO : lancer l'IA
 
 				System.out.println("90 secondes pour faire des points Billy");
 				scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, realState, emptyHook);
@@ -93,16 +103,78 @@ public class Main
 				System.out.println("Le robot commence le match");
 				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(2, realState, emptyHook);
 
-			}catch (Exception e){
-				e.printStackTrace();
+			} catch (EnnemyCrashedException e) {
+				// On lance l'IA et la pathFinding
+				System.out.println("Et l'IA répondra a cet appel");
+			try {
+				System.out.println("Pour l'IA et le PATHFINDING!!!!");
+
+				Pathfinding pf = container.getService(Pathfinding.class);
+
+				while (!ThreadTimer.matchEnded) {
+					try {
+						IA.decision(realState, scriptmanager, pf);
+					} catch (UnableToMoveException errorIa) {
+						System.out.println("Unable to move dans l'ia");
+						//dans le cas ou on bloque dans l'ia on refait le graphe.
+
+
+					}
+					catch (Exception autre) {
+						autre.printStackTrace();
+						System.out.println("wtf exception caught");
+						//dans le cas ou on bloque dans l'ia on refait le graphe.
+
+
+					}
+				}
+			}
+			catch (ContainerException container)
+			{
+				System.out.println("bug container");
+			}
+				}
+
+		catch (UnableToMoveException unabletomove)
+		{
+			try {
+				Pathfinding pf = container.getService(Pathfinding.class);
+
+				while (!ThreadTimer.matchEnded) {
+					try {
+						IA.decision(realState, scriptmanager, pf);
+					} catch (UnableToMoveException errorIa) {
+						System.out.println("Unable to move dans l'ia");
+						//dans le cas ou on bloque dans l'ia on refait le graphe.
+
+
+					}
+					catch (Exception autre) {
+						System.out.println("wtf exception caught");
+						//dans le cas ou on bloque dans l'ia on refait le graphe.
+
+
+					}
+				}
+			}
+			catch (ContainerException container)
+			{
+				System.out.println("bug container");
+			}
+		}
+
+
+
+		catch (Exception k) {
+			System.out.println("bon je bug hard");
+
+				}
+
+
 			}
 
-			Log.stop();
 
-		} catch (ContainerException e) {
-			e.printStackTrace();
-		}
-	}
+
 
 	/**
 	 * Attend la mise en place puis le retrait du jumper pour lancer le robot dans son match

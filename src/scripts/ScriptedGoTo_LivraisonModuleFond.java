@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
@@ -86,7 +87,7 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
 
             if (versionToExecute==0)
             {
-
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
                 //Livraison modules
                 actualState.robot.moveLengthwise(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
@@ -99,7 +100,7 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
                 actualState.robot.moveLengthwise(distanceCratereFondApresDepotModule);
                 actualState.robot.goTo(point5sortieCratereFond);
 
-
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
 
 
 
@@ -115,6 +116,11 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
 
             }
 
+        }
+        catch(UnableToMoveException e)
+        {
+            log.critical("Robot ou actionneur bloqué dans DropBalls");
+            finalize(actualState, e);
         }
         catch(Exception e)
         {
@@ -155,6 +161,12 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
         } catch (ConfigPropertyNotFoundException e){
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
         }
+    }
+    public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
+    {
+        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
+        state.robot.setBasicDetection(false);
+        throw e;
     }
 
     @Override

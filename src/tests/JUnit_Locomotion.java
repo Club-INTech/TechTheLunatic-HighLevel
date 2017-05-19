@@ -99,7 +99,7 @@ public class JUnit_Locomotion extends JUnit_Test
 	@Test
 	public void testMoveLengthwise() 
 	{
-		try
+		try 
 		{
 			int distance = 210;
 			while(true)
@@ -113,7 +113,7 @@ public class JUnit_Locomotion extends JUnit_Test
 				}
 				if(cardWrapper.isRobotMovingAndAbnormal()[1])
 					throw new Exception();
-
+				
 				mLocomotion.moveLengthwise(-distance, null, false);
 				while(cardWrapper.isRobotMovingAndAbnormal()[0])
 				{
@@ -131,7 +131,8 @@ public class JUnit_Locomotion extends JUnit_Test
 			log.debug(e);
 			return;
 		}
-	}
+		
+	}	
 
 	/**
 	 * Test_tourner.
@@ -201,7 +202,7 @@ public class JUnit_Locomotion extends JUnit_Test
 		log.debug("en position : x="+position.getX()+"; y="+position.getY());
 		Vec2 aim = new Vec2(0,500);
 		log.debug("position de l'objectif : x="+position.getX()+"; y="+position.getY());
-		mLocomotion.JUNIT_moveToPointForwardBackward(aim, null, false, DirectionStrategy.FASTEST, false, true); 
+		mLocomotion.JUNIT_moveToPointForwardBackward(aim, null, false, DirectionStrategy.FASTEST, 0, true);
 		Assert.assertEquals(aim, mLocomotion.getPosition());
 	}
 	/**
@@ -215,7 +216,7 @@ public class JUnit_Locomotion extends JUnit_Test
 		log.debug("en position : x="+position.getX()+"; y="+position.getY());
 		Vec2 aim = new Vec2(0,500);
 		log.debug("position de l'objectif : x="+position.getX()+"; y="+position.getY());
-		mLocomotion.JUNIT_moveToPointException(aim, null, true, false, false,true); 
+		mLocomotion.JUNIT_moveToPointException(aim, null, true, false, 0,true);
 		Assert.assertEquals(aim, mLocomotion.getPosition());
 	}
 	/**

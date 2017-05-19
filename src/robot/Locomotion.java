@@ -31,6 +31,7 @@ import exceptions.Locomotion.UnableToMoveException;
 import exceptions.Locomotion.UnexpectedObstacleOnPathException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
+import org.omg.IOP.ENCODING_CDR_ENCAPS;
 import smartMath.Vec2;
 import table.Table;
 import utils.Config;
@@ -264,7 +265,10 @@ public class Locomotion implements Service
     	finalAim = aim;
 
         isRobotMovingForward=true;
-		moveToPointException(aim, hooks, true, false, true, mustDetect);
+		//là il faut calculer ça donne le sens
+
+
+        moveToPointException(aim, hooks, true, false,1 , mustDetect);
         isRobotMovingForward=false;
 
     	actualRetriesIfBlocked=0;
@@ -278,7 +282,7 @@ public class Locomotion implements Service
      * @param wall vrai si on supppose qu'on vas se cogner dans un mur (et qu'il ne faut pas pousser dessus)
      * @throws UnableToMoveException si le robot a un bloquage mecanique
      */
-    public void moveLengthwise(int distance, ArrayList<Hook> hooks, boolean wall) throws UnableToMoveException
+    public void moveLengthwise(int distance, ArrayList<Hook> hooks, boolean wall) throws UnableToMoveException, EnnemyCrashedException
     {
     	moveLengthwise(distance, hooks, wall, true);
     }
@@ -291,7 +295,7 @@ public class Locomotion implements Service
      * @param mustDetect true si on veut detecter, false sinon.
      * @throws UnableToMoveException si le robot a un bloquage mecanique
      */
-    public void moveLengthwise(int distance, ArrayList<Hook> hooks, boolean wall, boolean mustDetect) throws UnableToMoveException
+    public void moveLengthwise(int distance, ArrayList<Hook> hooks, boolean wall, boolean mustDetect) throws UnableToMoveException, EnnemyCrashedException
     {    
 
     	actualRetriesIfBlocked=0;
@@ -317,7 +321,7 @@ public class Locomotion implements Service
         	isRobotMovingForward=true;
         else 
         	isRobotMovingBackward=true;
-		moveToPointException(aim, hooks, distance >= 0, wall, false, mustDetect);
+		moveToPointException(aim, hooks, distance >= 0, wall, 0, mustDetect);
 		isRobotMovingForward=false;
     	isRobotMovingBackward=false;
 
@@ -402,7 +406,7 @@ public class Locomotion implements Service
 													/*on suppose qu'on ne se prends pas de mur (sinon la pathDingDing est a revoir)*/
 													false, directionstrategy,
 																			/*on veut avancer*/
-																			false, mustDetect);
+																			0, mustDetect);
         }		
     }
 
@@ -418,7 +422,7 @@ public class Locomotion implements Service
      * @param mustDetect true si on veut detecter, false sinon.
      * @throws UnableToMoveException si le robot a un bloquage mecanique
      */
-    private void moveToPointForwardBackward(Vec2 aim, ArrayList<Hook> hooks, boolean mur, DirectionStrategy strategy, boolean turnOnly, boolean mustDetect) throws UnableToMoveException
+    private void moveToPointForwardBackward(Vec2 aim, ArrayList<Hook> hooks, boolean mur, DirectionStrategy strategy, int turnOnly, boolean mustDetect) throws UnableToMoveException
     {
 		actualRetriesIfBlocked=0;// on reinitialise
 
@@ -461,6 +465,11 @@ public class Locomotion implements Service
 
     }
     
+
+
+
+
+
     /**
      * bloquant
      * Gère les exceptions, c'est-à-dire les rencontres avec l'ennemi et les câlins avec un mur.
@@ -472,35 +481,35 @@ public class Locomotion implements Service
      * @param mustDetect true si on veut detecter, false sinon.
      * @throws UnableToMoveException si le robot a un bloquage mecanique
      */
-    private void moveToPointException(Vec2 aim, ArrayList<Hook> hooks, boolean isMovementForward, boolean headingToWall, boolean turnOnly, boolean mustDetect) throws UnableToMoveException
+    private void moveToPointException(Vec2 aim, ArrayList<Hook> hooks, boolean isMovementForward, boolean headingToWall, int turnOnly, boolean mustDetect) throws UnableToMoveException
     {
-    	if(isMovementForward)
-        	isRobotMovingForward=true;
-        else 
-        	isRobotMovingBackward=true;
+        if(isMovementForward)
+            isRobotMovingForward=true;
+        else
+            isRobotMovingBackward=true;
 
         //int maxTimeToWaitForEnemyToLeave = 600; // combien de temps attendre que l'ennemi parte avant d'abandonner
         int unexpectedWallImpactCounter = 1; // combien de fois on réessayer si on se prend un mur (si wall est a true alors les impacts sont attendus donc on s'en fout)
         boolean doItAgain;
         int maxRetriesIfDisengage = 0;
 
-        do 
+        do
         {
-        	//si on a pas d'erreur on ne recommence pas
+            //si on a pas d'erreur on ne recommence pas
             doItAgain = false;
             try
             {
-                moveToPointCorrectAngleAndDetectEnnemy(aim, hooks, isMovementForward, turnOnly, mustDetect);
-            	isRobotMovingForward=false;
-            	isRobotMovingBackward=false;
+                moveToPointCorrectAngleAndDetectEnnemy(aim, hooks, isMovementForward, turnOnly!=0, mustDetect);
+                isRobotMovingForward=false;
+                isRobotMovingBackward=false;
             }
             catch (BlockedException e)
             {
-    			log.critical( e.logStack());
+                log.critical( e.logStack());
                 log.critical("Haut : Catch de "+e+" dans moveToPointException");
-                
-             // si on s'y attendait, on ne fais rien.
-                
+
+                // si on s'y attendait, on ne fais rien.
+
                 if (!headingToWall && !isForcing) //ici on ne s'y attendait pas donc on reagit
                 {
                     if(maxRetriesIfBlocked > actualRetriesIfBlocked)
@@ -521,35 +530,38 @@ public class Locomotion implements Service
 		                unexpectedWallImpactCounter--;
 		                immobilise();
 		                maxRetriesIfDisengage++;
-	                
+
 		                /*
 		                 * En cas de blocage, on recule (si on allait tout droit) ou on avance.
 		                 */
-	
-	                    try
-	                    {
-	                        log.warning("On n'arrive plus à avancer. On se dégage");
-	                        if(turnOnly)
-	                        {
-	                        	isRobotTurning=true;
-	                        	
-	                        	// on alterne rotation à gauche et à droite
-	                        	if((unexpectedWallImpactCounter & 1) == 0) {
-                                    serialWrapper.turn(lowLevelOrientation + angleToDisengage);
-                                    log.debug("Première tentative de dégagement turn");
-                                    while (!isMotionEnded());
-                                }
-	                        	else {
-                                    serialWrapper.turn(lowLevelOrientation - angleToDisengage);
-                                    log.debug("Deuxième tentative de dégagement turn");
-                                    while (!isMotionEnded());
-                                }
-	                        }
-	                        else if(isMovementForward) {
+
+                        try
+                        {
+             //               log.warning("On n'arrive plus à avancer. On se dégage");
+                            log.warning("On n'arrive plus à avancer. On se dégage");
+                            if(turnOnly!=0)
+                            {
+                                log.debug("On était en train de tourner!");
+
+                                isRobotTurning=true;
+                                Vec2 NEmi=table.getObstacleManager().getClosestObstacle(highLevelPosition,aim).getPosition();
+                                Vec2 centreObstacleRobot=NEmi.minusNewVector(highLevelPosition);
+                                int dot=centreObstacleRobot.dot(new Vec2(1000,highLevelOrientation));
+
+                                // on alterne rotation à gauche et à droite
+                                //      	if((unexpectedWallImpactCounter & 1) == 0)
+                                //    		serialWrapper.turn(lowLevelOrientation+angleToDisengage);
+                                //  	else
+                                //		serialWrapper.turn(lowLevelOrientation-angleToDisengage);
+                                serialWrapper.moveLengthwise((dot/Math.abs(dot))* distanceToDisengage);// On avance ou on recule conformément a ce qui devrait nous dégager
+                                serialWrapper.turn(lowLevelOrientation+angleToDisengage*turnOnly);
+                            }
+
+                            else if(isMovementForward) {
                                 serialWrapper.moveLengthwise(-distanceToDisengage);
                                 log.debug("Recule Billy !");
                             }
-	                        else {
+                            else {
                                 serialWrapper.moveLengthwise(distanceToDisengage);
                             }
 
@@ -560,12 +572,12 @@ public class Locomotion implements Service
                             else{
                                 doItAgain = false;
                             }
-	                    } 
+	                    }
 	                    catch (SerialConnexionException e1)
 	                    {
 	            			log.critical( e1.logStack());
 	                        log.debug("On ne fait rien après ceci: Catch de "+e1+" dans moveToPointException");
-	                    } 
+	                    }
 	                    catch (BlockedException e1)
 	                    {
 	            			log.critical( e1.logStack());
@@ -588,10 +600,10 @@ public class Locomotion implements Service
                     throw new UnableToMoveException(finalAim, UnableToMoveReason.PHYSICALLY_BLOCKED);
                 }
             }
-            
+
             catch (UnexpectedObstacleOnPathException unexpectedObstacle)
             {
-                log.warning("Ennemi detecté : Catch de "+unexpectedObstacle); 
+                log.warning("Ennemi detecté : Catch de "+unexpectedObstacle);
     			log.warning( unexpectedObstacle.logStack());
 
                 int sens = -1;
@@ -600,24 +612,25 @@ public class Locomotion implements Service
                 }
 
                 moveLengthwiseAndWaitIfEnnemy((int) finalAim.minusNewVector(highLevelPosition).length()*sens, hooks, headingToWall, mustDetect);
-			}
+            }
             catch(SerialConnexionException e)
             {
-    			log.critical( e.logStack());
+                log.critical( e.logStack());
 
-            	// TODO : gérer cette exception
+                // TODO : gérer cette exception
             }
 
-        } 
+        }
         while(doItAgain)
-        	;     
+                ;
         // on recommence tant qu'il le faut
 
 
-    // Tout s'est bien passé
+        // Tout s'est bien passé
 
     }
- 
+
+
     /**
      * Bloquant. 
      * Gère les hooks, la correction de trajectoire et la détection.
@@ -1316,7 +1329,7 @@ public class Locomotion implements Service
      * FONCTION JUNIT TEST
      */
 	 @SuppressWarnings("javadoc")
-	public void JUNIT_moveToPointForwardBackward(Vec2 aim, ArrayList<Hook> hooks, boolean mur, DirectionStrategy strategy, boolean turnOnly, boolean mustDetect) throws UnableToMoveException
+	public void JUNIT_moveToPointForwardBackward(Vec2 aim, ArrayList<Hook> hooks, boolean mur, DirectionStrategy strategy, int turnOnly, boolean mustDetect) throws UnableToMoveException, EnnemyCrashedException
     {
 		 moveToPointForwardBackward(aim, hooks, mur, strategy, turnOnly, mustDetect);
     }
@@ -1326,7 +1339,7 @@ public class Locomotion implements Service
      * FONCTION JUNIT TEST
      */
 	 @SuppressWarnings("javadoc")
-    public void JUNIT_moveToPointException(Vec2 aim, ArrayList<Hook> hooks, boolean isMovementForward, boolean headingToWall, boolean turnOnly, boolean mustDetect) throws UnableToMoveException
+    public void JUNIT_moveToPointException(Vec2 aim, ArrayList<Hook> hooks, boolean isMovementForward, boolean headingToWall, int turnOnly, boolean mustDetect) throws UnableToMoveException, EnnemyCrashedException
     {
 
     	moveToPointException(aim, hooks, isMovementForward, headingToWall, turnOnly, mustDetect);

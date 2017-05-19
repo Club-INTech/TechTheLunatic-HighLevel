@@ -27,6 +27,7 @@ import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
 import pathfinder.Pathfinding;
+import scripts.ScriptManager;
 import smartMath.Circle;
 import smartMath.Geometry;
 import smartMath.Vec2;
@@ -36,6 +37,7 @@ import utils.Log;
 import utils.Sleep;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Effectue le lien entre le code et la réalité (permet de parler aux actionneurs, d'interroger les capteurs, etc.)
@@ -67,6 +69,7 @@ public class Robot implements Service {
 	 * la position du robot
 	 */
 	protected Vec2 position;
+
 	protected Pathfinding pathfinding;
 
 	/**
@@ -125,6 +128,29 @@ public class Robot implements Service {
 	 */
 	private Locomotion mLocomotion;
 
+	private	boolean rempliDeBoules=false;
+
+	private int chargementModule=0;
+
+	public int getChargementModule() {
+		return chargementModule;
+	}
+
+	public void setRempliDeBoules(boolean rempliDeBoules) {
+		this.rempliDeBoules = rempliDeBoules;
+	}
+
+	public void setChargementModule(int chargementModule) {
+		this.chargementModule = chargementModule;
+	}
+
+	public boolean isRempliDeBoules() {
+		return rempliDeBoules;
+	}
+
+	public HashMap<ScriptNames,Boolean> dejaFait=new HashMap<ScriptNames,Boolean>();// Doublet nom de script / déjà fait
+
+
 	/**
 	 * Constructeur
 	 *
@@ -156,6 +182,14 @@ public class Robot implements Service {
 			robotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
 			position = Table.entryPosition;
 			orientation = Math.PI;
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULE_PRES_BASE,false);
+
 		} catch (ConfigPropertyNotFoundException e) {
 			log.critical(e.logStack());
 			log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
@@ -179,8 +213,18 @@ public class Robot implements Service {
 			sleep(order.getDuration());
 		}
 	}
+	/* Effectue un mouvement en ligne droite jusqu'au point désiré.
+            * @param pointVise
+	 * @throws UnableToMoveException Pour aller à un point visé.
+	 *                               Utilisé dans les scripts de match sans pathfinding.
+            *                               &
 
-	/**
+    public void goTo(Vec2 pointVise) throws UnableToMoveException {
+        goTo(pointVise, new ArrayList<Hook>());
+    }
+*/
+
+    /**
 	 * Renvoie la valeur d'un capteur de contact
 	 *
 	 * @param sensor le capteur en question

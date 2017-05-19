@@ -177,7 +177,7 @@ public class Graphe {
      * Renvoie la position du noeud du graphe le plus proche du vecteur en argument
      * @param vec
      */
-    public Vec2 NoeudProche(Vec2 vec){
+    public Vec2 noeudProche(Vec2 vec){
 
         double min=1000;
         Vec2 minVec = new Vec2();

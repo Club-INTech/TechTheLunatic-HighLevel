@@ -50,29 +50,29 @@ public class Table implements Service
 {
 	/** Le gestionnaire d'obstacle. */
 	private ObstacleManager mObstacleManager;
-	
+
 	/** système de log sur lequel écrire. */
 	private Log log;
 
 	/** endroit ou lire la configuration du robot */
 	private Config config;
-	
+
 	//TODO : définir les éléments de jeu de la table
-	public Balls cratereDepart;
-	public Balls cratereBaseLunaire;
+	public Balls ballsCratereDepart;
+	public Balls ballsCratereBaseLunaire;
 	public Fusee fuseeDepart;
 	public Fusee fuseeBase;
-	public Cylindre devantDepart;
-	public Cylindre cratere;
-	public Cylindre cratereBase;
-	public Cylindre devantBase;
-	public Cylindre pleinMilieu;
+	public Cylindre cylindreDevantDepart;
+	public Cylindre cylindreCratereDepart;
+	public Cylindre cylindreCratereBase;
+	public Cylindre cylindreDevantBase;
+	public Cylindre cylindrePleinMilieu;
 
 	// Au besoin, créer les classes nécessaires dans le package table
 
 	/** point de départ du match à modifier a chaque base roulante */
 	public static final Vec2 entryPosition = new Vec2(615,206);
-	
+
 	/**
 	 * Instancie une nouvelle table
 	 *
@@ -86,18 +86,18 @@ public class Table implements Service
 		this.mObstacleManager = new ObstacleManager(log, config);
 		initialise();
 	}
-	
+
 	public void initialise() // initialise la table du debut du jeu
 	{
-		Balls cratereDepartB=new Balls(new Vec2(850, 540));
-		 Balls cratereBaseLunaire=new Balls(new Vec2(500,1850 ));
-		 Fusee fuseeDepart=new Fusee(new Vec2(350, 40), ColorModule.BLUE);
-		 Fusee fuseeBase=new Fusee(new Vec2(1460, 1350),ColorModule.MULTI);
-		 Cylindre devantDepart=new Cylindre(new Vec2(500,600),ColorModule.MULTI);
-		 Cylindre cratereDepart=new Cylindre(new Vec2(1300,600),ColorModule.BLUE);
-		 Cylindre cratereBase=new Cylindre(new Vec2(700,1850),ColorModule.BLUE);
-		 Cylindre devantBase=new Cylindre(new Vec2(600,1400),ColorModule.MULTI);
-		 Cylindre pleinMilieu=new Cylindre(new Vec2(1000,1100),ColorModule.MULTI);
+		ballsCratereDepart =new Balls(new Vec2(850, 540));
+		ballsCratereBaseLunaire =new Balls(new Vec2(500,1850 ));
+		fuseeDepart=new Fusee(new Vec2(350, 40), ColorModule.BLUE);
+		fuseeBase=new Fusee(new Vec2(1460, 1350),ColorModule.MULTI);
+		cylindreDevantDepart =new Cylindre(new Vec2(500,600),ColorModule.MULTI);
+		cylindreCratereDepart =new Cylindre(new Vec2(1300,600),ColorModule.BLUE);
+		cylindreCratereBase =new Cylindre(new Vec2(700,1850),ColorModule.BLUE);
+		cylindreDevantBase =new Cylindre(new Vec2(600,1400),ColorModule.MULTI);
+		cylindrePleinMilieu =new Cylindre(new Vec2(1000,1100),ColorModule.MULTI);
 		// TODO : initialiser les éléments de jeu définis plus haut
 	}
 
