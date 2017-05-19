@@ -268,7 +268,7 @@ public class Locomotion implements Service
 		//là il faut calculer ça donne le sens
 
 
-        moveToPointException(aim, hooks, true, false,(int)(angle-highLevelOrientation/Math.abs(angle-highLevelOrientation)) , mustDetect);
+        moveToPointException(aim, hooks, true, false,1 , mustDetect);
         isRobotMovingForward=false;
 
     	actualRetriesIfBlocked=0;
@@ -499,7 +499,7 @@ public class Locomotion implements Service
             doItAgain = false;
             try
             {
-                moveToPointCorrectAngleAndDetectEnnemy(aim, hooks, isMovementForward, turnOnly==0, mustDetect);
+                moveToPointCorrectAngleAndDetectEnnemy(aim, hooks, isMovementForward, turnOnly!=0, mustDetect);
                 isRobotMovingForward=false;
                 isRobotMovingBackward=false;
             }
@@ -525,11 +525,11 @@ public class Locomotion implements Service
                         isRobotMovingBackward=false;
                     }
 
-                    else if (actualRetriesIfBlocked == maxRetriesIfBlocked)
-                    {
-                        unexpectedWallImpactCounter--;
-                        immobilise();
-                        maxRetriesIfDisengage++;
+	                else if (actualRetriesIfBlocked == maxRetriesIfBlocked)
+	                {
+		                unexpectedWallImpactCounter--;
+		                immobilise();
+		                maxRetriesIfDisengage++;
 
 		                /*
 		                 * En cas de blocage, on recule (si on allait tout droit) ou on avance.
@@ -541,11 +541,13 @@ public class Locomotion implements Service
                             log.warning("On n'arrive plus à avancer. On se dégage");
                             if(turnOnly!=0)
                             {
+                                log.debug("On était en train de tourner!");
 
                                 isRobotTurning=true;
                                 Vec2 NEmi=table.getObstacleManager().getClosestObstacle(highLevelPosition,aim).getPosition();
                                 Vec2 centreObstacleRobot=NEmi.minusNewVector(highLevelPosition);
                                 int dot=centreObstacleRobot.dot(new Vec2(1000,highLevelOrientation));
+
                                 // on alterne rotation à gauche et à droite
                                 //      	if((unexpectedWallImpactCounter & 1) == 0)
                                 //    		serialWrapper.turn(lowLevelOrientation+angleToDisengage);
@@ -570,27 +572,27 @@ public class Locomotion implements Service
                             else{
                                 doItAgain = false;
                             }
-                        }
-                        catch (SerialConnexionException e1)
-                        {
-                            log.critical( e1.logStack());
-                            log.debug("On ne fait rien après ceci: Catch de "+e1+" dans moveToPointException");
-                        }
-                        catch (BlockedException e1)
-                        {
-                            log.critical( e1.logStack());
-                            log.debug("Catch de "+e1+" dans moveToPointException");
-                            immobilise();
+	                    }
+	                    catch (SerialConnexionException e1)
+	                    {
+	            			log.critical( e1.logStack());
+	                        log.debug("On ne fait rien après ceci: Catch de "+e1+" dans moveToPointException");
+	                    }
+	                    catch (BlockedException e1)
+	                    {
+	            			log.critical( e1.logStack());
+	                        log.debug("Catch de "+e1+" dans moveToPointException");
+	                    	immobilise();
 
-                            doItAgain = (maxRetriesIfDisengage < 2);
+	                    	doItAgain = (maxRetriesIfDisengage < 2);
 
-                            if(!doItAgain)
-                            {
-                                log.critical("Lancement de UnableToMoveException dans MoveToPointException, visant "+finalAim.getX()+" :: "+finalAim.getY()+" cause physique");
-                                throw new UnableToMoveException(finalAim, UnableToMoveReason.PHYSICALLY_BLOCKED);
-                            }
-                        }
-                    }
+		                    if(!doItAgain)
+		                    {
+		                        log.critical("Lancement de UnableToMoveException dans MoveToPointException, visant "+finalAim.getX()+" :: "+finalAim.getY()+" cause physique");
+		                        throw new UnableToMoveException(finalAim, UnableToMoveReason.PHYSICALLY_BLOCKED);
+		                    }
+						}
+	                }
                 }
                 else if(!headingToWall)
                 {
@@ -602,7 +604,7 @@ public class Locomotion implements Service
             catch (UnexpectedObstacleOnPathException unexpectedObstacle)
             {
                 log.warning("Ennemi detecté : Catch de "+unexpectedObstacle);
-                log.warning( unexpectedObstacle.logStack());
+    			log.warning( unexpectedObstacle.logStack());
 
                 int sens = -1;
                 if(isRobotMovingForward) {
@@ -869,15 +871,15 @@ public class Locomotion implements Service
                 {
                     if (Math.abs(delta) > maxRotationCorrectionThreeshold) {// on ne tourne vraiment que si l'angle souhaité est vraiment different.
                         isRobotTurning = true;// prochain ordre : on tourne
-                        serialWrapper.turn(angle, TurningStrategy.FASTEST);
                     }
+                    serialWrapper.turn(angle, TurningStrategy.FASTEST);
                 }
                 else if (!isCorrection)// Si ca n'est pas  une correction et qu'on dépasse l'angle limite
                 {
                     if (Math.abs(delta) > maxRotationCorrectionThreeshold) {// on ne tourne vraiment que si l'angle souhaité est vraiment different.
                         isRobotTurning = true;// prochain ordre : on tourne
-                        serialWrapper.turn(angle, cTurningStrategy);
                     }
+                    serialWrapper.turn(angle, cTurningStrategy);
                 }
 
                 // sans virage : la première rotation est bloquante

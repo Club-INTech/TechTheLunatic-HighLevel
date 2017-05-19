@@ -84,6 +84,16 @@ public class Robot implements Service {
 	private int robotRay;
 
 	/**
+	 * Largeur du robot
+	 */
+	public int robotWidth;
+
+	/**
+	 * Longueur du robot
+	 */
+	public int robotLength;
+
+	/**
 	 * chemin en court par le robot, utilise par l'interface graphique
 	 */
 	public ArrayList<Vec2> cheminSuivi = new ArrayList<Vec2>();
@@ -168,15 +178,18 @@ public class Robot implements Service {
 		try {
 			symmetry = config.getProperty("couleur").replaceAll(" ", "").equals("jaune"); // TODO : modifier la couleur adverse
 			robotRay = Integer.parseInt(config.getProperty("rayon_robot"));
+			robotLength = Integer.parseInt(config.getProperty("longueur_robot"));
+			robotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
 			position = Table.entryPosition;
 			orientation = Math.PI;
-			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,false);
-			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE,false);
-			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES1,false);
-			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONBOULES2,false);
-			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,false);
-			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND,false);
-			dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEPRESBASE,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULE_PRES_BASE,false);
+
 		} catch (ConfigPropertyNotFoundException e) {
 			log.critical(e.logStack());
 			log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
@@ -381,9 +394,7 @@ public class Robot implements Service {
 		moveLengthwise(distance, new ArrayList<Hook>(), false);
 	}
 
-
- /**
-	 *
+    /** Effectue un mouvement en ligne droite jusqu'au point désiré.
 	 * @param pointVise
 	 * @param hooksToConsider
 	 * @param expectedWallImpact
@@ -391,7 +402,7 @@ public class Robot implements Service {
 	 * @throws UnableToMoveException
 	 */
     public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider, boolean expectedWallImpact, boolean isDetect) throws UnableToMoveException {
-		log.debug("goTo: " + pointVise);
+        log.debug("goTo: " + pointVise);
     	position = getPositionFast();
 		orientation = getOrientationFast();
 		log.debug("position" + position);

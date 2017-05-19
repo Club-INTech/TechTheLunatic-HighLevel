@@ -72,7 +72,7 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
 
             if (versionToExecute==0)
             {
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEPRESBASE,true);
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULE_PRES_BASE,true);
 
                 actualState.robot.goTo(pointAvantModule2);
 
@@ -169,12 +169,7 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
         }
     }
-    public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
-    {
-        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
-        state.robot.setBasicDetection(false);
-        throw e;
-    }
+
     @Override
     public void finalize(GameState state, Exception e) throws UnableToMoveException
     {

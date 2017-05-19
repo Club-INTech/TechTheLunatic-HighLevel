@@ -50,7 +50,7 @@ public class DropBalls extends AbstractScript
             if (versionToExecute==0)
             {
                 //abaisser les bras au plus bas
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 //rotation de la pelle jusqu'à la position de livraison
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
@@ -74,7 +74,7 @@ public class DropBalls extends AbstractScript
                 actualState.robot.moveLengthwise(250,hooksToConsider, true);
 
                 //abaisser les bras au plus bas
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 //rotation de la pelle jusqu'à la position de livraison
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
@@ -142,7 +142,7 @@ public class DropBalls extends AbstractScript
 
 
                 //abaisser les bras au plus bas
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 
                 //rotation de la pelle jusqu'à la position de livraison
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);

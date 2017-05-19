@@ -67,7 +67,7 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
 
             if (versionToExecute==0)
             {
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREPRESBASE,true);
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,true);
                 actualState.robot.goTo(pointDevantCratere2);
                 actualState.robot.turn(-15*Math.PI/16);
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
@@ -76,7 +76,7 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 

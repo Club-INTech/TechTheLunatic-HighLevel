@@ -30,7 +30,6 @@ import utils.Sleep;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
@@ -766,7 +765,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     log.critical("Il ne daigne même pas répondre !");
                     return (res+(char)260);
                 }
-                Thread.sleep(5);
+                Thread.sleep(0, 500);
             }
 
             while (available()) {
@@ -784,7 +783,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         log.critical("blocaqe attente nouveau char (pas de /r ?) dernier : "+ lastReceived);
                         return (res+(char)260);
                     }
-                    Thread.sleep(5);
+                    Thread.sleep(0, 500);
                 }
             }
 
@@ -796,7 +795,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     log.critical("bloquage attente newChar (normalement newLine)");
                     return (res+(char)260);
                 }
-                Thread.sleep(5);
+                Thread.sleep(0, 500);
             }
 
             while(available()) {
@@ -811,7 +810,7 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                         log.critical("Bloquage attente newLine");
                         return (res+(char)260);
                     }
-                    Thread.sleep(5);
+                    Thread.sleep(0, 500);
                 }
             }
 
@@ -839,14 +838,13 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
         long startTime = System.currentTimeMillis();
 
         res = null;
-        while((res == null) && ((System.currentTimeMillis() - startTime) < 2*TIME_OUT))
+        while((System.currentTimeMillis() - startTime) < 2*TIME_OUT)
         {
             try
             {
-                //if(!receivingInProgress)
-                res = standardBuffer.peek();
+                if((res = standardBuffer.peek()) != null) break;
 
-                Thread.sleep(4);
+                Thread.sleep(2);
             }
             catch (InterruptedException e)
             {

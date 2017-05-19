@@ -479,7 +479,7 @@ public class ObstacleManager
 
 			if(closestEnnemy != null){
 				
-				log.debug("Crash de l'ennemie, on l'ajoute ici :" + closestEnnemy.getPosition());
+				log.debug("Crash de l'ennemi, on l'ajoute ici :" + closestEnnemy.getPosition());
 				ObstacleCircular ennemyToAdd = closestEnnemy.clone();
 				ennemyToAdd.setRadius(mEnnemyRadius + mRobotRadius);
 				mCircularObstacle.add(ennemyToAdd);
@@ -499,32 +499,38 @@ public class ObstacleManager
 	 * @param direction direction selon laquelle on doit considérer les ennemies
 	 * @return l'ennemie le plus proche
 	 */
-	public synchronized ObstacleCircular getClosestObstacle (Vec2 position, Vec2 direction){
+	public synchronized Obstacle getClosestObstacle (Vec2 position, Vec2 direction){
 
-		try
-		{
+		try {
 			//si aucun ennemi n'est détecté, on suppose que l'ennemi le plus proche est à 1m)
 
 			int squaredDistanceToClosestEnemy = 10000000;
-			int squaredDistanceToEnemyTested=10000000 ;
+			int squaredDistanceToEnemyTested = 10000000;
 
-			ObstacleCircular closestEnnemy = null;
+			Obstacle closestObstacle = null;
 
 			//trouve l'ennemi le plus proche parmis les obstacles confirmés
-			for(int i=0; i<mMobileObstacles.size(); i++)
-			{
-				Vec2 ennemyRelativeCoords = mMobileObstacles.get(i).getPosition().minusNewVector(position);
-				if(direction.dot(ennemyRelativeCoords) > 0)
-				{
+			for (int i = 0; i < mCircularObstacle.size(); i++) {
+				Vec2 ennemyRelativeCoords = mCircularObstacle.get(i).getPosition().minusNewVector(position);
+				if (direction.dot(ennemyRelativeCoords) > 0) {
 					squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
-					if(squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy)
-					{
+					if (squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy) {
 						squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
-						closestEnnemy = mMobileObstacles.get(i);
+						closestObstacle = mCircularObstacle.get(i);
 					}
 				}
 			}
-			return closestEnnemy;
+			for (int i = 0; i < mRectangles.size(); i++) {
+				Vec2 ennemyRelativeCoords = mRectangles.get(i).getPosition().minusNewVector(position);
+				if (direction.dot(ennemyRelativeCoords) > 0) {
+					squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
+					if (squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy) {
+						squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
+						closestObstacle = mRectangles.get(i);
+					}
+				}
+			}
+			return closestObstacle;
 		}
 		catch(IndexOutOfBoundsException e)
 		{
@@ -532,6 +538,7 @@ public class ObstacleManager
 			throw e;
 
 		}
+
 	}
 
 

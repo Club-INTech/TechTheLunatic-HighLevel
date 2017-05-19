@@ -87,7 +87,7 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
 
             if (versionToExecute==0)
             {
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISONMODULEFOND,true);
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
                 //Livraison modules
                 actualState.robot.moveLengthwise(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
