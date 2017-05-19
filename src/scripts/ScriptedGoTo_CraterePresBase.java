@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
@@ -66,7 +67,7 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
 
             if (versionToExecute==0)
             {
-
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,true);
                 actualState.robot.goTo(pointDevantCratere2);
                 actualState.robot.turn(-15*Math.PI/16);
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
@@ -79,6 +80,8 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
+                actualState.robot.setRempliDeBoules(true);
+                actualState.table.ballsCratereDepart.isStillThere=false;
 
 
 
@@ -94,9 +97,16 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
                 ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
                 hooksToConsider.add(ReposLargueModule);
 
+
             }
 
         }
+        catch(UnableToMoveException e)
+        {
+            log.critical("Robot ou actionneur bloqué dans DropBalls");
+            finalize(actualState, e);
+        }
+
         catch(Exception e)
         {
             log.critical("Robot ou actionneur bloqué dans DropBalls");
@@ -143,6 +153,12 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
     {
         log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
         state.robot.setBasicDetection(false);
+    }
+    public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
+    {
+        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
+        state.robot.setBasicDetection(false);
+        throw e;
     }
 
     @Override

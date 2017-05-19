@@ -28,6 +28,7 @@ import utils.Config;
 import utils.Log;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 /**
  * Traite tout ce qui concerne la gestion des obstacles sur la table.
@@ -490,6 +491,56 @@ public class ObstacleManager
 			throw e;
 		}
 	}
+
+	/**
+	 * Retourne l'ennemie le plus proche, afin de pouvoir en faire un obstacle permanant
+	 * (appelé seulement en cas de crash du robot adverse)
+	 * @param position la position de notre robot
+	 * @param direction direction selon laquelle on doit considérer les ennemies
+	 * @return l'ennemie le plus proche
+	 */
+	public synchronized Obstacle getClosestObstacle (Vec2 position, Vec2 direction){
+
+		try {
+			//si aucun ennemi n'est détecté, on suppose que l'ennemi le plus proche est à 1m)
+
+			int squaredDistanceToClosestEnemy = 10000000;
+			int squaredDistanceToEnemyTested = 10000000;
+
+			Obstacle closestObstacle = null;
+
+			//trouve l'ennemi le plus proche parmis les obstacles confirmés
+			for (int i = 0; i < mCircularObstacle.size(); i++) {
+				Vec2 ennemyRelativeCoords = mCircularObstacle.get(i).getPosition().minusNewVector(position);
+				if (direction.dot(ennemyRelativeCoords) > 0) {
+					squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
+					if (squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy) {
+						squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
+						closestObstacle = mCircularObstacle.get(i);
+					}
+				}
+			}
+			for (int i = 0; i < mRectangles.size(); i++) {
+				Vec2 ennemyRelativeCoords = mRectangles.get(i).getPosition().minusNewVector(position);
+				if (direction.dot(ennemyRelativeCoords) > 0) {
+					squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
+					if (squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy) {
+						squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
+						closestObstacle = mRectangles.get(i);
+					}
+				}
+			}
+			return closestObstacle;
+		}
+		catch(IndexOutOfBoundsException e)
+		{
+			log.critical("Ah bah oui, out of bound");
+			throw e;
+
+		}
+
+	}
+
 
 	/** Retourne true si le robot ennemie se trouve dans un rectangle devant / derriere de robot, ce rectangle étant
 	 * la zone où notre cher Billy pourrait percuter le robot ennemie s'il avancait (sans tourner)

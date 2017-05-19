@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
@@ -67,7 +68,7 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
 
                 if (versionToExecute==0)
                 {
-
+                    actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
                     //actualState.robot.goTo(pointAvantDeposeBoules1);
                     actualState.robot.turn(-Math.PI/2);
                     actualState.robot.moveLengthwise(distanceAvantDeposeBoules1);
@@ -78,6 +79,9 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
                     actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
 
                     actualState.robot.moveLengthwise(distanceReculApresDepotBoule1);
+                    actualState.robot.setRempliDeBoules(false);
+                    actualState.obtainedPoints+=15;
+
 
 
 
@@ -97,6 +101,11 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
 
                 }
 
+            }
+            catch(UnableToMoveException e)
+            {
+                log.critical("Robot ou actionneur bloqué dans DropBalls");
+                finalize(actualState, e);
             }
             catch(Exception e)
             {
