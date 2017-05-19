@@ -2,12 +2,14 @@ package scripts;
 
 import enums.ActuatorOrder;
 import enums.DirectionStrategy;
+import enums.ScriptNames;
 import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
 import exceptions.ExecuteException;
 import exceptions.Locomotion.UnableToMoveException;
+import exceptions.Locomotion.UnexpectedObstacleOnPathException;
 import hook.Callback;
 import hook.Hook;
 import hook.methods.PriseModule;
@@ -35,6 +37,8 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
     private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
 
     private boolean detect = false;
+
+
 
 
 
@@ -67,11 +71,14 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
 
             if (versionToExecute==0)
             {
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,true);
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
                 //changement de vitesse pour ne pas pousser les balles
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
                 actualState.robot.goTo(point4arriveDevantCratereFond);
+
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
                 //Prise des boules
@@ -80,6 +87,11 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
                 actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
+
+                actualState.robot.setRempliDeBoules(true);
+                actualState.table.ballsCratereBaseLunaire.isStillThere=false;
+
+
 
                 //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
                 //Hook prise module 1
@@ -91,8 +103,14 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
                 ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
                 hooksToConsider.add(ReposLargueModule);
 
+
             }
 
+        }
+        catch(UnableToMoveException e)
+        {
+            log.critical("Robot ou actionneur bloqué dans DropBalls");
+            finalize(actualState, e);
         }
         catch(Exception e)
         {
@@ -133,6 +151,12 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
         } catch (ConfigPropertyNotFoundException e){
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
         }
+    }
+    public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
+    {
+        log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
+        state.robot.setBasicDetection(false);
+        throw e;
     }
 
     @Override

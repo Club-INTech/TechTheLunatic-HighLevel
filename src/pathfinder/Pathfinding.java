@@ -169,7 +169,13 @@ public class Pathfinding implements Service {
                 log.debug("Point de départ dans un obstacle :" + departV);
                 // Cas des obstacles circulaires
                 if (obstacle instanceof ObstacleCircular) {
-                    Vec2 vecRef = obstacle.getPosition().minusNewVector(departV);
+
+                    Vec2 toReturn = Geometry.pointExterieur(departV, ((ObstacleCircular) obstacle).getCircle());
+                    ArrayList<Vec2> newPath = Astarfoulah(toReturn, arriveeV, robotOrientation, translationSpeed,rotationSpeed );
+                    newPath.add(0, departV);
+                    return newPath;
+
+                    /* Vec2 vecRef = obstacle.getPosition().minusNewVector(departV);
                     double radius = ((ObstacleCircular) obstacle).getRadius();
 
                     // De même, on différencie les cas ou le robot est tangent, et celui ou il est perpendiculaire
@@ -198,14 +204,14 @@ public class Pathfinding implements Service {
                             newPath.add(0, departV);
                             return newPath;
                         }
-                    }
+                    }*/
                 }
 
                 // TODO Optimisier le cas des obstacles rectangulaires
                 // Cas des obstacles rectangulaires (similaire au cas de la table)
                 if (obstacle instanceof ObstacleRectangular) {
                     // Vec2 newDepartV = ((ObstacleRectangular) obstacle).pointProche(departV);
-                    Vec2 newDepartV = graphe.NoeudProche(departV);
+                    Vec2 newDepartV = graphe.noeudProche(departV);
                     log.debug("Nouveau départ :" + newDepartV);
                     double angleTest = newDepartV.minusNewVector(departV).getA();
                     double angleref = Math.abs(Math.abs(angleTest) - Math.abs(robotOrientation));
@@ -301,7 +307,7 @@ public class Pathfinding implements Service {
                 return newPath;
             }
             else if(obstacle instanceof ObstacleRectangular){
-                return Astarfoulah(departV, graphe.NoeudProche(arriveeV), robotOrientation, translationSpeed,rotationSpeed );
+                return Astarfoulah(departV, graphe.noeudProche(arriveeV), robotOrientation, translationSpeed,rotationSpeed );
             }
         }
 

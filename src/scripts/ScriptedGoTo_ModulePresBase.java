@@ -1,6 +1,7 @@
 package scripts;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
@@ -71,6 +72,7 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
 
             if (versionToExecute==0)
             {
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULE_PRES_BASE,true);
 
                 actualState.robot.goTo(pointAvantModule2);
 
@@ -102,8 +104,9 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
 
+                actualState.table.cylindreCratereDepart.isStillThere=false;
                 actualState.robot.moveLengthwise(distanceApresModule2);
-
+                actualState.obtainedPoints+=10;
 
 
 
@@ -120,6 +123,11 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
 
             }
 
+        }
+        catch(UnableToMoveException e)
+        {
+            log.critical("Robot ou actionneur bloqué dans DropBalls");
+            finalize(actualState, e);
         }
         catch(Exception e)
         {

@@ -8,7 +8,7 @@ import smartMath.Vec2;
  */
 public class Cylindre extends GameElement {
 
-    private boolean isStillThere;
+    public boolean isStillThere;
     private ColorModule color;
     public Cylindre(Vec2 positiondebut,ColorModule color)
     {
