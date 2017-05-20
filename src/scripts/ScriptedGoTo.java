@@ -260,11 +260,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(point3AttrapperModule1);
 
                 //prise du module du fond
-
                 actualState.robot.prendModule(Side.RIGHT);
 
                 // Recalage
-
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_T_MEDIUM_R);
                 actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true);
                 Vec2 oldPos = actualState.robot.getPosition();
@@ -283,7 +281,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
-                //changement de vitesse pour ne pas pousser les balles
+                // Changement de vitesse pour ne pas pousser les balles
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
 
@@ -295,14 +293,14 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
-//Prise des boules
+                // Prise des boules
                 actualState.robot.prendBoules();
 
-                // la on a des boulasses
+                // La on a des boulasses
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereBaseLunaire.isStillThere=false;
 
-//Livraison module
+                // Livraison module
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
@@ -359,21 +357,21 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.prendModule(Side.LEFT);
 
-// la on a le module 2
+                // la on a le module 2
 
                 actualState.table.ballsCratereDepart.isStillThere=false;
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
-//Range les actionneurs à l'arrière
+                //Range les actionneurs à l'arrière
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
 
-//la on drop le module
+                //La on drop le module
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
 
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
@@ -385,7 +383,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
 
                 actualState.robot.livreBoules();
-//la on drop nos BALLS et on lance le script suivant
+                //La on drop nos BALLS et on lance le script suivant
 
                 actualState.robot.setRempliDeBoules(false);
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,true);
@@ -400,7 +398,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(135);
                 actualState.robot.setLocomotionSpeed(Speed.FAST_ALL);
 
-//Prise de boules 2
+                //Prise de boules 2
                 actualState.robot.prendBoules();
 
                 actualState.robot.setRempliDeBoules(true);
@@ -408,12 +406,12 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,true);
 
-//Placement livraison boules
+                //Placement livraison boules
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(-190);
                 actualState.robot.turn(-Math.PI/2);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(130);
 
-//Livraison de boules 2
+                //Livraison de boules 2
                 actualState.robot.livreBoules();
 
                 actualState.robot.setRempliDeBoules(false);
