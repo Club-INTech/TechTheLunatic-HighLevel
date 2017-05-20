@@ -27,7 +27,7 @@ import utils.Log;
  * Classe abstraite des threads.
  * Elle héreite des threads java
  *
- * @author pf,marsu
+ * @author pf
  */
 
 public abstract class AbstractThread extends Thread implements Service

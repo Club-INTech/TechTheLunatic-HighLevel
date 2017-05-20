@@ -22,7 +22,7 @@ package utils;
 /**
  * Classe qui fournit juste un sleep sans try/catch.
  *
- * @author pf, marsu
+ * @author pf,
  */
 
 public class Sleep 

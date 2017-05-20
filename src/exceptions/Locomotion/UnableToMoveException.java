@@ -28,7 +28,7 @@ import java.io.StringWriter;
 /**
  * Problème générique de déplacement du robot, que ce soit a cause d'un robot ennemi
  * (détecté par les capteurs) qui bloque le passage, ou d'un bloquage mécanique (type mur)
- * @author pf, marsu, theo
+ * @author pf, theo
  */
 public class UnableToMoveException extends Exception
 {

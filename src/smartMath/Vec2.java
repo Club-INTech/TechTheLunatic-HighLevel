@@ -17,21 +17,11 @@
  *  along with it.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* ============================================================================
- * 				Vec2 class
- * ============================================================================
- * 
- * Bi-dimentionnal vector 2 class. Simple-precision members.
- * Author : Dede
- * Refactoring : Martial
- */
-
 package smartMath;
 
 /**
  * Classe de calcul de vecteurs de dimension 2.
  *
- * @author martial
  * @author pf
  * @author Rem
  */

@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * Obstacles détectés par capteurs de proximité (ultrasons et infrarouges).
  * Ces obstacles sont supposés circulaires
  *
- * @author pf, marsu
+ * @author pf,
  */
 public class ObstacleProximity extends ObstacleCircular
 {

@@ -31,7 +31,6 @@ import utils.Log;
  * Le game state contient toutes les informations à connaître pour la stratégie. Il contient:
  * - Robot (real ou chrono), qui apporte des informations sur le robot (position, orientation, ...)
  * - Table, qui apporte des informations sur les obstacles et les éléments de jeux
- * @author marsu
  *
  */
 

@@ -46,7 +46,7 @@ import static smartMath.Geometry.square;
  * Thread qui ajoute en continu les obstacles détectés par les capteurs,
  * Et enleve ceux qui ont disparu, de meme que verifie les capteurs de contact
  *
- * @author pf, Krissprolls, marsu, discord
+ * @author pf, Krissprolls, discord
  */
 
 public class ThreadSensor extends AbstractThread

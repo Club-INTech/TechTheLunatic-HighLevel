@@ -41,7 +41,7 @@ import java.util.HashMap;
 
 /**
  * Effectue le lien entre le code et la réalité (permet de parler aux actionneurs, d'interroger les capteurs, etc.)
- * @author pf, marsu
+ * @author pf
  */
 public class Robot implements Service {
 

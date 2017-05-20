@@ -31,7 +31,7 @@ import java.util.Properties;
  * Service de configuration du robot.
  * Cette classe lit le fichier  /pc/config/config.ini pour en extraire les informations de configuration et les redistribuer a qui les demandera
  *
- * @author pf, marsu
+ * @author pf,
  */
 public class Config implements Service
 {

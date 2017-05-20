@@ -39,7 +39,7 @@ import java.util.Locale;
  * est centralisé. Les CardWrapper étaient utiles quand on avait plusieures AVRs pour les différentes fonctions, désormais
  * tout est centralisé sur l'ARM, ces CardWrappers ne sont donc que des reliques à éliminer.
  **
- * @author pf, marsu, paul, discord
+ * @author pf, paul, discord
  */
 public class SerialWrapper implements Service
 {

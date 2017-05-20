@@ -39,7 +39,7 @@ import java.util.ArrayList;
 /**
  * Classe abstraite dont héritent les différents scripts.
  * Les scripts héritants de cette classe peuvent être indifférement exécutés par un Robot ou un Robotchrono.
- * @author pf, marsu
+ * @author pf
  */
 public abstract class AbstractScript implements Service 
 {

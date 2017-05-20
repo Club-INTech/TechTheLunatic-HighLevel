@@ -53,7 +53,6 @@ import java.util.Random;
 /**
  * Test des capteurs : les obstacles doivent être détectés
  *
- * @author marsu
  */
 
 public class JUnit_Sensors extends JUnit_Test
