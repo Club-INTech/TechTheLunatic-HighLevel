@@ -19,6 +19,7 @@
 
 package table.obstacles;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import exceptions.ConfigPropertyNotFoundException;
 import smartMath.Circle;
 import smartMath.Geometry;
@@ -27,6 +28,10 @@ import smartMath.Vec2;
 import utils.Config;
 import utils.Log;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -81,8 +86,21 @@ public class ObstacleManager
 	/** Temps de vie d'un robot ennemi */
 	private int defaultLifetime = 1000;
 
-	/** Distance de detection (sans disque de detection) */
+	/** Distance de detection (sans disque de detection)
+	 * Override par la config
+	 */
 	private int detectionDistance;
+
+	/** Nombre de robots ennemis crashed */
+	private int crashRobot = 0;
+
+	/** S'ils se prennent pour des fous en face, et qu'enfaite ils le sont pas, il se peut qu'il
+	 * y ait deux robots crashed
+	 * Override par la config
+	 */
+	private boolean cDesFousEnFace = false;
+
+	private BufferedWriter out;
 
 	/**
      * Instancie un nouveau gestionnaire d'obstacle.
@@ -143,6 +161,16 @@ public class ObstacleManager
 		//base lunaire
 		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(0, 2000), 815 + mRobotRadius, -9*Math.PI/10, -Math.PI/10, true)));
 
+		try {
+			File file = new File("debugDetect.txt");
+
+			if (!file.exists()) {
+				//file.delete();
+				file.createNewFile();
+			}
+
+			out = new BufferedWriter(new FileWriter(file));
+		}catch(IOException e){}
 	}
 
     /**
@@ -269,17 +297,21 @@ public class ObstacleManager
 	    			// si on valide sa vision 
 	    			if(mUntestedMobileObstacles.get(i).numberOfTimeDetected >= mUntestedMobileObstacles.get(i).getThresholdConfirmedOrUnconfirmed())
 	    			{
-	    				isThereAnObstacleIntersecting=true;
-	    				mUntestedMobileObstacles.get(i).setLifeTime(defaultLifetime);
-	    				mMobileObstacles.add(mUntestedMobileObstacles.get(i));
-	    				mUntestedMobileObstacles.remove(i);
+	    				if(crashRobot == 0 || mCircularObstacle.get(0).getPosition().distance(obstacle.getPosition()) > (int)((double)(mEnnemyRadius + mRobotRadius)/2.0)) {
+							isThereAnObstacleIntersecting = true;
+							mUntestedMobileObstacles.get(i).setLifeTime(defaultLifetime);
+							mMobileObstacles.add(mUntestedMobileObstacles.get(i));
+							mUntestedMobileObstacles.remove(i);
+						}
 	    			}
 	    		}
     		}
+
+    		// on vérifie si l'on ne voit pas un obstacle confirmé déjà présent
     		for(int i = 0; i<mMobileObstacles.size(); i++)
     		{
     			ObstacleProximity obstacle = mMobileObstacles.get(i);
-    			if(obstacle.position.distance(position)<obstacle.getRadius()+radius)
+    			if(obstacle.position.distance(position)<obstacle.getRadius()+radius && (crashRobot == 0 || mMobileObstacles.get(0).getPosition().distance(obstacle.getPosition()) > (int)((double)(mEnnemyRadius + mRobotRadius)/2.0)))
     			{
     				isThereAnObstacleIntersecting=true;
     				
@@ -445,8 +477,8 @@ public class ObstacleManager
     }
 
 	/**
-	 * Retourne l'ennemie le plus proche, afin de pouvoir en faire un obstacle permanant
-	 * (appelé seulement en cas de crash du robot adverse)
+	 * Ajoute l'obstacle mobile le plus proche (l'ennemi quoi) aux obstacles permanants
+	 * La fonction est appelée uniquement si l'ennemie ne bouge pas pendant un TimeOut
 	 * @param position la position de notre robot
 	 * @param direction direction selon laquelle on doit considérer les ennemies
 	 * @return l'ennemie le plus proche
@@ -455,34 +487,50 @@ public class ObstacleManager
 
 		try
 		{
-			//si aucun ennemi n'est détecté, on suppose que l'ennemi le plus proche est à 1m)
-
 			int squaredDistanceToClosestEnemy = 10000000;
-			int squaredDistanceToEnemyTested=10000000 ;
+			int squaredDistanceToEnemyTested = 10000000;
 
-			ObstacleCircular closestEnnemy = null;
+			ObstacleProximity closestEnnemy = null;
 
-			//trouve l'ennemi le plus proche parmis les obstacles confirmés
-			for(int i=0; i<mMobileObstacles.size(); i++)
-			{
+			// Trouve l'ennemi le plus proche parmis les obstacles confirmés
+			for (int i = 0; i < mMobileObstacles.size(); i++) {
 				Vec2 ennemyRelativeCoords = mMobileObstacles.get(i).getPosition().minusNewVector(position);
-				if(direction.dot(ennemyRelativeCoords) > 0)
-				{
+				if (direction.dot(ennemyRelativeCoords) > 0) {
 					squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
-					if(squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy)
-					{
+					if (squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy) {
 						squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
 						closestEnnemy = mMobileObstacles.get(i);
 					}
 				}
 			}
 
-			if(closestEnnemy != null){
-				
-				log.debug("Crash de l'ennemi, on l'ajoute ici :" + closestEnnemy.getPosition());
-				ObstacleCircular ennemyToAdd = closestEnnemy.clone();
-				ennemyToAdd.setRadius(mEnnemyRadius + mRobotRadius);
-				mCircularObstacle.add(ennemyToAdd);
+			if (closestEnnemy != null) {
+				if(crashRobot == 0) {
+					log.debug("Premier crash de l'ennemi, on l'ajoute ici :" + closestEnnemy.getPosition());
+					ObstacleCircular ennemyToAdd = closestEnnemy.clone();
+					ennemyToAdd.setRadius(mEnnemyRadius + mRobotRadius);
+					mCircularObstacle.add(0,ennemyToAdd);
+					crashRobot+=1;
+				}
+
+				else if(!cDesFousEnFace){
+					ObstacleCircular ennemyCrashed = mCircularObstacle.get(0);
+					int distanceToEnemyCrashed = (int) closestEnnemy.getPosition().minusNewVector(ennemyCrashed.getPosition()).length();
+					if(distanceToEnemyCrashed < mEnnemyRadius){
+						log.debug("Detection de l'ennemi crashé en :" + closestEnnemy.getPosition());
+					}
+					else if(distanceToEnemyCrashed < mEnnemyRadius + mRobotRadius) {
+						log.debug("Detection de l'ennemi crashé, qui s'est déplacé en :" + closestEnnemy.getPosition());
+						mCircularObstacle.get(0).setPosition(closestEnnemy.getPosition());
+					}
+					else{
+						log.debug("Detection de l'ennemi crashé bien loin; il s'était pas crash enfaite... On modifie sa position en :" + closestEnnemy.getPosition());
+						mCircularObstacle.get(0).setPosition(closestEnnemy.getPosition());
+					}
+				}
+				else{
+					// TODO Prévoir le cas où un ou plusieurs robot(s) vient/viennent nous faire chier, si jamais c'est des fous en face
+				}
 			}
 		}
 		catch(IndexOutOfBoundsException e)
@@ -550,13 +598,80 @@ public class ObstacleManager
 	 */
 	public boolean isEnnemyForwardorBackWard(Vec2 pos, Vec2 aim, double orientation){
 
-		// Changement de référentiel (de la table au robot)
-		Vec2 aimRobot = aim.minusNewVector(pos);
-		aimRobot.setA(aimRobot.getA() - orientation);
+		try {
+			Obstacle closestEnnemy = getClosestEnnemy(pos);
+			if (closestEnnemy == null){
+				return false;
+			}
 
-		Vec2 direction = new Vec2(100.0, orientation);
+			out.newLine();
+			out.write("Position de l'ennemi le plus proche (référentiel de la table) :" + closestEnnemy.getPosition());
 
-		return (Math.abs(aimRobot.getY()) < detectionDistance && Math.abs(aimRobot.getX()) < mRobotRadius + mEnnemyRadius + 20);
+			// Changement de référentiel (de la table au robot)
+			Vec2 ennemyPos = closestEnnemy.position.minusNewVector(pos);
+			ennemyPos.setA(ennemyPos.getA() - orientation);
+
+			out.newLine();
+			out.write("Position de l'ennemi le plus proche (référentiel du robot) :" + ennemyPos);
+
+			Vec2 newAim = aim.minusNewVector(pos);
+			newAim.setA(aim.getA() - orientation);
+
+			out.newLine();
+			out.write("Position de visée (référentiel du robot) :" + newAim);
+
+			if (Math.abs(ennemyPos.getY()) < (mEnnemyRadius + mRobotRadius + 30) && Math.abs(ennemyPos.getX()) < (detectionDistance + mEnnemyRadius + mRobotRadius)) {
+				out.newLine();
+				out.write("Condition rectangle vérifiée");
+				out.newLine();
+				out.write("Produit scalaire :" + closestEnnemy.position.dot(newAim));
+				out.flush();
+				return (ennemyPos.dot(newAim) > 0);
+			}
+			out.flush();
+			return false;
+
+		}catch (IOException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	/**
+	 * Retourne l'obstacle mobile le plus proche
+	 * @param position la position de billy
+	 */
+	public synchronized ObstacleProximity getClosestEnnemy(Vec2 position){
+		try
+		{
+			//si aucun ennemi n'est détecté, on suppose que l'ennemi le plus proche est à 1m)
+
+			int squaredDistanceToClosestEnemy = 10000000;
+			int squaredDistanceToEnemyTested=10000000 ;
+
+			ObstacleProximity closestEnnemy = null;
+
+			if(mMobileObstacles.size() == 0){
+				return null;
+			}
+			//trouve l'ennemi le plus proche parmis les obstacles confirmés
+			for(int i=0; i<mMobileObstacles.size(); i++)
+			{
+				Vec2 ennemyRelativeCoords = mMobileObstacles.get(i).getPosition().minusNewVector(position);
+				squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
+				if(squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy)
+				{
+					squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
+					closestEnnemy = mMobileObstacles.get(i);
+				}
+			}
+			return closestEnnemy;
+		}
+		catch(IndexOutOfBoundsException e)
+		{
+			log.critical("Ah bah oui, out of bound");
+			throw e;
+		}
 	}
 
 	/**
@@ -792,6 +907,7 @@ public class ObstacleManager
 		    defaultObstacleRadius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
 		    defaultLifetime = Integer.parseInt(config.getProperty("duree_peremption_obstacles"));
 		    detectionDistance = Integer.parseInt(config.getProperty("distance_detection"));
+		    cDesFousEnFace = Boolean.parseBoolean(config.getProperty("cDesFousEnFace"));
 		}
 	    catch (ConfigPropertyNotFoundException e)
     	{

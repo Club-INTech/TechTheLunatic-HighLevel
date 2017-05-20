@@ -22,6 +22,7 @@ package tests;
 import enums.ActuatorOrder;
 import enums.ScriptNames;
 import exceptions.ContainerException;
+import exceptions.Locomotion.EnnemyCrashedException;
 import exceptions.Locomotion.PointInObstacleException;
 import exceptions.Locomotion.UnableToMoveException;
 import exceptions.Locomotion.UnexpectedObstacleOnPathException;
@@ -97,7 +98,7 @@ public class JUnit_Sensors extends JUnit_Test
         container.getService(ThreadSensor.class);
 	}
 
-//	@Test
+	@Test
 
 	public void testDetect() throws Exception
 	{
@@ -105,17 +106,11 @@ public class JUnit_Sensors extends JUnit_Test
 		container.startInstanciedThreads();
 
 		state.robot.switchSensor();
-		state.robot.setPosition(new Vec2(650, 1660));
-		state.robot.setOrientation(Math.PI/4);
+		state.robot.setOrientation(Math.PI/2);
 		log.debug ("Orientation :" + state.robot.getOrientation());
 		log.debug("Position :" + state.robot.getPosition());
 
-		state.robot.useActuator(ActuatorOrder.LIVRE_PELLE, false);
-		state.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE,true);
-
-		while (true) {
-			Thread.sleep(1000);
-		}
+		Thread.sleep(10000);
 	}
 
 	// @Test
@@ -165,7 +160,7 @@ public class JUnit_Sensors extends JUnit_Test
 	@Test
 	public void testDetecting() throws Exception
 	{
-		log.debug("Test d'évitement");
+		log.debug("Test de détection");
 		container.startInstanciedThreads();
 
 		try 
@@ -173,16 +168,23 @@ public class JUnit_Sensors extends JUnit_Test
 			state.robot.setOrientation(3*Math.PI/4);
 			state.robot.switchSensor();
 			Sleep.sleep(2000);
-			state.robot.moveLengthwiseAndWaitIfNeeded(1000);
-		} 
-
-		catch (Exception e)
+			state.robot.moveLengthwiseAndWaitIfNeeded(800);
+		}
+		catch (EnnemyCrashedException e)
 		{
+			state.robot.moveLengthwiseAndWaitIfNeeded(-100);
+			state.robot.turn(-Math.PI/16, new ArrayList<Hook>(), false, true);
+			Sleep.sleep(3000);
+			state.robot.turn(-Math.PI/16, new ArrayList<Hook>(), false, true);
+			Sleep.sleep(3000);
+			state.robot.turn(-Math.PI/16, new ArrayList<Hook>(), false, true);
+			Sleep.sleep(3000);
+			state.robot.turn(-Math.PI/16, new ArrayList<Hook>(), false, true);
+			Sleep.sleep(3000);
+		}
+		catch (Exception e){
 			e.printStackTrace();
 		}
-		
-		while(true)
-			;
 	}
 	
 //	@Test
