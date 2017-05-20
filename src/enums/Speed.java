@@ -40,7 +40,7 @@ public enum Speed
 	SLOW_T_MEDIUM_R(300,2*Math.PI/3),
 	
 	/** Vitesse standard de déplacement et rotation*/
-	MEDIUM_ALL(480,2*Math.PI/3),
+	MEDIUM_ALL(500,2*Math.PI/3),
 
 	/** Just for fishing */
 	SLOW_MEDIUM(300, 2*Math.PI/3),
