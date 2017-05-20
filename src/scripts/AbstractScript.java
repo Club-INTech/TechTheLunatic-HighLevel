@@ -84,7 +84,7 @@ public abstract class AbstractScript implements Service
 		log.debug("Lancement de " + this.toString() + " version " + versionToExecute);
 		try 
 		{
-			if(!actualState.robot.getPosition().equals(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPositionFast()).getCenter())) {
+			if(actualState.robot.getPosition().minusNewVector(entryPosition(versionToExecute,actualState.robot.getRobotRadius(), actualState.robot.getPositionFast()).getCenter()).squaredLength() > 40) {
 
 				log.debug("Appel au PathFinding, car Position du robot :" + actualState.robot.getPosition() + " et entrée du script :" + entryPosition(versionToExecute, actualState.robot.getRobotRadius(), actualState.robot.getPosition()).getCenter());
 

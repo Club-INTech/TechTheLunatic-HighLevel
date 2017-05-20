@@ -72,8 +72,8 @@ public class Main {
 
 			// TODO : faire une initialisation du robot et de ses actionneurs
 			realState.robot.setPosition(Table.entryPosition);
-			realState.robot.setOrientation(Math.PI);
-			realState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
+			realState.robot.setOrientation(-Math.PI/2);
+			realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
 			// container.getService(ThreadSensor.class);
 			// container.getService(ThreadInterface.class);
