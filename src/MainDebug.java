@@ -72,21 +72,23 @@ public class MainDebug
             // TODO : faire une initialisation du robot et de ses actionneurs
             realState.robot.setPosition(Table.entryPosition);
             realState.robot.setOrientation(Math.PI);
-            realState.robot.setLocomotionSpeed(Speed.FAST_ALL);
+            realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
             container.startAllThreads();
 
 //			realState.robot.moveLengthwise(500);
 
             realState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-            mSerialWrapper.moveLengthwise(1000);
+            mSerialWrapper.turn(0.01);
             //mSerialWrapper.switchAuto();
-            String[] noms = {"tick g", "tick d", "vg", "vd", "consigne vg", "consigne vd", "pwmG", "pwmD"};
+            String[] noms = {"tick g", "tick d", "angle", "vg", "vd", "consigne transl", "consigne g", "consigne d"};
             for(int i = 0; i < 2000; i++) {
                 double[] data = mSerialWrapper.pfdebug();
                 aff.addData(data, noms);
             }
 
             Thread.sleep(500);
+
+
             //			waitMatchBegin();
 
 			//System.out.println("Le robot commence le match");

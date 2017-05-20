@@ -34,28 +34,28 @@ public enum Speed
 	ULTRA_SLOW_ALL(85,Math.PI/8),
 
 	/** vitesse lente en translation, lente en rotation*/
-	SLOW_ALL(300, Math.PI/3),	//anciennement 200
+	SLOW_ALL(300, Math.PI/3),
 	
 	/** vitesse lente en translation, normale en rotation*/
-	SLOW_T_MEDIUM_R(200,Math.PI/2),
+	SLOW_T_MEDIUM_R(300,2*Math.PI/3),
 	
 	/** Vitesse standard de déplacement et rotation*/
-	MEDIUM_ALL(500,Math.PI/2),	//anciennement 420
+	MEDIUM_ALL(480,2*Math.PI/3),
 
 	/** Just for fishing */
-	SLOW_MEDIUM(300, Math.PI/2),
+	SLOW_MEDIUM(300, 2*Math.PI/3),
 	
 	/** vitesse standard de déplacement, lente en rotation*/
-	MEDIUM_T_SLOW_R(350,Math.PI/3),
+	MEDIUM_T_SLOW_R(480,Math.PI/3),
 	
 	/** vitesse rapide en translation et lente en rotation*/
-	FAST_T_SLOW_R(600, Math.PI/2),
+	FAST_T_SLOW_R(600, Math.PI/3),
 
 	/** vitesse rapide en translation et moyen en rotation*/
 	FAST_T_MEDIUM_R(600, 2*Math.PI/3),
 
 	/** vitesse rapide en translation et rotation*/
-	FAST_ALL(600,(Math.PI));	//Anciennement 500
+	FAST_ALL(600,(Math.PI));
     
     /** vitesse des moteurs lors d'une translation, ce sont ces valeurs qui seront envoyées à la STM*/
     public float translationSpeed;

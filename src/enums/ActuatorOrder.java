@@ -245,7 +245,7 @@ public enum ActuatorOrder
 	BAISSE_ASC("ascdown",1000),
 
 	// Position haute
-	LEVE_ASC("ascup",2000),
+	LEVE_ASC("ascup",1200),
 
 	//Stoppe l'ascenseur
 	STOP_ASC("ascstop");

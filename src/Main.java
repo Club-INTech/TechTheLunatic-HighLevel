@@ -21,7 +21,6 @@ import container.Container;
 import enums.DirectionStrategy;
 import enums.ScriptNames;
 import enums.Speed;
-import exceptions.BadVersionException;
 import exceptions.ContainerException;
 import exceptions.Locomotion.EnnemyCrashedException;
 import exceptions.Locomotion.UnableToMoveException;
@@ -30,8 +29,6 @@ import pathfinder.Pathfinding;
 import robot.Locomotion;
 import robot.SerialWrapper;
 import scripts.ScriptManager;
-import smartMath.Geometry;
-import smartMath.Vec2;
 import strategie.GameState;
 import strategie.IA;
 import table.Table;
@@ -39,7 +36,6 @@ import threads.ThreadInterface;
 import threads.ThreadTimer;
 import threads.dataHandlers.ThreadSensor;
 import utils.Config;
-import utils.Log;
 
 import java.util.ArrayList;
 
@@ -79,7 +75,7 @@ public class Main
             // TODO : faire une initialisation du robot et de ses actionneurs
 			realState.robot.setPosition(Table.entryPosition);
 			realState.robot.setOrientation(Math.PI);
-			realState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
+			realState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
 			container.getService(ThreadSensor.class);
 			container.getService(ThreadInterface.class);
@@ -101,7 +97,7 @@ public class Main
 
 				waitMatchBegin();
 				System.out.println("Le robot commence le match");
-				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(2, realState, emptyHook);
+				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(1, realState, emptyHook);
 
 			} catch (EnnemyCrashedException e) {
 				// On lance l'IA et la pathFinding
