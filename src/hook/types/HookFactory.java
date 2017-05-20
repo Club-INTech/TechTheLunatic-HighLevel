@@ -30,7 +30,7 @@ import utils.Log;
 /**
  * Service fabriquant des hooks à la demande.
  * Chaque script appelle la hookfactory pour créer ses hooks.
- * @author pf, marsu, Pingu
+ * @author pf , Pingu
  */
 public class HookFactory implements Service
 {

@@ -24,7 +24,7 @@ import java.io.StringWriter;
 
 /**
  * Exception levée en cas de détection d'un ennemi proche (par les capteurs, ultrason, infrarouge, etc.)
- * @author pf, marsu
+ * @author pf
  *
  */
 public class UnexpectedObstacleOnPathException extends Exception

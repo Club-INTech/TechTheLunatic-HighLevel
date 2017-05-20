@@ -40,7 +40,7 @@ import java.util.Enumeration;
  * Les obstacles peuvent être fixes (bordures de la table par exemple) ou bien mobile (et alors considérés temporaires).
  * Un robot ennemi est une obstacle mobile par exemple. 
  * 
- * @author pf, marsu
+ * @author pf,
  */
 
 public class ObstacleManager

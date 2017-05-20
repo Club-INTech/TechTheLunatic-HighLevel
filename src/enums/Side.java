@@ -21,7 +21,6 @@ package enums;
 
 /**
  * Utilitaire pour ditinguer les cotés, soit ceux du robot, soit d'autre chose.
- * @author karton
  *
  */
 public enum Side

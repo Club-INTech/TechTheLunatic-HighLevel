@@ -36,7 +36,7 @@ import java.io.IOException;
  * Thread qui s'occupe de la gestion du temps: début du match et immobilisation du robot en fin de match
  * demande aussi périodiquement a la table qu'on lui fournit de retirer les obstacles périmés
  * C'est lui qui active les capteurs en début de match.
- * @author pf, marsu
+ * @author pf
  *
  */
 
