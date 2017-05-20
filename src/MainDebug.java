@@ -79,26 +79,28 @@ public class MainDebug
             container.getService(ThreadInterface.class);
 
 
-            Thread t = new Thread(() ->  //Ceci est une lambda-expression, elle vient définir la fonction principale du thread
-            {
-                try {
-                    AffichageDebug aff = container.getService(AffichageDebug.class);
-                    Sleep.sleep(100);
-                    String[] noms = {"tick g", "tick d", "angle", "vg", "vd", "consigne transl", "consigne g", "consigne d"};
-                    for(int i = 0; i < 3000; i++) {
-                        double[] data;
-                        try {
-                            data = mSerialWrapper.pfdebug();
-                            aff.addData(data, noms);
-                        } catch (SerialConnexionException e) {
-                            e.printStackTrace();
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        AffichageDebug aff = container.getService(AffichageDebug.class);
+                        Sleep.sleep(100);
+                        String[] noms = {"tick g", "tick d", "angle", "vg", "vd", "consigne transl", "consigne g", "consigne d"};
+                        for(int i = 0; i < 3000; i++) {
+                            double[] data;
+                            try {
+                                data = mSerialWrapper.pfdebug();
+                                aff.addData(data, noms);
+                            } catch (SerialConnexionException e) {
+                                e.printStackTrace();
+                            }
                         }
+                    } catch (ContainerException | InterruptedException e) {
+                        e.printStackTrace();
                     }
-                } catch (ContainerException | InterruptedException e) {
-                    e.printStackTrace();
                 }
-
             });
+
 
             t.start(); // On lance le thread
 
