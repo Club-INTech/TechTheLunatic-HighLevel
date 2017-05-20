@@ -84,7 +84,7 @@ public class ObstacleManager
 	private final int timeToTestObstacle = 1000;
 
 	/** Temps de vie d'un robot ennemi */
-	private int defaultLifetime = 1000;
+	private int defaultLifetime = 5000;
 
 	/** Distance de detection (sans disque de detection)
 	 * Override par la config
@@ -318,7 +318,7 @@ public class ObstacleManager
     				mMobileObstacles.get(i).numberOfTimeDetected++;
     				mMobileObstacles.get(i).position.set(position);
     				mMobileObstacles.get(i).setRadius(radius);
-    				mMobileObstacles.get(i).setLifeTime(lifetime);
+    				mMobileObstacles.get(i).setLifeTime(defaultLifetime);
     				
     				// si on l'a deja vu plein de fois
     				if(mMobileObstacles.get(i).numberOfTimeDetected >= mMobileObstacles.get(i).getMaxNumberOfTimeDetected())

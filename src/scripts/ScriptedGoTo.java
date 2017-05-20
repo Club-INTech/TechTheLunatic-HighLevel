@@ -143,7 +143,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(point3AttrapperModule1);
 
                 //prise du module du fond
-
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
@@ -161,8 +160,6 @@ public class ScriptedGoTo extends AbstractScript
                 //La on devrait avoir le module
                 actualState.table.cylindreCratereBase.isStillThere=false;
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
-
-
 
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, true);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
