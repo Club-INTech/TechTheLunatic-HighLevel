@@ -858,6 +858,8 @@ public class Robot implements Service {
 	public void livreBoules() throws SerialConnexionException {
 		useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 		useActuator(ActuatorOrder.LIVRE_PELLE, true);
+		useActuator(ActuatorOrder.PREND_PELLE, true);
+		useActuator(ActuatorOrder.LIVRE_PELLE, true);
 		useActuator(ActuatorOrder.RANGE_PELLE, true);
 		useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
     }
@@ -865,7 +867,7 @@ public class Robot implements Service {
     public void prendModule(Side side) throws SerialConnexionException {
     	if(side==Side.RIGHT) {
 			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
-			useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
+			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
 
 			useActuator(ActuatorOrder.PREND_MODULE_D, true);
 			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
