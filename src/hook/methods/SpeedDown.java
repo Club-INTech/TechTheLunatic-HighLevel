@@ -34,7 +34,7 @@ public class SpeedDown implements Executable
 	@Override
 	public boolean execute(GameState stateToConsider)
 	{
-		stateToConsider.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+		stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 		return false;
 	}
 

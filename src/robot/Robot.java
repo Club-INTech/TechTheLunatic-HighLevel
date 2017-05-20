@@ -27,7 +27,6 @@ import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
 import hook.Hook;
 import pathfinder.Pathfinding;
-import scripts.ScriptManager;
 import smartMath.Circle;
 import smartMath.Geometry;
 import smartMath.Vec2;
@@ -466,7 +465,7 @@ public class Robot implements Service {
      * @throws UnableToMoveException
      */
     public void turnTo(Vec2 pointVise) throws UnableToMoveException {
-        position = getPositionFast();
+        position = getPosition();
         Vec2 move = pointVise.minusNewVector(position);
         double a = move.getA();
         turn(a);
@@ -841,4 +840,66 @@ public class Robot implements Service {
 	}
 
 
+	//Ordres d'actionneurs groupés, pour scripts
+	public void prendBoules() throws SerialConnexionException {
+		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+		useActuator(ActuatorOrder.PRET_PELLE, true);
+		useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+		useActuator(ActuatorOrder.P1, true);
+		useActuator(ActuatorOrder.P2, true);
+		useActuator(ActuatorOrder.P1, true);
+		useActuator(ActuatorOrder.P2, true);
+		useActuator(ActuatorOrder.PREND_PELLE, true);
+		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+		useActuator(ActuatorOrder.RANGE_PELLE, false);
+		useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+	}
+
+	public void livreBoules() throws SerialConnexionException {
+		useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
+		useActuator(ActuatorOrder.LIVRE_PELLE, true);
+		useActuator(ActuatorOrder.RANGE_PELLE, true);
+		useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+    }
+
+    public void prendModule(Side side) throws SerialConnexionException {
+    	if(side==Side.RIGHT) {
+			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+			useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
+
+			useActuator(ActuatorOrder.PREND_MODULE_D, true);
+			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+			useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+			useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+			useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+
+			useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+			useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+
+			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+
+		}
+		else if(side==Side.LEFT){
+			useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+			useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+
+			useActuator(ActuatorOrder.PREND_MODULE_G, true);
+			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+			useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+			useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+			useActuator(ActuatorOrder.REPOS_CALLE_D, true);
+
+			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+			useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+
+			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+		}
+
+		useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+		useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+		useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+		useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+
+		useActuator(ActuatorOrder.LEVE_ASC, false); //Pas besoin d'attendre l'ascenseur, on peut démarrer direct
+	}
 }
