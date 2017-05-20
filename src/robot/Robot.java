@@ -350,7 +350,7 @@ public class Robot implements Service {
 	}
 
 	public void moveLengthwiseAndWaitIfNeeded(int distance, ArrayList<Hook> hooks, boolean expectedWallImpact, boolean isDetect) throws UnableToMoveException{
-		mLocomotion.moveLengthwise(distance, hooks, expectedWallImpact, isDetect);
+		mLocomotion.moveLengthwiseAndWaitIfEnnemy(distance, hooks, expectedWallImpact, isDetect);
 	}
 
 	public void moveLengthwiseAndWaitIfNeeded(int distance, ArrayList<Hook> hooks) throws UnableToMoveException{

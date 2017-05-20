@@ -123,7 +123,8 @@ public class ThreadSensor extends AbstractThread
 	 * 
 	 */
 	double detectionAngle;
-	double sensorPositionAngle;
+	double sensorPositionAngleF;
+	double sensorPositionAngleB;
 	int lifetimeForUntestedObstacle = 200;
 
     /**
@@ -131,20 +132,20 @@ public class ThreadSensor extends AbstractThread
      * Convention: on effectue les calculs dans le reprère du robot, ce dernier étant orienté vers 0 (axe x)
      * Pour changer de repère, il faut effectuer une rotation des vecteurs de l'orientation du robot + une translation sur sa position.
      */
-    private final double angleLF = sensorPositionAngle;
-    private final double angleRF = -sensorPositionAngle;
-    private final double angleLB = sensorPositionAngle - Math.PI;
-    private final double angleRB = -sensorPositionAngle + Math.PI;
+    private final double angleLF = sensorPositionAngleF;
+    private final double angleRF = -sensorPositionAngleF;
+    private final double angleLB = -sensorPositionAngleB + Math.PI;
+    private final double angleRB = sensorPositionAngleB - Math.PI;
 
 
     /**
      * Positions relatives au centre du robot
      */
 
-    private final Vec2 positionLF = new Vec2(160, 150);
-    private final Vec2 positionRF = new Vec2(160, -150);
-    private final Vec2 positionLB = new Vec2(-150,135);
-    private final Vec2 positionRB = new Vec2(-150,-135);
+    private final Vec2 positionLF = new Vec2(120, 125);
+    private final Vec2 positionRF = new Vec2(120, -125);
+    private final Vec2 positionLB = new Vec2(-180,80);
+    private final Vec2 positionRB = new Vec2(-180,-80);
 
     /**
      * Delai d'attente avant de lancer le thread
@@ -438,16 +439,18 @@ public class ThreadSensor extends AbstractThread
         // Et on place le robot ennemie tangent en ce point : la position calculée n'est pas la position réelle du robot adverse mais elle suffit
 
         Vec2 posEn;
+        Double USFL = new Double((double) USvalues.get(0));
+        Double USFR = new Double((double) USvalues.get(1));
 
         if (isLeft){
             // On choisit le point à l'extrémité de l'arc à coté du capteur pour la position de l'ennemie: à courte distance, la position est réaliste,
             // à longue distance (>1m au vue des dimensions), l'ennemie est en réalité de l'autre coté
-            Vec2 posDetect = new Vec2(USvalues.get(0), angleLF + detectionAngle/2);
+            Vec2 posDetect = new Vec2(USFL, angleLF + detectionAngle/2);
             double angleEn = angleRF + detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionLF);
         }
         else{
-            Vec2 posDetect = new Vec2(USvalues.get(1), angleRF - detectionAngle/2);
+            Vec2 posDetect = new Vec2(USFR, angleRF - detectionAngle/2);
             double angleEn = angleLF - detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRF);
         }
@@ -475,14 +478,16 @@ public class ThreadSensor extends AbstractThread
         // De meme qu'avec le front
 
         Vec2 posEn;
+        Double USBL = new Double((double) USvalues.get(2));
+        Double USBF = new Double((double) USvalues.get(3));
 
         if (isLeft){
-            Vec2 posDetect = new Vec2(USvalues.get(2),angleLB - detectionAngle/2);
+            Vec2 posDetect = new Vec2(USBL,angleLB - detectionAngle/2);
             double angleEn = angleRB - detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionLB);
         }
         else{
-            Vec2 posDetect = new Vec2(USvalues.get(3),angleRB + detectionAngle/2);
+            Vec2 posDetect = new Vec2(USBF,angleRB + detectionAngle/2);
             double angleEn = angleLB + detectionAngle/2;
             posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRB);
         }
@@ -643,7 +648,8 @@ public class ThreadSensor extends AbstractThread
 
 			maxSensorRange = Integer.parseInt(config.getProperty("horizon_capteurs"));
 			minSensorRange = Integer.parseInt(config.getProperty("portee_mini_capteurs"));
-			sensorPositionAngle = Float.parseFloat(config.getProperty("angle_position_capteur"));
+			sensorPositionAngleF = Float.parseFloat(config.getProperty("angle_position_capteur_av"));
+			sensorPositionAngleB = Float.parseFloat(config.getProperty("angle_position_capteur_ar"));
 			detectionAngle = Float.parseFloat(config.getProperty("angle_detection_capteur"));
 
             symetry = config.getProperty("couleur").replaceAll(" ","").equals("jaune");

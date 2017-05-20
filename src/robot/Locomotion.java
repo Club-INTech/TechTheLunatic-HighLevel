@@ -295,7 +295,7 @@ public class Locomotion implements Service
      * @param mustDetect true si on veut detecter, false sinon.
      * @throws UnableToMoveException si le robot a un bloquage mecanique
      */
-    public void moveLengthwise(int distance, ArrayList<Hook> hooks, boolean wall, boolean mustDetect) throws UnableToMoveException, EnnemyCrashedException
+    public void moveLengthwise(int distance, ArrayList<Hook> hooks, boolean wall, boolean mustDetect) throws UnableToMoveException
     {    
 
     	actualRetriesIfBlocked=0;
@@ -344,13 +344,13 @@ public class Locomotion implements Service
         Vec2 aim = new Vec2(dist, highLevelOrientation);
         int totalTime = 0;
         int closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
-        log.debug("Distance à l'ennemie le plus proche dans le sens de la marche :" + closest);
+        log.debug("Distance à l'ennemi le plus proche dans le sens de la marche :" + closest);
 
-        while (closest <= detectionDistance + (int) (robotLength/2.0) && closest > -150 && totalTime < timeOutEnnemyMove)
+        while (closest <= detectionDistance && closest > -150 && totalTime < timeOutEnnemyMove)
         {
             Sleep.sleep(timeToWaitIfEnnemy);
             totalTime += timeToWaitIfEnnemy;
-            log.debug ("Ennemie détecté dans le sens de marche, on attend (" + closest + " mm)");
+            log.debug ("Ennemi détecté dans le sens de marche, on attend (" + closest + " mm)");
             closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
         }
 
@@ -654,7 +654,7 @@ public class Locomotion implements Service
         	if(mustDetect)
         	{
         		if(!basicDetection)
-                    detectEnemyAtDistance(detectionDistance, aim.minusNewVector(highLevelPosition.clone()));	// 85 mm est une bonne distance pour être safe.
+                    detectEnemyAtDistance2(aim.minusNewVector(highLevelPosition.clone()));	// 85 mm est une bonne distance pour être safe.
                 else
                 {
                     basicDetect(isMovementForward, false);
@@ -1032,7 +1032,7 @@ public class Locomotion implements Service
     public void detectEnemyAtDistance2(Vec2 movementDirection) throws UnexpectedObstacleOnPathException
     {
         if(table.getObstacleManager().isEnnemyForwardorBackWard(highLevelPosition, movementDirection, highLevelOrientation)){
-            log.debug("DetectEnemyAtDistance voir un ennemi sur le chemin");
+            log.debug("DetectEnemyAtDistance voie un ennemi sur le chemin");
             immobilise();
             throw new UnexpectedObstacleOnPathException();
         }
