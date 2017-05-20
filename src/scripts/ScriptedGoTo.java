@@ -19,14 +19,12 @@ import utils.Config;
 import utils.Log;
 
 import java.util.ArrayList;
-
+import java.util.Map;
 
 
 /** Script sans pathfinding utilisant goTo(pointVisé)
  * version 0 : prend le module dans a fuée au début
- * version 1 : prend le module multicolore devant la zone de départ à la place de la fusée
- * version 2 : meme chose que la version 1 mais avec 2 manoeuvres de recalages
- * @author melanie
+ * @author melanie, gaelle, rem
  */
 
 
@@ -35,33 +33,52 @@ public class ScriptedGoTo extends AbstractScript
 
     /** PointsVisés, dstances & angles du script, override par la config */
 
-    private boolean prisePremierModule=false;
-    private Vec2 point1MilieuTable = new Vec2(540,800);
-    private Vec2 point2EntreeFinTable = new Vec2(900,1400);
-    private Vec2 point3AttrapperModule1 = new Vec2(820,1720);
-    private Vec2 point4arriveDevantCratereFond = new Vec2(650,1785);
-    private double angleDevantCratereFond = Math.PI - 0.09;
-    private int distanceCratereFondApresBoules = -170;
+    boolean prisePremierModule=false;
 
-    private double angleCratereFondAvantDepotModule = Math.PI/4;
-    private int distanceCratereFondAvantDepotModule = -135;
-    private int distanceCratereFondApresDepotModule = 55;
+    /** Déplacements jusqu'à la zone du fond */
+    Vec2 point1MilieuTable                  = new Vec2(540,800);
+    Vec2 point2EntreeFinTable               = new Vec2(900,1400);
 
-    private Vec2 pointSortieCratereFond =new Vec2(1175,1290);
-    private Vec2 pointIntermediaireVersModule =new Vec2(1175,850);
-    private Vec2 pointAvantModule2 = new Vec2(990, 785);
-    private int distanceReculModule2=-130;
-    private int distanceApresModule2=60;
+    /** Manoeuvre pour attraper le 1er module */
+    Vec2 point3AttrapperModule1             = new Vec2(820,1720);
+    double angleAttraperModule1             = -3*Math.PI/4;
 
-    private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
-    private int distanceAvantDeposeBoules1=230;
-    private int distanceReculApresDepotBoule1=-200;
-    private Vec2 pointDevantCratere2 = new Vec2(1100, 680);
+    /** Manoeuvre pour attraper les 1eres boules */
+    Vec2 point4arriveDevantCratereFond      = new Vec2(650,1785);
+    Vec2 posCratere1                        = new Vec2(420, 1880);
+    int distanceCratereFondAvantBoules      = 60;
+    int distanceCratereFondApresBoules      = -170;
 
+    /** Manoeuvre pour drop le 1er module */
+    double angleCratereFondAvantDepotModule = Math.PI/4;
+    int distanceCratereFondAvantDepotModule = -135;
+    int distanceCratereFondApresDepotModule = 55;
 
+    /** Déplacements jusqu'à la zone de départ */
+    Vec2 pointSortieCratereFond             = new Vec2(1175,1290);
+    Vec2 pointIntermediaireVersModule       = new Vec2(1175,850);
 
-    Vec2 posCratere1= new Vec2(420, 1880);
-    Vec2 posCratere2= new Vec2(850, 540);
+    /** Manoeuvre pour attraper le 2e module */
+    Vec2 pointAvantModule2                  = new Vec2(990, 785);
+    double angleDropModule2                 = Math.PI;
+    int distanceApresModule2                = 60;
+
+    /** Manoeuvre pour déposer les 1eres boules */
+    int distanceAvantDeposeBoules1          = 230;
+    int distanceReculApresDepotBoule1       = -200;
+
+    /** Manoeuvre pour prendre les 2emes boules */
+    Vec2 posCratere2                        = new Vec2(850, 540);
+    int distanceCratereBaseAvantBoules      = 200;
+    int distanceCratereBaseApresBoules      = -190;
+
+    /** Manoeuvre pour déposer les 2emes boules */
+    double angleAvantDeposeBoules           = -Math.PI/2 + 0.15;
+    int distanceAvantDeposeBoules2          = 190;
+    double angleDeposeBoules                = -Math.PI/2;
+
+    /** Manoeuvre de fin !*/
+    int distanceEsquiveRobot                = -120;
 
     private boolean detect = false;
     private double recalageThresholdOrientation;
@@ -90,139 +107,15 @@ public class ScriptedGoTo extends AbstractScript
         try{
 
             //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-            Hook replieTout0 = hookFactory.newPositionHook(new Vec2 (480, 600), (float) Math.PI/2, 100, 400);
-            replieTout0.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
             Hook priseModuleDroit = hookFactory.newPositionHook(new Vec2(890,1500), (float) -Math.PI/2, 300, 400);
             priseModuleDroit.addCallback(new Callback(new PrepareToCatchModD(), true, actualState));
-            Hook repliTout1 = hookFactory.newPositionHook(point3AttrapperModule1, (float) -Math.PI/2, 50, 3000);
-            repliTout1.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
+            Hook repliTout = hookFactory.newPositionHook(point3AttrapperModule1, (float) -Math.PI/2, 50, 3000);
+            repliTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
 
-            //hooksToConsider.add(replieTout0);
             hooksToConsider.add(priseModuleDroit);
-            hooksToConsider.add(repliTout1);
+            hooksToConsider.add(repliTout);
 
-            if (versionToExecute==0)
-            {
-
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                // Avec le Hook pour prendre le module multicolore pret de la zone de départ
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(80);
-                actualState.robot.turn(2*Math.PI/3);   // 250, 580 <- 578, 208
-                actualState.robot.moveLengthwise(560);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(-547, hooksToConsider);
-                actualState.robot.turn(Math.PI/2);
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                actualState.robot.moveLengthwise(250);
-
-                actualState.table.cylindreDevantDepart.isStillThere=false;
-
-                //Aller au cratère du fond
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,true);
-
-                actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-                actualState.robot.goTo(point1MilieuTable, hooksToConsider);
-                actualState.robot.goTo(point2EntreeFinTable, hooksToConsider);
-
-                actualState.robot.turn(-Math.PI/2);
-
-                actualState.robot.goTo(point3AttrapperModule1);
-
-                //prise du module du fond
-
-                actualState.robot.prendModule(Side.RIGHT);
-
-                //La on devrait avoir le module
-                actualState.table.cylindreCratereBase.isStillThere=false;
-                actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
-
-                actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
-
-                //changement de vitesse pour ne pas pousser les balles
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,true);
-                // Changement de vitesse pour ne pas pousser les balles
-
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(178, hooksToConsider);
-                // ActualState.robot.moveLengthwiseAndWaitIfNeeded(105, hooksToConsider);
-
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
-
-                actualState.robot.goTo(point4arriveDevantCratereFond);
-                actualState.robot.turn(angleDevantCratereFond);
-
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-
-                // Prise des boules
-                actualState.robot.prendBoules();
-
-                // Livraison module
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
-                actualState.robot.turn(angleCratereFondAvantDepotModule);
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);    //Ralentit pour éviter de défoncer la zone
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule);
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresDepotModule);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-
-                actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
-                actualState.robot.goTo(pointAvantModule2);
-
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
-
-                actualState.robot.turn(Math.PI-0.1);
-
-                //Prise de module 2
-                actualState.robot.prendModule(Side.LEFT);
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-
-                actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
-                actualState.robot.turn(-Math.PI/2);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
-
-                //Livraison boules
-
-                actualState.robot.livreBoules();
-
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculApresDepotBoule1);
-                actualState.robot.goTo(pointDevantCratere2);
-
-                Vec2 posCratere= new Vec2(850, 540);
-                Vec2 posRobot=actualState.robot.getPosition();
-                Vec2 vec = posCratere.minusNewVector(posRobot);
-
-                actualState.robot.turn(vec.getA());
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(140);
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-
-                actualState.robot.prendBoules();
-
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(-150);
-                actualState.robot.turn(-Math.PI/2);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(165);
-
-                actualState.robot.livreBoules();
-
-                actualState.robot.moveLengthwise(-120); //Recul pour laisser le robot secondaire finir
-            }
-
-            if(versionToExecute == 1) {
+            if(versionToExecute == 0) {
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
@@ -242,89 +135,71 @@ public class ScriptedGoTo extends AbstractScript
                     actualState.robot.turn(Math.PI / 2);
                     actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                     actualState.robot.moveLengthwise(250);
+
                     log.debug("position"+actualState.robot.getPosition());
                     log.debug("positionFast"+actualState.robot.getPositionFast());
                     log.debug("Orientation du HL :" + actualState.robot.getOrientationFast());
                 }
 
-                //Aller au cratère du fond
+                // Aller au cratère du fond
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+
                 actualState.robot.goTo(point1MilieuTable);
-
                 actualState.robot.goTo(point2EntreeFinTable);
-
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
 
+                // Prise du module 1er module (celui du fond)
                 actualState.robot.goTo(point3AttrapperModule1);
-                actualState.robot.turn(-3*Math.PI/4);
+                actualState.robot.turn(angleAttraperModule1);
 
-                //prise du module du fond
                 actualState.robot.prendModule(Side.RIGHT);
-
-                // Recalage
-                /* actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true);
-                Vec2 oldPos = actualState.robot.getPosition();
-                Vec2 newPos = oldPos.clone();
-                newPos.setY(1835);
-                actualState.robot.setPosition(newPos);
-
-                log.debug("Orientation :" + actualState.robot.getOrientationFast());
-                if (Math.abs(actualState.robot.getOrientationFast() + Math.PI/2)%(2*Math.PI) < recalageThresholdOrientation) {
-                    log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() + Math.PI/2)%(2*Math.PI));
-                    actualState.robot.setOrientation(-Math.PI / 2);
-                }*/
-
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                // actualState.robot.moveLengthwiseAndWaitIfNeeded(180, hooksToConsider);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
-                // Changement de vitesse pour ne pas pousser les balles
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
 
+                // Prise des 1eres boules (celles du fond)
                 actualState.robot.goTo(point4arriveDevantCratereFond, hooksToConsider);
                 actualState.robot.turnTo(posCratere1);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(60);
-
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantBoules);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
-                // Prise des boules
                 actualState.robot.prendBoules();
 
-                // La on a des boulasses
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereBaseLunaire.isStillThere=false;
 
-                // Livraison module
+                // Livraison du 1er module
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);    //Ralentit pour éviter de défoncer la zone
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, true);
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
 
-                //La on l'a largué
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
 
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresDepotModule);
+
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 
+                // Aller vers la zone de départ
                 actualState.robot.goTo(pointSortieCratereFond);
+
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, false);
+
                 actualState.robot.goTo(pointIntermediaireVersModule);
+
+                // Prise du 2e module (celui de la zone de départ)
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
 
@@ -337,10 +212,10 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
-                actualState.robot.turn(Math.PI);
+                actualState.robot.turn(angleDropModule2);
 
-                //Là on commence le script livraison 1 (à vérifier)
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
+
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true, false);
@@ -350,6 +225,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setPosition(newPos);
 
                 log.debug("Orientation :" + actualState.robot.getOrientationFast());
+
                 if (Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI) < recalageThresholdOrientation) {
                     log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI));
                     actualState.robot.setOrientation(Math.PI);
@@ -357,29 +233,27 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-                //Prise de module 2
-
                 actualState.robot.prendModule(Side.LEFT);
-
-                // la on a le module 2
 
                 actualState.table.ballsCratereDepart.isStillThere=false;
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
-                //Range les actionneurs à l'arrière
+                // Replie des actionneurs arrières et drop le second module
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
 
-                //La on drop le module
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
+
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
+                // Livraison des 1eres boules
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
                 actualState.robot.turn(-Math.PI/2+0.15);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
@@ -387,20 +261,16 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.livreBoules();
 
-                //La on drop nos BALLS et on lance le script suivant
                 actualState.robot.setRempliDeBoules(false);
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,true);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculApresDepotBoule1);
-                // actualState.robot.goTo(pointDevantCratere2);
 
+                // Prise des 2emes boules
                 actualState.robot.turnTo(posCratere2);
 
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(200);
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseAvantBoules);
 
-                //Prise de boules 2
                 actualState.robot.prendBoules();
 
                 actualState.robot.setRempliDeBoules(true);
@@ -408,16 +278,17 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,true);
 
-                //Placement livraison boules
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(-190);
-                actualState.robot.turn(-Math.PI/2+0.15);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(150);
-                actualState.robot.turn(-Math.PI/2);
+                // Livraison des 2emes boules
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseApresBoules);
+                actualState.robot.turn(angleAvantDeposeBoules);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules2);
+                actualState.robot.turn(angleDeposeBoules);
 
-                //Livraison de boules 2
                 actualState.robot.livreBoules();
+
                 actualState.robot.setRempliDeBoules(false);
-                actualState.robot.moveLengthwise(-120); //Esquive le robot secondaire !
+
+                actualState.robot.moveLengthwise(distanceEsquiveRobot);
             }
 
 
@@ -442,7 +313,7 @@ public class ScriptedGoTo extends AbstractScript
     @Override
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException
     {
-        if (version == 0 || version ==1) {
+        if (version == 0) {
             return new Circle(robotPosition);
         }
 

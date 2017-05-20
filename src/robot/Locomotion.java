@@ -537,7 +537,7 @@ public class Locomotion implements Service
 
                         try
                         {
-             //               log.warning("On n'arrive plus à avancer. On se dégage");
+                            // log.warning("On n'arrive plus à avancer. On se dégage");
                             log.warning("On n'arrive plus à avancer. On se dégage");
                             if(turnOnly!=0)
                             {
@@ -1031,7 +1031,7 @@ public class Locomotion implements Service
      */
     public void detectEnemyAtDistance2(Vec2 movementDirection) throws UnexpectedObstacleOnPathException
     {
-        if(table.getObstacleManager().isEnnemyForwardorBackWard(highLevelPosition, movementDirection, highLevelOrientation)){
+        if(table.getObstacleManager().isEnnemyForwardorBackWard(detectionDistance + 50, highLevelPosition, movementDirection, highLevelOrientation)){
             log.debug("DetectEnemyAtDistance voie un ennemi sur le chemin");
             immobilise();
             throw new UnexpectedObstacleOnPathException();

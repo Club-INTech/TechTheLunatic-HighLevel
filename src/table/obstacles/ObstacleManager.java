@@ -596,7 +596,7 @@ public class ObstacleManager
 	 * @param pos la position de billy
 	 * @param orientation l'orientation de billy
 	 */
-	public boolean isEnnemyForwardorBackWard(Vec2 pos, Vec2 aim, double orientation){
+	public boolean isEnnemyForwardorBackWard(int distance, Vec2 pos, Vec2 aim, double orientation){
 
 		try {
 			Obstacle closestEnnemy = getClosestEnnemy(pos);
@@ -620,7 +620,7 @@ public class ObstacleManager
 			out.newLine();
 			out.write("Position de visée (référentiel du robot) :" + newAim);
 
-			if (Math.abs(ennemyPos.getY()) < (mEnnemyRadius + mRobotRadius + 30) && Math.abs(ennemyPos.getX()) < (detectionDistance + mEnnemyRadius + mRobotRadius)) {
+			if (Math.abs(ennemyPos.getY()) < (mEnnemyRadius + mRobotRadius) && Math.abs(ennemyPos.getX()) < (distance + mEnnemyRadius + mRobotRadius)) {
 				out.newLine();
 				out.write("Condition rectangle vérifiée");
 				out.newLine();
