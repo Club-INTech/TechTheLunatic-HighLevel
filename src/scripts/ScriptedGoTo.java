@@ -29,8 +29,7 @@ import java.util.ArrayList;
 
 /** Script sans pathfinding utilisant goTo(pointVisé)
  * version 0 : prend le module dans a fuée au début
- * version 1 : prend le module multicolore devant la zone de départ à la place de la fusée
- * version 2 : meme chose que la version 1 mais avec 2 manoeuvres de recalages
+ * version 1 : meme chose que la version 1 mais avec 2 manoeuvres de recalages
  * @author melanie
  */
 
@@ -78,7 +77,7 @@ public class ScriptedGoTo extends AbstractScript
     {
         super(hookFactory, config, log);
 
-        versions = new Integer[]{0};
+        versions = new Integer[]{0, 1};
     }
 
 
@@ -482,7 +481,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwise(-120);
             }
 
-            if(versionToExecute == 2) {
+            if(versionToExecute == 1) {
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
@@ -737,7 +736,7 @@ public class ScriptedGoTo extends AbstractScript
     @Override
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException
     {
-        if (version == 0 || version ==1 || version ==2) {
+        if (version == 0 || version ==1) {
             return new Circle(robotPosition);
         }
 
