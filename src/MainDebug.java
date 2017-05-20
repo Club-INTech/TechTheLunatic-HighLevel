@@ -21,6 +21,7 @@ import container.Container;
 import enums.ActuatorOrder;
 import enums.Speed;
 import exceptions.ContainerException;
+import exceptions.serial.SerialConnexionException;
 import graphics.AffichageDebug;
 import hook.Hook;
 import robot.Locomotion;
@@ -32,6 +33,7 @@ import threads.ThreadInterface;
 import threads.ThreadTimer;
 import utils.Config;
 import utils.Log;
+import utils.Sleep;
 
 import java.util.ArrayList;
 
@@ -61,7 +63,6 @@ public class MainDebug
         {
             container = new Container();
             config = container.getService(Config.class);
-            AffichageDebug aff = container.getService(AffichageDebug.class);
             realState = container.getService(GameState.class);
             scriptmanager = container.getService(ScriptManager.class);
             mSerialWrapper = container.getService(SerialWrapper.class);
@@ -74,28 +75,50 @@ public class MainDebug
             realState.robot.setPosition(Table.entryPosition);
             realState.robot.setOrientation(Math.PI);
             realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-          //  container.startAllThreads();
+            //  container.startAllThreads();
             container.getService(ThreadInterface.class);
 
 
-//			realState.robot.moveLengthwise(500);
+            Thread t = new Thread(() ->  //Ceci est une lambda-expression, elle vient définir la fonction principale du thread
+            {
+                try {
+                    AffichageDebug aff = container.getService(AffichageDebug.class);
+                    Sleep.sleep(100);
+                    String[] noms = {"tick g", "tick d", "angle", "vg", "vd", "consigne transl", "consigne g", "consigne d"};
+                    for(int i = 0; i < 3000; i++) {
+                        double[] data;
+                        try {
+                            data = mSerialWrapper.pfdebug();
+                            aff.addData(data, noms);
+                        } catch (SerialConnexionException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (ContainerException | InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-            realState.robot.setForceMovement(true);
-            realState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-            mSerialWrapper.turn(0.01);
+            });
+
+            t.start(); // On lance le thread
+
+            realState.robot.moveLengthwise(500);
+            realState.robot.moveLengthwise(-500);
+
+            //realState.robot.setForceMovement(true);
+            //realState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+            //mSerialWrapper.turn(0.01);
             //mSerialWrapper.switchAuto();
-            String[] noms = {"tick g", "tick d", "angle", "vg", "vd", "consigne transl", "consigne g", "consigne d"};
-            for(int i = 0; i < 2000; i++) {
-                double[] data = mSerialWrapper.pfdebug();
-                aff.addData(data, noms);
-            }
+
 
             Thread.sleep(500);
+
+            t.join(); //On attend la fin du thread
 
 
             //			waitMatchBegin();
 
-			//System.out.println("Le robot commence le match");
+            //System.out.println("Le robot commence le match");
 
             // TODO : lancer l'IA
 
