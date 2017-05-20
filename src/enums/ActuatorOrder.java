@@ -138,7 +138,7 @@ public enum ActuatorOrder
 
 	//********** 3 POSITIONS DE LA PELLE ***********//
 	// Position avant prise de boules
-	PRET_PELLE("pd",1700),
+	PRET_PELLE("pd",700),
 
 	// Position 1 pour éviter le blocage des boules dans la pelle
 	P1("p1", 400),
@@ -147,16 +147,16 @@ public enum ActuatorOrder
 	P2("p2", 400),
 
 	//Position initiale, de rangement de la pelle
-	RANGE_PELLE("pb", 1000),
+	RANGE_PELLE("pb", 900),
 
 	// Position intermédiaire de la pelle, maintient les boules
-	PREND_PELLE("pm",2000),//avant:2000
+	PREND_PELLE("pm",900),//avant:2000
 
 	//Pos de déplacement avec les boules
-	TIENT_BOULES("pt",2000),
+	TIENT_BOULES("pt",900),
 
 	//Position de livraison de boules de la pelle
-	LIVRE_PELLE("pf",1000),
+	LIVRE_PELLE("pf",900),
 
     //Reasservir pelle, a ne pas utiliser lors d'une prise de boules... Donner juste après un ordre de position(pret pelle, prend pelle ou tientboules)
     PELLE_REASSERV("pelreasserv"),
@@ -178,14 +178,14 @@ public enum ActuatorOrder
 	MID_ATTRAPE_D("ammd",500),
 
 	// Position de livraison
-	PREND_MODULE_D("amfd",1500),
+	PREND_MODULE_D("amfd",100),
 
 	//Côté gauche
 	REPOS_ATTRAPE_G("amdg",500),
 
 	MID_ATTRAPE_G("ammg",300),
 
-	PREND_MODULE_G("amfg",1500),
+	PREND_MODULE_G("amfg",1000),
 
 
 /*			 ___________________

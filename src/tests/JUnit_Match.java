@@ -11,9 +11,7 @@ import org.junit.Test;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
-import threads.ThreadInterface;
 import threads.dataHandlers.ThreadEvents;
-import threads.dataHandlers.ThreadSensor;
 
 import java.util.ArrayList;
 
@@ -35,7 +33,7 @@ public class JUnit_Match extends JUnit_Test {
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
         mRobot.robot.setOrientation(-Math.PI/2);
-        mRobot.robot.setLocomotionSpeed(Speed.FAST_ALL);
+        mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
         container.getService(ThreadEvents.class);

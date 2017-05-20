@@ -73,7 +73,7 @@ public class CloseDoors extends AbstractScript
 
                 stateToConsider.robot.setBasicDetection(true);
 				stateToConsider.robot.setForceMovement(false);
-                stateToConsider.robot.setLocomotionSpeed(Speed.FAST_ALL);
+                stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 //On s'oriente vers les portes
 				stateToConsider.robot.turn(-(Math.PI / 2), hooksToConsider, false);
@@ -179,7 +179,7 @@ public class CloseDoors extends AbstractScript
 
                 stateToConsider.robot.setBasicDetection(true);
                 stateToConsider.robot.setForceMovement(false);
-                stateToConsider.robot.setLocomotionSpeed(Speed.FAST_ALL);
+                stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 //On s'oriente vers les portes
                 stateToConsider.robot.turn(-(Math.PI / 2), hooksToConsider, false);
@@ -221,7 +221,7 @@ public class CloseDoors extends AbstractScript
                 stateToConsider.robot.setForceMovement(false);
 
 
-                stateToConsider.robot.setLocomotionSpeed(Speed.FAST_ALL);
+                stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 stateToConsider.robot.setBasicDetection(true);
                 //On avance
@@ -249,7 +249,7 @@ public class CloseDoors extends AbstractScript
                 //    else
                 //        log.debug("Position trop éloignée pour se recaler en x (cylindre ?)");
 
-                stateToConsider.robot.setLocomotionSpeed(Speed.FAST_ALL);
+                stateToConsider.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 stateToConsider.robot.moveLengthwise(300, hooksToConsider, false);
 

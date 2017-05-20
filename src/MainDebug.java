@@ -28,6 +28,7 @@ import robot.SerialWrapper;
 import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
+import threads.ThreadInterface;
 import threads.ThreadTimer;
 import utils.Config;
 import utils.Log;
@@ -73,7 +74,9 @@ public class MainDebug
             realState.robot.setPosition(Table.entryPosition);
             realState.robot.setOrientation(Math.PI);
             realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-            container.startAllThreads();
+          //  container.startAllThreads();
+            container.getService(ThreadInterface.class);
+
 
 //			realState.robot.moveLengthwise(500);
 
