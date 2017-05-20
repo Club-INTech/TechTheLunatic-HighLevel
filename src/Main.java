@@ -44,8 +44,7 @@ import java.util.ArrayList;
  * @author paul
  *
  */
-public class Main
-{
+public class Main {
 	static Container container;
 	static Config config;
 	static GameState realState;
@@ -53,13 +52,12 @@ public class Main
 	static ScriptManager scriptmanager;
 	static SerialWrapper mSerialWrapper;
 	static Locomotion mLocomotion;
-	
-	
-// dans la config de debut de match, toujours demander une entrée clavier assez longue (ex "oui" au lieu de "o", pour éviter les fautes de frappes. Une erreur a ce stade coûte cher.
+
+
+	// dans la config de debut de match, toujours demander une entrée clavier assez longue (ex "oui" au lieu de "o", pour éviter les fautes de frappes. Une erreur a ce stade coûte cher.
 // ---> En même temps si tu tapes n à la place de o, c'est que tu es vraiment con.  -Discord
 // PS : Les vérifications et validations c'est pas pour les chiens.
-	public static void main(String[] args) throws InterruptedException
-	{
+	public static void main(String[] args) throws InterruptedException {
 		try {
 			container = new Container();
 			config = container.getService(Config.class);
@@ -72,36 +70,34 @@ public class Main
 
 			Thread.currentThread().setPriority(6);
 
-            // TODO : faire une initialisation du robot et de ses actionneurs
+			// TODO : faire une initialisation du robot et de ses actionneurs
 			realState.robot.setPosition(Table.entryPosition);
 			realState.robot.setOrientation(Math.PI);
 			realState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
-			container.getService(ThreadSensor.class);
-			container.getService(ThreadInterface.class);
+			// container.getService(ThreadSensor.class);
+			// container.getService(ThreadInterface.class);
 			container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
-		}
-		catch(ContainerException p)
-		{
+		} catch (ContainerException p) {
 			System.out.println("bug container");
 		}
-			// container.startAllThreads();
-			try{
-				// waitMatchBegin();
-				// System.out.println("Le robot commence le match");
+		// container.startAllThreads();
+		try {
+			// waitMatchBegin();
+			// System.out.println("Le robot commence le match");
 
-				System.out.println("90 secondes pour faire des points Billy");
-				scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, realState, emptyHook);
-				realState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+			System.out.println("90 secondes pour faire des points Billy");
+			scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, realState, emptyHook);
+			realState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
-				waitMatchBegin();
-				System.out.println("Le robot commence le match");
-				scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(1, realState, emptyHook);
+			waitMatchBegin();
+			System.out.println("Le robot commence le match");
+			scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(1, realState, emptyHook);
 
-			} catch (EnnemyCrashedException e) {
-				// On lance l'IA et la pathFinding
-				System.out.println("Et l'IA répondra a cet appel");
+		} catch (EnnemyCrashedException e) {
+			// On lance l'IA et la pathFinding
+			System.out.println("Et l'IA répondra a cet appel");
 			try {
 				System.out.println("Pour l'IA et le PATHFINDING!!!!");
 
@@ -115,8 +111,7 @@ public class Main
 						//dans le cas ou on bloque dans l'ia on refait le graphe.
 
 
-					}
-					catch (Exception autre) {
+					} catch (Exception autre) {
 						autre.printStackTrace();
 						System.out.println("wtf exception caught");
 						//dans le cas ou on bloque dans l'ia on refait le graphe.
@@ -124,15 +119,10 @@ public class Main
 
 					}
 				}
-			}
-			catch (ContainerException container)
-			{
+			} catch (ContainerException container) {
 				System.out.println("bug container");
 			}
-				}
-
-		catch (UnableToMoveException unabletomove)
-		{
+		} catch (UnableToMoveException unabletomove) {
 			try {
 				Pathfinding pf = container.getService(Pathfinding.class);
 
@@ -144,32 +134,22 @@ public class Main
 						//dans le cas ou on bloque dans l'ia on refait le graphe.
 
 
-					}
-					catch (Exception autre) {
+					} catch (Exception autre) {
 						System.out.println("wtf exception caught");
 						//dans le cas ou on bloque dans l'ia on refait le graphe.
 
 
 					}
 				}
-			}
-			catch (ContainerException container)
-			{
+			} catch (ContainerException container) {
 				System.out.println("bug container");
 			}
+		} catch (Exception k) {
+			System.out.println("bon je bug hard");
 		}
 
 
-
-		catch (Exception k) {
-			System.out.println("bon je bug hard");
-
-				}
-
-
-			}
-
-
+	}
 
 
 	/**
@@ -180,7 +160,7 @@ public class Main
 	{
 
 		System.out.println("Robot pret pour le match, attente du retrait du jumper");
-		
+
 		// attend l'insertion du jumper
 		while(mSerialWrapper.isJumperAbsent())
 		{
@@ -190,7 +170,7 @@ public class Main
 				e.printStackTrace();
 			}
 		}
-		
+
 		// puis attend son retrait
 		while(!mSerialWrapper.isJumperAbsent())
 		{
@@ -200,7 +180,7 @@ public class Main
 				e.printStackTrace();
 			}
 		}
-		
+
 		// maintenant que le jumper est retiré, le match a commencé
 		ThreadTimer.matchStarted = true;
 	}

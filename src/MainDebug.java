@@ -77,6 +77,7 @@ public class MainDebug
 
 //			realState.robot.moveLengthwise(500);
 
+            realState.robot.setForceMovement(true);
             realState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
             mSerialWrapper.turn(0.01);
             //mSerialWrapper.switchAuto();
