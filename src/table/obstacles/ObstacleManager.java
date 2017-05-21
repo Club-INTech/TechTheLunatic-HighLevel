@@ -309,7 +309,7 @@ public class ObstacleManager
     		for(int i = 0; i<mMobileObstacles.size(); i++)
     		{
     			ObstacleProximity obstacle = mMobileObstacles.get(i);
-    			if(obstacle.position.distance(position)<obstacle.getRadius()+radius && (crashRobot == 0 || mMobileObstacles.get(0).getPosition().distance(obstacle.getPosition()) > (int)((double)(mEnnemyRadius + mRobotRadius)/2.0)))
+    			if(obstacle.position.distance(position)<obstacle.getRadius()+radius && (crashRobot == 0 || mMobileObstacles.get(0).getPosition().distance(obstacle.getPosition()) > (mEnnemyRadius + mRobotRadius)/2))
     			{
     				isThereAnObstacleIntersecting=true;
     				
@@ -514,6 +514,7 @@ public class ObstacleManager
 				else if(!cDesFousEnFace){
 					ObstacleCircular ennemyCrashed = mCircularObstacle.get(0);
 					int distanceToEnemyCrashed = (int) closestEnnemy.getPosition().minusNewVector(ennemyCrashed.getPosition()).length();
+
 					if(distanceToEnemyCrashed < mEnnemyRadius){
 						log.debug("Detection de l'ennemi crashé en :" + closestEnnemy.getPosition());
 					}
@@ -550,30 +551,52 @@ public class ObstacleManager
 		try {
 			//si aucun ennemi n'est détecté, on suppose que l'ennemi le plus proche est à 1m)
 
-			int squaredDistanceToClosestEnemy = 10000000;
-			int squaredDistanceToEnemyTested = 10000000;
+			float distanceToClosestObstacle = 10000000;
+			float distanceToObstacleTested = 10000000;
 
 			Obstacle closestObstacle = null;
 
 			//trouve l'ennemi le plus proche parmis les obstacles confirmés
 			for (int i = 0; i < mCircularObstacle.size(); i++) {
-				Vec2 ennemyRelativeCoords = mCircularObstacle.get(i).getPosition().minusNewVector(position);
-				if (direction.dot(ennemyRelativeCoords) > 0) {
-					squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
-					if (squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy) {
-						squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
-						closestObstacle = mCircularObstacle.get(i);
-					}
+				Vec2 obstacleRelativeCoords = mCircularObstacle.get(i).getPosition().minusNewVector(position);
+				distanceToObstacleTested = obstacleRelativeCoords.length() - mCircularObstacle.get(i).getRadius();
+
+				if (distanceToObstacleTested < distanceToClosestObstacle) {
+					distanceToClosestObstacle = distanceToObstacleTested;
+					closestObstacle = mCircularObstacle.get(i);
 				}
 			}
 			for (int i = 0; i < mRectangles.size(); i++) {
-				Vec2 ennemyRelativeCoords = mRectangles.get(i).getPosition().minusNewVector(position);
-				if (direction.dot(ennemyRelativeCoords) > 0) {
-					squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
-					if (squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy) {
-						squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
-						closestObstacle = mRectangles.get(i);
-					}
+				Vec2 obstacleRelativeCoords = mRectangles.get(i).getPosition().minusNewVector(position);
+				if(Math.abs(obstacleRelativeCoords.getY())<Math.abs(mRectangles.get(i).getSizeY()/2) &&
+						Math.abs(obstacleRelativeCoords.getX())<Math.abs(mRectangles.get(i).getSizeY()/2))//On est dans l'obstacle
+				{
+					log.debug("Warning on est dans un obstacle et c'est pas sensé �tre possible là");
+					distanceToObstacleTested = 0;
+				}
+				else if(Math.abs(obstacleRelativeCoords.getY())<Math.abs(mRectangles.get(i).getSizeY()/2) &&
+						Math.abs(obstacleRelativeCoords.getX())>Math.abs(mRectangles.get(i).getSizeY()/2))//On est dans en X
+				{
+					distanceToObstacleTested = Math.abs(obstacleRelativeCoords.getX());
+				}
+
+				else if(Math.abs(obstacleRelativeCoords.getY())>Math.abs(mRectangles.get(i).getSizeY()/2) &&
+						Math.abs(obstacleRelativeCoords.getX())>Math.abs(mRectangles.get(i).getSizeY()/2))//On est en diagonale on fait une approx
+				{
+					distanceToObstacleTested = obstacleRelativeCoords.length() - (new Vec2(mRectangles.get(i).getSizeX()/2, mRectangles.get(i).getSizeY())).length();
+				}
+				else if(Math.abs(obstacleRelativeCoords.getY())>Math.abs(mRectangles.get(i).getSizeY()/2) &&
+						Math.abs(obstacleRelativeCoords.getX())<Math.abs(mRectangles.get(i).getSizeY()/2))//On est dans en Y
+				{
+					distanceToObstacleTested = Math.abs(obstacleRelativeCoords.getY());
+				}
+				else
+				{
+					log.debug("on a des trucs qui défient les mathématiques dans getClosestObstacle");
+				}
+					if (distanceToObstacleTested < distanceToClosestObstacle) {
+					distanceToClosestObstacle = distanceToObstacleTested;
+					closestObstacle = mRectangles.get(i);
 				}
 			}
 			return closestObstacle;
