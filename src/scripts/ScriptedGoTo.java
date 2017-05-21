@@ -59,7 +59,7 @@ public class ScriptedGoTo extends AbstractScript
     Vec2 pointIntermediaireVersModule       = new Vec2(1175,850);
 
     /** Manoeuvre pour attraper le 2e module */
-    Vec2 pointAvantModule2                  = new Vec2(995, 785);
+    Vec2 pointAvantModule2                  = new Vec2(985, 785);
     double angleDropModule2                 = Math.PI;
     int distanceApresModule2                = 60;
 
@@ -217,12 +217,12 @@ public class ScriptedGoTo extends AbstractScript
                 newPos.setX(1225);
                 actualState.robot.setPosition(newPos);
 
-                log.debug("Orientation :" + actualState.robot.getOrientationFast());
+             /*   log.debug("Orientation :" + actualState.robot.getOrientationFast());
 
                 if (Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI) < recalageThresholdOrientation) {
                     log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI));
                     actualState.robot.setOrientation(Math.PI);
-                }
+                }*/
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
