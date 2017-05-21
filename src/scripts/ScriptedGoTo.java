@@ -63,13 +63,16 @@ public class ScriptedGoTo extends AbstractScript
     double angleDropModule2                 = Math.PI;
     int distanceApresModule2                = 60;
 
+    /** Distance de recalage */
+    int distanceRecalage = -250;
+
     /** Manoeuvre pour déposer les 1eres boules */
     int distanceAvantDeposeBoules1          = 230;
     int distanceReculApresDepotBoule1       = -200;
 
     /** Manoeuvre pour prendre les 2emes boules */
     Vec2 posCratere2                        = new Vec2(850, 540);
-    int distanceCratereBaseAvantBoules      = 200;
+    int distanceCratereBaseAvantBoules      = 215;
     int distanceCratereBaseApresBoules      = -190;
 
     /** Manoeuvre pour déposer les 2emes boules */
