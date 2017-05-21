@@ -493,6 +493,7 @@ public class SerialWrapper implements Service
 
     /**
      * Demande a la carte capteurs de nous indiquer si le jumper de début de match est présent ou non
+     * Suuuuuuuuuuuus
      * @return vrai si le jumper est absent, faux sinon
      */
     public boolean isJumperAbsent()
