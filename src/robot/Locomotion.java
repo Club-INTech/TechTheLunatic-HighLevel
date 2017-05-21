@@ -555,7 +555,12 @@ public class Locomotion implements Service
                                 //    		serialWrapper.turn(lowLevelOrientation+angleToDisengage);
                                 //  	else
                                 //		serialWrapper.turn(lowLevelOrientation-angleToDisengage);
+
                                 serialWrapper.moveLengthwise((dot/Math.abs(dot))* distanceToDisengage);// On avance ou on recule conformément a ce qui devrait nous dégager
+                            while(!isMotionEnded())
+                            {
+                                Sleep.sleep(2);
+                            }
                                 serialWrapper.turn(lowLevelOrientation+angleToDisengage*turnOnly);
                             }
 
@@ -566,7 +571,10 @@ public class Locomotion implements Service
                                 serialWrapper.moveLengthwise(distanceToDisengage);
                             }
 
-                            while (!isMotionEnded());
+                            while (!isMotionEnded())
+                            {
+                                Sleep.sleep(2);
+                            }
                             if(maxRetriesIfDisengage < 2) {
                                 doItAgain = true; // si on est arrivé ici c'est qu'aucune exception n'a été levée
                             }
@@ -705,7 +713,8 @@ public class Locomotion implements Service
 
         } 
         while(!isMotionEnded())
-        	;
+        ;
+
         
     }
 
