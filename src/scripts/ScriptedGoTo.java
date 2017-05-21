@@ -217,12 +217,12 @@ public class ScriptedGoTo extends AbstractScript
                 newPos.setX(1225);
                 actualState.robot.setPosition(newPos);
 
-                log.debug("Orientation :" + actualState.robot.getOrientationFast());
+             /*   log.debug("Orientation :" + actualState.robot.getOrientationFast());
 
                 if (Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI) < recalageThresholdOrientation) {
                     log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI));
                     actualState.robot.setOrientation(Math.PI);
-                }
+                }*/
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
