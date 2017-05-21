@@ -59,7 +59,7 @@ public class ScriptedGoTo extends AbstractScript
     Vec2 pointIntermediaireVersModule       = new Vec2(1175,850);
 
     /** Manoeuvre pour attraper le 2e module */
-    Vec2 pointAvantModule2                  = new Vec2(995, 785);
+    Vec2 pointAvantModule2                  = new Vec2(985, 785);
     double angleDropModule2                 = Math.PI;
     int distanceApresModule2                = 60;
 
