@@ -109,9 +109,9 @@ public class ScriptedGoTo extends AbstractScript
         try{
 
             //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-            Hook repliTout = hookFactory.newPositionHook(point3AttrapperModule1, (float) (-5*Math.PI/4), 50, 1000);
+            Hook repliTout = hookFactory.newPositionHook(pointSortieCratereFond, (float) -Math.PI/4, 25, 500);
             repliTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
-            Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 10, 200);
+            Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 25, 500);
             prepareToCatch2ndMod.addCallback(new Callback(new PrepareToCatchModG(), true, actualState));
 
             hooksToConsider.add(repliTout);
@@ -167,7 +167,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
 
                 // Prise des 1eres boules (celles du fond)
-                actualState.robot.goTo(point4arriveDevantCratereFond, hooksToConsider);
+                actualState.robot.goTo(point4arriveDevantCratereFond);
                 actualState.robot.turnTo(posCratere1);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantBoules);
 
@@ -197,7 +197,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 
                 // Aller vers la zone de départ
-                actualState.robot.goTo(pointSortieCratereFond);
+                actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
                 actualState.robot.goTo(pointIntermediaireVersModule, hooksToConsider);
 
                 // Prise du 2e module (celui de la zone de départ)
