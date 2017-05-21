@@ -105,6 +105,7 @@ public class MainDebug
             t.start(); // On lance le thread
 
             realState.robot.moveLengthwise(500);
+            realState.robot.turn(1);
             realState.robot.moveLengthwise(-500);
 
             //realState.robot.setForceMovement(true);
