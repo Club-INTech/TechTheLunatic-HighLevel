@@ -38,6 +38,7 @@ import utils.Config;
 import utils.Log;
 import utils.Sleep;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -410,8 +411,6 @@ public class Locomotion implements Service
         }		
     }
 
-
-    
     /**
      * Bloquant. Gère la marche arrière automatique selon la stratégie demandée.
      * @param aim le point visé sur la table (consigne donné par plus haut niveau donc non symetrise)
@@ -464,11 +463,6 @@ public class Locomotion implements Service
 		actualRetriesIfBlocked=0;// on reinitialise
 
     }
-    
-
-
-
-
 
     /**
      * bloquant
@@ -508,6 +502,14 @@ public class Locomotion implements Service
                 log.critical( e.logStack());
                 log.critical("Haut : Catch de "+e+" dans moveToPointException");
 
+                try {
+                    serialWrapper.setTranslationnalSpeed(Speed.SLOW_ALL.translationSpeed);
+                    serialWrapper.setRotationnalSpeed(Speed.SLOW_ALL.rotationSpeed);
+                }catch (SerialConnexionException e0){
+                    log.critical( e0.logStack());
+                    log.debug("On ne fait rien après ceci: Catch de "+e0+" dans moveToPointException");
+                }
+
                 // si on s'y attendait, on ne fais rien.
 
                 if (!headingToWall && !isForcing) //ici on ne s'y attendait pas donc on reagit
@@ -538,7 +540,7 @@ public class Locomotion implements Service
                         try
                         {
                             // log.warning("On n'arrive plus à avancer. On se dégage");
-                            log.warning("On n'arrive plus à avancer. On se dégage");
+                            log.warning("On n'arrive plus à bouger. On se dégage");
                             if(turnOnly!=0)
                             {
                                 log.debug("On était en train de tourner!");
@@ -559,7 +561,6 @@ public class Locomotion implements Service
 
                             else if(isMovementForward) {
                                 serialWrapper.moveLengthwise(-distanceToDisengage);
-                                log.debug("Recule Billy !");
                             }
                             else {
                                 serialWrapper.moveLengthwise(distanceToDisengage);
@@ -571,6 +572,8 @@ public class Locomotion implements Service
                             }
                             else{
                                 doItAgain = false;
+                                serialWrapper.setTranslationnalSpeed((float)transSpeed);
+                                serialWrapper.setRotationnalSpeed((float)rotSpeed);
                             }
 	                    }
 	                    catch (SerialConnexionException e1)

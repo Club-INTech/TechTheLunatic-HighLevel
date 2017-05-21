@@ -21,6 +21,7 @@ package tests;
 
 import enums.ActuatorOrder;
 import enums.ScriptNames;
+import enums.Speed;
 import exceptions.ContainerException;
 import exceptions.Locomotion.EnnemyCrashedException;
 import exceptions.Locomotion.PointInObstacleException;
@@ -162,26 +163,15 @@ public class JUnit_Sensors extends JUnit_Test
 		log.debug("Test de détection");
 		container.startInstanciedThreads();
 
-		try 
-		{
-			state.robot.setOrientation(3*Math.PI/4);
-			state.robot.switchSensor();
-			Sleep.sleep(2000);
-			state.robot.moveLengthwiseAndWaitIfNeeded(800);
-		}
-		catch (EnnemyCrashedException e)
-		{
-			state.robot.moveLengthwiseAndWaitIfNeeded(-100);
-			state.robot.turn(-Math.PI/16, new ArrayList<Hook>(), false, true);
-			Sleep.sleep(3000);
-			state.robot.turn(-Math.PI/16, new ArrayList<Hook>(), false, true);
-			Sleep.sleep(3000);
-			state.robot.turn(-Math.PI/16, new ArrayList<Hook>(), false, true);
-			Sleep.sleep(3000);
-			state.robot.turn(-Math.PI/16, new ArrayList<Hook>(), false, true);
-			Sleep.sleep(3000);
-		}
-		catch (Exception e){
+		state.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+		state.robot.setPosition(new Vec2(1000, 800));
+		state.robot.setOrientation(0);
+		try {
+			state.robot.moveLengthwiseAndWaitIfNeeded(400);
+			state.robot.turn(Math.PI / 4);
+
+			log.debug("LocomotionSpeed " + state.robot.getLocomotionSpeed());
+		}catch (Exception e){
 			e.printStackTrace();
 		}
 	}
