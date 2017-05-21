@@ -19,7 +19,6 @@
 
 package table.obstacles;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import exceptions.ConfigPropertyNotFoundException;
 import smartMath.Circle;
 import smartMath.Geometry;
@@ -33,7 +32,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 
 /**
  * Traite tout ce qui concerne la gestion des obstacles sur la table.
