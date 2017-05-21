@@ -79,12 +79,12 @@ public class Main {
 			// container.getService(ThreadInterface.class);
 			container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
+
 		} catch (ContainerException p) {
 			System.out.println("bug container");
 		}
 		// container.startAllThreads();
 		try {
-			// waitMatchBegin();
 			// System.out.println("Le robot commence le match");
 
 			System.out.println("90 secondes pour faire des points Billy");
@@ -96,8 +96,10 @@ public class Main {
 			scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(0, realState, emptyHook);
 
 		} catch (EnnemyCrashedException e) {
+
 			// On lance l'IA et la pathFinding
 			System.out.println("Et l'IA répondra a cet appel");
+
 			try {
 				System.out.println("Pour l'IA et le PATHFINDING!!!!");
 
@@ -107,16 +109,13 @@ public class Main {
 					try {
 						IA.decision(realState, scriptmanager, pf);
 					} catch (UnableToMoveException errorIa) {
-						System.out.println("Unable to move dans l'ia");
+						System.out.println("Unable to move dans l'IA");
 						//dans le cas ou on bloque dans l'ia on refait le graphe.
-
 
 					} catch (Exception autre) {
 						autre.printStackTrace();
-						System.out.println("wtf exception caught");
+						System.out.println("Exception non-attendu catch");
 						//dans le cas ou on bloque dans l'ia on refait le graphe.
-
-
 					}
 				}
 			} catch (ContainerException container) {
@@ -133,11 +132,9 @@ public class Main {
 						System.out.println("Unable to move dans l'ia");
 						//dans le cas ou on bloque dans l'ia on refait le graphe.
 
-
 					} catch (Exception autre) {
 						System.out.println("wtf exception caught");
 						//dans le cas ou on bloque dans l'ia on refait le graphe.
-
 
 					}
 				}
@@ -147,7 +144,6 @@ public class Main {
 		} catch (Exception k) {
 			System.out.println("bon je bug hard");
 		}
-
 
 	}
 

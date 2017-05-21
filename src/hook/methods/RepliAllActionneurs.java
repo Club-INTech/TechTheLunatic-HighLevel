@@ -13,6 +13,8 @@ public class RepliAllActionneurs implements Executable {
     public boolean execute(GameState state){
         try{
 
+            state.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+
             state.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
             state.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
             state.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);

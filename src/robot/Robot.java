@@ -898,10 +898,8 @@ public class Robot implements Service {
 		}
 
 		useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-		useActuator(ActuatorOrder.REPOS_CALLE_G, false);
-		useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 		useActuator(ActuatorOrder.REPOS_CALLE_G, true);
 
-		useActuator(ActuatorOrder.LEVE_ASC, true); //Pas besoin d'attendre l'ascenseur, on peut démarrer direct
+		useActuator(ActuatorOrder.LEVE_ASC, true);
 	}
 }

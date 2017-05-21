@@ -9,7 +9,7 @@ import exceptions.Locomotion.UnableToMoveException;
 import exceptions.serial.SerialConnexionException;
 import hook.Callback;
 import hook.Hook;
-import hook.methods.PrepareToCatchModD;
+import hook.methods.PrepareToCatchModG;
 import hook.methods.RepliAllActionneurs;
 import hook.types.HookFactory;
 import smartMath.Circle;
@@ -19,10 +19,9 @@ import utils.Config;
 import utils.Log;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 
-/** Script sans pathfinding utilisant goTo(pointVisé)
+/** FullScript sans pathfinding utilisant goTo (pointVisé)
  * version 0 : prend le module dans a fuée au début
  * @author melanie, gaelle, rem
  */
@@ -33,6 +32,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** PointsVisés, dstances & angles du script, override par la config */
 
+    /** On prend le premier module */
     boolean prisePremierModule=false;
 
     /** Déplacements jusqu'à la zone du fond */
@@ -59,7 +59,7 @@ public class ScriptedGoTo extends AbstractScript
     Vec2 pointIntermediaireVersModule       = new Vec2(1175,850);
 
     /** Manoeuvre pour attraper le 2e module */
-    Vec2 pointAvantModule2                  = new Vec2(990, 785);
+    Vec2 pointAvantModule2                  = new Vec2(995, 785);
     double angleDropModule2                 = Math.PI;
     int distanceApresModule2                = 60;
 
@@ -95,7 +95,6 @@ public class ScriptedGoTo extends AbstractScript
     protected ScriptedGoTo(HookFactory hookFactory, Config config, Log log)
     {
         super(hookFactory, config, log);
-
         versions = new Integer[]{0};
     }
 
@@ -107,15 +106,18 @@ public class ScriptedGoTo extends AbstractScript
         try{
 
             //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-            Hook priseModuleDroit = hookFactory.newPositionHook(new Vec2(890,1500), (float) -Math.PI/2, 300, 400);
-            priseModuleDroit.addCallback(new Callback(new PrepareToCatchModD(), true, actualState));
-            Hook repliTout = hookFactory.newPositionHook(point3AttrapperModule1, (float) -Math.PI/2, 50, 3000);
+            Hook repliTout = hookFactory.newPositionHook(point3AttrapperModule1, (float) (-5*Math.PI/4), 50, 1000);
             repliTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
+            Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 10, 200);
+            prepareToCatch2ndMod.addCallback(new Callback(new PrepareToCatchModG(), true, actualState));
 
-            hooksToConsider.add(priseModuleDroit);
             hooksToConsider.add(repliTout);
+            hooksToConsider.add(prepareToCatch2ndMod);
 
             if(versionToExecute == 0) {
+
+                // Timer afin de savoir combien de temps l'on prend en moyenne
+                long debutMatch = System.currentTimeMillis();
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
@@ -193,24 +195,12 @@ public class ScriptedGoTo extends AbstractScript
 
                 // Aller vers la zone de départ
                 actualState.robot.goTo(pointSortieCratereFond);
-
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, false);
-
-                actualState.robot.goTo(pointIntermediaireVersModule);
+                actualState.robot.goTo(pointIntermediaireVersModule, hooksToConsider);
 
                 // Prise du 2e module (celui de la zone de départ)
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);
-
                 actualState.robot.goTo(pointAvantModule2);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
-
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
                 actualState.robot.turn(angleDropModule2);
 
@@ -289,9 +279,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setRempliDeBoules(false);
 
                 actualState.robot.moveLengthwise(distanceEsquiveRobot);
+
+                log.debug("Temps du match : " + (System.currentTimeMillis() - debutMatch));
             }
-
-
         }
         catch(Exception e)
         {
