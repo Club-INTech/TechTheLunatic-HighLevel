@@ -144,7 +144,7 @@ public enum ActuatorOrder
 	P1("p1", 400),
 
 	// Position 2, à faire juste après la position 1 et avant de finir le mouvement habituel de la pelle
-	P2("p2", 400),
+	P2("p2", 600),
 
 	//Position initiale, de rangement de la pelle
 	RANGE_PELLE("pb", 900),

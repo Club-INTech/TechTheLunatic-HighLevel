@@ -40,12 +40,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
-        container.getService(ThreadEvents.class);
-        container.getService(ThreadSensor.class);
         container.startInstanciedThreads();
-
-        scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(1, mRobot, listHook);
-        mRobot.robot.switchSensor();
     }
 
     @Test
@@ -55,8 +50,7 @@ public class JUnit_CatchBalls extends JUnit_Test
         {
             //On execute le script
             log.debug("Ramassage des balles");
-            mRobot.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
-            scriptManager.getScript(ScriptNames.CATCH_BALLS).goToThenExec(1, mRobot, listHook);
+            mRobot.robot.prendBoules();
 
         }
         catch(Exception e)
