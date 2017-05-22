@@ -46,7 +46,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour attraper les 1eres boules */
     Vec2 point4arriveDevantCratereFond      = new Vec2(650,1785);
-    Vec2 posCratere1                        = new Vec2(420, 1883);
+    Vec2 posCratere1                        = new Vec2(420, 1876);
     int distanceCratereFondAvantBoules      = 55;
     int distanceCratereFondApresBoules      = -170;
 
@@ -172,6 +172,7 @@ public class ScriptedGoTo extends AbstractScript
                 // Prise des 1eres boules (celles du fond)
                 actualState.robot.goTo(point4arriveDevantCratereFond);
                 actualState.robot.turnTo(posCratere1);
+                actualState.robot.turn(0.03,hooksToConsider, true, true);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantBoules);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
