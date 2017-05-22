@@ -340,7 +340,7 @@ public class Locomotion implements Service
         int closest = table.getObstacleManager().distanceToClosestEnemy(highLevelPosition, aim);
         log.debug("Distance à l'ennemi le plus proche dans le sens de la marche :" + closest);
 
-        while (closest <= detectionDistance && closest > -150 && totalTime < timeOutEnnemyMove)
+        while (closest <= detectionDistance && closest > -150 && totalTime < timeOutEnnemyMove && isDetect)
         {
             Sleep.sleep(timeToWaitIfEnnemy);
             totalTime += timeToWaitIfEnnemy;

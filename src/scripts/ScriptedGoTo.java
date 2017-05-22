@@ -52,7 +52,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour drop le 1er module */
     double angleCratereFondAvantDepotModule = Math.PI/4;
-    int distanceCratereFondAvantDepotModule = -135;
+    int distanceCratereFondAvantDepotModule = -130;
     int distanceCratereFondApresDepotModule = 55;
 
     /** Déplacements jusqu'à la zone de départ */
@@ -65,7 +65,7 @@ public class ScriptedGoTo extends AbstractScript
     int distanceApresModule2                = 60;
 
     /** Distance de recalage */
-    int distanceRecalage = -250;
+    int distanceRecalage                    = -250;
 
     /** Manoeuvre pour déposer les 1eres boules */
     int distanceAvantDeposeBoules1          = 170;
@@ -170,7 +170,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
 
                 // Prise des 1eres boules (celles du fond)
-                actualState.robot.goTo(point4arriveDevantCratereFond);
+                actualState.robot.goTo(point4arriveDevantCratereFond, new ArrayList<Hook>(), false, false);
                 actualState.robot.turnTo(posCratere1);
                 actualState.robot.turn(0.03,hooksToConsider, true, true);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantBoules);
@@ -224,9 +224,11 @@ public class ScriptedGoTo extends AbstractScript
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(distanceRecalage, new ArrayList<Hook>(), true, false);
-                Vec2 newPos = actualState.robot.getPosition();
-                newPos.setA(Math.acos(1225.0/newPos.getR()));
+                /* Vec2 oldPos = actualState.robot.getPosition();
+                Vec2 newPos = oldPos.clone();
+                newPos.setA(Math.acos(1220.0/oldPos.getR()));
                 actualState.robot.setPosition(newPos);
+                */
 
                 log.debug("Orientation :" + actualState.robot.getOrientationFast());
 
