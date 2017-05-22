@@ -110,9 +110,9 @@ public class ScriptedGoTo extends AbstractScript
         try{
 
             //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-            Hook repliTout = hookFactory.newPositionHook(new Vec2(760, 1670), (float) (-3*Math.PI/4), 30, 400);
+            Hook repliTout = hookFactory.newPositionHook(new Vec2(760, 1670), (float) Math.PI/4, 25, 400);
             repliTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
-            Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 25, 500);
+            Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 25, 400);
             prepareToCatch2ndMod.addCallback(new Callback(new PrepareToCatchModG(), true, actualState));
 
             hooksToConsider.add(repliTout);
@@ -219,16 +219,13 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.turn(angleDropModule2);
 
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
 
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(distanceRecalage, new ArrayList<Hook>(), true, false);
-                Vec2 oldPos = actualState.robot.getPosition();
-                Vec2 newPos = oldPos.clone();
-                newPos.setX(1225);
+                Vec2 newPos = actualState.robot.getPosition();
+                newPos.setA(Math.acos(1225.0/newPos.getR()));
                 actualState.robot.setPosition(newPos);
 
                 log.debug("Orientation :" + actualState.robot.getOrientationFast());
@@ -298,6 +295,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwise(distanceEsquiveRobot);
 
                 log.debug("Temps du match : " + (System.currentTimeMillis() - debutMatch));
+
+                log.debug("On tente une action bonus si on a le temps");
             }
         }
         catch(Exception e)

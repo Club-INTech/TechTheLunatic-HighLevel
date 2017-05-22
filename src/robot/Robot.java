@@ -869,7 +869,6 @@ public class Robot implements Service {
 			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
 			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
 
-
 			useActuator(ActuatorOrder.PREND_MODULE_D, true);
 			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
 			useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
@@ -878,7 +877,6 @@ public class Robot implements Service {
 
 			useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
 			useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
-
 
             useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
 
@@ -897,13 +895,11 @@ public class Robot implements Service {
 			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
 			useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
-
 			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
 		}
 
 		useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 		useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-
 		useActuator(ActuatorOrder.LEVE_ASC, true);
 	}
 }
