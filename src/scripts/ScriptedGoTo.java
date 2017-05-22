@@ -46,7 +46,7 @@ public class ScriptedGoTo extends AbstractScript
     /** Manoeuvre pour attraper les 1eres boules */
     Vec2 point4arriveDevantCratereFond      = new Vec2(650,1785);
     Vec2 posCratere1                        = new Vec2(420, 1880);
-    int distanceCratereFondAvantBoules      = 60;
+    int distanceCratereFondAvantBoules      = 55;
     int distanceCratereFondApresBoules      = -170;
 
     /** Manoeuvre pour drop le 1er module */
@@ -55,8 +55,8 @@ public class ScriptedGoTo extends AbstractScript
     int distanceCratereFondApresDepotModule = 55;
 
     /** Déplacements jusqu'à la zone de départ */
-    Vec2 pointSortieCratereFond             = new Vec2(1175,1290);
-    Vec2 pointIntermediaireVersModule       = new Vec2(1175,850);
+    Vec2 pointSortieCratereFond             = new Vec2(1165,1290);
+    Vec2 pointIntermediaireVersModule       = new Vec2(1165,850);
 
     /** Manoeuvre pour attraper le 2e module */
     Vec2 pointAvantModule2                  = new Vec2(985, 785);
