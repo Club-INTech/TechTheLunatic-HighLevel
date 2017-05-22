@@ -32,6 +32,7 @@ import scripts.ScriptManager;
 import strategie.GameState;
 import strategie.IA;
 import table.Table;
+import threads.ThreadInterface;
 import threads.ThreadTimer;
 import threads.dataHandlers.ThreadSensor;
 import utils.Config;
@@ -74,7 +75,7 @@ public class Main {
 			realState.robot.setOrientation(-Math.PI/2);
 			realState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-			 container.getService(ThreadSensor.class);
+			container.getService(ThreadSensor.class);
 			// container.getService(ThreadInterface.class);
 			// container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();

@@ -163,17 +163,20 @@ public class JUnit_Sensors extends JUnit_Test
 		log.debug("Test de détection");
 		container.startInstanciedThreads();
 
+		state.robot.switchSensor();
 		state.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-		state.robot.setPosition(new Vec2(1000, 800));
-		state.robot.setOrientation(0);
+		state.robot.setPosition(new Vec2(580, 208));
+		state.robot.setOrientation(-Math.PI/2);
 		try {
-			state.robot.moveLengthwiseAndWaitIfNeeded(400);
-			state.robot.turn(Math.PI / 4);
+			state.robot.moveLengthwiseAndWaitIfNeeded(-600);
+			// state.robot.turn(-Math.PI / 4);
+			Sleep.sleep(5000);
 
 			log.debug("LocomotionSpeed " + state.robot.getLocomotionSpeed());
 		}catch (Exception e){
 			e.printStackTrace();
 		}
+		state.robot.switchSensor();
 	}
 	
 //	@Test
@@ -187,6 +190,7 @@ public class JUnit_Sensors extends JUnit_Test
 		} 
 		catch (UnableToMoveException e) 
 		{
+		//SUUUUUUUUUS
 			log.critical( e.logStack(), this);
 		}*/
 		
