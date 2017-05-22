@@ -38,6 +38,7 @@ public class ScriptedGoTo extends AbstractScript
     /** Déplacements jusqu'à la zone du fond */
     Vec2 point1MilieuTable                  = new Vec2(540,800);
     Vec2 point2EntreeFinTable               = new Vec2(805,900);
+    Vec2 pointContournementModule           = new Vec2(805, 1560);
 
     /** Manoeuvre pour attraper le 1er module */
     Vec2 point3AttrapperModule1             = new Vec2(805,1725);
@@ -56,7 +57,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Déplacements jusqu'à la zone de départ */
     Vec2 pointSortieCratereFond             = new Vec2(1115,1290);
-    Vec2 pointIntermediaireVersModule       = new Vec2(1115,850);
+    Vec2 pointIntermediaireVersModule       = new Vec2(1115, 1005); //new Vec2(1115,850);
 
     /** Manoeuvre pour attraper le 2e module */
     Vec2 pointAvantModule2                  = new Vec2(985, 742); //anciennement 770
@@ -152,7 +153,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(point1MilieuTable);
                 actualState.robot.goTo(point2EntreeFinTable);
 
-                actualState.robot.goTo(new Vec2(805, 1560));
+                actualState.robot.goTo(pointContournementModule);
 
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                  actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
@@ -214,10 +215,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D,false);
 
-                actualState.robot.goTo(new Vec2(1115, 1005), hooksToConsider);
+                actualState.robot.goTo(pointIntermediaireVersModule, hooksToConsider);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
-
-                //actualState.robot.goTo(pointIntermediaireVersModule, hooksToConsider);
 
                 // Prise du 2e module (celui de la zone de départ)
                 actualState.robot.goTo(pointAvantModule2);
