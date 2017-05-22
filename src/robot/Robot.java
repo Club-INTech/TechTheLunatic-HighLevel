@@ -842,7 +842,6 @@ public class Robot implements Service {
 
 	//Ordres d'actionneurs groupés, pour scripts
 	public void prendBoules() throws SerialConnexionException {
-    	this.switchSensor();
 		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 		useActuator(ActuatorOrder.PRET_PELLE, true);
 		useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -854,7 +853,6 @@ public class Robot implements Service {
 		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 		useActuator(ActuatorOrder.RANGE_PELLE, false);
 		useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
-		this.switchSensor();
 	}
 
 	public void livreBoules() throws SerialConnexionException {
