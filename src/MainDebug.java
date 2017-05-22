@@ -18,7 +18,6 @@
  */
 
 import container.Container;
-import enums.ActuatorOrder;
 import enums.Speed;
 import exceptions.ContainerException;
 import exceptions.serial.SerialConnexionException;
@@ -104,10 +103,7 @@ public class MainDebug
 
             t.start(); // On lance le thread
 
-            realState.robot.moveLengthwise(500);
-            realState.robot.turn(1);
-            realState.robot.moveLengthwise(-500);
-
+            realState.robot.turn(-0.01);
             //realState.robot.setForceMovement(true);
             //realState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
             //mSerialWrapper.turn(0.01);
