@@ -32,9 +32,7 @@ import scripts.ScriptManager;
 import strategie.GameState;
 import strategie.IA;
 import table.Table;
-import threads.ThreadInterface;
 import threads.ThreadTimer;
-import threads.dataHandlers.ThreadSensor;
 import utils.Config;
 
 import java.util.ArrayList;
@@ -91,7 +89,7 @@ public class Main {
 			scriptmanager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, realState, emptyHook);
 			realState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
-			waitMatchBegin();
+			//waitMatchBegin();
 			System.out.println("Le robot commence le match");
 			scriptmanager.getScript(ScriptNames.SCRIPTED_GO_TO).goToThenExec(0, realState, emptyHook);
 

@@ -900,6 +900,6 @@ public class Robot implements Service {
 		useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 		useActuator(ActuatorOrder.REPOS_CALLE_G, true);
 
-		useActuator(ActuatorOrder.LEVE_ASC, true);
+		//useActuator(ActuatorOrder.LEVE_ASC, true);
 	}
 }
