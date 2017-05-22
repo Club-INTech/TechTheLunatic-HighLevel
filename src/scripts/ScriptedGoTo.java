@@ -56,10 +56,8 @@ public class ScriptedGoTo extends AbstractScript
     int distanceCratereFondApresDepotModule = 55;
 
     /** Déplacements jusqu'à la zone de départ */
-
     Vec2 pointSortieCratereFond             = new Vec2(1115,1290);
     Vec2 pointIntermediaireVersModule       = new Vec2(1115, 1005); //new Vec2(1115,850);
-
 
     /** Manoeuvre pour attraper le 2e module */
     Vec2 pointAvantModule2                  = new Vec2(985, 742); //anciennement 770
@@ -112,7 +110,7 @@ public class ScriptedGoTo extends AbstractScript
         try{
 
             //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-            Hook repliTout = hookFactory.newPositionHook(pointSortieCratereFond, (float) -Math.PI/4, 25, 500);
+            Hook repliTout = hookFactory.newPositionHook(new Vec2(760, 1670), (float) (-3*Math.PI/4), 30, 400);
             repliTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
             Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 25, 500);
             prepareToCatch2ndMod.addCallback(new Callback(new PrepareToCatchModG(), true, actualState));
@@ -190,16 +188,12 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, true);
 
-                // Recalage
+                // Recalage en orientation
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, false);
-                Vec2 oldPos = actualState.robot.getPosition();
-                Vec2 newPos = oldPos.clone();
-                //Potentiellement réajuster la position?
-                actualState.robot.setOrientation(Math.PI/4);
-                actualState.robot.setPosition(newPos);
-
-
+                if(Math.abs(Math.abs(actualState.robot.getOrientation()) - Math.PI/4)< recalageThresholdOrientation) {
+                    actualState.robot.setOrientation(Math.PI / 4);
+                }
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
@@ -210,47 +204,38 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresDepotModule);
 
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-
                 // Aller vers la zone de départ
                 actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D,false);
-
 
                 actualState.robot.turn(-Math.PI/2);
 
-                actualState.robot.goTo(new Vec2(1115, 1005), hooksToConsider);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-
-                //actualState.robot.goTo(pointIntermediaireVersModule, hooksToConsider);
-
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
+                actualState.robot.goTo(pointIntermediaireVersModule);
 
                 // Prise du 2e module (celui de la zone de départ)
-                actualState.robot.goTo(pointAvantModule2);
+                actualState.robot.goTo(pointAvantModule2, hooksToConsider);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
 
                 actualState.robot.turn(angleDropModule2);
+
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
 
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
 
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true, false);
-                oldPos = actualState.robot.getPosition();
-                 newPos = oldPos.clone();
+                actualState.robot.moveLengthwise(distanceRecalage, new ArrayList<Hook>(), true, false);
+                Vec2 oldPos = actualState.robot.getPosition();
+                Vec2 newPos = oldPos.clone();
                 newPos.setX(1225);
                 actualState.robot.setPosition(newPos);
 
-             /*   log.debug("Orientation :" + actualState.robot.getOrientationFast());
+                log.debug("Orientation :" + actualState.robot.getOrientationFast());
 
-                if (Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI) < recalageThresholdOrientation) {
+                if (Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI) < recalageThresholdOrientation){
                     log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI));
                     actualState.robot.setOrientation(Math.PI);
-                }*/
+                }
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
