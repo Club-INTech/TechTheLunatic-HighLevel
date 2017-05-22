@@ -356,6 +356,7 @@ public class Locomotion implements Service
         }
 
         else{
+            log.debug("L'ennemi a bougé, on peut ré-avancer");
             moveLengthwise(distance, hooks, expectedWallImpact, isDetect);
         }
     }
@@ -623,7 +624,12 @@ public class Locomotion implements Service
                     sens = 1;
                 }
 
-                moveLengthwiseAndWaitIfEnnemy((int) finalAim.minusNewVector(highLevelPosition).length()*sens, hooks, headingToWall, mustDetect);
+                if(turnOnly == 0) {
+                    log.debug("On retente une avancée de : " + (int) finalAim.minusNewVector(highLevelPosition).length() * sens + " mm");
+                    moveLengthwiseAndWaitIfEnnemy((int) finalAim.minusNewVector(highLevelPosition).length() * sens, hooks, headingToWall, mustDetect);
+                }
+
+                doItAgain = false;
             }
             catch(SerialConnexionException e)
             {
@@ -662,7 +668,12 @@ public class Locomotion implements Service
         	// en cas de détection d'ennemi, une exception est levée
         	if(mustDetect) {
                 if (!basicDetection)
-                    detectEnemyAtDistance2(aim.minusNewVector(highLevelPosition.clone()));    // 85 mm est une bonne distance pour être safe.
+                    if(!turnOnly) {
+                        detectEnemyAtDistance2(aim.minusNewVector(highLevelPosition.clone()));    // 85 mm est une bonne distance pour être safe.
+                    }
+                    else{
+                        detectEnemyAtDistance(250, aim);
+                    }
                 else {
                     basicDetect(isMovementForward, false);
                 }
@@ -1007,7 +1018,7 @@ public class Locomotion implements Service
      */
     public void detectEnemyAtDistance2(Vec2 movementDirection) throws UnexpectedObstacleOnPathException
     {
-        if(table.getObstacleManager().isEnnemyForwardorBackWard(detectionDistance + 50, highLevelPosition, movementDirection, highLevelOrientation)){
+        if(table.getObstacleManager().isEnnemyForwardorBackWard(detectionDistance, highLevelPosition, movementDirection, highLevelOrientation)){
             log.debug("DetectEnemyAtDistance voie un ennemi sur le chemin");
             immobilise();
             throw new UnexpectedObstacleOnPathException();

@@ -303,12 +303,12 @@ public class Geometry
 		Vec2 toReturn = pointDansCercle.minusNewVector(circle.getCenter());
 
 		if (isBetween(toReturn.getA(), circle.getAngleStart(), circle.getAngleEnd())) {
-			toReturn.setR(circle.getRadius()+2);
+			toReturn.setR(circle.getRadius()+10);
 			return circle.getCenter().plusNewVector(toReturn);
 		}
 		else{
-			Vec2 vecAngleStart = new Vec2(circle.getRadius() + 2, circle.getAngleStart());
-			Vec2 vecAngleEnd = new Vec2(circle.getRadius() + 2, circle.getAngleEnd());
+			Vec2 vecAngleStart = new Vec2(circle.getRadius() + 10, circle.getAngleStart());
+			Vec2 vecAngleEnd = new Vec2(circle.getRadius() + 10, circle.getAngleEnd());
 
 			if (vecAngleStart.plusNewVector(circle.getCenter()).distance(pointDansCercle)<=vecAngleEnd.plusNewVector(circle.getCenter()).distance(pointDansCercle)){
 				return circle.getCenter().plusNewVector(vecAngleStart);
