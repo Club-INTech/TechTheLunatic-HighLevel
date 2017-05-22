@@ -59,7 +59,7 @@ public class ScriptedGoTo extends AbstractScript
     Vec2 pointIntermediaireVersModule       = new Vec2(1115,850);
 
     /** Manoeuvre pour attraper le 2e module */
-    Vec2 pointAvantModule2                  = new Vec2(985, 772);
+    Vec2 pointAvantModule2                  = new Vec2(985, 742); //anciennement 770
     double angleDropModule2                 = Math.PI;
     int distanceApresModule2                = 60;
 
@@ -155,7 +155,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(new Vec2(805, 1560));
 
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
 
                 // Prise du module 1er module (celui du fond)
                 actualState.robot.goTo(point3AttrapperModule1);
@@ -187,6 +187,18 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, true);
 
+                // Recalage
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                actualState.robot.moveLengthwise(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, false);
+                Vec2 oldPos = actualState.robot.getPosition();
+                Vec2 newPos = oldPos.clone();
+                //Potentiellement réajuster la position?
+                actualState.robot.setOrientation(Math.PI/4);
+                actualState.robot.setPosition(newPos);
+
+
+
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
 
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
@@ -203,7 +215,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D,false);
 
                 actualState.robot.goTo(new Vec2(1115, 1005), hooksToConsider);
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
 
                 //actualState.robot.goTo(pointIntermediaireVersModule, hooksToConsider);
 
@@ -213,14 +225,15 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
 
                 actualState.robot.turn(angleDropModule2);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
 
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
 
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(-300, new ArrayList<Hook>(), true, false);
-                Vec2 oldPos = actualState.robot.getPosition();
-                Vec2 newPos = oldPos.clone();
+                oldPos = actualState.robot.getPosition();
+                 newPos = oldPos.clone();
                 newPos.setX(1225);
                 actualState.robot.setPosition(newPos);
 
