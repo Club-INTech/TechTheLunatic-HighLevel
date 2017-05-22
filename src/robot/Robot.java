@@ -878,7 +878,13 @@ public class Robot implements Service {
 			useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
 			useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
 
-			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+            useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+            useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+
+            useActuator(ActuatorOrder.LEVE_ASC, true);
+
+
+            useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
 
 		}
 		else if(side==Side.LEFT){
@@ -893,6 +899,11 @@ public class Robot implements Service {
 
 			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
 			useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+
+            useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+            useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+
+            useActuator(ActuatorOrder.LEVE_ASC, true);
 
 			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
 		}
