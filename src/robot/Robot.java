@@ -866,8 +866,9 @@ public class Robot implements Service {
 
     public void prendModule(Side side) throws SerialConnexionException {
     	if(side==Side.RIGHT) {
-			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
 			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+
 
 			useActuator(ActuatorOrder.PREND_MODULE_D, true);
 			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
@@ -878,18 +879,14 @@ public class Robot implements Service {
 			useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
 			useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
 
-            useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-            useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-
-            useActuator(ActuatorOrder.LEVE_ASC, true);
-
 
             useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
 
 		}
 		else if(side==Side.LEFT){
+
+			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
 			useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-			useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
 
 			useActuator(ActuatorOrder.PREND_MODULE_G, true);
 			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
@@ -900,10 +897,6 @@ public class Robot implements Service {
 			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
 			useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
-            useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-            useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-
-            useActuator(ActuatorOrder.LEVE_ASC, true);
 
 			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
 		}
@@ -911,6 +904,6 @@ public class Robot implements Service {
 		useActuator(ActuatorOrder.REPOS_CALLE_D, false);
 		useActuator(ActuatorOrder.REPOS_CALLE_G, true);
 
-		//useActuator(ActuatorOrder.LEVE_ASC, true);
+		useActuator(ActuatorOrder.LEVE_ASC, true);
 	}
 }

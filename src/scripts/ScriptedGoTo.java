@@ -45,7 +45,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour attraper les 1eres boules */
     Vec2 point4arriveDevantCratereFond      = new Vec2(650,1785);
-    Vec2 posCratere1                        = new Vec2(420, 1880);
+    Vec2 posCratere1                        = new Vec2(420, 1883);
     int distanceCratereFondAvantBoules      = 55;
     int distanceCratereFondApresBoules      = -170;
 
@@ -55,8 +55,8 @@ public class ScriptedGoTo extends AbstractScript
     int distanceCratereFondApresDepotModule = 55;
 
     /** Déplacements jusqu'à la zone de départ */
-    Vec2 pointSortieCratereFond             = new Vec2(1115,1290);
-    Vec2 pointIntermediaireVersModule       = new Vec2(1115,850);
+    Vec2 pointSortieCratereFond             = new Vec2(1110,1290);
+    Vec2 pointIntermediaireVersModule       = new Vec2(1110,850);
 
     /** Manoeuvre pour attraper le 2e module */
     Vec2 pointAvantModule2                  = new Vec2(985, 742); //anciennement 770
@@ -67,7 +67,7 @@ public class ScriptedGoTo extends AbstractScript
     int distanceRecalage = -250;
 
     /** Manoeuvre pour déposer les 1eres boules */
-    int distanceAvantDeposeBoules1          = 230;
+    int distanceAvantDeposeBoules1          = 170;
     int distanceReculApresDepotBoule1       = -200;
 
     /** Manoeuvre pour prendre les 2emes boules */
@@ -76,8 +76,8 @@ public class ScriptedGoTo extends AbstractScript
     int distanceCratereBaseApresBoules      = -190;
 
     /** Manoeuvre pour déposer les 2emes boules */
-    double angleAvantDeposeBoules           = -Math.PI/2 + 0.15;
-    int distanceAvantDeposeBoules2          = 190;
+    double angleAvantDeposeBoules           = -Math.PI/2 + 0.2;
+    int distanceAvantDeposeBoules2          = 170;
     double angleDeposeBoules                = -Math.PI/2;
 
     /** Manoeuvre de fin !*/
@@ -214,7 +214,10 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D,false);
 
+                actualState.robot.turn(-Math.PI/2);
+
                 actualState.robot.goTo(new Vec2(1115, 1005), hooksToConsider);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, true);
 
                 //actualState.robot.goTo(pointIntermediaireVersModule, hooksToConsider);
@@ -268,7 +271,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 // Livraison des 1eres boules
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
-                actualState.robot.turn(-Math.PI/2+0.15);
+                actualState.robot.turn(-Math.PI/2+0.25);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
                 actualState.robot.turn(-Math.PI/2);
 
