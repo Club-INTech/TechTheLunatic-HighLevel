@@ -69,7 +69,7 @@ public class ScriptedGoTo extends AbstractScript
     int distanceRecalage                    = -250;
 
     /** Manoeuvre pour déposer les 1eres boules */
-    int distanceAvantDeposeBoules1          = 180;
+    int distanceAvantDeposeBoules1          = 185;
     int distanceReculApresDepotBoule1       = -200;
 
     /** Manoeuvre pour prendre les 2emes boules */
@@ -210,7 +210,7 @@ public class ScriptedGoTo extends AbstractScript
 
                     actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
-                    actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                    actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
                     actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
 
                     actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
