@@ -77,7 +77,7 @@ public class Main {
 
 			container.getService(ThreadSensor.class);
 			// container.getService(ThreadInterface.class);
-			// container.getService(ThreadTimer.class);
+			 container.getService(ThreadTimer.class);
 			container.startInstanciedThreads();
 
 		} catch (ContainerException p) {
