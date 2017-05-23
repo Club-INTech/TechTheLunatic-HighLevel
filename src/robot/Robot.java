@@ -842,9 +842,11 @@ public class Robot implements Service {
 
 	//Ordres d'actionneurs groupés, pour scripts
 	public void prendBoules() throws SerialConnexionException {
-		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+		useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 		useActuator(ActuatorOrder.PRET_PELLE, true);
 		useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+		useActuator(ActuatorOrder.P1, true);
+		useActuator(ActuatorOrder.P2, true);
 		useActuator(ActuatorOrder.P1, true);
 		useActuator(ActuatorOrder.P2, true);
 		useActuator(ActuatorOrder.P1, true);
