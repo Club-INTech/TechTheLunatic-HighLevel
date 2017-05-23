@@ -100,7 +100,6 @@ public class ScriptedGoTo extends AbstractScript
     protected ScriptedGoTo(HookFactory hookFactory, Config config, Log log)
     {
         super(hookFactory, config, log);
-        versions = new Integer[]{0};
     }
 
 
@@ -269,7 +268,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 // Livraison des 1eres boules
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
-                actualState.robot.turn(-Math.PI/2+0.25);
+                actualState.robot.turn(-Math.PI/2+0.15);
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
                 actualState.robot.turn(-Math.PI/2);
 
