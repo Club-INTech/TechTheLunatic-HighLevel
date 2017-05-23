@@ -122,7 +122,7 @@ public enum ActuatorOrder
 
 	//********** 3 POSITIONS DES BRAS DE LA PELLETEUSE ***********//
 	// Rangement de la pelleteuse
-	REPLIER_PELLETEUSE("bpr",700),
+	REPLIER_PELLETEUSE("bpr",600),
 
 	// Baisse un peu plus la pelleteuse
 	DEPLOYER_PELLETEUSE_BAS("bpra",700),
@@ -138,25 +138,25 @@ public enum ActuatorOrder
 
 	//********** 3 POSITIONS DE LA PELLE ***********//
 	// Position avant prise de boules
-	PRET_PELLE("pd",700),
+	PRET_PELLE("pd",500),
 
 	// Position 1 pour éviter le blocage des boules dans la pelle
 	P1("p1", 400),
 
 	// Position 2, à faire juste après la position 1 et avant de finir le mouvement habituel de la pelle
-	P2("p2", 600),
+	P2("p2", 400),
 
 	//Position initiale, de rangement de la pelle
-	RANGE_PELLE("pb", 700),
+	RANGE_PELLE("pb", 600),
 
 	// Position intermédiaire de la pelle, maintient les boules
-	PREND_PELLE("pm",700),//avant:2000
+	PREND_PELLE("pm",600),//avant:2000
 
 	//Pos de déplacement avec les boules
-	TIENT_BOULES("pt",900),
+	TIENT_BOULES("pt",600),
 
 	//Position de livraison de boules de la pelle
-	LIVRE_PELLE("pf",900),
+	LIVRE_PELLE("pf",700),
 
     //Reasservir pelle, a ne pas utiliser lors d'une prise de boules... Donner juste après un ordre de position(pret pelle, prend pelle ou tientboules)
     PELLE_REASSERV("pelreasserv"),
@@ -175,13 +175,13 @@ public enum ActuatorOrder
 	REPOS_ATTRAPE_D("amdd",500),
 
 	//Position d'évitement de la cale
-	MID_ATTRAPE_D("ammd",500),
+	MID_ATTRAPE_D("ammd",400),
 
 	// Position de livraison
 	PREND_MODULE_D("amfd",1000),
 
 	//Côté gauche
-	REPOS_ATTRAPE_G("amdg",500),
+	REPOS_ATTRAPE_G("amdg",400),
 
 	MID_ATTRAPE_G("ammg",300),
 
@@ -226,7 +226,7 @@ public enum ActuatorOrder
 	REPOS_LARGUEUR("lmd",200),
 
 	// Position de poussée
-	POUSSE_LARGUEUR("lmf", 800),
+	POUSSE_LARGUEUR("lmf", 700),
 	// Position de poussée en mode lent
 	POUSSE_LARGUEUR_LENT("lmfl", 2000),
 
