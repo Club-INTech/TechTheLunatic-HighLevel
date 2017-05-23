@@ -33,14 +33,16 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
 
     /** PointsVisés, dstances & angles du script, override par la config */
 
+    /** EntryPosition : dernier point appelé dans le ScriptedGoTo (afin de minimiser les chances fail) */
+    Vec2 point3AttrapeModule1               = new Vec2(805, 1725);
 
-    private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
+    /** Manoeuvre pour attraper les 1eres boules */
+    Vec2 point4arriveDevantCratereFond      = new Vec2(650,1785);
+    Vec2 posCratere1                        = new Vec2(420, 1876);
+    double angleDevantCratere1              = 0.04;
+    int distanceCratereFondAvantBoules      = 65;
 
     private boolean detect = false;
-
-
-
-
 
     /**
      * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -54,7 +56,6 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
     protected ScriptedGoTo_CratereFond(HookFactory hookFactory, Config config, Log log)
     {
         super(hookFactory, config, log);
-
         versions = new Integer[]{0};
     }
 
@@ -74,36 +75,21 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,true);
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
-                //changement de vitesse pour ne pas pousser les balles
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, false);
 
-                actualState.robot.goTo(point4arriveDevantCratereFond);
+                // Prise des 1eres boules (celles du fond)
+                actualState.robot.goTo(point4arriveDevantCratereFond, new ArrayList<Hook>(), false, false);
+                actualState.robot.turnTo(posCratere1);
+                actualState.robot.turn(angleDevantCratere1,hooksToConsider, true, true);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantBoules);
 
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
-
-                //Prise des boules
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
-                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
-                actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
-                actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
-                actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
+
+                actualState.robot.prendBoules();
 
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereBaseLunaire.isStillThere=false;
-
-
-
-                //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-                //Hook prise module 1
-                Hook PriseModule = hookFactory.newPositionHook(new Vec2(80, 1850), (float) Math.PI/2, 100, 10000);
-                PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
-                hooksToConsider.add(PriseModule);
-                //Hook repli du largue module
-                Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(550, 1650), (float) -Math.PI/4, 100, 10000);
-                ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
-                hooksToConsider.add(ReposLargueModule);
-
-
             }
 
         }
@@ -131,7 +117,7 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException
     {
         if (version == 0) {
-            return new Circle(robotPosition);
+            return new Circle(point3AttrapeModule1);
         }
 
         else
