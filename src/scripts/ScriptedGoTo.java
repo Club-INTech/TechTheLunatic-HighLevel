@@ -79,7 +79,7 @@ public class ScriptedGoTo extends AbstractScript
     /** Manoeuvre pour déposer les 2emes boules */
     double angleAvantDeposeBoules           = -Math.PI/2 + 0.2;
     int distanceAvantDeposeBoules2          = 190;
-    double angleDeposeBoules                = -Math.PI/2+0.2;
+    double angleDeposeBoules                = -Math.PI/2+0.1;
 
     /** Manoeuvre de fin !*/
     int distanceEsquiveRobot                = -120;
@@ -179,25 +179,31 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.prendBoules();
 
+                boolean ispelleok = actualState.robot.isPelleOk();
 
+                // Livraison du 1er module
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
+
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
+                actualState.robot.turn(angleCratereFondAvantDepotModule);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, true);
+
+                // Recalage en orientation
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                actualState.robot.moveLengthwise(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, false);
+                if(Math.abs(Math.abs(actualState.robot.getOrientation()) - Math.PI/4)< recalageThresholdOrientation) {
+                    actualState.robot.setOrientation(Math.PI / 4);
+                }
 
                 //POINT OU ON ENCLENCHE LA FIN ALTERNATIVE SI LA PELLE EST CHIBREE
 
 
-                if (!actualState.robot.isPelleOk()) {
-                    // Livraison du 1er module
+                if (ispelleok) {
+
+                    actualState.robot.setRempliDeBoules(true);
+                    actualState.table.ballsCratereBaseLunaire.isStillThere=false;
+
                     actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
-
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
-                    actualState.robot.turn(angleCratereFondAvantDepotModule);
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, true);
-
-                    // Recalage en orientation
-                    actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                    actualState.robot.moveLengthwise(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, false);
-                    if(Math.abs(Math.abs(actualState.robot.getOrientation()) - Math.PI/4)< recalageThresholdOrientation) {
-                        actualState.robot.setOrientation(Math.PI / 4);
-                    }
 
                     actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                     actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
@@ -227,11 +233,9 @@ public class ScriptedGoTo extends AbstractScript
                     // Recalage
                     actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                     actualState.robot.moveLengthwise(distanceRecalage, new ArrayList<Hook>(), true, false);
-                /* Vec2 oldPos = actualState.robot.getPosition();
-                Vec2 newPos = oldPos.clone();
-                newPos.setA(Math.acos(1220.0/oldPos.getR()));
-                actualState.robot.setPosition(newPos);
-                */
+                    Vec2 newPos = actualState.robot.getPosition();
+                    newPos.setX(1220);
+                    actualState.robot.setPosition(newPos);
 
                     log.debug("Orientation :" + actualState.robot.getOrientationFast());
 
@@ -278,7 +282,7 @@ public class ScriptedGoTo extends AbstractScript
                     // Prise des 2emes boules
                     actualState.robot.turnTo(posCratere2);
 
-                    actualState.robot.turn(-0.09, hooksToConsider,true, true);
+                    actualState.robot.turn(-0.1, hooksToConsider,true, true);
 
                     actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseAvantBoules);
 
@@ -301,25 +305,13 @@ public class ScriptedGoTo extends AbstractScript
 
                     actualState.robot.moveLengthwise(distanceEsquiveRobot); }
 
-                if(actualState.robot.isPelleOk()) {
+                if(!ispelleok) {
 
-                    actualState.robot.setRempliDeBoules(true);
-                    actualState.table.ballsCratereBaseLunaire.isStillThere=false;
+
 
                     actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
                     actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
-
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
-                    actualState.robot.turn(angleCratereFondAvantDepotModule);
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, true);
-
-                    // Recalage en orientation
-                    actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                    actualState.robot.moveLengthwise(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, false);
-                    if(Math.abs(Math.abs(actualState.robot.getOrientation()) - Math.PI/4)< recalageThresholdOrientation) {
-                        actualState.robot.setOrientation(Math.PI / 4);
-                    }
 
                     actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                     actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
@@ -349,11 +341,9 @@ public class ScriptedGoTo extends AbstractScript
                     // Recalage
                     actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                     actualState.robot.moveLengthwise(distanceRecalage, new ArrayList<Hook>(), true, false);
-                /* Vec2 oldPos = actualState.robot.getPosition();
-                Vec2 newPos = oldPos.clone();
-                newPos.setA(Math.acos(1220.0/oldPos.getR()));
-                actualState.robot.setPosition(newPos);
-                */
+                    Vec2 newPos = actualState.robot.getPosition();
+                    newPos.setX(1220);
+                    actualState.robot.setPosition(newPos);
 
                     log.debug("Orientation :" + actualState.robot.getOrientationFast());
 
