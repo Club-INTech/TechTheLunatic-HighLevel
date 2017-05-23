@@ -79,7 +79,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour déposer les 2emes boules */
     double angleAvantDeposeBoules           = -Math.PI/2 + 0.2;
-    int distanceAvantDeposeBoules2          = 210;
+    int distanceAvantDeposeBoules2          = 205;
     double angleDeposeBoules                = -Math.PI/2+0.1;
 
     /** Manoeuvre de fin !*/
