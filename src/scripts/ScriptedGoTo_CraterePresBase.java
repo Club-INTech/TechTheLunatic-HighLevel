@@ -25,18 +25,15 @@ import java.util.ArrayList;
  * Created by melanie on 09/05/17.
  */
 
-
-
 public class ScriptedGoTo_CraterePresBase extends AbstractScript {
 
+    /** Point d'entrée du script */
+    private Circle cratere2 = new Circle(new Vec2(850, 540), 300,Math.PI/3, Math.PI, true);
 
-    /** PointsVisés, dstances & angles du script, override par la config */
-
-    private Vec2 pointDevantCratere2 = new Vec2(1100, 650);
-
-    private boolean detect = false;
-
-
+    /** Manoeuvre pour prendre les 2emes boules */
+    Vec2 posCratere2                        = cratere2.getCenter();
+    int distanceCratereBaseAvantBoules      = 235;
+    int distanceCratereBaseApresBoules      = -190;
 
     /**
      * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -50,56 +47,30 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
     protected ScriptedGoTo_CraterePresBase(HookFactory hookFactory, Config config, Log log)
     {
         super(hookFactory, config, log);
-
         versions = new Integer[]{0};
     }
-
 
     @Override
     public void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException
     {
         updateConfig();
         try{
-
-            if(detect) {
-                actualState.robot.switchSensor();
-            }
-
             if (versionToExecute==0)
             {
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,true);
-                actualState.robot.goTo(pointDevantCratere2);
-                actualState.robot.turn(-15*Math.PI/16);
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(120);
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
+                // Prise des 2emes boules
+                actualState.robot.turnTo(posCratere2);
 
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
-                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
-                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
-                actualState.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseAvantBoules);
+
+                actualState.robot.prendBoules();
 
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereDepart.isStillThere=false;
 
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,true);
 
-
-
-
-                //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-                //Hook prise module 1
-                Hook PriseModule = hookFactory.newPositionHook(new Vec2(80, 1850), (float) Math.PI/2, 100, 10000);
-                PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
-                hooksToConsider.add(PriseModule);
-                //Hook repli du largue module
-                Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(550, 1650), (float) -Math.PI/4, 100, 10000);
-                ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
-                hooksToConsider.add(ReposLargueModule);
-
-
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseApresBoules);
             }
-
         }
         catch(UnableToMoveException e)
         {
@@ -126,25 +97,13 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
     public Circle entryPosition(int version, int ray, Vec2 robotPosition) throws BadVersionException
     {
         if (version == 0) {
-            return new Circle(robotPosition);
+            return cratere2;
         }
 
         else
         {
             log.debug("erreur : mauvaise version de script");
             throw new BadVersionException();
-        }
-    }
-
-    @Override
-    public void updateConfig()
-    {
-        try{
-
-            detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
-
-        } catch (ConfigPropertyNotFoundException e){
-            log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
         }
     }
 
