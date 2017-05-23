@@ -69,7 +69,7 @@ public class ScriptedGoTo extends AbstractScript
     int distanceRecalage                    = -250;
 
     /** Manoeuvre pour déposer les 1eres boules */
-    int distanceAvantDeposeBoules1          = 190;
+    int distanceAvantDeposeBoules1          = 205;
     int distanceReculApresDepotBoule1       = -200;
 
     /** Manoeuvre pour prendre les 2emes boules */
