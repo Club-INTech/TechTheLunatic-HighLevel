@@ -312,9 +312,9 @@ public class SerialWrapper implements Service
     public synchronized double[] pfdebug() throws SerialConnexionException
     {
             String chaines[] = {"pfdebug"};
-            String[] infosBuffer = serial.communiquer(chaines, 8);
-        double[] parsedInfos = new double[8];
-        for(int i = 0; i < 8; i++)
+            String[] infosBuffer = serial.communiquer(chaines, 5);
+        double[] parsedInfos = new double[5];
+        for(int i = 0; i < 5; i++)
         {
             try{
                 parsedInfos[i] = Float.parseFloat(infosBuffer[i]);
