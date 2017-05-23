@@ -12,6 +12,7 @@ import smartMath.Vec2;
 import strategie.GameState;
 import threads.dataHandlers.ThreadEvents;
 import threads.dataHandlers.ThreadSensor;
+import utils.Sleep;
 
 import java.util.ArrayList;
 
@@ -40,6 +41,8 @@ public class JUnit_CatchBalls extends JUnit_Test
         mRobot.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
         scriptManager = container.getService(ScriptManager.class);
 
+        container.getService(ThreadSensor.class);
+
         container.startInstanciedThreads();
     }
 
@@ -50,8 +53,10 @@ public class JUnit_CatchBalls extends JUnit_Test
         {
             //On execute le script
             log.debug("Ramassage des balles");
+            mRobot.robot.switchSensor();
             mRobot.robot.prendBoules();
-
+            log.debug("isPelleOk ?: " + mRobot.robot.isPelleOk());
+            mRobot.robot.switchSensor();
         }
         catch(Exception e)
         {

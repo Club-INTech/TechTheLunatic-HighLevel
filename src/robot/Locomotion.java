@@ -39,6 +39,7 @@ import utils.Log;
 import utils.Sleep;
 
 import java.io.IOException;
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.ArrayList;
 
 /**
@@ -1075,6 +1076,22 @@ public class Locomotion implements Service
         this.USvalues = val;
     }
 
+    /**
+     * Vérifie qu'il n'y est pas quelque chose juste en face lui, en prenant directement la valeur des capteurs
+     * (utile pour savoir si la pelle a foirée)
+     */
+    public boolean isThereSomethingFront(){
+        int count = 0;
+        Sleep.sleep(1500);
+        for (int i=0; i<5;i++){
+            if(USvalues.get(0) < 100 && USvalues.get(1) < 100){
+                count+=1;
+            }
+            Sleep.sleep(100);
+        }
+        log.debug("Compteur Pelle :" + count);
+        return count > 3;
+    }
 
     @Override
     public void updateConfig()
