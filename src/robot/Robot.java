@@ -860,8 +860,8 @@ public class Robot implements Service {
 		useActuator(ActuatorOrder.P2, true);
 		useActuator(ActuatorOrder.P1, true);
 		useActuator(ActuatorOrder.P2, true);
-		useActuator(ActuatorOrder.P1, true);
-		useActuator(ActuatorOrder.P2, true);
+		//useActuator(ActuatorOrder.P1, true);
+		//useActuator(ActuatorOrder.P2, true);
 		useActuator(ActuatorOrder.PREND_PELLE, true);
 		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 		useActuator(ActuatorOrder.RANGE_PELLE, false);

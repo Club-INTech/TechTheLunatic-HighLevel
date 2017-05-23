@@ -191,7 +191,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, true);
 
                 // Recalage en orientation
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.moveLengthwise(distanceCratereFondAvantRecalage, new ArrayList<Hook>(), true, false);
 
                 if(Math.abs(Math.abs(actualState.robot.getOrientation()) - Math.PI/4)< recalageThresholdOrientation) {
@@ -232,7 +232,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
 
                 // Recalage
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.moveLengthwise(distanceRecalage, new ArrayList<Hook>(), true, false);
                 Vec2 newPos = actualState.robot.getPosition();
                 newPos.setX(1220);
