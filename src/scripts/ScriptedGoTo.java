@@ -54,7 +54,7 @@ public class ScriptedGoTo extends AbstractScript
     /** Manoeuvre pour drop le 1er module */
     double angleCratereFondAvantDepotModule = Math.PI/4;
     int distanceCratereFondAvantDepotModule = -120;
-    int distanceCratereFondAvantRecalage= -30;
+    int distanceCratereFondAvantRecalage    = -30;
     int distanceCratereFondApresDepotModule = 55;
 
     /** Déplacements jusqu'à la zone de départ */
@@ -197,8 +197,6 @@ public class ScriptedGoTo extends AbstractScript
                 if(Math.abs(Math.abs(actualState.robot.getOrientation()) - Math.PI/4)< recalageThresholdOrientation) {
                     actualState.robot.setOrientation(Math.PI / 4);
                 }
-
-                //POINT OU ON ENCLENCHE LA FIN ALTERNATIVE SI LA PELLE EST CHIBREE
 
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereBaseLunaire.isStillThere=false;
