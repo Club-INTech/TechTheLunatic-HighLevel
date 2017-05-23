@@ -271,7 +271,9 @@ public class ObstacleManager
     public synchronized void addObstacle(final Vec2 position, final int radius, final int lifetime)
     {
     	//vérification que l'on ne détecte pas un obstacle "normal"
-    	if (position.getX()>-1500+mEnnemyRadius-80 && position.getX()<1500- mEnnemyRadius+80 && position.getY() >mEnnemyRadius-80 && position.getY()<2000-mEnnemyRadius+80) //hors de la table
+    	if (position.getX()>-1500+mEnnemyRadius-50 && position.getX()<1500- mEnnemyRadius+50 && position.getY() >mEnnemyRadius-80 && position.getY()<2000-mEnnemyRadius+80  // Hors de la table
+				&& position.minusNewVector(new Vec2(0, 2000)).length() > 815 + mEnnemyRadius  // Dans la base lunaire
+				&& (position.getX() < 600 || position.getY() < 500)) // Dans la zone de départ
 			// TODO: Prévoir les cas où l'on détecte des éléments de jeu dans la condition
     	{
     		boolean isThereAnObstacleIntersecting=false;
