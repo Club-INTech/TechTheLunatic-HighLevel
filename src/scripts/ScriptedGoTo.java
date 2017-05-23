@@ -69,7 +69,7 @@ public class ScriptedGoTo extends AbstractScript
     int distanceRecalage                    = -250;
 
     /** Manoeuvre pour déposer les 1eres boules */
-    int distanceAvantDeposeBoules1          = 185;
+    int distanceAvantDeposeBoules1          = 190;
     int distanceReculApresDepotBoule1       = -200;
 
     /** Manoeuvre pour prendre les 2emes boules */
@@ -111,7 +111,7 @@ public class ScriptedGoTo extends AbstractScript
         try{
 
             //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-            Hook repliTout = hookFactory.newPositionHook(new Vec2(760, 1670), (float) Math.PI/4, 25, 400);
+            Hook repliTout = hookFactory.newPositionHook(new Vec2(760, 1670), (float) Math.PI/4, 40, 400);
             repliTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
             Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 25, 400);
             prepareToCatch2ndMod.addCallback(new Callback(new PrepareToCatchModG(), true, actualState));
