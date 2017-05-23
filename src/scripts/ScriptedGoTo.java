@@ -18,6 +18,7 @@ import strategie.GameState;
 import utils.Config;
 import utils.Log;
 
+import java.security.cert.TrustAnchor;
 import java.util.ArrayList;
 
 
@@ -79,7 +80,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour déposer les 2emes boules */
     double angleAvantDeposeBoules           = -Math.PI/2 + 0.2;
-    int distanceAvantDeposeBoules2          = 205;
+    int distanceAvantDeposeBoules2          = 200;
     double angleDeposeBoules                = -Math.PI/2+0.1;
 
     /** Manoeuvre de fin !*/
@@ -269,7 +270,7 @@ public class ScriptedGoTo extends AbstractScript
                 // Livraison des 1eres boules
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
                 actualState.robot.turn(-Math.PI/2+0.15);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1, hooksToConsider, true, true);
                 actualState.robot.turn(-Math.PI/2);
 
                 actualState.robot.livreBoules();
@@ -296,7 +297,7 @@ public class ScriptedGoTo extends AbstractScript
                 // Livraison des 2emes boules
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseApresBoules);
                 actualState.robot.turn(angleAvantDeposeBoules);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules2);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules2, hooksToConsider, true, true);
                 actualState.robot.turn(angleDeposeBoules);
 
                 actualState.robot.livreBoules();
