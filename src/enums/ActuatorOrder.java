@@ -133,7 +133,7 @@ public enum ActuatorOrder
 	// Position intermédiaire de la pelleteuse, pour rotations de la pelle
 	MED_PELLETEUSE("bpm",300),
 
-	LIVRAISON_PELLETEUSE("bpdm", 300),
+	LIVRAISON_PELLETEUSE("bpdm", 1100),
 
 
 	//********** 3 POSITIONS DE LA PELLE ***********//
