@@ -147,10 +147,10 @@ public enum ActuatorOrder
 	P2("p2", 600),
 
 	//Position initiale, de rangement de la pelle
-	RANGE_PELLE("pb", 900),
+	RANGE_PELLE("pb", 700),
 
 	// Position intermédiaire de la pelle, maintient les boules
-	PREND_PELLE("pm",900),//avant:2000
+	PREND_PELLE("pm",700),//avant:2000
 
 	//Pos de déplacement avec les boules
 	TIENT_BOULES("pt",900),
