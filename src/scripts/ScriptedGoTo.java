@@ -54,7 +54,7 @@ public class ScriptedGoTo extends AbstractScript
     /** Manoeuvre pour drop le 1er module */
     double angleCratereFondAvantDepotModule = Math.PI/4;
     int distanceCratereFondAvantDepotModule = -120;
-    int distanceCratereFondAvantRecalage= -50;
+    int distanceCratereFondAvantRecalage= -30;
     int distanceCratereFondApresDepotModule = 55;
 
     /** Déplacements jusqu'à la zone de départ */

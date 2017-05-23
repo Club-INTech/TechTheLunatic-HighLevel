@@ -122,7 +122,7 @@ public enum ActuatorOrder
 
 	//********** 3 POSITIONS DES BRAS DE LA PELLETEUSE ***********//
 	// Rangement de la pelleteuse
-	REPLIER_PELLETEUSE("bpr",600),
+	REPLIER_PELLETEUSE("bpr",700),
 
 	// Baisse un peu plus la pelleteuse
 	DEPLOYER_PELLETEUSE_BAS("bpra",700),
@@ -138,25 +138,25 @@ public enum ActuatorOrder
 
 	//********** 3 POSITIONS DE LA PELLE ***********//
 	// Position avant prise de boules
-	PRET_PELLE("pd",500),
+	PRET_PELLE("pd",700),
 
 	// Position 1 pour éviter le blocage des boules dans la pelle
-	P1("p1", 400),
+	P1("p1", 600),
 
 	// Position 2, à faire juste après la position 1 et avant de finir le mouvement habituel de la pelle
-	P2("p2", 400),
+	P2("p2", 600),
 
 	//Position initiale, de rangement de la pelle
-	RANGE_PELLE("pb", 600),
+	RANGE_PELLE("pb", 700),
 
 	// Position intermédiaire de la pelle, maintient les boules
-	PREND_PELLE("pm",600),//avant:2000
+	PREND_PELLE("pm",700),//avant:2000
 
 	//Pos de déplacement avec les boules
-	TIENT_BOULES("pt",600),
+	TIENT_BOULES("pt",800),
 
 	//Position de livraison de boules de la pelle
-	LIVRE_PELLE("pf",700),
+	LIVRE_PELLE("pf",800),
 
     //Reasservir pelle, a ne pas utiliser lors d'une prise de boules... Donner juste après un ordre de position(pret pelle, prend pelle ou tientboules)
     PELLE_REASSERV("pelreasserv"),
