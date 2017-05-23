@@ -111,7 +111,7 @@ public class ScriptedGoTo extends AbstractScript
         try{
 
             //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-            Hook repliTout = hookFactory.newPositionHook(new Vec2(760, 1670), (float) Math.PI/4, 40, 400);
+            Hook repliTout = hookFactory.newPositionHook(new Vec2(760, 1670), (float) Math.PI/4, 60, 400);
             repliTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
             Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 25, 400);
             prepareToCatch2ndMod.addCallback(new Callback(new PrepareToCatchModG(), true, actualState));
@@ -274,7 +274,7 @@ public class ScriptedGoTo extends AbstractScript
                     // Livraison des 1eres boules
                     actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
                     actualState.robot.turn(-Math.PI/2+0.25);
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1);
+                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1,hooksToConsider,true,true);
                     actualState.robot.turn(-Math.PI/2);
 
                     actualState.robot.livreBoules();
@@ -301,7 +301,7 @@ public class ScriptedGoTo extends AbstractScript
                     // Livraison des 2emes boules
                     actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseApresBoules);
                     actualState.robot.turn(angleAvantDeposeBoules);
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules2);
+                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules2,hooksToConsider,true,true);
                     actualState.robot.turn(angleDeposeBoules);
 
                     actualState.robot.livreBoules();
