@@ -149,8 +149,8 @@ public class ObstacleManager
 		//cratères
 		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-850, 540), 135 + mRobotRadius, -Math.PI/6, 2*Math.PI/3, true)));
 		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(850, 540), 135 + mRobotRadius,Math.PI/3, 7*Math.PI/6, true)));
-		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-1500, 2000), 550 + mRobotRadius, -Math.PI/2, -Math.PI/5,true)));
-		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(1500, 2000), 550 + mRobotRadius, -4*Math.PI/5, -Math.PI/2, true)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(-1500, 2000), 550 + mRobotRadius, -Math.PI/2, -Math.PI/4,true)));
+		mCircularObstacle.add(new ObstacleCircular(new Circle(new Vec2(1500, 2000), 550 + mRobotRadius, -3*Math.PI/4, -Math.PI/2, true)));
 
 		//pose module côté
 		mRectangles.add(new ObstacleRectangular(new Vec2(-1446, 870), 108 + 2*mRobotRadius, 500 + 2*mRobotRadius)); //-1446, 678, 108, 472
