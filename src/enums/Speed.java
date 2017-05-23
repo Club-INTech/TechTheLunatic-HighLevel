@@ -38,12 +38,12 @@ public enum Speed
 	
 	/** vitesse lente en translation, normale en rotation*/
 	SLOW_T_MEDIUM_R(300,2*Math.PI/3),
-	
-	/** Vitesse standard de déplacement et rotation*/
-	MEDIUM_ALL(450,Math.PI/2),
 
 	/** Just for fishing */
 	SLOW_MEDIUM(300, 2*Math.PI/3),
+
+	/** Vitesse standard de déplacement et rotation*/
+	MEDIUM_ALL(450,1.9D),
 	
 	/** vitesse standard de déplacement, lente en rotation*/
 	MEDIUM_T_SLOW_R(480,Math.PI/3),

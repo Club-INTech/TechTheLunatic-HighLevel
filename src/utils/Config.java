@@ -93,6 +93,7 @@ public class Config implements Service
 		}	
 		printConfigFile();
 	}
+
 		/**
 	 * Méthode que tout le monde utilise de récupération des paramètres de configuration.
 	 *
