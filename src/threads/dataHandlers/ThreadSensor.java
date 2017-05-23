@@ -367,6 +367,8 @@ public class ThreadSensor extends AbstractThread
                  vec = changeRef(vec);
                  out.write("Position calculée (référentiel de la table) :" + vec);
                  out.newLine();
+                 out.write("Position du robot :" + mRobot.getPositionFast());
+                 out.newLine();
                  out.newLine();
                  out.flush();
              }catch(Exception e){
@@ -419,6 +421,8 @@ public class ThreadSensor extends AbstractThread
                 vec = changeRef(vec);
                 out.write("Position calculée (référentiel de la table) :" + vec);
                 out.newLine();
+                out.write("Position du robot :" + mRobot.getPositionFast());
+                out.newLine();
                 out.newLine();
                 out.flush();
             } catch (Exception e) {
@@ -461,6 +465,8 @@ public class ThreadSensor extends AbstractThread
             posEn = changeRef(posEn);
             out.write("Position calculée (référentiel de la table) :" + posEn);
             out.newLine();
+            out.write("Position du robot :" + mRobot.getPositionFast());
+            out.newLine();
             out.newLine();
             out.flush();
         }catch(Exception e){
@@ -497,6 +503,8 @@ public class ThreadSensor extends AbstractThread
             out.newLine();
             posEn = changeRef(posEn);
             out.write("Position calculée (référentiel de la table) :" + posEn);
+            out.newLine();
+            out.write("Position du robot :" + mRobot.getPositionFast());
             out.newLine();
             out.newLine();
             out.flush();
