@@ -179,13 +179,12 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.prendBoules();
 
-                actualState.robot.setRempliDeBoules(true);
-                actualState.table.ballsCratereBaseLunaire.isStillThere=false;
+
 
                 //POINT OU ON ENCLENCHE LA FIN ALTERNATIVE SI LA PELLE EST CHIBREE
 
 
-                if (!pellechibree) {
+                if (!actualState.robot.isPelleOk()) {
                     // Livraison du 1er module
                     actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
@@ -302,7 +301,10 @@ public class ScriptedGoTo extends AbstractScript
 
                     actualState.robot.moveLengthwise(distanceEsquiveRobot); }
 
-                if(pellechibree) {
+                if(actualState.robot.isPelleOk()) {
+
+                    actualState.robot.setRempliDeBoules(true);
+                    actualState.table.ballsCratereBaseLunaire.isStillThere=false;
 
                     actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
