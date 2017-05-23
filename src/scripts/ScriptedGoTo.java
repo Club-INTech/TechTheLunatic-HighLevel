@@ -53,6 +53,7 @@ public class ScriptedGoTo extends AbstractScript
     /** Manoeuvre pour drop le 1er module */
     double angleCratereFondAvantDepotModule = Math.PI/4;
     int distanceCratereFondAvantDepotModule = -120;
+    int distanceCratereFondAvantRecalage= -50;
     int distanceCratereFondApresDepotModule = 55;
 
     /** Déplacements jusqu'à la zone de départ */
@@ -68,7 +69,7 @@ public class ScriptedGoTo extends AbstractScript
     int distanceRecalage                    = -250;
 
     /** Manoeuvre pour déposer les 1eres boules */
-    int distanceAvantDeposeBoules1          = 170;
+    int distanceAvantDeposeBoules1          = 180;
     int distanceReculApresDepotBoule1       = -200;
 
     /** Manoeuvre pour prendre les 2emes boules */
@@ -78,7 +79,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour déposer les 2emes boules */
     double angleAvantDeposeBoules           = -Math.PI/2 + 0.2;
-    int distanceAvantDeposeBoules2          = 190;
+    int distanceAvantDeposeBoules2          = 210;
     double angleDeposeBoules                = -Math.PI/2+0.1;
 
     /** Manoeuvre de fin !*/
@@ -190,7 +191,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 // Recalage en orientation
                 actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
-                actualState.robot.moveLengthwise(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, false);
+                actualState.robot.moveLengthwise(distanceCratereFondAvantRecalage, new ArrayList<Hook>(), true, false);
                 if(Math.abs(Math.abs(actualState.robot.getOrientation()) - Math.PI/4)< recalageThresholdOrientation) {
                     actualState.robot.setOrientation(Math.PI / 4);
                 }
