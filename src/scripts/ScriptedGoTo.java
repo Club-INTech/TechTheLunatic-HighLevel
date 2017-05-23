@@ -124,7 +124,7 @@ public class ScriptedGoTo extends AbstractScript
                 // Timer afin de savoir combien de temps l'on prend en moyenne
                 long debutMatch = System.currentTimeMillis();
 
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
 
                 if (prisePremierModule) {
 
@@ -156,10 +156,14 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.goTo(pointContournementModule);
 
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
                 actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                  actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
 
                 // Prise du module 1er module (celui du fond)
+
+
                 actualState.robot.goTo(point3AttrapperModule1);
                 actualState.robot.turn(angleAttraperModule1);
 

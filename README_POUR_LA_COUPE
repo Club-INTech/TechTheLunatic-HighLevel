@@ -33,7 +33,7 @@ Il va vous demander le mot de passe, c'est "intech".
 
 #### Pour compiler le jar ####
 
-Connectez-vous à la raspi par SSH (obviously, vous devez être connecté au hotspot) avec cette commande :
+Connectez-vous à la raspi par SSH (obviously, vous devez être connecté au hotspot)exi avec cette commande :
 
 ssh intech@192.168.1.100
 
