@@ -681,8 +681,19 @@ public class Robot implements Service {
         mLocomotion.immobilise();
     }
 
-    public void switchSensor() throws SerialConnexionException {
+	/**
+	 * Active/désactive les capteurs
+	 * @throws SerialConnexionException
+	 */
+	public void switchSensor() throws SerialConnexionException {
 		serialWrapper.switchSensor();
+	}
+
+	/**
+	 * Vérifie si la pelle a foiré ou pas
+	 */
+	public boolean isPelleOk(){
+		return !(mLocomotion.isThereSomethingFront());
 	}
 
 	public void enableRotationnalFeedbackLoop()
