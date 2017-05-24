@@ -168,6 +168,12 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(angleAttraperModule1);
 
                 actualState.robot.prendModule(Side.RIGHT);
+                //on l'ajoute au gamestate
+
+                actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
+                actualState.table.cylindreCratereBase.isStillThere=false;
+
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,true);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
@@ -183,6 +189,9 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
                 actualState.robot.prendBoules();
+                //On actualise la gameState
+                actualState.robot.setRempliDeBoules(true);
+                actualState.table.ballsCratereBaseLunaire.isStillThere=false;
 
                 // Livraison du 1er module
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
@@ -211,6 +220,8 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
 
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
+
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresDepotModule);
 
                 // Aller vers la zone de départ
@@ -227,7 +238,6 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.turn(angleDropModule2);
 
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
 
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
