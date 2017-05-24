@@ -102,7 +102,8 @@ public class ThreadSensor extends AbstractThread
 	 * Distance minimale à laquelle on peut se fier aux capteurs : ne pas detecter notre propre root par exemple
      * Override par la config
 	 */
-	double minSensorRange;
+	double minSensorRangeAv;
+	double minSensorRangeAr;
 
     private BufferedWriter out;
 
@@ -629,8 +630,12 @@ public class ThreadSensor extends AbstractThread
                     USvalues.set(i, 0);
                     USvaluesForDeletion.set(i, (int)(maxSensorRange*0.9));
                 }
-                else if (USvalues.get(i) < minSensorRange)
+                else if(i<2 && USvalues.get(i) < minSensorRangeAv)
                 {
+                    USvalues.set(i, 0);
+                    USvaluesForDeletion.set(i, 0);
+                }
+                else if(i>=2 && USvalues.get(i) < minSensorRangeAr){
                     USvalues.set(i, 0);
                     USvaluesForDeletion.set(i, 0);
                 }
@@ -652,7 +657,8 @@ public class ThreadSensor extends AbstractThread
 			//plus que cette distance (environ 50cm) on est beaucoup moins precis sur la position adverse (donc on ne l'ecrit pas !)
 
 			maxSensorRange = Integer.parseInt(config.getProperty("horizon_capteurs"));
-			minSensorRange = Integer.parseInt(config.getProperty("portee_mini_capteurs"));
+			minSensorRangeAv = Integer.parseInt(config.getProperty("portee_mini_capteurs_av"));
+			minSensorRangeAr = Integer.parseInt(config.getProperty("portee_mini_capteurs_ar"));
 			sensorPositionAngleF = Float.parseFloat(config.getProperty("angle_position_capteur_av"));
 			sensorPositionAngleB = Float.parseFloat(config.getProperty("angle_position_capteur_ar"));
 			detectionAngle = Float.parseFloat(config.getProperty("angle_detection_capteur"));
