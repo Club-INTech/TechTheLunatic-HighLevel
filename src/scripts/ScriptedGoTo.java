@@ -71,7 +71,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour déposer les 1eres boules */
     int distanceAvantDeposeBoules1          = 205;
-    int distanceReculApresDepotBoule1       = -200;
+    int distanceReculApresDepotBoule1       = -180;
 
     /** Manoeuvre pour prendre les 2emes boules */
     Vec2 posCratere2                        = new Vec2(850, 540);
@@ -281,7 +281,7 @@ public class ScriptedGoTo extends AbstractScript
                 // Prise des 2emes boules
                 actualState.robot.turnTo(posCratere2);
 
-                actualState.robot.turn(angleCorrectionCratere2, hooksToConsider,true, true);
+//                actualState.robot.turn(angleCorrectionCratere2, hooksToConsider,true, true);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseAvantBoules);
 
