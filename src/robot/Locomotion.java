@@ -357,7 +357,6 @@ public class Locomotion implements Service
         }
 
         else{
-            log.debug("L'ennemi a bougé, on peut ré-avancer");
             moveLengthwise(distance, hooks, expectedWallImpact, isDetect);
         }
     }
