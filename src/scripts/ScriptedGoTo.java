@@ -75,7 +75,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour prendre les 2emes boules */
     Vec2 posCratere2                        = new Vec2(850, 540);
-    double angleCorrectionCratere2          = -0.1;
+    double angleCorrectionCratere2          = -0.3;
     int distanceCratereBaseAvantBoules      = 235;
     int distanceCratereBaseApresBoules      = -190;
 
