@@ -110,7 +110,9 @@ public class JUnit_Sensors extends JUnit_Test
 		log.debug ("Orientation :" + state.robot.getOrientation());
 		log.debug("Position :" + state.robot.getPosition());
 
-		Thread.sleep(10000);
+		state.robot.moveLengthwiseAndWaitIfNeeded(500);
+
+		Thread.sleep(1000);
 		state.robot.switchSensor();
 	}
 
