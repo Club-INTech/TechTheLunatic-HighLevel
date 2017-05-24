@@ -1,7 +1,6 @@
 package scripts;
 
-import enums.ActuatorOrder;
-import enums.ScriptNames;
+import enums.*;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
@@ -34,6 +33,8 @@ public class ScriptedGoTo_ModuleFond extends AbstractScript {
     private Vec2 point1MilieuTable = new Vec2(580,800);
     private Vec2 point2EntreeFinTable = new Vec2(850,1400);
     private Vec2 point3AttrapperModule1 = new Vec2(850,1760);
+    Vec2 pointContournementModule           = new Vec2(805, 1560);
+    double angleAttraperModule1             = -3*Math.PI/4;
 
     private boolean detect = false;
 
@@ -62,38 +63,28 @@ public class ScriptedGoTo_ModuleFond extends AbstractScript {
         updateConfig();
         try{
 
-            if(detect) {
-                actualState.robot.switchSensor();
-            }
-
             if (versionToExecute==0)
             {
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,true);
                 //Aller au cratère du fond
-                actualState.robot.goTo(point1MilieuTable);
+                actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
+                actualState.robot.goTo(point1MilieuTable);
                 actualState.robot.goTo(point2EntreeFinTable);
 
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+                actualState.robot.goTo(pointContournementModule);
+
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+
+                // Prise du module 1er module (celui du fond)
 
                 actualState.robot.goTo(point3AttrapperModule1);
+                actualState.robot.turn(angleAttraperModule1);
 
-                //prise du module du fond
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
-                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
+                actualState.robot.prendModule(Side.RIGHT);
 
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
                 actualState.table.cylindreCratereBase.isStillThere=false;

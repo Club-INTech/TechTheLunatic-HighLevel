@@ -34,6 +34,7 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
     Vec2 posCratere2                        = cratere2.getCenter();
     int distanceCratereBaseAvantBoules      = 235;
     int distanceCratereBaseApresBoules      = -190;
+    int distanceReculApresDepotBoule1       = -180;
 
     /**
      * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -57,8 +58,14 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
         try{
             if (versionToExecute==0)
             {
+                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,true);
+
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculApresDepotBoule1);
+
                 // Prise des 2emes boules
                 actualState.robot.turnTo(posCratere2);
+
+//                actualState.robot.turn(angleCorrectionCratere2, hooksToConsider,true, true);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseAvantBoules);
 
@@ -67,9 +74,6 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereDepart.isStillThere=false;
 
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,true);
-
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseApresBoules);
             }
         }
         catch(UnableToMoveException e)
@@ -104,6 +108,25 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
         {
             log.debug("erreur : mauvaise version de script");
             throw new BadVersionException();
+        }
+    }
+    @Override
+    public void updateConfig()
+    {
+        try{
+
+
+            distanceReculApresDepotBoule1       = Integer.parseInt(config.getProperty("distanceReculApresDepotBoule1"));
+
+            posCratere2                        = new Vec2(
+                    Integer.parseInt(config.getProperty("posCratere2_x")),
+                    Integer.parseInt(config.getProperty("posCratere2_y")));
+           distanceCratereBaseAvantBoules      = Integer.parseInt(config.getProperty("distanceCratereBaseAvantBoules"));
+            distanceCratereBaseApresBoules      = Integer.parseInt(config.getProperty("distanceCratereBaseApresBoules"));
+
+
+        } catch (ConfigPropertyNotFoundException e){
+            log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
         }
     }
 

@@ -2,6 +2,7 @@ package scripts;
 
 import enums.ActuatorOrder;
 import enums.ScriptNames;
+import enums.Speed;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
@@ -31,15 +32,8 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
 
     /** PointsVisés, dstances & angles du script, override par la config */
 
+    boolean prisePremierModule=true;
 
-    private int distanceReculModule2=-110;
-
-    private Vec2 pointAvantModule2 = new Vec2(1080, 760);
-
-    private int distanceApresModule2=150;
-
-
-    private boolean detect = false;
 
 
 
@@ -66,48 +60,32 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
         updateConfig();
         try{
 
-            if(detect) {
-                actualState.robot.switchSensor();
-            }
 
             if (versionToExecute==0)
             {
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULE_PRES_BASE,true);
 
-                actualState.robot.goTo(pointAvantModule2);
+                if (prisePremierModule) {
 
-                //actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
+                    actualState.robot.setOrientation(Math.PI);
+                    actualState.robot.setPosition(new Vec2(605,194));
 
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
+                    // Avec le Hook pour prendre le module multicolore pret de la zone de départ
+                    actualState.robot.moveLengthwiseAndWaitIfNeeded(75);
+                    actualState.robot.turn(2 * Math.PI / 3 + 0.1);   // 250, 580 <- 578, 208
+                    actualState.robot.moveLengthwise(550);
+                    actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
 
-                actualState.robot.turn(Math.PI);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
-                actualState.robot.moveLengthwise(distanceReculModule2);
-                //actualState.robot.goTo(point7AttrapperModule2);
+                    actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
+                    actualState.robot.moveLengthwise(-530, hooksToConsider);
+                    actualState.robot.turn(Math.PI / 2);
+                    actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                    actualState.robot.moveLengthwise(250);
 
-                //Prise de module 2
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
-                actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
-
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, true);
-
-                actualState.table.cylindreCratereDepart.isStillThere=false;
-                actualState.robot.moveLengthwise(distanceApresModule2);
-                actualState.obtainedPoints+=10;
-
+                    log.debug("position"+actualState.robot.getPosition());
+                    log.debug("positionFast"+actualState.robot.getPositionFast());
+                    log.debug("Orientation du HL :" + actualState.robot.getOrientationFast());
+                }
 
 
 
@@ -163,13 +141,12 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
     {
         try{
 
-            detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
+            prisePremierModule=Boolean.parseBoolean(config.getProperty("prisePremierModule"));
 
         } catch (ConfigPropertyNotFoundException e){
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
         }
     }
-
     @Override
     public void finalize(GameState state, Exception e) throws UnableToMoveException
     {

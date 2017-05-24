@@ -66,13 +66,10 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
         updateConfig();
         try{
 
-            if(detect) {
-                actualState.robot.switchSensor();
-            }
-
             if (versionToExecute==0)
             {
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,true);
+
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
@@ -131,8 +128,15 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
     public void updateConfig()
     {
         try{
+            point4arriveDevantCratereFond      = new Vec2(
+                    Integer.parseInt(config.getProperty("point4arriveDevantCratereFond_x")),
+                    Integer.parseInt(config.getProperty("point4arriveDevantCratereFond_y")));
+            posCratere1                        =new Vec2(
+                    Integer.parseInt(config.getProperty("posCratere1_x")),
+                    Integer.parseInt(config.getProperty("posCratere1_y")));
 
-            detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
+            angleDevantCratere1               = Double.parseDouble(config.getProperty("angleDevantCratere1"));
+            distanceCratereFondAvantBoules      = Integer.parseInt(config.getProperty("distanceCratereFondAvantBoules"));
 
         } catch (ConfigPropertyNotFoundException e){
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
