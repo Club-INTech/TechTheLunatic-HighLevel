@@ -19,6 +19,7 @@
 
 package tests;
 
+import com.sun.tracing.dtrace.StabilityLevel;
 import enums.ActuatorOrder;
 import enums.ScriptNames;
 import enums.Speed;
@@ -64,6 +65,7 @@ public class JUnit_Sensors extends JUnit_Test
 	SerialWrapper capteurs;
 	
 	private Locomotion mLocomotion;
+	private ScriptManager scriptManager;
 	
 	GameState state;
 
@@ -106,14 +108,25 @@ public class JUnit_Sensors extends JUnit_Test
 		log.debug("Test de detection");
 		container.startInstanciedThreads();
 
-		state.robot.switchSensor();
 		state.robot.setOrientation(Math.PI/2);
 
+		scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, state,new ArrayList<Hook>());
 		Thread.sleep(5000);
 		log.debug ("Orientation :" + state.robot.getOrientation());
 		log.debug("Position :" + state.robot.getPosition());
 
-		state.robot.moveLengthwiseAndWaitIfNeeded(800);
+		try {
+			state.robot.moveLengthwiseAndWaitIfNeeded(800);
+		}catch (EnnemyCrashedException e){
+			state.robot.turn(Math.PI/16, new ArrayList<Hook>(), false, true);
+			Sleep.sleep(3000);
+			state.robot.turn(Math.PI/16, new ArrayList<Hook>(), false, true);
+			Sleep.sleep(3000);
+			state.robot.turn(Math.PI/16, new ArrayList<Hook>(), false, true);
+			Sleep.sleep(3000);
+			state.robot.turn(Math.PI/16, new ArrayList<Hook>(), false, true);
+			Sleep.sleep(3000);
+		}
 
 		Thread.sleep(1000);
 		state.robot.switchSensor();
