@@ -38,6 +38,7 @@ import scripts.ScriptManager;
 import smartMath.Circle;
 import smartMath.Vec2;
 import strategie.GameState;
+import sun.awt.windows.ThemeReader;
 import table.Table;
 import table.obstacles.Obstacle;
 import threads.ThreadInterface;
@@ -107,10 +108,12 @@ public class JUnit_Sensors extends JUnit_Test
 
 		state.robot.switchSensor();
 		state.robot.setOrientation(Math.PI/2);
+
+		Thread.sleep(5000);
 		log.debug ("Orientation :" + state.robot.getOrientation());
 		log.debug("Position :" + state.robot.getPosition());
 
-		state.robot.moveLengthwiseAndWaitIfNeeded(500);
+		state.robot.moveLengthwiseAndWaitIfNeeded(800);
 
 		Thread.sleep(1000);
 		state.robot.switchSensor();
