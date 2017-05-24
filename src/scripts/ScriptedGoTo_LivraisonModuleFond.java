@@ -34,28 +34,11 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
 
     /** PointsVisés, dstances & angles du script, override par la config */
 
-    private Vec2 point1MilieuTable = new Vec2(580,800);
-    private Vec2 point2EntreeFinTable = new Vec2(850,1400);
-    private Vec2 point3AttrapperModule1 = new Vec2(850,1760);
-    private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
     private int distanceCratereFondApresBoules = -130;
     private double angleCratereFondAvantDepotModule = Math.PI/4;
     private int distanceCratereFondAvantDepotModule = -121;
-    private int distanceCratereFondApresDepotModule = 110;
-    private Vec2 point5sortieCratereFond=new Vec2(1150,1150);
-    private int distanceReculModule2=-110;
 
-    private Vec2 pointAvantModule2 = new Vec2(1080, 760);
-    private int distanceApresModule2=150;                                       //TODO: peut être voir comment réduire ça, il avance trop et tourne sur lui même
-
-    private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
-    private int distanceAvantDeposeBoules1=240;
-    private int distanceReculApresDepotBoule1=-200;
-
-    private Vec2 pointDevantCratere2 = new Vec2(1100, 650);
-
-    private boolean detect = false;
-
+    private double recalageThresholdOrientation;
 
 
     /**
@@ -81,26 +64,25 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
         updateConfig();
         try{
 
-            if(detect) {
-                actualState.robot.switchSensor();
-            }
+
 
             if (versionToExecute==0)
-            {
-                actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
-                //Livraison modules
-                actualState.robot.moveLengthwise(distanceCratereFondApresBoules);
-                actualState.robot.turn(angleCratereFondAvantDepotModule);
-                actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
-                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);    //Ralentit pour éviter de défoncer la zone
-                actualState.robot.moveLengthwise(distanceCratereFondAvantDepotModule);
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
-                actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-                actualState.robot.moveLengthwise(distanceCratereFondApresDepotModule);
-                actualState.robot.goTo(point5sortieCratereFond);
+            {actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
-                actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
+                actualState.robot.turn(angleCratereFondAvantDepotModule);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, false);
+
+                // Recalage en orientation
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
+                if(Math.abs(Math.abs(actualState.robot.getOrientation()) - Math.PI/4)< recalageThresholdOrientation) {
+                    actualState.robot.setOrientation(Math.PI / 4);
+                }
+
+                actualState.robot.setRempliDeBoules(true);
+                actualState.table.ballsCratereBaseLunaire.isStillThere=false;
+
 
 
 
@@ -155,13 +137,18 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
     public void updateConfig()
     {
         try{
+             distanceCratereFondApresBoules      = Integer.parseInt(config.getProperty("distanceCratereFondApresBoules"));
 
-            detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
+            angleCratereFondAvantDepotModule = Double.parseDouble(config.getProperty("angleCratereFondAvantDepotModule"));
+            distanceCratereFondAvantDepotModule = Integer.parseInt(config.getProperty("distanceCratereFondAvantDepotModule"));
+
+            recalageThresholdOrientation = Double.parseDouble(config.getProperty("tolerance_orientation_recalage"));
 
         } catch (ConfigPropertyNotFoundException e){
             log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
         }
     }
+
     public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
     {
         log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");
