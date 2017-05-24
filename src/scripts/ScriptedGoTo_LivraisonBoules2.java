@@ -31,27 +31,14 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
 
         /** PointsVisés, dstances & angles du script, override par la config */
 
-        private Vec2 point1MilieuTable = new Vec2(580,800);
-        private Vec2 point2EntreeFinTable = new Vec2(850,1400);
-        private Vec2 point3AttrapperModule1 = new Vec2(850,1760);
-        private Vec2 point4arriveDevantCratereFond = new Vec2(610,1810);
-        private int distanceCratereFondApresBoules = -130;
-        private double angleCratereFondAvantDepotModule = Math.PI/4;
-        private int distanceCratereFondAvantDepotModule = -121;
-        private int distanceCratereFondApresDepotModule = 110;
-        private Vec2 point5sortieCratereFond=new Vec2(1150,1150);
-        private int distanceReculModule2=-110;
+    /** Manoeuvre pour déposer les 2emes boules */
+    double angleAvantDeposeBoules           = -Math.PI/2 + 0.2;
+    int distanceAvantDeposeBoules2          = 200;
+    double angleDeposeBoules                = -Math.PI/2+0.1;
 
-        private Vec2 pointAvantModule2 = new Vec2(1080, 760);
-        private int distanceApresModule2=150;                                       //TODO: peut être voir comment réduire ça, il avance trop et tourne sur lui même
-
-        private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
-        private int distanceAvantDeposeBoules1=240;
-        private int distanceReculApresDepotBoule1=-200;
-
-        private Vec2 pointDevantCratere2 = new Vec2(1100, 650);
-
-        private boolean detect = false;
+    /** Manoeuvre de fin !*/
+    int distanceEsquiveRobot                = -120;
+    int distanceCratereBaseApresBoules      = -190;
 
 
 
@@ -78,25 +65,22 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
             updateConfig();
             try{
 
-                if(detect) {
-                    actualState.robot.switchSensor();
-                }
 
                 if (versionToExecute==0)
                 {
                     actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,true);
-                    actualState.robot.moveLengthwise(-150);
-                    actualState.robot.turn(-Math.PI/2);
-                    actualState.robot.moveLengthwise(150);
 
+                    // Livraison des 2emes boules
+                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseApresBoules);
+                    actualState.robot.turn(angleAvantDeposeBoules);
+                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules2, hooksToConsider, true, true);
+                    actualState.robot.turn(angleDeposeBoules);
 
-                    actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
-                    actualState.robot.useActuator(ActuatorOrder.PELLE_REASSERV, false);
-                    actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
-                    actualState.robot.setRempliDeBoules(true);
-                    actualState.obtainedPoints+=15;
+                    actualState.robot.livreBoules();
 
+                    actualState.robot.setRempliDeBoules(false);
 
+                    actualState.robot.moveLengthwise(distanceEsquiveRobot);
 
 
 
@@ -147,17 +131,26 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
             }
         }
 
-        @Override
-        public void updateConfig()
-        {
-            try{
+    @Override
+    public void updateConfig()
+    {
+        try{
+            distanceCratereBaseApresBoules      = Integer.parseInt(config.getProperty("distanceCratereBaseApresBoules"));
 
-                detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
+            angleAvantDeposeBoules           = Double.parseDouble(config.getProperty("angleAvantDeposeBoules"));
+            distanceAvantDeposeBoules2          = Integer.parseInt(config.getProperty("distanceAvantDeposeBoules2"));
+            angleDeposeBoules                = Double.parseDouble(config.getProperty("angleDeposeBoules"));
 
-            } catch (ConfigPropertyNotFoundException e){
-                log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
-            }
+            distanceEsquiveRobot                = Integer.parseInt(config.getProperty("distanceEsquiveRobot"));
+
+
+
+
+
+        } catch (ConfigPropertyNotFoundException e){
+            log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
         }
+    }
     public void finalize(GameState state, UnableToMoveException e) throws UnableToMoveException
     {
         log.debug("Exception " + e +"dans DropBalls : Lancement du finalize !");

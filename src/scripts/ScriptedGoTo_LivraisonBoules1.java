@@ -1,7 +1,6 @@
 package scripts;
 
-import enums.ActuatorOrder;
-import enums.ScriptNames;
+import enums.*;
 import exceptions.BadVersionException;
 import exceptions.BlockedActuatorException;
 import exceptions.ConfigPropertyNotFoundException;
@@ -31,13 +30,25 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
 
         /** PointsVisés, dstances & angles du script, override par la config */
 
-        private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
-        private int distanceAvantDeposeBoules1=240;
-        private int distanceReculApresDepotBoule1=-200;
+    /** Déplacements jusqu'à la zone de départ */
 
-        private boolean detect = false;
+    int distanceCratereFondApresDepotModule = 55;
 
+    Vec2 pointSortieCratereFond             = new Vec2(1115,1290);
+    Vec2 pointIntermediaireVersModule       = new Vec2(1115, 1005); //new Vec2(1115,850);
 
+    /** Manoeuvre pour attraper le 2e module */
+    Vec2 pointAvantModule2                  = new Vec2(985, 742); //anciennement 770
+    double angleDropModule2                 = Math.PI;
+    int distanceApresModule2                = 60;
+
+    /** Distance de recalage */
+    int distanceRecalage                    = -250;
+
+    /** Manoeuvre pour déposer les 1eres boules */
+    int distanceAvantDeposeBoules1          = 205;
+
+    private double recalageThresholdOrientation;
 
         /**
          * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -62,25 +73,73 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
             updateConfig();
             try{
 
-                if(detect) {
-                    actualState.robot.switchSensor();
-                }
-
                 if (versionToExecute==0)
                 {
+
                     actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
-                    //actualState.robot.goTo(pointAvantDeposeBoules1);
+
+                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresDepotModule);
+
+                    // Aller vers la zone de départ
+                    actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
+
                     actualState.robot.turn(-Math.PI/2);
-                    actualState.robot.moveLengthwise(distanceAvantDeposeBoules1);
 
-                    actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
-                    actualState.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
-                    actualState.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
-                    actualState.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+                    actualState.robot.goTo(pointIntermediaireVersModule);
 
-                    actualState.robot.moveLengthwise(distanceReculApresDepotBoule1);
+                    // Prise du 2e module (celui de la zone de départ)
+                    actualState.robot.goTo(pointAvantModule2, hooksToConsider);
+
+                    actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_BACK_MOTION);
+
+                    actualState.robot.turn(angleDropModule2);
+
+
+                    // Recalage
+                    actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                    actualState.robot.moveLengthwise(distanceRecalage, new ArrayList<Hook>(), true, false);
+                    Vec2 newPos = actualState.robot.getPosition();
+                    newPos.setX(1220);
+                    actualState.robot.setPosition(newPos);
+
+                    log.debug("Orientation :" + actualState.robot.getOrientationFast());
+
+                    if (Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI) < recalageThresholdOrientation){
+                        log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI));
+                        actualState.robot.setOrientation(Math.PI);
+                    }
+
+                    actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
+                    actualState.robot.prendModule(Side.LEFT);
+
+                    actualState.table.ballsCratereDepart.isStillThere=false;
+                    actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
+
+                    actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+
+                    // Replie des actionneurs arrières et drop le second module
+                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+                    actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
+                    actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
+                    actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+
+                    actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
+
+                    actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+
+                    actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
+
+                    // Livraison des 1eres boules
+                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
+                    actualState.robot.turn(-Math.PI/2+0.15);
+                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1, hooksToConsider, true, true);
+                    actualState.robot.turn(-Math.PI/2);
+
+                    actualState.robot.livreBoules();
+
                     actualState.robot.setRempliDeBoules(false);
-                    actualState.obtainedPoints+=15;
 
 
 
@@ -136,17 +195,37 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
             }
         }
 
-        @Override
-        public void updateConfig()
-        {
-            try{
+    @Override
+    public void updateConfig()
+    {
+        try{
+            distanceCratereFondApresDepotModule = Integer.parseInt(config.getProperty("distanceCratereFondApresDepotModule"));
 
-                detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
+            pointSortieCratereFond             = new Vec2(
+                    Integer.parseInt(config.getProperty("pointSortieCratereFond_x")),
+                    Integer.parseInt(config.getProperty("pointSortieCratereFond_y")));
 
-            } catch (ConfigPropertyNotFoundException e){
-                log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
-            }
+            pointIntermediaireVersModule      = new Vec2(
+                    Integer.parseInt(config.getProperty("pointIntermediaireVersModule_x")),
+                    Integer.parseInt(config.getProperty("pointIntermediaireVersModule_y")));
+
+            pointAvantModule2                 = new Vec2(
+                    Integer.parseInt(config.getProperty("pointAvantModule2_x")),
+                    Integer.parseInt(config.getProperty("pointAvantModule2_y")));
+
+            angleDropModule2                 = Double.parseDouble(config.getProperty("angleDropModule2"));
+            distanceApresModule2                = Integer.parseInt(config.getProperty("distanceApresModule2"));
+
+            distanceRecalage                    = Integer.parseInt(config.getProperty("distanceRecalage"));
+
+            distanceAvantDeposeBoules1          = Integer.parseInt(config.getProperty("distanceAvantDeposeBoules1"));
+
+            recalageThresholdOrientation = Double.parseDouble(config.getProperty("tolerance_orientation_recalage"));
+
+        } catch (ConfigPropertyNotFoundException e){
+            log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
         }
+    }
 
         @Override
         public void finalize(GameState state, Exception e) throws UnableToMoveException
