@@ -472,7 +472,7 @@ public class ThreadSensor extends AbstractThread
         }catch(Exception e){
             e.printStackTrace();
         }
-
+        
         mTable.getObstacleManager().addObstacle(posEn, radius, lifetimeForUntestedObstacle);
     }
 
