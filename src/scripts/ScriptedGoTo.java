@@ -108,6 +108,7 @@ public class ScriptedGoTo extends AbstractScript
     @Override
     public void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException,SerialConnexionException
     {
+
         updateConfig();
         try{
 
