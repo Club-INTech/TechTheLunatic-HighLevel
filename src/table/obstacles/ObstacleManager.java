@@ -641,13 +641,17 @@ public class ObstacleManager
 			newAim.setA(aim.getA() - orientation);
 
 			out.newLine();
+			out.newLine();
+
 			out.write("Position de visée (référentiel du robot) :" + newAim);
+			out.newLine();
+			out.write("Position du robot (table) :" + pos);
 
 			if (Math.abs(ennemyPos.getY()) < (mEnnemyRadius + mRobotRadius + 40) && Math.abs(ennemyPos.getX()) < (distance + mEnnemyRadius + mRobotRadius)) {
 				out.newLine();
 				out.write("Condition rectangle vérifiée");
 				out.newLine();
-				out.write("Produit scalaire :" + closestEnnemy.position.dot(newAim));
+				out.write("Produit scalaire :" + ennemyPos.dot(newAim));
 				out.flush();
 				return (ennemyPos.dot(newAim) > 0);
 			}

@@ -130,7 +130,7 @@ public class ScriptedGoTo extends AbstractScript
                 if (prisePremierModule) {
 
                     actualState.robot.setOrientation(Math.PI);
-                    actualState.robot.setPosition(new Vec2(605,194));
+                    actualState.robot.setPosition(new Vec2(620,194));
 
                     // Avec le Hook pour prendre le module multicolore pret de la zone de départ
                     actualState.robot.moveLengthwiseAndWaitIfNeeded(75);
