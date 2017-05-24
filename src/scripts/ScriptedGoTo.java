@@ -212,6 +212,8 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
+                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+
 
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
