@@ -669,7 +669,7 @@ public class Locomotion implements Service
         	if(mustDetect) {
                 if (!basicDetection)
                     if(!turnOnly) {
-                        detectEnemyAtDistance2(aim.minusNewVector(highLevelPosition.clone()));    // 85 mm est une bonne distance pour être safe.
+                        detectEnemyAtDistance2((int)(detectionDistance*1.2), aim.minusNewVector(highLevelPosition.clone()));    // 85 mm est une bonne distance pour être safe.
                     }
                     else{
                         detectEnemyAtDistance(250, aim);
@@ -1016,9 +1016,9 @@ public class Locomotion implements Service
      * @param movementDirection direction du robot
      * @throws UnexpectedObstacleOnPathException si l'obstacle est sur le chemin
      */
-    public void detectEnemyAtDistance2(Vec2 movementDirection) throws UnexpectedObstacleOnPathException
+    public void detectEnemyAtDistance2(int distance, Vec2 movementDirection) throws UnexpectedObstacleOnPathException
     {
-        if(table.getObstacleManager().isEnnemyForwardorBackWard(detectionDistance, highLevelPosition, movementDirection, highLevelOrientation)){
+        if(table.getObstacleManager().isEnnemyForwardorBackWard(distance, highLevelPosition, movementDirection, highLevelOrientation)){
             log.debug("DetectEnemyAtDistance voie un ennemi sur le chemin");
             immobilise();
             throw new UnexpectedObstacleOnPathException();

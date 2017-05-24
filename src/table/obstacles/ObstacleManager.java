@@ -643,7 +643,7 @@ public class ObstacleManager
 			out.newLine();
 			out.write("Position de visée (référentiel du robot) :" + newAim);
 
-			if (Math.abs(ennemyPos.getY()) < (mEnnemyRadius + mRobotRadius) && Math.abs(ennemyPos.getX()) < (distance + mEnnemyRadius + mRobotRadius)) {
+			if (Math.abs(ennemyPos.getY()) < (mEnnemyRadius + mRobotRadius + 40) && Math.abs(ennemyPos.getX()) < (distance + mEnnemyRadius + mRobotRadius)) {
 				out.newLine();
 				out.write("Condition rectangle vérifiée");
 				out.newLine();
