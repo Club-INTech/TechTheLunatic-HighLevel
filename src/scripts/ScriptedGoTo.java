@@ -107,6 +107,7 @@ public class ScriptedGoTo extends AbstractScript
     @Override
     public void execute(int versionToExecute, GameState actualState, ArrayList<Hook> hooksToConsider) throws ExecuteException, UnableToMoveException, BlockedActuatorException,SerialConnexionException
     {
+
         updateConfig();
         try{
 
@@ -340,6 +341,78 @@ public class ScriptedGoTo extends AbstractScript
     public void updateConfig()
     {
         try{
+
+            prisePremierModule=Boolean.parseBoolean(config.getProperty("prisePremierModule"));
+
+            point1MilieuTable                  =new Vec2(
+                    Integer.parseInt(config.getProperty("point1MilieuTable_x")),
+                    Integer.parseInt(config.getProperty("point1MilieuTable_y")));
+
+            point2EntreeFinTable= new Vec2(
+                    Integer.parseInt(config.getProperty("point2EntreeFinTable_x")),
+                    Integer.parseInt(config.getProperty("point2EntreeFinTable_y")));
+
+
+            pointContournementModule       = new Vec2(
+                    Integer.parseInt(config.getProperty("pointContournementModule_x")),
+                    Integer.parseInt(config.getProperty("pointContournementModule_y")));
+
+            point3AttrapperModule1           = new Vec2(
+                    Integer.parseInt(config.getProperty("point3AttrapperModule1_x")),
+                    Integer.parseInt(config.getProperty("point3AttrapperModule1_y")));
+            angleAttraperModule1             = Double.parseDouble(config.getProperty("angleAttraperModule1"));
+
+            point4arriveDevantCratereFond      = new Vec2(
+                    Integer.parseInt(config.getProperty("point4arriveDevantCratereFond_x")),
+                    Integer.parseInt(config.getProperty("point4arriveDevantCratereFond_y")));
+            posCratere1                        =new Vec2(
+                    Integer.parseInt(config.getProperty("posCratere1_x")),
+                    Integer.parseInt(config.getProperty("posCratere1_y")));
+
+            angleDevantCratere1               = Double.parseDouble(config.getProperty("angleDevantCratere1"));
+            distanceCratereFondAvantBoules      = Integer.parseInt(config.getProperty("distanceCratereFondAvantBoules"));
+            distanceCratereFondApresBoules      = Integer.parseInt(config.getProperty("distanceCratereFondApresBoules"));
+
+            angleCratereFondAvantDepotModule = Double.parseDouble(config.getProperty("angleCratereFondAvantDepotModule"));
+            distanceCratereFondAvantDepotModule = Integer.parseInt(config.getProperty("distanceCratereFondAvantDepotModule"));
+            distanceCratereFondApresDepotModule = Integer.parseInt(config.getProperty("distanceCratereFondApresDepotModule"));
+
+            pointSortieCratereFond             = new Vec2(
+                    Integer.parseInt(config.getProperty("pointSortieCratereFond_x")),
+                    Integer.parseInt(config.getProperty("pointSortieCratereFond_y")));
+
+            pointIntermediaireVersModule      = new Vec2(
+                    Integer.parseInt(config.getProperty("pointIntermediaireVersModule_x")),
+                    Integer.parseInt(config.getProperty("pointIntermediaireVersModule_y")));
+
+            pointAvantModule2                 = new Vec2(
+                    Integer.parseInt(config.getProperty("pointAvantModule2_x")),
+                    Integer.parseInt(config.getProperty("pointAvantModule2_y")));
+
+            angleDropModule2                 = Double.parseDouble(config.getProperty("angleDropModule2"));
+            distanceApresModule2                = Integer.parseInt(config.getProperty("distanceApresModule2"));
+
+            distanceRecalage                    = Integer.parseInt(config.getProperty("distanceRecalage"));
+
+            distanceAvantDeposeBoules1          = Integer.parseInt(config.getProperty("distanceAvantDeposeBoules1"));
+            distanceReculApresDepotBoule1       = Integer.parseInt(config.getProperty("distanceReculApresDepotBoule1"));
+
+            posCratere2                        = new Vec2(
+                    Integer.parseInt(config.getProperty("posCratere2_x")),
+                    Integer.parseInt(config.getProperty("posCratere2_y")));
+
+            distanceCratereBaseAvantBoules      = Integer.parseInt(config.getProperty("distanceCratereBaseAvantBoules"));
+            distanceCratereBaseApresBoules      = Integer.parseInt(config.getProperty("distanceCratereBaseApresBoules"));
+
+            angleAvantDeposeBoules           = Double.parseDouble(config.getProperty("angleAvantDeposeBoules"));
+            distanceAvantDeposeBoules2          = Integer.parseInt(config.getProperty("distanceAvantDeposeBoules2"));
+            angleDeposeBoules                = Double.parseDouble(config.getProperty("angleDeposeBoules"));
+
+            distanceEsquiveRobot                = Integer.parseInt(config.getProperty("distanceEsquiveRobot"));
+
+
+
+
 
             detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
             recalageThresholdOrientation = Double.parseDouble(config.getProperty("tolerance_orientation_recalage"));

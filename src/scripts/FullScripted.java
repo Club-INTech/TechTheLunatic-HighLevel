@@ -306,7 +306,7 @@ public class FullScripted extends AbstractScript
     public void updateConfig()
     {
         try{
-            angleToQuitBase = Double.parseDouble(config.getProperty("angle_quit_base"));
+            /* angleToQuitBase = Double.parseDouble(config.getProperty("angle_quit_base"));
             distanceToQuitBase = Integer.parseInt(config.getProperty("distance_quit_base"));
             angleToFarZone = Double.parseDouble(config.getProperty("angle_zone_1erCratere"));
             distanceToFarZone = Integer.parseInt(config.getProperty("distance_zone_1erCratere"));
@@ -341,7 +341,7 @@ public class FullScripted extends AbstractScript
             distanceToDisengageCloseZone = Integer.parseInt(config.getProperty("distance_degagement_zone_2ndCratere"));
             angleBeforeCatch2ndBalls = Double.parseDouble(config.getProperty("angle_av_catch_2ndBalls"));
             distanceBeforeCatch2ndBalls = Integer.parseInt(config.getProperty("distance_av_catch_2ndBalls"));
-            finalMove = Integer.parseInt(config.getProperty("dernier_move"));
+            finalMove = Integer.parseInt(config.getProperty("dernier_move"));*/
 
             detect = Boolean.parseBoolean(config.getProperty("capteurs_on"));
 
