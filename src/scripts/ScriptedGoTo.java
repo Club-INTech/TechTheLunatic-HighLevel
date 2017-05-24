@@ -34,7 +34,7 @@ public class ScriptedGoTo extends AbstractScript
     /** PointsVisés, dstances & angles du script, override par la config */
 
     /** On prend le premier module */
-    boolean prisePremierModule=false;
+    boolean prisePremierModule=true;
 
     /** Déplacements jusqu'à la zone du fond */
     Vec2 point1MilieuTable                  = new Vec2(540,800);
