@@ -54,10 +54,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour drop le 1er module */
     double angleCratereFondAvantDepotModule = Math.PI/4;
-    int distanceCratereFondAvantDepotModule = -120;
-
-    int distanceCratereFondAvantRecalage    = -20;
-
+    int distanceCratereFondAvantDepotModule = -135;
     int distanceCratereFondApresDepotModule = 55;
 
     /** Déplacements jusqu'à la zone de départ */
@@ -192,11 +189,10 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, true);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, false);
 
                 // Recalage en orientation
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-                actualState.robot.moveLengthwise(distanceCratereFondAvantRecalage, new ArrayList<Hook>(), true, false);
 
                 if(Math.abs(Math.abs(actualState.robot.getOrientation()) - Math.PI/4)< recalageThresholdOrientation) {
                     actualState.robot.setOrientation(Math.PI / 4);
@@ -318,7 +314,6 @@ public class ScriptedGoTo extends AbstractScript
             log.critical("Robot ou actionneur bloqué dans ScriptedGoTo");
             finalize(actualState, e);
             throw e;
-
         }
     }
 
