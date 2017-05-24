@@ -34,7 +34,7 @@ public class ScriptedGoTo extends AbstractScript
     /** PointsVisés, dstances & angles du script, override par la config */
 
     /** On prend le premier module */
-    boolean prisePremierModule=false;
+    boolean prisePremierModule=true;
 
     /** Déplacements jusqu'à la zone du fond */
     Vec2 point1MilieuTable                  = new Vec2(540,800);
@@ -71,11 +71,10 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour déposer les 1eres boules */
     int distanceAvantDeposeBoules1          = 205;
-    int distanceReculApresDepotBoule1       = -200;
+    int distanceReculApresDepotBoule1       = -180;
 
     /** Manoeuvre pour prendre les 2emes boules */
     Vec2 posCratere2                        = new Vec2(850, 540);
-    double angleCorrectionCratere2          = -0.3;
     int distanceCratereBaseAvantBoules      = 235;
     int distanceCratereBaseApresBoules      = -190;
 
@@ -280,8 +279,6 @@ public class ScriptedGoTo extends AbstractScript
 
                 // Prise des 2emes boules
                 actualState.robot.turnTo(posCratere2);
-
-                actualState.robot.turn(angleCorrectionCratere2, hooksToConsider,true, true);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseAvantBoules);
 

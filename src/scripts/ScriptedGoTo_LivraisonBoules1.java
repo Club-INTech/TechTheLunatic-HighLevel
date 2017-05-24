@@ -29,15 +29,15 @@ import java.util.ArrayList;
 public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
 
 
-        /** PointsVisés, dstances & angles du script, override par la config */
+        /** Point d'entrée du script */
+        Vec2 entryPos = new Vec2(1180,1000);
 
+        /** Manoeuvre pour déposer les 1eres boules */
         private Vec2 pointAvantDeposeBoules1 = new Vec2(1150, 790);
         private int distanceAvantDeposeBoules1=240;
         private int distanceReculApresDepotBoule1=-200;
 
         private boolean detect = false;
-
-
 
         /**
          * Constructeur à appeller lorsqu'un script héritant de la classe AbstractScript est instancié.
@@ -81,23 +81,6 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
                     actualState.robot.moveLengthwise(distanceReculApresDepotBoule1);
                     actualState.robot.setRempliDeBoules(false);
                     actualState.obtainedPoints+=15;
-
-
-
-
-
-
-
-
-                    //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements
-                    //Hook prise module 1
-                    Hook PriseModule = hookFactory.newPositionHook(new Vec2(80, 1850), (float) Math.PI/2, 100, 10000);
-                    PriseModule.addCallback(new Callback(new PriseModule(), true, actualState));
-                    hooksToConsider.add(PriseModule);
-                    //Hook repli du largue module
-                    Hook ReposLargueModule = hookFactory.newPositionHook(new Vec2(550, 1650), (float) -Math.PI/4, 100, 10000);
-                    ReposLargueModule.addCallback(new Callback(new ReposLargueModule(), true, actualState));
-                    hooksToConsider.add(ReposLargueModule);
 
                 }
 

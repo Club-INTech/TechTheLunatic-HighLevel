@@ -336,15 +336,12 @@ public class ThreadSensor extends AbstractThread
         Vec2 vec = new Vec2();
         boolean isValue = true;
 
-        R1 = USvalues.get(0) + radius;
-        R2 = USvalues.get(1) + radius;
+        R1 = USvalues.get(0) + (int) (radius*0.8);
+        R2 = USvalues.get(1) + (int) (radius*0.8);
         robotY = ((square(R1) - square(R2))/(double)(4*positionRF.getY()));
         Integer Y = new Integer((int) robotY);
 
         b = -2 * positionLF.getX();
-        // c = square(positionLF.getX()) - 0.5*(square(R1) + square(R2)) + square(positionLF.getY());
-
-        // delta = b*b - 4*c;
         delta = 2*(square(R1) + square(R2)) - square(positionLF.getY());
 
         if (delta > 1) {
@@ -391,8 +388,8 @@ public class ThreadSensor extends AbstractThread
         Vec2 vec = new Vec2();
         boolean isValue = true;
 
-        R1 = USvalues.get(2) + radius;
-        R2 = USvalues.get(3) + radius;
+        R1 = USvalues.get(2) + (int)(radius*0.8);
+        R2 = USvalues.get(3) + (int)(radius*0.8);
         robotY = ((square(R1) - square(R2))/(double)(4*positionRF.getY()));
         Integer Y = new Integer((int) robotY);
 
@@ -451,12 +448,12 @@ public class ThreadSensor extends AbstractThread
             // à longue distance (>1m au vue des dimensions), l'ennemie est en réalité de l'autre coté
             Vec2 posDetect = new Vec2(USFL, angleLF + detectionAngle/2);
             double angleEn = angleRF + detectionAngle/2;
-            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionLF);
+            posEn = posDetect.plusNewVector(new Vec2(radius*0.8, angleEn)).plusNewVector(positionLF);
         }
         else{
             Vec2 posDetect = new Vec2(USFR, angleRF - detectionAngle/2);
             double angleEn = angleLF - detectionAngle/2;
-            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRF);
+            posEn = posDetect.plusNewVector(new Vec2(radius*0.8, angleEn)).plusNewVector(positionRF);
         }
 
         try{
@@ -490,12 +487,12 @@ public class ThreadSensor extends AbstractThread
         if (isLeft){
             Vec2 posDetect = new Vec2(USBL,angleLB - detectionAngle/2);
             double angleEn = angleRB - detectionAngle/2;
-            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionLB);
+            posEn = posDetect.plusNewVector(new Vec2(radius*0.8, angleEn)).plusNewVector(positionLB);
         }
         else{
             Vec2 posDetect = new Vec2(USBF,angleRB + detectionAngle/2);
             double angleEn = angleLB + detectionAngle/2;
-            posEn = posDetect.plusNewVector(new Vec2(radius, angleEn)).plusNewVector(positionRB);
+            posEn = posDetect.plusNewVector(new Vec2(radius*0.8, angleEn)).plusNewVector(positionRB);
         }
 
         try{
