@@ -273,7 +273,7 @@ public class ObstacleManager
     	//vérification que l'on ne détecte pas un obstacle "normal"
     	if (position.getX()>-1500+mEnnemyRadius-50 && position.getX()<1500- mEnnemyRadius+50 && position.getY() >mEnnemyRadius-80 && position.getY()<2000-mEnnemyRadius+80  // Hors de la table
 				&& position.minusNewVector(new Vec2(0, 2000)).length() > 815 + mEnnemyRadius  // Dans la base lunaire
-				&& (position.getX() < 600 || position.getY() < 500)) // Dans la zone de départ
+				&& !(position.getX() > 600 && position.getY() < 500)) // Dans la zone de départ
 			// TODO: Prévoir les cas où l'on détecte des éléments de jeu dans la condition
     	{
     		boolean isThereAnObstacleIntersecting=false;
@@ -311,7 +311,7 @@ public class ObstacleManager
     		for(int i = 0; i<mMobileObstacles.size(); i++)
     		{
     			ObstacleProximity obstacle = mMobileObstacles.get(i);
-    			if(obstacle.position.distance(position)<obstacle.getRadius()+radius && (crashRobot == 0 || mMobileObstacles.get(0).getPosition().distance(obstacle.getPosition()) > (mEnnemyRadius + mRobotRadius)/2))
+    			if(obstacle.position.distance(position) < obstacle.getRadius()+radius && (crashRobot == 0 || mMobileObstacles.get(0).getPosition().distance(obstacle.getPosition()) > (mEnnemyRadius + mRobotRadius)/2))
     			{
     				isThereAnObstacleIntersecting=true;
     				
@@ -673,22 +673,25 @@ public class ObstacleManager
 		{
 			//si aucun ennemi n'est détecté, on suppose que l'ennemi le plus proche est à 1m)
 
-			int squaredDistanceToClosestEnemy = 10000000;
-			int squaredDistanceToEnemyTested=10000000 ;
+			int distanceToClosestEnemy = 10000000;
+			int distanceToEnemyTested=10000000 ;
 
 			ObstacleProximity closestEnnemy = null;
 
 			if(mMobileObstacles.size() == 0){
+				log.debug("Pas d'ennemi sur la table");
 				return null;
 			}
+
 			//trouve l'ennemi le plus proche parmis les obstacles confirmés
 			for(int i=0; i<mMobileObstacles.size(); i++)
 			{
 				Vec2 ennemyRelativeCoords = mMobileObstacles.get(i).getPosition().minusNewVector(position);
-				squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
-				if(squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy)
+				distanceToEnemyTested = (int) ennemyRelativeCoords.length();
+
+				if(distanceToEnemyTested < distanceToClosestEnemy)
 				{
-					squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
+					distanceToClosestEnemy = distanceToEnemyTested;
 					closestEnnemy = mMobileObstacles.get(i);
 				}
 			}
