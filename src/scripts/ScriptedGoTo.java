@@ -82,7 +82,7 @@ public class ScriptedGoTo extends AbstractScript
     /** Manoeuvre pour déposer les 2emes boules */
     double angleAvantDeposeBoules           = -Math.PI/2 + 0.2;
     int distanceAvantDeposeBoules2          = 200;
-    double angleDeposeBoules                = -Math.PI/2+0.1;
+    double angleDeposeBoules                = -Math.PI/2+0.2;
 
     /** Action bonus */
     Vec2 bonus1                             = new Vec2(850, 1000);
@@ -303,7 +303,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1, hooksToConsider, true, true);
-                actualState.robot.turn(angleDeposeBoules, new ArrayList<Hook>(), true, false);
+                //actualState.robot.turn(angleDeposeBoules, new ArrayList<Hook>(), true, false);
 
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
