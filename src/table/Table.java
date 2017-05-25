@@ -102,6 +102,11 @@ public class Table implements Service
 		cylindreCratereBase =new Cylindre(new Vec2(700,1850),ColorModule.BLUE);
 		cylindreDevantBase =new Cylindre(new Vec2(600,1400),ColorModule.MULTI);
 		cylindrePleinMilieu =new Cylindre(new Vec2(1000,1100),ColorModule.MULTI);
+
+		if(symetry)
+		{
+			entryPosition = new Vec2(560, 176);
+		}
 		// TODO : initialiser les éléments de jeu définis plus haut
 	}
 
