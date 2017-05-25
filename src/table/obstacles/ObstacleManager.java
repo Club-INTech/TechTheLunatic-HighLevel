@@ -647,7 +647,7 @@ public class ObstacleManager
 			out.newLine();
 			out.write("Position du robot (table) :" + pos);
 
-			if (Math.abs(ennemyPos.getY()) < (mEnnemyRadius + mRobotRadius + 40) && Math.abs(ennemyPos.getX()) < (distance + mEnnemyRadius + mRobotRadius)) {
+			if (Math.abs(ennemyPos.getY()) < (mEnnemyRadius + mRobotRadius + 20) && Math.abs(ennemyPos.getX()) < (distance + mEnnemyRadius + mRobotRadius)) {
 				out.newLine();
 				out.write("Condition rectangle vérifiée");
 				out.newLine();
@@ -679,7 +679,6 @@ public class ObstacleManager
 			ObstacleProximity closestEnnemy = null;
 
 			if(mMobileObstacles.size() == 0){
-				log.debug("Pas d'ennemi sur la table");
 				return null;
 			}
 

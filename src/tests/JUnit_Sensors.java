@@ -78,45 +78,44 @@ public class JUnit_Sensors extends JUnit_Test
 	{
 		super.setUp();
 		state = container.getService(GameState.class);
+		scriptManager = container.getService(ScriptManager.class);
 
 		log.debug("JUnit_ActionneursTest.setUp()");
 		capteurs = container.getService(SerialWrapper.class);
 		
 		config.set("capteurs_on", "true");
-		capteurs.updateConfig();
 				
 		//Locomotion
 		mLocomotion = container.getService(Locomotion.class);
 
-		mLocomotion.setPosition(Table.entryPosition);// milieu de table
+		mLocomotion.setPosition(Table.entryPosition); // milieu de table
 		mLocomotion.setOrientation(Math.PI);
 
         container.getService(ThreadInterface.class);
         container.getService(ThreadSerial.class);
+		container.getService(ThreadSensor.class);
         container.getService(Log.class);
         container.getService(Table.class);
+
         config = container.getService(Config.class);
         config.updateConfig();
-
-        container.getService(ThreadSensor.class);
 	}
 
 	@Test
-
 	public void testDetect() throws Exception
 	{
 		log.debug("Test de detection");
 		container.startInstanciedThreads();
-
-		state.robot.setOrientation(Math.PI/2);
+		Sleep.sleep(5000);
+		state.robot.setOrientation(-Math.PI/2);
 
 		scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, state,new ArrayList<Hook>());
-		Thread.sleep(5000);
+		Thread.sleep(2000);
 		log.debug ("Orientation :" + state.robot.getOrientation());
 		log.debug("Position :" + state.robot.getPosition());
 
 		try {
-			state.robot.moveLengthwiseAndWaitIfNeeded(800);
+			state.robot.moveLengthwiseAndWaitIfNeeded(-800);
 		}catch (EnnemyCrashedException e){
 			state.robot.turn(Math.PI/16, new ArrayList<Hook>(), false, true);
 			Sleep.sleep(3000);

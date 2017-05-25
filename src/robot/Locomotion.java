@@ -669,7 +669,7 @@ public class Locomotion implements Service
         	if(mustDetect) {
                 if (!basicDetection) {
                     if (!turnOnly) {
-                        detectEnemyAtDistance2((int) (detectionDistance * 1.2), aim.minusNewVector(highLevelPosition.clone()));    // 85 mm est une bonne distance pour être safe.
+                        detectEnemyAtDistance2((int) (detectionDistance*0.8), aim.minusNewVector(highLevelPosition.clone()));    // 85 mm est une bonne distance pour être safe.
                     } else {
                         detectEnemyAtDistance(250, aim);
                     }
