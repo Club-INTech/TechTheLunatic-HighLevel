@@ -461,6 +461,17 @@ public class ScriptedGoTo extends AbstractScript
 
             distanceEsquiveRobot                = Integer.parseInt(config.getProperty("distanceEsquiveRobot"));
 
+             bonus1                             = new Vec2(
+                     Integer.parseInt(config.getProperty("bonus1_x")),
+                     Integer.parseInt(config.getProperty("bonus1_y")));
+
+            bonus2                             = new Vec2(
+                    Integer.parseInt(config.getProperty("bonus2_x")),
+                    Integer.parseInt(config.getProperty("bonus2_y")));
+
+            dernierePos                        = new Vec2(
+                    Integer.parseInt(config.getProperty("dernierePos_x")),
+                    Integer.parseInt(config.getProperty("dernierePos_y")));
 
 
 
