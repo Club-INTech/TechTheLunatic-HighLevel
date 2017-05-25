@@ -143,6 +143,7 @@ public class Main {
 			}
 		} catch (Exception k) {
 			System.out.println("bon je bug hard");
+			k.printStackTrace();
 		}
 
 	}
