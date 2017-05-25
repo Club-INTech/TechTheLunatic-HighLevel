@@ -229,6 +229,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereBaseLunaire.isStillThere=false;
 
+                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true); // si on a foiré le module la première fois
+
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
