@@ -124,7 +124,7 @@ public class ScriptedGoTo extends AbstractScript
             repliTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
             Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 25, 400);
             prepareToCatch2ndMod.addCallback(new Callback(new PrepareToCatchModG(), true, actualState));
-            Hook elevatorSecurity = hookFactory.newPositionHook(posCratere2,(float) (3*Math.PI/4), 400, 300);
+            Hook elevatorSecurity = hookFactory.newPositionHook(posCratere2,(float) (3*Math.PI/4), 400, 500);
             elevatorSecurity.addCallback(new Callback(new Elevator(), true, actualState));
 
             hooksToConsider.add(repliTout);
@@ -493,7 +493,7 @@ public class ScriptedGoTo extends AbstractScript
 
             distanceEsquiveRobot                = Integer.parseInt(config.getProperty("distanceEsquiveRobot"));
 
-             bonus1                             = new Vec2(
+            bonus1                             = new Vec2(
                      Integer.parseInt(config.getProperty("bonus1_x")),
                      Integer.parseInt(config.getProperty("bonus1_y")));
 
