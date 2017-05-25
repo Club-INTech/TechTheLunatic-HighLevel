@@ -40,10 +40,12 @@ public class ScriptedGoTo extends AbstractScript
     /** Déplacements jusqu'à la zone du fond */
     Vec2 point1MilieuTable                  = new Vec2(540,800);
     Vec2 point2EntreeFinTable               = new Vec2(805,900);
-    Vec2 pointContournementModule           = new Vec2(805, 1560);
+    Vec2 pointContournementModuleJaune           = new Vec2(805, 1560);
+    Vec2 pointContournementModuleBleu         = new Vec2(805, 1560);
 
     /** Manoeuvre pour attraper le 1er module */
-    Vec2 point3AttrapperModule1             = new Vec2(805,1725);
+    Vec2 point3AttrapperModuleJaune            = new Vec2(805,1725);
+    Vec2 point3AttrapperModuleBleu           = new Vec2(805,1725);
     double angleAttraperModule1             = -3*Math.PI/4;
 
     /** Manoeuvre pour attraper les 1eres boules */
@@ -163,17 +165,35 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.goTo(point1MilieuTable);
                 actualState.robot.goTo(point2EntreeFinTable);
+                 try {
+                     if (config.getProperty("couleur").equals("jaune")) {
+                         actualState.robot.goTo(pointContournementModuleJaune);
 
-                actualState.robot.goTo(pointContournementModule);
+                         // actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-                // actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                         actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                         actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
 
-                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                         // Prise du module 1er module (celui du fond)
 
-                // Prise du module 1er module (celui du fond)
+                         actualState.robot.goTo(point3AttrapperModuleJaune);
+                     } else {
 
-                actualState.robot.goTo(point3AttrapperModule1);
+                         actualState.robot.goTo(pointContournementModuleBleu);
+
+                         // actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
+                         actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                         actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+
+                         // Prise du module 1er module (celui du fond)
+
+                         actualState.robot.goTo(point3AttrapperModuleBleu);
+
+                     }
+                 } catch(ConfigPropertyNotFoundException e) {
+                     e.printStackTrace();
+                 }
 
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
                 actualState.robot.turn(angleAttraperModule1);
@@ -407,13 +427,22 @@ public class ScriptedGoTo extends AbstractScript
                     Integer.parseInt(config.getProperty("point2EntreeFinTable_y")));
 
 
-            pointContournementModule       = new Vec2(
-                    Integer.parseInt(config.getProperty("pointContournementModule_x")),
+            pointContournementModuleJaune       = new Vec2(
+                    Integer.parseInt(config.getProperty("pointContournementModule_x_jaune")),
                     Integer.parseInt(config.getProperty("pointContournementModule_y")));
 
-            point3AttrapperModule1           = new Vec2(
-                    Integer.parseInt(config.getProperty("point3AttrapperModule1_x")),
+            pointContournementModuleBleu      = new Vec2(
+                    Integer.parseInt(config.getProperty("pointContournementModule_x_bleu")),
+                    Integer.parseInt(config.getProperty("pointContournementModule_y")));
+
+            point3AttrapperModuleJaune        = new Vec2(
+                    Integer.parseInt(config.getProperty("point3AttrapperModule1_x_jaune")),
                     Integer.parseInt(config.getProperty("point3AttrapperModule1_y")));
+
+            point3AttrapperModuleBleu        = new Vec2(
+                    Integer.parseInt(config.getProperty("point3AttrapperModule1_x_bleu")),
+                    Integer.parseInt(config.getProperty("point3AttrapperModule1_y")));
+
             angleAttraperModule1             = Double.parseDouble(config.getProperty("angleAttraperModule1"));
 
             point4arriveDevantCratereFond      = new Vec2(
