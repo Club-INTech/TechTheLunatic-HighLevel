@@ -76,7 +76,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour prendre les 2emes boules */
     Vec2 posCratere2                        = new Vec2(850, 540);
-    int distanceCratereBaseAvantBoules      = 230;
+    int distanceCratereBaseAvantBoules      = 220;
     int distanceCratereBaseApresBoules      = -190;
 
     /** Manoeuvre pour déposer les 2emes boules */
@@ -232,8 +232,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.table.ballsCratereBaseLunaire.isStillThere=false;
 
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
-
-                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
