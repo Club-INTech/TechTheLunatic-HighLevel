@@ -85,8 +85,8 @@ public class ScriptedGoTo extends AbstractScript
     double angleDeposeBoules                = -Math.PI/2+0.1;
 
     /** Action bonus */
-    Vec2 bonus1                             = new Vec2(800, 1000);
-    Vec2 bonus2                             = new Vec2(490, 1000);
+    Vec2 bonus1                             = new Vec2(850, 1000);
+    Vec2 bonus2                             = new Vec2(490, 1050);
     Vec2 dernierePos                        = new Vec2(580, 300);
 
     /** Manoeuvre de fin !*/
