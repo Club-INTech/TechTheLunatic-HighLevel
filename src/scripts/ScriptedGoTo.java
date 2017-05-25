@@ -40,7 +40,7 @@ public class ScriptedGoTo extends AbstractScript
     /** Déplacements jusqu'à la zone du fond */
     Vec2 point1MilieuTable                  = new Vec2(540,800);
     Vec2 point2EntreeFinTable               = new Vec2(805,900);
-    Vec2 pointContournementModuleJaune           = new Vec2(805, 1560);
+    Vec2 pointContournementModuleJaune      = new Vec2(805, 1560);
     Vec2 pointContournementModuleBleu         = new Vec2(805, 1560);
 
     /** Manoeuvre pour attraper le 1er module */
