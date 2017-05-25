@@ -201,7 +201,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.prendModule(Side.RIGHT);
                 //on l'ajoute au gamestate
 
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
                 actualState.table.cylindreCratereBase.isStillThere=false;
@@ -232,7 +232,7 @@ public class ScriptedGoTo extends AbstractScript
                 // Livraison du 1er module
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
