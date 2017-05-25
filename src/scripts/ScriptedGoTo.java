@@ -90,7 +90,7 @@ public class ScriptedGoTo extends AbstractScript
     Vec2 dernierePos                        = new Vec2(580, 300);
 
     /** Manoeuvre de fin !*/
-    int distanceEsquiveRobot                = -120;
+    int distanceEsquiveRobot                = -150;
 
     private boolean detect = false;
     private double recalageThresholdOrientation;
@@ -344,6 +344,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setRempliDeBoules(false);
 
                 actualState.robot.moveLengthwise(distanceEsquiveRobot);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
                 log.debug("Temps du match : " + (System.currentTimeMillis() - debutMatch));
 
