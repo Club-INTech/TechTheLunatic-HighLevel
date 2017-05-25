@@ -214,7 +214,7 @@ public class ThreadSensor extends AbstractThread
             e.printStackTrace();
         }
 
-        /*while(serialWrapper.isJumperAbsent())
+        while(serialWrapper.isJumperAbsent())
         {
             try {
                 Thread.sleep(100);
@@ -229,7 +229,7 @@ public class ThreadSensor extends AbstractThread
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
 
 		// maintenant que le jumper est retiré, le match a commencé
 		ThreadTimer.matchEnded = false;
@@ -275,18 +275,6 @@ public class ThreadSensor extends AbstractThread
 				//ajout d'obstacles mobiles dans l'obstacleManager
 				addObstacle();
 			}
-
-			try 
-			{
-				// On ne spamme pas la serie, on attend un peu avant de redemander les valeurs
-				// Et on laisse le temps aux autres Threads
-
-				Thread.sleep((long)(1000./sensorFrequency));
-			} 
-			catch (InterruptedException e)
-			{
-				break;
-			}			
 		}
         log.debug("Fin du thread de capteurs");
 		
@@ -395,9 +383,7 @@ public class ThreadSensor extends AbstractThread
         Integer Y = new Integer((int) robotY);
 
         b = -2 * positionLB.getX();
-        // c = square(positionLB.getX()) - 0.5*(square(R1) + square(R2)) + square(positionLB.getY());
 
-        // delta = b*b - 4*c;
         delta = 2*(square(R1) + square(R2)) + square(positionLB.getY());
         if (delta > 1) {
             robotX = (int) ((-b - Math.sqrt(delta)) / 2);
@@ -572,7 +558,7 @@ public class ThreadSensor extends AbstractThread
                     count++;
                 }
                 else
-                    Sleep.sleep(100);
+                    Sleep.sleep(5);
             }
 
             for(String s : r) {
