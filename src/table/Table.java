@@ -112,6 +112,7 @@ public class Table implements Service
 	@Override
 	public void updateConfig()
 	{
+
 		// TODO update config
 	}
 }
