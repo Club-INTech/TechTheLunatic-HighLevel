@@ -296,12 +296,12 @@ public class ScriptedGoTo extends AbstractScript
 
                 // Livraison des 1eres boules
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
-                actualState.robot.turn(-Math.PI/2+0.15);
+                actualState.robot.turn(angleAvantDeposeBoules);
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1, hooksToConsider, true, true);
-                actualState.robot.turn(-Math.PI/2, new ArrayList<Hook>(), true, false);
+                actualState.robot.turn(angleDeposeBoules, new ArrayList<Hook>(), true, false);
 
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
