@@ -212,6 +212,8 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
+                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
+
 
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
@@ -238,12 +240,13 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.turn(angleDropModule2);
 
-
                 // Recalage
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
                 actualState.robot.moveLengthwise(distanceRecalage, new ArrayList<Hook>(), true, false);
                 Vec2 newPos = actualState.robot.getPosition();
+                log.debug("Ancienne position :" + actualState.robot.getPositionFast());
                 newPos.setX(1220);
+                log.debug("Nouvelle position :" + actualState.robot.getPositionFast());
                 actualState.robot.setPosition(newPos);
 
                 log.debug("Orientation :" + actualState.robot.getOrientationFast());
