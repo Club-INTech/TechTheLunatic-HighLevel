@@ -90,7 +90,7 @@ public class ScriptedGoTo extends AbstractScript
     Vec2 dernierePos                        = new Vec2(580, 300);
 
     /** Manoeuvre de fin !*/
-    int distanceEsquiveRobot                = -120;
+    int distanceEsquiveRobot                = -150;
 
     private boolean detect = false;
     private double recalageThresholdOrientation;
@@ -122,7 +122,7 @@ public class ScriptedGoTo extends AbstractScript
             repliTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
             Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 25, 400);
             prepareToCatch2ndMod.addCallback(new Callback(new PrepareToCatchModG(), true, actualState));
-            Hook elevatorSecurity = hookFactory.newPositionHook(posCratere2,(float) (3*Math.PI/4), 350, 300);
+            Hook elevatorSecurity = hookFactory.newPositionHook(posCratere2,(float) (3*Math.PI/4), 400, 300);
             elevatorSecurity.addCallback(new Callback(new Elevator(), true, actualState));
 
             hooksToConsider.add(repliTout);
@@ -344,6 +344,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.setRempliDeBoules(false);
 
                 actualState.robot.moveLengthwise(distanceEsquiveRobot);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
+                actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
                 log.debug("Temps du match : " + (System.currentTimeMillis() - debutMatch));
 
