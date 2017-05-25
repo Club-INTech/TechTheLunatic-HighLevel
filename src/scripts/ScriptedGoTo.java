@@ -76,7 +76,7 @@ public class ScriptedGoTo extends AbstractScript
 
     /** Manoeuvre pour prendre les 2emes boules */
     Vec2 posCratere2                        = new Vec2(850, 540);
-    int distanceCratereBaseAvantBoules      = 235;
+    int distanceCratereBaseAvantBoules      = 230;
     int distanceCratereBaseApresBoules      = -190;
 
     /** Manoeuvre pour déposer les 2emes boules */
@@ -85,9 +85,9 @@ public class ScriptedGoTo extends AbstractScript
     double angleDeposeBoules                = -Math.PI/2+0.1;
 
     /** Action bonus */
-    Vec2 posArriveeCratere3                 = new Vec2(1100, 1500);
+    Vec2 posArriveeCratere3                 = new Vec2(1000, 1500);
     Vec2 posCratere3                        = new Vec2(1500, 2000);
-    int distanceCratere3                    = 100;
+    int distanceCratere3                    = 130;
     Vec2 posAvantDernieresBoules            = new Vec2(580, 800);
     Vec2 dernierePos                        = new Vec2(580, 300);
 
@@ -261,7 +261,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turn(angleDropModule2);
 
                 // Recalage
-                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.moveLengthwise(distanceRecalage, new ArrayList<Hook>(), true, false);
                 Vec2 newPos = actualState.robot.getPosition();
                 log.debug("Ancienne position :" + actualState.robot.getPositionFast());
@@ -275,6 +275,8 @@ public class ScriptedGoTo extends AbstractScript
                     log.debug("Recalage en orientation :" + Math.abs(actualState.robot.getOrientationFast() - Math.PI)%(2*Math.PI));
                     actualState.robot.setOrientation(Math.PI);
                 }
+
+                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
                 actualState.robot.prendModule(Side.LEFT);
 
@@ -299,15 +301,18 @@ public class ScriptedGoTo extends AbstractScript
                 // Livraison des 1eres boules
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
                 actualState.robot.turn(-Math.PI/2+0.15);
+
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1, hooksToConsider, true, true);
-                actualState.robot.turn(-Math.PI/2);
+                actualState.robot.turn(-Math.PI/2, new ArrayList<Hook>(), true, false);
+
+                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
                 actualState.robot.livreBoules();
 
                 actualState.robot.setRempliDeBoules(false);
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,true);
-
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculApresDepotBoule1);
 
@@ -316,7 +321,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseAvantBoules);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseAvantBoules, new ArrayList<Hook>(), true, true);
 
                 actualState.robot.prendBoules();
 
@@ -325,11 +330,18 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,true);
 
+                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
+
                 // Livraison des 2emes boules
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseApresBoules);
                 actualState.robot.turn(angleAvantDeposeBoules);
+
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules2, hooksToConsider, true, true);
-                actualState.robot.turn(angleDeposeBoules);
+                actualState.robot.turn(angleDeposeBoules, new ArrayList<Hook>(), true, false);
+
+                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
                 actualState.robot.livreBoules();
 
@@ -342,11 +354,10 @@ public class ScriptedGoTo extends AbstractScript
                 log.debug("On tente une action bonus si on a le temps");
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
 
                 actualState.robot.goTo(posArriveeCratere3);
                 actualState.robot.turnTo(posCratere3);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratere3);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratere3, new ArrayList<Hook>(), true, true);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
