@@ -872,7 +872,7 @@ public class Robot implements Service {
 		useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
 		useActuator(ActuatorOrder.LIVRE_PELLE, true);
 		useActuator(ActuatorOrder.PREND_PELLE, true);
-		useActuator(ActuatorOrder.LIVRE_PELLE, true);
+		// useActuator(ActuatorOrder.LIVRE_PELLE, true);
 		useActuator(ActuatorOrder.RANGE_PELLE, true);
 		useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
     }
