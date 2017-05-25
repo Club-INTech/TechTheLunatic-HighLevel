@@ -178,14 +178,14 @@ public enum ActuatorOrder
 	MID_ATTRAPE_D("ammd",400),
 
 	// Position de livraison
-	PREND_MODULE_D("amfd",1000),
+	PREND_MODULE_D("amfd",1500),
 
 	//Côté gauche
 	REPOS_ATTRAPE_G("amdg",400),
 
 	MID_ATTRAPE_G("ammg",300),
 
-	PREND_MODULE_G("amfg",1000),
+	PREND_MODULE_G("amfg",1500),
 
 
 /*			 ___________________

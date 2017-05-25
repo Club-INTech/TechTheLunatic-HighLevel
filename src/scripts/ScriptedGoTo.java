@@ -85,10 +85,8 @@ public class ScriptedGoTo extends AbstractScript
     double angleDeposeBoules                = -Math.PI/2+0.1;
 
     /** Action bonus */
-    Vec2 posArriveeCratere3                 = new Vec2(1000, 1500);
-    Vec2 posCratere3                        = new Vec2(1500, 2000);
-    int distanceCratere3                    = 130;
-    Vec2 posAvantDernieresBoules            = new Vec2(580, 800);
+    Vec2 bonus1                             = new Vec2(800, 1000);
+    Vec2 bonus2                             = new Vec2(490, 1000);
     Vec2 dernierePos                        = new Vec2(580, 300);
 
     /** Manoeuvre de fin !*/
@@ -353,21 +351,8 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
-                actualState.robot.goTo(posArriveeCratere3);
-                actualState.robot.turnTo(posCratere3);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratere3, new ArrayList<Hook>(), true, true);
-
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
-                actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
-                actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
-                actualState.robot.useActuator(ActuatorOrder.P1, true);
-                actualState.robot.useActuator(ActuatorOrder.P2, true);
-                actualState.robot.useActuator(ActuatorOrder.P1, true);
-                actualState.robot.useActuator(ActuatorOrder.P2, true);
-                actualState.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE_BAS, false);
-
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(-distanceCratere3);
-                actualState.robot.goTo(posAvantDernieresBoules);
+                actualState.robot.goTo(bonus1);
+                actualState.robot.goTo(bonus2);
                 actualState.robot.goTo(dernierePos);
 
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
