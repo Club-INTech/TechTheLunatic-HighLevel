@@ -13,9 +13,9 @@ public class PrepareToCatchModG implements Executable {
     public boolean execute(GameState state){
         try{
 
-            state.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
-            state.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
-            state.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, false);
+            state.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
+            state.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+	    state.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
             state.robot.useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
 
         }catch (Exception e){

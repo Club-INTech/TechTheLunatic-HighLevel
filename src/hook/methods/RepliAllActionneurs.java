@@ -15,8 +15,8 @@ public class RepliAllActionneurs implements Executable {
 
             state.robot.useActuator(ActuatorOrder.LEVE_ASC, true);
 
-            state.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
-            state.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_D, true);
+            state.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, false);
+            state.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
             state.robot.useActuator(ActuatorOrder.REPOS_CALLE_D, false);
             state.robot.useActuator(ActuatorOrder.REPOS_CALLE_G, false);
             state.robot.useActuator(ActuatorOrder.BAISSE_ASC, false);

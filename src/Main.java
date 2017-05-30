@@ -41,7 +41,7 @@ import java.util.ArrayList;
 
 /**
  * Code qui démarre le robot en début de match
- * @author paul
+ * @author 4223, gaelle, rem
  *
  */
 public class Main {
@@ -113,22 +113,12 @@ public class Main {
 			System.out.println("Et l'IA répondra a cet appel");
 
 			try {
-				System.out.println("Pour l'IA et le PATHFINDING!!!!");
+				System.out.println("Joke, on a plus de capteurs... Aller, salut !");
 
 				Pathfinding pf = container.getService(Pathfinding.class);
 
 				while (!ThreadTimer.matchEnded) {
-					try {
-						IA.decision(realState, scriptmanager, pf);
-					} catch (UnableToMoveException errorIa) {
-						System.out.println("Unable to move dans l'IA");
-						//dans le cas ou on bloque dans l'ia on refait le graphe.
-
-					} catch (Exception autre) {
-						autre.printStackTrace();
-						System.out.println("Exception non-attendu catch");
-						//dans le cas ou on bloque dans l'ia on refait le graphe.
-					}
+					Thread.sleep(1337);
 				}
 			} catch (ContainerException container) {
 				System.out.println("bug container");
