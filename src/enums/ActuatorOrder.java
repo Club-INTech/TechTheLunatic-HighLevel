@@ -175,7 +175,7 @@ public enum ActuatorOrder
 	REPOS_ATTRAPE_D("amdd",500),
 
 	//Position d'évitement de la cale
-	MID_ATTRAPE_D("ammd",400),
+	MID_ATTRAPE_D("ammd",700),
 
 	// Position de livraison
 	PREND_MODULE_D("amfd",1500),
@@ -183,7 +183,7 @@ public enum ActuatorOrder
 	//Côté gauche
 	REPOS_ATTRAPE_G("amdg",400),
 
-	MID_ATTRAPE_G("ammg",300),
+	MID_ATTRAPE_G("ammg",700),
 
 	PREND_MODULE_G("amfg",1500),
 
@@ -228,10 +228,10 @@ public enum ActuatorOrder
 	// Position de poussée
 	POUSSE_LARGUEUR("lmf", 700),
 	// Position de poussée en mode lent
-	POUSSE_LARGUEUR_LENT("lmfl", 2000),
+	POUSSE_LARGUEUR_LENT("lmfl", 1800),
 
-    //Réasservissement largue module
-    REASSERV_LARGEUR("lmreasserv"),
+        //Réasservissement largue module
+        REASSERV_LARGEUR("lmreasserv"),
 
 
 /*		     ___________________

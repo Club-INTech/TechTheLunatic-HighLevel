@@ -85,7 +85,7 @@ public class SymmetrizedActuatorOrderMap
 
         mCorrespondenceMap.put(ActuatorOrder.REPOS_LARGUEUR, ActuatorOrder.REPOS_LARGUEUR);
         mCorrespondenceMap.put(ActuatorOrder.POUSSE_LARGUEUR, ActuatorOrder.POUSSE_LARGUEUR);
-
+	mCorrespondenceMap.put(ActuatorOrder.POUSSE_LARGUEUR_LENT, ActuatorOrder.POUSSE_LARGUEUR_LENT);
 
         mCorrespondenceMap.put(ActuatorOrder.REPOS_ATTRAPE_D, ActuatorOrder.REPOS_ATTRAPE_G);
         mCorrespondenceMap.put(ActuatorOrder.MID_ATTRAPE_D, ActuatorOrder.MID_ATTRAPE_G);
