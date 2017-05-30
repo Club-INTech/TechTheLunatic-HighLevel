@@ -49,10 +49,10 @@ public enum Speed
 	MEDIUM_T_SLOW_R(480,Math.PI/3),
 	
 	/** vitesse rapide en translation et lente en rotation*/
-	FAST_T_SLOW_R(610, 1.75D),
+	FAST_T_SLOW_R(520, 1.75D),
 
 	/** vitesse rapide en translation et moyen en rotation*/
-	FAST_T_MEDIUM_R(600, 2*Math.PI/3),
+	FAST_T_MEDIUM_R(520, 1.8D),
 
 	/** vitesse rapide en translation et rotation*/
 	FAST_ALL(600,(Math.PI));

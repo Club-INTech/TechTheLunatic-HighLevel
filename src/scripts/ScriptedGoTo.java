@@ -40,12 +40,10 @@ public class ScriptedGoTo extends AbstractScript
     /** Déplacements jusqu'à la zone du fond */
     Vec2 point1MilieuTable                  = new Vec2(540,800);
     Vec2 point2EntreeFinTable               = new Vec2(805,900);
-    Vec2 pointContournementModuleJaune      = new Vec2(805, 1560);
-    Vec2 pointContournementModuleBleu         = new Vec2(805, 1560);
+    Vec2 pointContournementModule           = new Vec2(805, 1560);
 
     /** Manoeuvre pour attraper le 1er module */
-    Vec2 point3AttrapperModuleJaune            = new Vec2(805,1725);
-    Vec2 point3AttrapperModuleBleu           = new Vec2(805,1725);
+    Vec2 point3AttrapperModule              = new Vec2(805,1725);
     double angleAttraperModule1             = -3*Math.PI/4;
 
     /** Manoeuvre pour attraper les 1eres boules */
@@ -124,7 +122,7 @@ public class ScriptedGoTo extends AbstractScript
             repliTout.addCallback(new Callback(new RepliAllActionneurs(), true, actualState));
             Hook prepareToCatch2ndMod = hookFactory.newPositionHook(pointIntermediaireVersModule, (float) - Math.PI/2, 25, 400);
             prepareToCatch2ndMod.addCallback(new Callback(new PrepareToCatchModG(), true, actualState));
-            Hook elevatorSecurity = hookFactory.newPositionHook(posCratere2,(float) (3*Math.PI/4), 400, 300);
+            Hook elevatorSecurity = hookFactory.newPositionHook(posCratere2,(float) (3*Math.PI/4), 400, 500);
             elevatorSecurity.addCallback(new Callback(new Elevator(), true, actualState));
 
             hooksToConsider.add(repliTout);
@@ -165,43 +163,23 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.goTo(point1MilieuTable);
                 actualState.robot.goTo(point2EntreeFinTable);
-                 try {
-                     if (config.getProperty("couleur").equals("jaune")) {
-                         actualState.robot.goTo(pointContournementModuleJaune);
+                actualState.robot.goTo(pointContournementModule);
 
-                         // actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                // actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
+                actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+                actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
 
-                         actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-                         actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+                // Prise du module 1er module (celui du fond)
 
-                         // Prise du module 1er module (celui du fond)
+                actualState.robot.goTo(point3AttrapperModule);
 
-                         actualState.robot.goTo(point3AttrapperModuleJaune);
-                     } else {
-
-                         actualState.robot.goTo(pointContournementModuleBleu);
-
-                         // actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-
-                         actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-                         actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
-
-                         // Prise du module 1er module (celui du fond)
-
-                         actualState.robot.goTo(point3AttrapperModuleBleu);
-
-                     }
-                 } catch(ConfigPropertyNotFoundException e) {
-                     e.printStackTrace();
-                 }
-
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_SLOW_R);
+                actualState.robot.setLocomotionSpeed(Speed.SLOW_ALL);
                 actualState.robot.turn(angleAttraperModule1);
 
                 actualState.robot.prendModule(Side.RIGHT);
                 //on l'ajoute au gamestate
 
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
                 actualState.table.cylindreCratereBase.isStillThere=false;
@@ -220,19 +198,19 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantBoules);
+                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantBoules, new ArrayList<Hook>(), true, false);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
                 actualState.robot.prendBoules();
-                //On actualise la gameState
+                // On actualise la gameState
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereBaseLunaire.isStillThere=false;
 
                 // Livraison du 1er module
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
-                actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
+                actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
@@ -253,7 +231,8 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
                 actualState.robot.setLocomotionSpeed(Speed.FAST_T_MEDIUM_R);
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.LEVE_ASC,true);
+		actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
 
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
 
@@ -264,9 +243,10 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresDepotModule);
 
                 // Aller vers la zone de départ
+		actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
                 actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
 
-                actualState.robot.turn(-Math.PI/2);
+                // actualState.robot.turn(-Math.PI/2);
 
                 actualState.robot.goTo(pointIntermediaireVersModule);
 
@@ -307,7 +287,7 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_D, false);
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, false);
-                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR, true);
+                actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
 
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()-1);
 
@@ -337,7 +317,6 @@ public class ScriptedGoTo extends AbstractScript
                 actualState.robot.turnTo(posCratere2);
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
-
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseAvantBoules, new ArrayList<Hook>(), true, true);
 
                 actualState.robot.prendBoules();
@@ -351,7 +330,7 @@ public class ScriptedGoTo extends AbstractScript
 
                 // Livraison des 2emes boules
                 actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseApresBoules);
-                actualState.robot.turn(angleAvantDeposeBoules);
+                actualState.robot.turn(angleAvantDeposeBoules, new ArrayList<Hook>(), true, false);
 
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
@@ -374,11 +353,11 @@ public class ScriptedGoTo extends AbstractScript
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FORCE_FORWARD_MOTION);
 
-                actualState.robot.goTo(bonus1);
-                actualState.robot.goTo(bonus2);
-                actualState.robot.goTo(dernierePos);
+                // actualState.robot.goTo(bonus1);
+                // actualState.robot.goTo(bonus2);
+                // actualState.robot.goTo(dernierePos);
 
-                actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
+                // actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
             }
         }
         catch(Exception e)
@@ -427,20 +406,12 @@ public class ScriptedGoTo extends AbstractScript
                     Integer.parseInt(config.getProperty("point2EntreeFinTable_y")));
 
 
-            pointContournementModuleJaune       = new Vec2(
-                    Integer.parseInt(config.getProperty("pointContournementModule_x_jaune")),
+            pointContournementModule          = new Vec2(
+                    Integer.parseInt(config.getProperty("pointContournementModule_x")),
                     Integer.parseInt(config.getProperty("pointContournementModule_y")));
 
-            pointContournementModuleBleu      = new Vec2(
-                    Integer.parseInt(config.getProperty("pointContournementModule_x_bleu")),
-                    Integer.parseInt(config.getProperty("pointContournementModule_y")));
-
-            point3AttrapperModuleJaune        = new Vec2(
-                    Integer.parseInt(config.getProperty("point3AttrapperModule1_x_jaune")),
-                    Integer.parseInt(config.getProperty("point3AttrapperModule1_y")));
-
-            point3AttrapperModuleBleu        = new Vec2(
-                    Integer.parseInt(config.getProperty("point3AttrapperModule1_x_bleu")),
+            point3AttrapperModule            = new Vec2(
+                    Integer.parseInt(config.getProperty("point3AttrapperModule1_x")),
                     Integer.parseInt(config.getProperty("point3AttrapperModule1_y")));
 
             angleAttraperModule1             = Double.parseDouble(config.getProperty("angleAttraperModule1"));
@@ -493,7 +464,7 @@ public class ScriptedGoTo extends AbstractScript
 
             distanceEsquiveRobot                = Integer.parseInt(config.getProperty("distanceEsquiveRobot"));
 
-             bonus1                             = new Vec2(
+            bonus1                             = new Vec2(
                      Integer.parseInt(config.getProperty("bonus1_x")),
                      Integer.parseInt(config.getProperty("bonus1_y")));
 

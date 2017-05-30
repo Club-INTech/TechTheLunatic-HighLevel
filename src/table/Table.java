@@ -22,6 +22,7 @@ package table;
 
 import container.Service;
 import enums.ColorModule;
+import exceptions.ConfigPropertyNotFoundException;
 import smartMath.Vec2;
 import table.obstacles.ObstacleManager;
 import utils.Config;
@@ -57,6 +58,9 @@ public class Table implements Service
 	/** endroit ou lire la configuration du robot */
 	private Config config;
 
+	/** coté du robot */
+	private boolean symetry = false;
+
 	//TODO : définir les éléments de jeu de la table
 	public Balls ballsCratereDepart;
 	public Balls ballsCratereBaseLunaire;
@@ -71,7 +75,7 @@ public class Table implements Service
 	// Au besoin, créer les classes nécessaires dans le package table
 
 	/** point de départ du match à modifier a chaque base roulante */
-	public static final Vec2 entryPosition = new Vec2(590,176); // 580, 184
+	public static Vec2 entryPosition = new Vec2(590, 176);
 
 	/**
 	 * Instancie une nouvelle table
@@ -98,6 +102,11 @@ public class Table implements Service
 		cylindreCratereBase =new Cylindre(new Vec2(700,1850),ColorModule.BLUE);
 		cylindreDevantBase =new Cylindre(new Vec2(600,1400),ColorModule.MULTI);
 		cylindrePleinMilieu =new Cylindre(new Vec2(1000,1100),ColorModule.MULTI);
+
+		if(symetry)
+		{
+			entryPosition = new Vec2(560, 176);
+		}
 		// TODO : initialiser les éléments de jeu définis plus haut
 	}
 
@@ -112,7 +121,12 @@ public class Table implements Service
 	@Override
 	public void updateConfig()
 	{
-
+		try {
+			symetry = config.getProperty("couleur").replaceAll(" ", "").equals("jaune");
+		}catch (ConfigPropertyNotFoundException e){
+			log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());
+			log.critical( e.logStack());
+		}
 		// TODO update config
 	}
 }

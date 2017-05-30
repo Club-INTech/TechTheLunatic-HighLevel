@@ -1,0 +1,129 @@
+# CONSTANTES
+table_x                            = 3000
+table_y                            = 2000
+temps_match                        = 90
+temps_reserve_funny_action         = 0
+largeur_robot                      = 380
+longueur_robot                     = 300
+rayon_robot                        = 240
+rayon_robot_adverse                = 200
+sleep_boucle_acquittement          = 50
+
+# ETAT INITIAL DES ROBOTS
+couleur                            = bleu
+cDesFousEnFace                     = false
+config_shell                       = 1
+profondeur                         = 1
+
+# PARAMETRES POUR LES CAPTEUR
+horizon_capteurs                   = 500
+angle_detection_capteur 	   = 0.79
+angle_position_capteur_av          = 0.01
+angle_position_capteur_ar          = 0.17
+duree_peremption_obstacles         = 5000
+capteurs_frequence                 = 10
+capteurs_temporisation_obstacles   = 100
+rayon_detection                    = 150
+distance_detection                 = 250
+capteurs_on                        = false
+basic_distance                     = 200
+portee_mini_capteurs_av            = 60
+portee_mini_capteurs_ar            = 30
+basic_detection                    = false
+temps_untested_obstacle            = 250
+# 200 homologation ; 150 match
+
+# PARAMETRES POUR LOG
+affiche_debug                      = true
+sauvegarde_fichier                 = true
+
+# PARAMETRES POUR LES DÉPLACEMENTS
+hooks_tolerance_mm                 = 20
+disque_tolerance_maj               = 100
+disque_tolerance_consigne          = 40
+trajectoire_courbe                 = false
+nb_tentatives                      = 30
+anticipation_trajectoire_courbe    = 200
+tolerance_patinage_ms              = 200
+duree_attente_ennemie              = 100000
+duree_checkout_ennemie             = 1000
+tolerance_orientation_recalage     = 0.15
+
+# PARAMETRES DE DEGAGEMENT EN CAS DE COLLISION
+angle_degagement_robot             = 0.4
+distance_degagement_robot          = 50
+
+#PARAMETRES SCRIPTEDGOTO
+prisePremierModule                   = false
+
+point1MilieuTable_x                  = 540
+point1MilieuTable_y                  = 800
+
+point2EntreeFinTable_x               = 805
+point2EntreeFinTable_y               = 900
+
+pointContournementModule_x	     = 820
+pointContournementModule_y           = 1560
+
+point3AttrapperModule1_x             = 820
+point3AttrapperModule1_y             = 1725
+
+angleAttraperModule1                 = -2.356
+
+point4arriveDevantCratereFond_x      = 650
+point4arriveDevantCratereFond_y      = 1785
+
+posCratere1_x                        = 420
+posCratere1_y                        = 1876
+
+angleDevantCratere1                  = 0.04
+
+distanceCratereFondAvantBoules       = 55
+distanceCratereFondApresBoules       = -170
+
+angleCratereFondAvantDepotModule     = 0.785
+
+distanceCratereFondAvantDepotModule  = -135
+distanceCratereFondApresDepotModule  = 55
+
+pointSortieCratereFond_x             = 1115
+pointSortieCratereFond_y             = 1290
+
+pointIntermediaireVersModule_x       = 1115
+pointIntermediaireVersModule_y       = 1005
+
+pointAvantModule2_x                  = 990
+pointAvantModule2_y                  = 731
+
+angleDropModule2                     = 3.141
+distanceApresModule2                 = 50
+
+distanceRecalage                     = -270
+
+distanceAvantDeposeBoules1           = 220
+distanceReculApresDepotBoule1        = -180
+
+posCratere2_x                        = 850
+posCratere2_y                        = 540
+
+angleCorrectionCratere2              = -0.3
+
+distanceCratereBaseAvantBoules       = 215
+distanceCratereBaseApresBoules       = -190
+
+angleAvantDeposeBoules               = -1.371
+
+distanceAvantDeposeBoules2           = 190
+angleDeposeBoules                    = -1.371
+
+bonus1_x                             = 850
+bonus1_y                             = 1000
+bonus2_x                             = 490
+bonus2_y                             = 1050
+dernierePos_x                        = 580
+dernierePos_y                        = 300
+
+distanceEsquiveRobot                 = -70
+
+
+

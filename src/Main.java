@@ -41,7 +41,7 @@ import java.util.ArrayList;
 
 /**
  * Code qui démarre le robot en début de match
- * @author paul
+ * @author 4223, gaelle, rem
  *
  */
 public class Main {
@@ -59,6 +59,18 @@ public class Main {
 // PS : Les vérifications et validations c'est pas pour les chiens.
 	public static void main(String[] args) throws InterruptedException {
 		try {
+
+			if(args[0].equals("jaune"))
+			{
+				Config.configFileName = "config_jaune.txt";
+			}else if (args[0].equals("bleu"))
+			{
+				Config.configFileName = "config_bleu.txt";
+			}else{
+				System.err.println("BAD COLOR");
+				return;
+			}
+
 			container = new Container();
 			config = container.getService(Config.class);
 			//AffichageDebug aff = container.getService(AffichageDebug.class);
@@ -101,22 +113,12 @@ public class Main {
 			System.out.println("Et l'IA répondra a cet appel");
 
 			try {
-				System.out.println("Pour l'IA et le PATHFINDING!!!!");
+				System.out.println("Joke, on a plus de capteurs... Aller, salut !");
 
 				Pathfinding pf = container.getService(Pathfinding.class);
 
 				while (!ThreadTimer.matchEnded) {
-					try {
-						IA.decision(realState, scriptmanager, pf);
-					} catch (UnableToMoveException errorIa) {
-						System.out.println("Unable to move dans l'IA");
-						//dans le cas ou on bloque dans l'ia on refait le graphe.
-
-					} catch (Exception autre) {
-						autre.printStackTrace();
-						System.out.println("Exception non-attendu catch");
-						//dans le cas ou on bloque dans l'ia on refait le graphe.
-					}
+					Thread.sleep(1337);
 				}
 			} catch (ContainerException container) {
 				System.out.println("bug container");
@@ -143,6 +145,7 @@ public class Main {
 			}
 		} catch (Exception k) {
 			System.out.println("bon je bug hard");
+			k.printStackTrace();
 		}
 
 	}
