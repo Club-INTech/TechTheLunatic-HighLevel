@@ -337,6 +337,46 @@ public class Locomotion implements Service
         actualRetriesIfBlocked=0;// on reinitialise
     }
 
+    /**
+     * Effectue un trajet en ligne droite vers le point visé
+     * ATTENTION l'intersection avec les obstacles n'est pas gérée...
+     * @param pointVise
+     * @param hooksToConsider
+     * @param expectedWallImpact
+     * @param mustDetect
+     * @throws UnableToMoveException
+     */
+
+    public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider, boolean expectedWallImpact, boolean mustDetect) throws UnableToMoveException
+    {
+        Vec2 move = pointVise.minusNewVector(highLevelPosition);
+        int r = (int) move.getR();
+        double a = move.getA();
+        double o = a - highLevelOrientation;
+        if (o < 0) {
+            o = -o;
+        }
+
+        if (directionStrategy == DirectionStrategy.FASTEST) {
+            if (3 * Math.PI / 2 < o || o < Math.PI / 2) { //si il est orienté vers l'avant par rapport au point visé
+                turn(a, hooksToConsider, expectedWallImpact, mustDetect);
+                moveLengthwise(r, hooksToConsider, expectedWallImpact, mustDetect);
+            } else if (3 * Math.PI / 2 >= o && o >= Math.PI / 2) { //si il est orienté vers l'arrière par rapport au point visé
+                a = a + Math.PI;
+                turn(a, hooksToConsider, expectedWallImpact, mustDetect);
+                moveLengthwise(-r, hooksToConsider, expectedWallImpact, mustDetect);
+            }
+        }
+        if (directionStrategy == DirectionStrategy.FORCE_BACK_MOTION) {
+            a = a + Math.PI;
+            turn(a, hooksToConsider, expectedWallImpact, mustDetect);
+            moveLengthwise(-r, hooksToConsider, expectedWallImpact, mustDetect);
+        } else if (directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION) {
+            turn(a, hooksToConsider, expectedWallImpact, mustDetect);
+            moveLengthwise(r, hooksToConsider, expectedWallImpact, mustDetect);
+        }
+    }
+
 
     /*********************************************
      * FONCTIONS GERANT LES MOUVEMENTS UNITAIRES *
@@ -352,7 +392,7 @@ public class Locomotion implements Service
      * @param mustDetect true si on veut detecter, false sinon.
      * @throws UnableToMoveException si le robot a un bloquage mecanique
      */
-    public void turn(double angle, ArrayList<Hook> hooks, boolean mustDetect) throws UnableToMoveException
+    public void turn(double angle, ArrayList<Hook> hooks, boolean headingToWall, boolean mustDetect) throws UnableToMoveException
     {
         log.debug("Tourner de "+Double.toString(angle));
 
@@ -369,7 +409,7 @@ public class Locomotion implements Service
         isRobotMovingForward=true;
 		//là il faut calculer ça donne le sens
 
-        moveToPointHanldeExceptions(aim, hooks, true, false,1 , mustDetect);
+        moveToPointHanldeExceptions(aim, hooks, true, headingToWall,1 , mustDetect);
         isRobotMovingForward=false;
 
     	actualRetriesIfBlocked=0;
