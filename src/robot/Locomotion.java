@@ -264,7 +264,6 @@ public class Locomotion implements Service
     public void followPath(ArrayList<Vec2> path, ArrayList<Hook> hooks, DirectionStrategy directionstrategy, boolean mustDetect) throws UnableToMoveException
     {
         updateCurrentPositionAndOrientation();
-
         //si un singe a mie de pain null pour les hooks on le gere
         if(hooks == null)
             hooks = new ArrayList<Hook>();
@@ -1098,77 +1097,39 @@ public class Locomotion implements Service
         }
     }
 
-
-    /***************
-     * LE RESTE....*
-     **************/
-
-
-    public void setUSvalues(ArrayList<Integer> val)
-    {
-        this.USvalues = val;
-    }
-
-    /**
-     * Vérifie qu'il n'y est pas quelque chose juste en face lui, en prenant directement la valeur des capteurs
-     * (utile pour savoir si la pelle a foirée)
-     */
-    public boolean isThereSomethingFront(){
-        int count = 0;
-        Sleep.sleep(1500);
-        for (int i=0; i<5;i++){
-            if(USvalues.get(0) < 100 && USvalues.get(1) < 100){
-                count+=1;
-            }
-            Sleep.sleep(100);
-        }
-        log.debug("Compteur Pelle :" + count);
-        return count > 3;
-    }
-
-    @Override
-    public void updateConfig()
-    {
-    	try 
-    	{
-	    	detectionRay = Integer.parseInt(config.getProperty("rayon_detection"));
-	    	detectionDistance = Integer.parseInt(config.getProperty("distance_detection"));
-	        distanceToDisengage = Integer.parseInt(config.getProperty("distance_degagement_robot"));
-	        feedbackLoopDelay = Integer.parseInt(config.getProperty("sleep_boucle_acquittement"));
-	        angleToDisengage = Double.parseDouble(config.getProperty("angle_degagement_robot"));
-			symetry = config.getProperty("couleur").replaceAll(" ","").equals("jaune");
-			robotLength = Integer.parseInt(config.getProperty("longueur_robot").replaceAll(" ",""));
-            basicDetectDistance = Integer.parseInt(config.getProperty("basic_distance").replaceAll(" ",""));
-            basicDetection = Boolean.parseBoolean(config.getProperty("basic_detection"));
-            timeToWaitIfEnnemy = Integer.parseInt(config.getProperty("duree_checkout_ennemie"));
-            timeOutEnnemyMove = Integer.parseInt(config.getProperty("duree_attente_ennemie"));
-    	}
-    	catch (ConfigPropertyNotFoundException e)
-    	{
-    		log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());
-			log.critical( e.logStack());
-    	}
-    }
-
     /**
      * Arrête le robot.
      */
     public void immobilise()
     {
         log.warning("Arrêt du robot en "+lowLevelPosition);
-        try 
+        try
         {
             serialWrapper.immobilise();
-        } 
-        catch (SerialConnexionException e) 
+        }
+        catch (SerialConnexionException e)
         {
             log.critical("Catch de "+e+" dans immobilise");
-			log.critical( e.logStack());
-        }           
+            log.critical( e.logStack());
+        }
     }
 
     /**
-     * Met à jour la position. A ne faire qu'en début de match.
+     * Ferme la série
+     */
+    public void close()
+    {
+        serialWrapper.closeLocomotion();
+    }
+
+
+    /********************
+     * GUETTER & SETTER *
+     *******************/
+
+
+    /**
+     * Met à jour la position. A ne faire qu'en début de match, ou en cas de recalage
      * @param positionWanted
      * @throws SerialConnexionException
      */
@@ -1192,7 +1153,7 @@ public class Locomotion implements Service
     }
 
     /**
-     * Met à jour l'orientation. A ne faire qu'en début de match.
+     * Met à jour l'orientation. A ne faire qu'en début de match, ou en cas de recalage
      * @param orientation
      */
     public void setOrientation(double orientation)
@@ -1233,7 +1194,6 @@ public class Locomotion implements Service
     }
 
     /**
-     * 
      * @return l'orientation du robot en debut de match
      */
     public double getOrientation()
@@ -1247,7 +1207,17 @@ public class Locomotion implements Service
     {
         return highLevelOrientation;
     }
-    
+
+    /** Permet au ThreadSensor de mettre à jour la valeur des capteurs,
+     * utile pour la BasicDetection et pour la vérification d'obstacles lors d'appels directes à la série
+     * (le dégagement dans la BlockedException)
+     */
+    public void setUSvalues(ArrayList<Integer> val)
+    {
+        this.USvalues = val;
+    }
+
+    /** Stratégie de déplacement */
     public TurningStrategy getTurningOrders()
     {
     	return turningStrategy;
@@ -1268,6 +1238,26 @@ public class Locomotion implements Service
     	this.directionStrategy = motion;
     }
 
+    /** Désactive l'asservissement en position et celui en vitesse (YOLO)
+     */
+    public void disableFeedbackLoop() throws SerialConnexionException
+    {
+        serialWrapper.disableRotationnalFeedbackLoop();
+        serialWrapper.disableTranslationnalFeedbackLoop();
+        serialWrapper.disableSpeedFeedbackLoop();
+    }
+
+    /** Active l'asservissement en position et celui en vitesse
+     */
+    public void enableFeedbackLoop() throws SerialConnexionException
+    {
+        serialWrapper.enableRotationnalFeedbackLoop();
+        serialWrapper.enableTranslationnalFeedbackLoop();
+        serialWrapper.enableSpeedFeedbackLoop();
+    }
+
+    /** Désactive l'asservissement en position
+     */
     public void desasservit()
     {
         try
@@ -1282,6 +1272,25 @@ public class Locomotion implements Service
         }
     }
 
+    /** Activation/désactivation des différents asservissements
+     */
+    public void disableRotationnalFeedbackLoop() throws SerialConnexionException
+    {
+        serialWrapper.disableRotationnalFeedbackLoop();
+    }
+
+    public void enableRotationnalFeedbackLoop() throws SerialConnexionException
+    {
+        serialWrapper.enableRotationnalFeedbackLoop();
+    }
+
+    public void disableTranslationalFeedbackLoop() throws SerialConnexionException
+    {
+        serialWrapper.disableTranslationnalFeedbackLoop();
+    }
+
+    /** Vitesse de déplacement
+     */
     public void setRotationnalSpeed(double rotationSpeed) throws SerialConnexionException
     {
         serialWrapper.setRotationnalSpeed(rotationSpeed);
@@ -1293,36 +1302,6 @@ public class Locomotion implements Service
         serialWrapper.setTranslationnalSpeed(speed);
         this.transSpeed = speed;
     }
-
-    
-    public void enableFeedbackLoop() throws SerialConnexionException
-    {
-        serialWrapper.enableRotationnalFeedbackLoop();
-        serialWrapper.enableTranslationnalFeedbackLoop();
-        serialWrapper.enableSpeedFeedbackLoop();
-    }
-
-    public void disableFeedbackLoop() throws SerialConnexionException
-    {
-        serialWrapper.disableRotationnalFeedbackLoop();
-        serialWrapper.disableTranslationnalFeedbackLoop();
-        serialWrapper.disableSpeedFeedbackLoop();
-    }
-    
-    public void disableRotationnalFeedbackLoop() throws SerialConnexionException
-    {
-		serialWrapper.disableRotationnalFeedbackLoop();
-    }
-
-    public void enableRotationnalFeedbackLoop() throws SerialConnexionException
-    {
-		serialWrapper.enableRotationnalFeedbackLoop();
-    }
-
-	public void disableTranslationalFeedbackLoop() throws SerialConnexionException
-	{
-		serialWrapper.disableTranslationnalFeedbackLoop();
-	}
 
     /**
      * Change le type de mouvement forcé/normal
@@ -1345,15 +1324,43 @@ public class Locomotion implements Service
         serialWrapper.setSmoothAcceleration(choice);
     }
 
+    /** Active/désactive la basicDetection
+     */
     public void setBasicDetection(boolean basicDetection)
     {
         this.basicDetection = basicDetection;
     }
 
-	public void close()
-	{
-		serialWrapper.closeLocomotion();
-	}	
+    @Override
+    public void updateConfig()
+    {
+        try
+        {
+            detectionRay = Integer.parseInt(config.getProperty("rayon_detection"));
+            detectionDistance = Integer.parseInt(config.getProperty("distance_detection"));
+            distanceToDisengage = Integer.parseInt(config.getProperty("distance_degagement_robot"));
+            feedbackLoopDelay = Integer.parseInt(config.getProperty("sleep_boucle_acquittement"));
+            angleToDisengage = Double.parseDouble(config.getProperty("angle_degagement_robot"));
+            symetry = config.getProperty("couleur").replaceAll(" ","").equals("jaune");
+            robotLength = Integer.parseInt(config.getProperty("longueur_robot").replaceAll(" ",""));
+            basicDetectDistance = Integer.parseInt(config.getProperty("basic_distance").replaceAll(" ",""));
+            basicDetection = Boolean.parseBoolean(config.getProperty("basic_detection"));
+            timeToWaitIfEnnemy = Integer.parseInt(config.getProperty("duree_checkout_ennemie"));
+            timeOutEnnemyMove = Integer.parseInt(config.getProperty("duree_attente_ennemie"));
+        }
+        catch (ConfigPropertyNotFoundException e)
+        {
+            log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());
+            log.critical( e.logStack());
+        }
+    }
+
+
+
+
+
+
+
 	
 	/**************************************************
 	 * 					JUNITS
