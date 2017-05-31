@@ -169,6 +169,12 @@ public class Robot implements Service {
 		speed = Speed.SLOW_ALL;
 	}
 
+
+	/****************************
+	 * INCONTOURNABLES DE ROBOT *
+	 ***************************/
+
+
 	/**
 	 * Utiliser un actuateur par l'ordre fourni
 	 * Peut être bloquante le temps de faire l'action
@@ -187,34 +193,154 @@ public class Robot implements Service {
 		}
 	}
 
-    /**
-	 * Renvoie la valeur d'un capteur de contact
+
+	/**************
+	 * LOCOMOTION *
+	 *************/
+
+
+	/**
+	 * Déplace le robot vers un point en suivant un chemin qui évite les obstacles. (appel du pathfinding)
+	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
 	 *
-	 * @param sensor le capteur en question
-	 * @return l'état logique du capteur
-	 * @throws SerialConnexionException
+	 * @param aim le point de destination du mouvement
+	 * @param hooksToConsider les hooks déclenchables durant ce mouvement
+	 * @param table la table sur laquelle le robot se deplace
+	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
 	 */
-	public boolean getContactSensorValue(ContactSensors sensor) throws SerialConnexionException {
-		// si il n'y a pas de symétrie, on renvoie la valeur brute du bas niveau
-		if (!symmetry)
-			return serialWrapper.getContactSensorValue(sensor);
-		else {
-			sensor = mSensorNamesMap.getSymmetrizedContactSensorName(sensor);
+	public void moveToLocation(Vec2 aim, ArrayList<Hook> hooksToConsider, Table table) throws  UnableToMoveException,PointInObstacleException
+	{
+		log.debug("appel de Robot.moveToLocation(" + aim + "," + hooksToConsider + "," + table + ")");
+		//On crée bêtement un cercle de rayon nul pour lancer moveToCircle, sachant que la position de ce cercle est extraite pour le pathDiniDing (et après on dit qu'à INTech on code comme des porcs...)
+		moveToCircle(new Circle(aim), hooksToConsider, table);
+	}
 
-			/* attention si les capteurs sont en int[] il faut symétriser ce int[] */
 
-			return serialWrapper.getContactSensorValue(sensor);
-		}
+	/**
+	 * deplace le robot vers le point du cercle donnné le plus proche, en évitant les obstacles. (appel du pathfinding)
+	 * methode bloquante : l'execution ne se termine que lorsque le robot est arrive
+	 * @param aim le cercle ou l'on veut se rendre
+	 * @param hooksToConsider the hooks to consider
+	 * @param table la table sur laquelle on est sensé se déplacer
+	 * @throws UnableToMoveException lorsque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
+	 */
+	public void moveToCircle(Circle aim, ArrayList<Hook> hooksToConsider, Table table) throws UnableToMoveException, PointInObstacleException {
+		Vec2 aimPosition= Geometry.pointProche(this.position,aim);
+		this.followPath(this.pathfinding.Astarfoulah(this.getPosition(),aimPosition,this.orientation, this.speed.translationSpeed,this.speed.rotationSpeed ),hooksToConsider, mLocomotion.getDirectionStrategy());
 	}
 
 	/**
-	 * Fait attendre le programme
-	 *
-	 * @param duree attente en ms
+	 * Effectue un trajet en ligne droite jusqu'au point désiré
+	 * @param pointVise
+	 * @throws UnableToMoveException
 	 */
-	public void sleep(long duree) {
-		Sleep.sleep(duree);
+
+	public void goTo(Vec2 pointVise) throws UnableToMoveException{
+		goTo(pointVise, new ArrayList<Hook>(), false, true);
 	}
+
+	/**
+	 * Effectue un trajet en ligne droite jusqu'au point désiré
+	 * @param pointVise
+	 * @param hooksToConsider
+	 * @throws UnableToMoveException
+	 */
+	public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
+		goTo(pointVise, hooksToConsider, false, true);
+	}
+
+	/** Effectue un mouvement en ligne droite jusqu'au point désiré.
+	 * @param pointVise
+	 * @param hooksToConsider
+	 * @param expectedWallImpact
+	 * @param isDetect
+	 * @throws UnableToMoveException
+	 */
+	public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider, boolean expectedWallImpact, boolean isDetect) throws UnableToMoveException {
+		log.debug("Appel de Robot.goTo :" + pointVise);
+		mLocomotion.goTo(pointVise, hooksToConsider, expectedWallImpact, isDetect);
+	}
+
+
+	/**
+	 * Méthode pour se tourner vers un point
+	 * @param pointVise
+	 * @throws UnableToMoveException
+	 */
+	public void turnTo(Vec2 pointVise) throws UnableToMoveException {
+		position = getPosition();
+		Vec2 move = pointVise.minusNewVector(position);
+		double a = move.getA();
+		turn(a);
+	}
+
+	/**
+	 * Fait tourner le robot (méthode bloquante)
+	 * Attention: le pivot sera fait en supposant qu'il n'y a pas de hook a vérifier, et qu'on ne s'attends pas a percuter un obstacle.
+	 *
+	 * @param angle : valeur absolue en radiant de l'orientation que le robot doit avoir après cet appel
+	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
+	 */
+	public void turn(double angle) throws UnableToMoveException
+	{
+		turn(angle, null, false, false);
+	}
+
+	/**
+	 * Fait tourner le robot, et permet de prendre en compte les hooks
+	 * Attention: on s'attend à ne pas percuter d'obstacle
+	 * @param angle : valeur absolue en radiant de l'orientation que le robot doit avoir après avoir tourné
+	 * @throws UnableToMoveException
+	 */
+
+	public void turn(double angle, ArrayList<Hook> hooksToConsider) throws UnableToMoveException
+	{
+		turn(angle, hooksToConsider, false, false);
+	}
+
+	/**
+	 * Fait tourner le robot, en considérant les hooks et les éventuels calins avec le mur
+	 * @param angle
+	 * @param hooksToConsider
+	 * @param expectsWallImpact
+	 * @throws UnableToMoveException
+	 */
+
+	public void turn(double angle, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact) throws UnableToMoveException
+	{
+		turn(angle, hooksToConsider, expectsWallImpact,false);
+	}
+
+	/**
+	 * Fait tourner le robot, et considère si l'angle est relatif ou non
+	 * @param angle
+	 * @param hooksToConsider
+	 * @param expectsWallImpact
+	 * @param isTurnRelative
+	 * @throws UnableToMoveException
+	 */
+	public void turn(double angle, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact, boolean isTurnRelative) throws UnableToMoveException
+	{
+		turn(angle, hooksToConsider, expectsWallImpact, isTurnRelative, true);
+	}
+
+
+	/**
+	 * Fait tourner le robot en considérant TOUT !
+	 * @param angle
+	 * @param hooksToConsider
+	 * @param expectsWallImpact
+	 * @param isTurnRelative
+	 * @param mustDetect
+	 * @throws UnableToMoveException
+	 */
+	public void turn(double angle, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact, boolean isTurnRelative, boolean mustDetect) throws UnableToMoveException
+	{
+		if(isTurnRelative)
+			angle += getOrientation();
+		mLocomotion.turn(angle, hooksToConsider, expectsWallImpact, mustDetect);
+	}
+
 
 	/**
 	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
@@ -225,9 +351,9 @@ public class Robot implements Service {
 	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
 	 */
 	public void moveLengthwise(int distance) throws UnableToMoveException {
-		log.debug("appel de Robot.distance(" + distance + ")");
 		moveLengthwise(distance, new ArrayList<Hook>(), false);
 	}
+
 
 	/**
 	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
@@ -244,6 +370,7 @@ public class Robot implements Service {
 		moveLengthwise(distance, hooksToConsider, false);
 	}
 
+
 	/**
 	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
 	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
@@ -259,6 +386,7 @@ public class Robot implements Service {
 		moveLengthwise(distance, hooksToConsider, false, true, speed);
 	}
 
+
 	/**
 	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
 	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
@@ -272,6 +400,7 @@ public class Robot implements Service {
 		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + "," + expectsWallImpact + ")");
 		moveLengthwise(distance, hooksToConsider, expectsWallImpact, true);
 	}
+
 
 	/**
 	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
@@ -289,6 +418,7 @@ public class Robot implements Service {
 		moveLengthwise(distance, hooksToConsider, expectsWallImpact, mustDetect, newSpeed);
 	}
 
+
 	/**
 	 * moveLengthwise mais sans détection
 	 */
@@ -297,6 +427,7 @@ public class Robot implements Service {
 		Speed newSpeed = Speed.SLOW_ALL;
 		moveLengthwise(distance, hooksToConsider, expectsWallImpact, false, newSpeed);
 	}
+
 
 	/**
 	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
@@ -316,80 +447,6 @@ public class Robot implements Service {
 		speed = oldSpeed;
 	}
 
-    /** Effectue un mouvement en ligne droite jusqu'au point désiré.
-	 * @param pointVise
-	 * @param hooksToConsider
-	 * @param expectedWallImpact
-	 * @param isDetect
-	 * @throws UnableToMoveException
-	 */
-    public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider, boolean expectedWallImpact, boolean isDetect) throws UnableToMoveException {
-        log.debug("goTo: " + pointVise);
-    	position = getPositionFast();
-		orientation = getOrientationFast();
-		log.debug("position" + position);
-		Vec2 move = pointVise.minusNewVector(position);
-		log.debug("move" + move);
-		int r = (int) move.getR();
-		double a = move.getA();
-		double o = a - orientation;
-		if (o < 0) {
-			o = -o;
-		}
-
-		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
-		if (directionStrategy == DirectionStrategy.FASTEST) {
-			if (3 * Math.PI / 2 < o || o < Math.PI / 2) { //si il est orienté vers l'avant par rapport au point visé
-				turn(a, hooksToConsider, expectedWallImpact, false);
-				moveLengthwise(r, hooksToConsider, expectedWallImpact, isDetect);
-			} else if (3 * Math.PI / 2 >= o && o >= Math.PI / 2) { //si il est orienté vers l'arrière par rapport au point visé
-				a = a + Math.PI;
-				turn(a, hooksToConsider, expectedWallImpact, false);
-				moveLengthwise(-r, hooksToConsider, expectedWallImpact, isDetect);
-			}
-		}
-		if (directionStrategy == DirectionStrategy.FORCE_BACK_MOTION) {
-			a = a + Math.PI;
-			turn(a, hooksToConsider, expectedWallImpact, false);
-			moveLengthwise(-r, hooksToConsider, expectedWallImpact, isDetect);
-		} else if (directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION) {
-			turn(a, hooksToConsider, expectedWallImpact, false);
-			moveLengthwise(r, hooksToConsider, expectedWallImpact, isDetect);
-		}
-    }
-
-	/**
-	 * Effectue un trajet en ligne droite jusqu'au point désiré
-	 * @param pointVise
-	 * @param hooksToConsider
-	 * @throws UnableToMoveException
-	 */
-	public void goTo(Vec2 pointVise, ArrayList<Hook> hooksToConsider) throws UnableToMoveException {
-    	goTo(pointVise, hooksToConsider, false, true);
-	}
-
-	/**
-	 * De meme
-	 * @param pointVise
-	 * @throws UnableToMoveException
-	 */
-
-	public void goTo(Vec2 pointVise) throws UnableToMoveException{
-    	goTo(pointVise, new ArrayList<Hook>(), false, true);
-	}
-
-    /**
-     * Méthode pour se tourner vers un point
-     * @param pointVise
-     * @throws UnableToMoveException
-     */
-    public void turnTo(Vec2 pointVise) throws UnableToMoveException {
-        position = getPosition();
-        Vec2 move = pointVise.minusNewVector(position);
-        double a = move.getA();
-        turn(a);
-    }
-
     /**
      * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
      * Attention, cette méthode suppose qu'il n'y a pas de hooks a considérer, et que l'on est sensé percuter un mur. La vitesse du robor est alors réduite a Speed.INTO_WALL.
@@ -406,90 +463,6 @@ public class Robot implements Service {
         setLocomotionSpeed(Speed.SLOW_ALL);
         moveLengthwise(distance, hooksToConsider, true, false);
         setLocomotionSpeed(oldSpeed);
-    }
-
-    /**
-     * Déplace le robot vers un point en suivant un chemin qui évite les obstacles. (appel du pathfinding)
-     * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
-     *
-     * @param aim le point de destination du mouvement
-     * @param hooksToConsider les hooks déclenchables durant ce mouvement
-     * @param table la table sur laquelle le robot se deplace
-     * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
-     */
-    public void moveToLocation(Vec2 aim, ArrayList<Hook> hooksToConsider, Table table) throws  UnableToMoveException,PointInObstacleException
-    {
-        log.debug("appel de Robot.moveToLocation(" + aim + "," + hooksToConsider + "," + table + ")");
-        //On crée bêtement un cercle de rayon nul pour lancer moveToCircle, sachant que la position de ce cercle est extraite pour le pathDiniDing (et après on dit qu'à INTech on code comme des porcs...)
-        moveToCircle(new Circle(aim), hooksToConsider, table);
-    }
-
-    /**
-     * deplace le robot vers le point du cercle donnné le plus proche, en évitant les obstacles. (appel du pathfinding)
-     * methode bloquante : l'execution ne se termine que lorsque le robot est arrive
-     * @param aim le cercle ou l'on veut se rendre
-     * @param hooksToConsider the hooks to consider
-     * @param table la table sur laquelle on est sensé se déplacer
-     * @throws UnableToMoveException lorsque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
-     */
-    public void moveToCircle(Circle aim, ArrayList<Hook> hooksToConsider, Table table) throws UnableToMoveException, PointInObstacleException {
-
-		  Vec2 aimPosition= Geometry.pointProche(this.position,aim);
-
-		this.followPath(this.pathfinding.Astarfoulah(this.getPosition(),aimPosition,this.orientation, this.speed.translationSpeed,this.speed.rotationSpeed ),hooksToConsider, mLocomotion.getDirectionStrategy());
-
-    }
-
-	/**
-	 * ATTENTION, la valeur "mur" est ignorée
-	 */
-    public void turn(double angle, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact, boolean isTurnRelative) throws UnableToMoveException
-    {
-		log.debug("appel de Robot.turn(" + angle + "," + hooksToConsider + "," + expectsWallImpact + "," + isTurnRelative + ")");
-    	if (isTurnRelative)
-    		angle += getOrientation();
-        turn(angle, hooksToConsider);
-    }
-
-	/**
-	 * Fait tourner le robot (méthode bloquante)
-	 * Attention: le pivot sera fait en supposant qu'il n'y a pas de hook a vérifier, et qu'on ne s'attends pas a percuter un obstacle.
-	 *
-	 * @param angle : valeur relative en radiant de l'orientation que le robot doit avoir après cet appel
-	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
-	 */
-	public void turnRelative(double angle) throws UnableToMoveException
-	{
-		log.debug("appel de Robot.turnRelative(" + angle + ")");
-		turn(angle, null, false, true);
-	}
-
-	/**
-	 * Fait tourner le robot (méthode bloquante)
-	 * Attention: le pivot sera fait en supposant qu'il n'y a pas de hook a vérifier, et qu'on ne s'attends pas a percuter un obstacle.
-	 *
-	 * @param angle : valeur absolue en radiant de l'orientation que le robot doit avoir après cet appel
-	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
-	 */
-	public void turn(double angle) throws UnableToMoveException
-	{
-		log.debug("appel de Robot.turn(" + angle + ")");
-		turn(angle, null, false, false);
-	}
-
-
-    public void turnWithoutDetection(double angle, ArrayList<Hook> hooksToConsider) throws UnableToMoveException
-    {
-		log.debug("appel de Robot.turn(" + angle + "," + hooksToConsider + ")");
-    	try
-    	{
-    		mLocomotion.turn(angle, hooksToConsider, false);
-    	}
-    	catch (UnableToMoveException e)
-    	{
-			log.critical( e.logStack());
-    		throw e;
-    	}
     }
 
 	/**
@@ -532,34 +505,6 @@ public class Robot implements Service {
 		this.mLocomotion.setSmoothAcceleration(state);
 	}
 
-    public void turn(double angle, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact) throws UnableToMoveException
-    {
-		log.debug("appel de Robot.turn(" + angle + "," + hooksToConsider + "," + expectsWallImpact + ")");
-    	try
-    	{
-    		turn(angle, hooksToConsider);
-    	}
-    	catch (UnableToMoveException e)
-    	{
-			log.critical( e.logStack());
-            throw e;
-    	}
-    }
-    
-    public void turn(double angle, ArrayList<Hook> hooksToConsider) throws UnableToMoveException
-    {
-		log.debug("appel de Robot.turn(" + angle + "," + hooksToConsider + ")");
-    	try
-    	{
-    		mLocomotion.turn(angle, hooksToConsider, true);
-    	}
-    	catch (UnableToMoveException e)
-    	{
-			log.critical( e.logStack());
-            throw e;
-    	}// le robot s'est arreté de tourner qu'il y ait catch ou non.
-    }
-
     /**
      * Fait tourner le robot (méthode bloquante)
      * L'orientation est modifiée si on est équipe jaune: Cette méthode n'adapte pas l'orientation en fonction de la couleur de l'équipe
@@ -578,6 +523,35 @@ public class Robot implements Service {
         else
             turn(angle, null, false, false);
     }
+
+	/**
+	 * Renvoie la valeur d'un capteur de contact
+	 *
+	 * @param sensor le capteur en question
+	 * @return l'état logique du capteur
+	 * @throws SerialConnexionException
+	 */
+	public boolean getContactSensorValue(ContactSensors sensor) throws SerialConnexionException {
+		// si il n'y a pas de symétrie, on renvoie la valeur brute du bas niveau
+		if (!symmetry)
+			return serialWrapper.getContactSensorValue(sensor);
+		else {
+			sensor = mSensorNamesMap.getSymmetrizedContactSensorName(sensor);
+
+			/* attention si les capteurs sont en int[] il faut symétriser ce int[] */
+
+			return serialWrapper.getContactSensorValue(sensor);
+		}
+	}
+
+	/**
+	 * Fait attendre le programme
+	 *
+	 * @param duree attente en ms
+	 */
+	public void sleep(long duree) {
+		Sleep.sleep(duree);
+	}
 
 	/**
 	 * Met à jour la configuration de la classe via le fichier de configuration fourni par le sysème de container
