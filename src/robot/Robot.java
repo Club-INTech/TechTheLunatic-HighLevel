@@ -187,8 +187,6 @@ public class Robot implements Service {
 		useActuator(ActuatorOrder.P2, true);
 		useActuator(ActuatorOrder.P1, true);
 		useActuator(ActuatorOrder.P2, true);
-		//useActuator(ActuatorOrder.P1, true);
-		//useActuator(ActuatorOrder.P2, true);
 		useActuator(ActuatorOrder.PREND_PELLE, true);
 		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 		useActuator(ActuatorOrder.RANGE_PELLE, false);
@@ -294,7 +292,7 @@ public class Robot implements Service {
 	 */
 	public void moveToLocation(Vec2 aim, ArrayList<Hook> hooksToConsider, Table table) throws  UnableToMoveException,PointInObstacleException
 	{
-		log.debug("appel de Robot.moveToLocation(" + aim + "," + hooksToConsider + "," + table + ")");
+		log.debug("Appel de Robot.moveToLocation(" + aim + "," + hooksToConsider + "," + table + ")");
 		//On crée bêtement un cercle de rayon nul pour lancer moveToCircle, sachant que la position de ce cercle est extraite pour le pathDiniDing (et après on dit qu'à INTech on code comme des porcs...)
 		moveToCircle(new Circle(aim), hooksToConsider, table);
 	}
@@ -457,6 +455,25 @@ public class Robot implements Service {
 		if(isTurnRelative)
 			angle += getOrientation();
 		mLocomotion.turn(angle, hooksToConsider, expectsWallImpact, mustDetect);
+	}
+
+	/**
+	 * Fait tourner le robot (méthode bloquante)
+	 * L'orientation est modifiée si on est équipe jaune: Cette méthode n'adapte pas l'orientation en fonction de la couleur de l'équipe
+	 * Attention: le pivot sera fait en supposant qu'il n'y a pas de hook a vérifier, et qu'on ne s'attends pas a percuter un obstacle.
+	 *
+	 * @param angle : valeur absolue en radiant de l'orientation que le robot doit avoir après cet appel. L'orientation ne sera pas symétrisée, quelle que soit la couleur de l'équipe.
+	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
+	 */
+	public void turnNoSymmetry(double angle) throws UnableToMoveException
+	{
+
+		log.debug("appel de Robot.turnNoSymmetry(" + angle + ")");
+		// Fais la symétrie deux fois (symétrie de symétrie, c'est l'identité)
+		if(symmetry)
+			turn(Math.PI-angle, null, false, false);
+		else
+			turn(angle, null, false, false);
 	}
 
 	/**
@@ -627,25 +644,6 @@ public class Robot implements Service {
 		this.mLocomotion.setSmoothAcceleration(state);
 	}
 
-    /**
-     * Fait tourner le robot (méthode bloquante)
-     * L'orientation est modifiée si on est équipe jaune: Cette méthode n'adapte pas l'orientation en fonction de la couleur de l'équipe
-     * Attention: le pivot sera fait en supposant qu'il n'y a pas de hook a vérifier, et qu'on ne s'attends pas a percuter un obstacle.
-     *
-     * @param angle : valeur absolue en radiant de l'orientation que le robot doit avoir après cet appel. L'orientation ne sera pas symétrisée, quelle que soit la couleur de l'équipe.
-     * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
-     */
-    public void turnNoSymmetry(double angle) throws UnableToMoveException
-    {
-
-        log.debug("appel de Robot.turnNoSymmetry(" + angle + ")");
-        // Fais la symétrie deux fois (symétrie de symétrie, c'est l'identité)
-        if(symmetry)
-            turn(Math.PI-angle, null, false, false);
-        else
-            turn(angle, null, false, false);
-    }
-
 	/**
 	 * Renvoie la valeur d'un capteur de contact
 	 *
@@ -714,13 +712,6 @@ public class Robot implements Service {
 	 */
 	public void switchSensor() throws SerialConnexionException {
 		serialWrapper.switchSensor();
-	}
-
-	/**
-	 * Vérifie si la pelle a foiré ou pas
-	 */
-	public boolean isPelleOk(){
-		return !(mLocomotion.isThereSomethingFront());
 	}
 
 	public void enableRotationnalFeedbackLoop()
