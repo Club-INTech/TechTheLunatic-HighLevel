@@ -170,32 +170,6 @@ public class Robot implements Service {
 	}
 
 	/**
-	 * Met à jour la configuration de la classe via le fichier de configuration fourni par le sysème de container
-	 * et supprime les espaces (si si c'est utile)
-	 */
-	public void updateConfig() {
-		try {
-			symmetry = config.getProperty("couleur").replaceAll(" ", "").equals("jaune"); // TODO : modifier la couleur adverse
-			robotRay = Integer.parseInt(config.getProperty("rayon_robot"));
-			robotLength = Integer.parseInt(config.getProperty("longueur_robot"));
-			robotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
-			position = Table.entryPosition;
-			orientation = Math.PI;
-			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,false);
-			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,false);
-			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,false);
-			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,false);
-			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,false);
-			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,false);
-			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULE_PRES_BASE,false);
-
-		} catch (ConfigPropertyNotFoundException e) {
-			log.critical(e.logStack());
-			log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
-		}
-	}
-
-	/**
 	 * Utiliser un actuateur par l'ordre fourni
 	 * Peut être bloquante le temps de faire l'action
 	 *
@@ -212,16 +186,6 @@ public class Robot implements Service {
 			sleep(order.getDuration());
 		}
 	}
-	/* Effectue un mouvement en ligne droite jusqu'au point désiré.
-            * @param pointVise
-	 * @throws UnableToMoveException Pour aller à un point visé.
-	 *                               Utilisé dans les scripts de match sans pathfinding.
-            *                               &
-
-    public void goTo(Vec2 pointVise) throws UnableToMoveException {
-        goTo(pointVise, new ArrayList<Hook>());
-    }
-*/
 
     /**
 	 * Renvoie la valeur d'un capteur de contact
@@ -252,117 +216,32 @@ public class Robot implements Service {
 		Sleep.sleep(duree);
 	}
 
-
 	/**
-	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
+	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
+	 * Attention, cette méthode suppose qu'il n'y a pas de hooks a considérer, et que l'on est pas sensé percuter un mur.
 	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
 	 *
-	 * @param distance          en mm que le robot doit franchir
-	 * @param hooksToConsider   hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie
-	 * @param expectsWallImpact true si le robot doit s'attendre a percuter un mur au cours du déplacement. false si la route est sensée être dégagée.
+	 * @param distance en mm que le robot doit franchir. Si cette distance est négative, le robot va reculer. Attention, en cas de distance négative, cette méthode ne vérifie pas s'il y a un système d'évitement a l'arrère du robot
 	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
 	 */
-	public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact) throws UnableToMoveException {
-		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + "," + expectsWallImpact + ")");
-		moveLengthwise(distance, hooksToConsider, expectsWallImpact, true);
-	}
-
-
-	/**
-	 * Active la détection basique
-	 *
-	 * @param basicDetection oui/non
-	 */
-	public void setBasicDetection(boolean basicDetection) {
-		mLocomotion.setBasicDetection(basicDetection);
+	public void moveLengthwise(int distance) throws UnableToMoveException {
+		log.debug("appel de Robot.distance(" + distance + ")");
+		moveLengthwise(distance, new ArrayList<Hook>(), false);
 	}
 
 	/**
-	 * Forcer les valeurs des capteurs dans cet objet
-	 *
-	 * @param val les valeurs comme définies dans threadSensors
-	 */
-	public void setUSvalues(ArrayList<Integer> val) {
-		mLocomotion.setUSvalues(val);
-	}
-
-	/**
-	 * moveLengthwise mais sans détection
-	 */
-	public void moveLengthwiseWithoutDetection(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact) throws UnableToMoveException {
-		log.debug("appel de Robot.moveLengthwiseWithoutDetection(" + distance + "," + hooksToConsider + "," + expectsWallImpact + ")");
-		Speed newSpeed = Speed.SLOW_ALL;
-		/*
-    	if (distance<150)
-    		newSpeed = Speed.SLOW;
-    	else if (distance <1000)
-    		newSpeed = Speed.BETWEEN_SCRIPTS_SLOW;
-    	else
-    		newSpeed = Speed.BETWEEN_SCRIPTS;
-    		*/
-
-		moveLengthwise(distance, hooksToConsider, expectsWallImpact, false, newSpeed);
-	}
-
-	/**
-	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
+	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
+	 * Attention, cette méthode suppose que l'on est pas sensé percuter un mur.
 	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
 	 *
-	 * @param distance          en mm que le robot doit franchir
-	 * @param hooksToConsider   hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie
-	 * @param expectsWallImpact true si le robot doit s'attendre a percuter un mur au cours du déplacement. false si la route est sensée être dégagée.
-	 * @param mustDetect        vrai si le robot doit detecter les obstacles sur son chemin
+	 * @param distance en mm que le robot doit franchir. Si cette distance est négative, le robot va reculer. Attention, en cas de distance négative, cette méthode ne vérifie pas s'il y a un système d'évitement a l'arrère du robot
+	 * @param hooksToConsider les hooks déclenchables durant ce mouvement
 	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
 	 */
-	public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact, Boolean mustDetect) throws UnableToMoveException {
-		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + "," + expectsWallImpact + "," + mustDetect + ")");
-		Speed newSpeed = Speed.SLOW_ALL;
-		/*
-    	if (distance<150)
-    		newSpeed = Speed.SLOW;
-    	else if (distance <1000)
-    		newSpeed = Speed.BETWEEN_SCRIPTS_SLOW;
-    	else
-    		newSpeed = Speed.BETWEEN_SCRIPTS;
-    		*/
-
-		moveLengthwise(distance, hooksToConsider, expectsWallImpact, mustDetect, newSpeed);
-	}
-
-
-	/**
-	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
-	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
-	 *
-	 * @param distance          en mm que le robot doit franchir
-	 * @param hooksToConsider   hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie
-	 * @param expectsWallImpact true si le robot doit s'attendre a percuter un mur au cours du déplacement. false si la route est sensée être dégagée.
-	 * @param mustDetect        vrai si le robot doit detecter les obstacles sur son chemin
-	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
-	 */
-	public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact, Boolean mustDetect, Speed newSpeed) throws UnableToMoveException {
-		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + "," + expectsWallImpact + "," + mustDetect + "," + newSpeed + ")");
-		Speed oldSpeed = speed;
-		speed = newSpeed;
-		mLocomotion.moveLengthwise(distance, hooksToConsider, expectsWallImpact, mustDetect);
-		speed = oldSpeed;
-	}
-
-	public void moveLengthwiseAndWaitIfNeeded(int distance, ArrayList<Hook> hooks, boolean expectedWallImpact, boolean isDetect) throws UnableToMoveException{
-		mLocomotion.moveLengthwiseAndWaitIfEnnemy(distance, hooks, expectedWallImpact, isDetect);
-	}
-
-	public void moveLengthwiseAndWaitIfNeeded(int distance, ArrayList<Hook> hooks) throws UnableToMoveException{
-		moveLengthwiseAndWaitIfNeeded(distance, hooks, false, true);
-	}
-
-	public void moveLengthwiseAndWaitIfNeeded(int distance) throws UnableToMoveException{
-		moveLengthwiseAndWaitIfNeeded(distance, new ArrayList<Hook>(), false, true);
-	}
-
-	public void moveLengthwiseWithoutDetection(int distance) throws UnableToMoveException {
-		log.debug("appel de Robot.moveLengthwiseWithoutDetection(" + distance + ")");
-		moveLengthwiseWithoutDetection(distance, null, false);
+	public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider) throws UnableToMoveException
+	{
+		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + ")");
+		moveLengthwise(distance, hooksToConsider, false);
 	}
 
 	/**
@@ -381,16 +260,60 @@ public class Robot implements Service {
 	}
 
 	/**
-	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
-	 * Attention, cette méthode suppose qu'il n'y a pas de hooks a considérer, et que l'on est pas sensé percuter un mur.
+	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
 	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
 	 *
-	 * @param distance en mm que le robot doit franchir. Si cette distance est négative, le robot va reculer. Attention, en cas de distance négative, cette méthode ne vérifie pas s'il y a un système d'évitement a l'arrère du robot
+	 * @param distance          en mm que le robot doit franchir
+	 * @param hooksToConsider   hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie
+	 * @param expectsWallImpact true si le robot doit s'attendre a percuter un mur au cours du déplacement. false si la route est sensée être dégagée.
 	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
 	 */
-	public void moveLengthwise(int distance) throws UnableToMoveException {
-		log.debug("appel de Robot.distance(" + distance + ")");
-		moveLengthwise(distance, new ArrayList<Hook>(), false);
+	public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact) throws UnableToMoveException {
+		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + "," + expectsWallImpact + ")");
+		moveLengthwise(distance, hooksToConsider, expectsWallImpact, true);
+	}
+
+	/**
+	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
+	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
+	 *
+	 * @param distance          en mm que le robot doit franchir
+	 * @param hooksToConsider   hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie
+	 * @param expectsWallImpact true si le robot doit s'attendre a percuter un mur au cours du déplacement. false si la route est sensée être dégagée.
+	 * @param mustDetect        vrai si le robot doit detecter les obstacles sur son chemin
+	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
+	 */
+	public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact, Boolean mustDetect) throws UnableToMoveException {
+		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + "," + expectsWallImpact + "," + mustDetect + ")");
+		Speed newSpeed = Speed.SLOW_ALL;
+		moveLengthwise(distance, hooksToConsider, expectsWallImpact, mustDetect, newSpeed);
+	}
+
+	/**
+	 * moveLengthwise mais sans détection
+	 */
+	public void moveLengthwiseWithoutDetection(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact) throws UnableToMoveException {
+		log.debug("appel de Robot.moveLengthwiseWithoutDetection(" + distance + "," + hooksToConsider + "," + expectsWallImpact + ")");
+		Speed newSpeed = Speed.SLOW_ALL;
+		moveLengthwise(distance, hooksToConsider, expectsWallImpact, false, newSpeed);
+	}
+
+	/**
+	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer
+	 * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
+	 *
+	 * @param distance          en mm que le robot doit franchir
+	 * @param hooksToConsider   hooks a considérer lors de ce déplacement. Le hook n'est déclenché que s'il est dans cette liste et que sa condition d'activation est remplie
+	 * @param expectsWallImpact true si le robot doit s'attendre a percuter un mur au cours du déplacement. false si la route est sensée être dégagée.
+	 * @param mustDetect        vrai si le robot doit detecter les obstacles sur son chemin
+	 * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
+	 */
+	public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider, boolean expectsWallImpact, Boolean mustDetect, Speed newSpeed) throws UnableToMoveException {
+		log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + "," + expectsWallImpact + "," + mustDetect + "," + newSpeed + ")");
+		Speed oldSpeed = speed;
+		speed = newSpeed;
+		mLocomotion.moveLengthwise(distance, hooksToConsider, expectsWallImpact, mustDetect);
+		speed = oldSpeed;
 	}
 
     /** Effectue un mouvement en ligne droite jusqu'au point désiré.
@@ -414,28 +337,24 @@ public class Robot implements Service {
 			o = -o;
 		}
 
-		log.debug("a : " + a);
-		log.debug("r : " + r);
-		log.debug("o : " + o);
-
 		DirectionStrategy directionStrategy = mLocomotion.getDirectionStrategy();
 		if (directionStrategy == DirectionStrategy.FASTEST) {
 			if (3 * Math.PI / 2 < o || o < Math.PI / 2) { //si il est orienté vers l'avant par rapport au point visé
 				turn(a, hooksToConsider, expectedWallImpact, false);
-				moveLengthwiseAndWaitIfNeeded(r, hooksToConsider, expectedWallImpact, isDetect);
+				moveLengthwise(r, hooksToConsider, expectedWallImpact, isDetect);
 			} else if (3 * Math.PI / 2 >= o && o >= Math.PI / 2) { //si il est orienté vers l'arrière par rapport au point visé
 				a = a + Math.PI;
 				turn(a, hooksToConsider, expectedWallImpact, false);
-				moveLengthwiseAndWaitIfNeeded(-r, hooksToConsider, expectedWallImpact, isDetect);
+				moveLengthwise(-r, hooksToConsider, expectedWallImpact, isDetect);
 			}
 		}
 		if (directionStrategy == DirectionStrategy.FORCE_BACK_MOTION) {
 			a = a + Math.PI;
 			turn(a, hooksToConsider, expectedWallImpact, false);
-			moveLengthwiseAndWaitIfNeeded(-r, hooksToConsider, expectedWallImpact, isDetect);
+			moveLengthwise(-r, hooksToConsider, expectedWallImpact, isDetect);
 		} else if (directionStrategy == DirectionStrategy.FORCE_FORWARD_MOTION) {
 			turn(a, hooksToConsider, expectedWallImpact, false);
-			moveLengthwiseAndWaitIfNeeded(r, hooksToConsider, expectedWallImpact, isDetect);
+			moveLengthwise(r, hooksToConsider, expectedWallImpact, isDetect);
 		}
     }
 
@@ -469,22 +388,6 @@ public class Robot implements Service {
         Vec2 move = pointVise.minusNewVector(position);
         double a = move.getA();
         turn(a);
-    }
-
-
-    /**
-     * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
-     * Attention, cette méthode suppose que l'on est pas sensé percuter un mur.
-     * Cette méthode est bloquante: son exécution ne se termine que lorsque le robot a atteint le point d'arrivée
-     *
-     * @param distance en mm que le robot doit franchir. Si cette distance est négative, le robot va reculer. Attention, en cas de distance négative, cette méthode ne vérifie pas s'il y a un système d'évitement a l'arrère du robot
-     * @param hooksToConsider les hooks déclenchables durant ce mouvement
-     * @throws UnableToMoveException losrque quelque chose sur le chemin cloche et que le robot ne peut s'en défaire simplement: bloquage mécanique immobilisant le robot ou obstacle percu par les capteurs
-     */
-    public void moveLengthwise(int distance, ArrayList<Hook> hooksToConsider) throws UnableToMoveException
-    {
-        log.debug("appel de Robot.moveLengthwise(" + distance + "," + hooksToConsider + ")");
-        moveLengthwise(distance, hooksToConsider, false);
     }
 
     /**
@@ -590,6 +493,22 @@ public class Robot implements Service {
     }
 
 	/**
+	 * Active la détection basique
+	 * @param basicDetection oui/non
+	 */
+	public void setBasicDetection(boolean basicDetection) {
+		mLocomotion.setBasicDetection(basicDetection);
+	}
+
+	/**
+	 * Forcer les valeurs des capteurs dans cet objet
+	 * @param val les valeurs comme définies dans threadSensors
+	 */
+	public void setUSvalues(ArrayList<Integer> val) {
+		mLocomotion.setUSvalues(val);
+	}
+
+	/**
 	 * Active le mouvement forcé (on ignore les conditions de blocage du bas-niveau)
 	 * @param state oui/non
 	 */
@@ -632,7 +551,7 @@ public class Robot implements Service {
 		log.debug("appel de Robot.turn(" + angle + "," + hooksToConsider + ")");
     	try
     	{
-    		mLocomotion.turn(angle, hooksToConsider);
+    		mLocomotion.turn(angle, hooksToConsider, true);
     	}
     	catch (UnableToMoveException e)
     	{
@@ -659,6 +578,33 @@ public class Robot implements Service {
         else
             turn(angle, null, false, false);
     }
+
+	/**
+	 * Met à jour la configuration de la classe via le fichier de configuration fourni par le sysème de container
+	 * et supprime les espaces (si si c'est utile)
+	 */
+	@Override
+	public void updateConfig() {
+		try {
+			symmetry = config.getProperty("couleur").replaceAll(" ", "").equals("jaune"); // TODO : modifier la couleur adverse
+			robotRay = Integer.parseInt(config.getProperty("rayon_robot"));
+			robotLength = Integer.parseInt(config.getProperty("longueur_robot"));
+			robotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
+			position = Table.entryPosition;
+			orientation = Math.PI;
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULEFOND,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATEREFOND,false);
+			this.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_MODULE_PRES_BASE,false);
+
+		} catch (ConfigPropertyNotFoundException e) {
+			log.critical(e.logStack());
+			log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
+		}
+	}
     
     @SuppressWarnings("unchecked")
     public void followPath(ArrayList<Vec2> chemin, ArrayList<Hook> hooksToConsider) throws UnableToMoveException

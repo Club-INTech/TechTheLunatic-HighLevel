@@ -421,14 +421,12 @@ public class ObstacleManager
     }  
 
     /**
-     * retourne la distance à l'ennemi le plus proche (en mm)
-     * Les ennemis ne sont pris en compte que si ils sont dans la direstion donnée, a 90° près
-     * si l'ennemi le plus proche est tangent à notre robot, ou plus proche, on retourne 0
+     * retourne la distance à l'ennemi le plus proche (en mm) dans toute les directions
+	 * utile lorque le robot tourne sur lui meme
      * @param position la position a laquelle on doit mesurer la proximité des ennemis
-     * @param direction direction selon laquelle on doit prendre en compte les ennemis
      * @return la distance à l'ennemi le plus proche (>= 0)
      */
-    public synchronized int distanceToClosestEnemy(Vec2 position, Vec2 direction)
+    public synchronized int distanceToClosestEnemy(Vec2 position)
     {
     	try
     	{
@@ -447,15 +445,14 @@ public class ObstacleManager
 	    	for(int i=0; i<mMobileObstacles.size(); i++)
 	    	{
 	    		Vec2 ennemyRelativeCoords = mMobileObstacles.get(i).getPosition().minusNewVector(position);
-	    		if(direction.dot(ennemyRelativeCoords) > 0)
-	    		{
-		    		squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength(); 
-		    		if(squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy)
-		    		{
-		    			squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
-		    			closestEnnemy = mMobileObstacles.get(i);
-		    		}
-	    		}
+				squaredDistanceToEnemyTested = ennemyRelativeCoords.squaredLength();
+
+				if(squaredDistanceToEnemyTested < squaredDistanceToClosestEnemy)
+				{
+					squaredDistanceToClosestEnemy = squaredDistanceToEnemyTested;
+					closestEnnemy = mMobileObstacles.get(i);
+				}
+
 	    	}
 	    	
 	    	if(squaredDistanceToClosestEnemy <= 0)
