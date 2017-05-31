@@ -69,9 +69,9 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
             if (versionToExecute==0)
             {actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_LIVRAISON_MODULEFOND,true);
 
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresBoules);
+                actualState.robot.moveLengthwise(distanceCratereFondApresBoules);
                 actualState.robot.turn(angleCratereFondAvantDepotModule);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, false);
+                actualState.robot.moveLengthwise(distanceCratereFondAvantDepotModule, new ArrayList<Hook>(), true, false);
 
                 // Recalage en orientation
                 actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
@@ -82,8 +82,6 @@ public class ScriptedGoTo_LivraisonModuleFond  extends AbstractScript{
 
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereBaseLunaire.isStillThere=false;
-
-
 
 
                 //Initialisation des hooks pour permettre de replier les actionneurs pendant les déplacements

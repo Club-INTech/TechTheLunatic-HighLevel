@@ -84,7 +84,7 @@ public class ScriptedGoTo_ModuleFond extends AbstractScript {
                 actualState.robot.goTo(point3AttrapperModule1);
                 actualState.robot.turn(angleAttraperModule1);
 
-                actualState.robot.prendModule(Side.RIGHT);
+                actualState.robot.catchModule(Side.RIGHT);
 
                 actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
                 actualState.table.cylindreCratereBase.isStillThere=false;

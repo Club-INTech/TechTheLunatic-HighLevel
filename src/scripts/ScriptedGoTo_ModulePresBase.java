@@ -71,7 +71,7 @@ public class ScriptedGoTo_ModulePresBase extends AbstractScript{
                     actualState.robot.setPosition(new Vec2(605,194));
 
                     // Avec le Hook pour prendre le module multicolore pret de la zone de départ
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(75);
+                    actualState.robot.moveLengthwise(75);
                     actualState.robot.turn(2 * Math.PI / 3 + 0.1);   // 250, 580 <- 578, 208
                     actualState.robot.moveLengthwise(550);
                     actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);

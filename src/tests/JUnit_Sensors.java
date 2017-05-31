@@ -115,7 +115,7 @@ public class JUnit_Sensors extends JUnit_Test
 		log.debug("Position :" + state.robot.getPosition());
 
 		try {
-			state.robot.moveLengthwiseAndWaitIfNeeded(-800);
+			state.robot.moveLengthwise(-800);
 		}catch (EnnemyCrashedException e){
 			state.robot.turn(Math.PI/16, new ArrayList<Hook>(), false, true);
 			Sleep.sleep(3000);
@@ -156,7 +156,7 @@ public class JUnit_Sensors extends JUnit_Test
 		log.debug("Test d'évitement");
 		try 
 		{	
-			state.robot.moveLengthwiseWithoutDetection(250);
+			state.robot.moveLengthwiseWithoutDetection(250, new ArrayList<Hook>(), false);
 		} 
 		catch (UnableToMoveException e1)
 		{}
@@ -186,7 +186,7 @@ public class JUnit_Sensors extends JUnit_Test
 		state.robot.setPosition(new Vec2(580, 208));
 		state.robot.setOrientation(-Math.PI/2);
 		try {
-			state.robot.moveLengthwiseAndWaitIfNeeded(-600);
+			state.robot.moveLengthwise(-600);
 			// state.robot.turn(-Math.PI / 4);
 			Sleep.sleep(5000);
 
@@ -234,7 +234,7 @@ public class JUnit_Sensors extends JUnit_Test
 		
 		try 
 		{
-			state.robot.moveLengthwiseWithoutDetection(500);
+			state.robot.moveLengthwiseWithoutDetection(500, new ArrayList<Hook>(), false);
 			state.robot.turn(- Math.PI/2);
 		} 
 		catch (UnableToMoveException e1)
@@ -252,7 +252,7 @@ public class JUnit_Sensors extends JUnit_Test
 		
 		try 
 		{
-			state.robot.moveLengthwiseWithoutDetection(500);
+			state.robot.moveLengthwiseWithoutDetection(500, new ArrayList<Hook>(), false);
 		} 
 		catch (UnableToMoveException e1)
 		{
@@ -262,8 +262,8 @@ public class JUnit_Sensors extends JUnit_Test
 		{
 			try 
 			{
-				state.robot.moveLengthwiseWithoutDetection(500);
-				state.robot.moveLengthwiseWithoutDetection(-500);
+				state.robot.moveLengthwiseWithoutDetection(500, new ArrayList<Hook>(), false);
+				state.robot.moveLengthwiseWithoutDetection(-500, new ArrayList<Hook>(), false);
 			} 
 			catch (UnableToMoveException e1)
 			{
@@ -320,7 +320,7 @@ public class JUnit_Sensors extends JUnit_Test
 	{
 		while(true)
 		{
-			state.table.getObstacleManager().distanceToClosestEnemy(state.robot.getPosition(), new Vec2(500,500));
+			state.table.getObstacleManager().distanceToClosestEnemy(state.robot.getPosition());
 		}
 	} 
 	
