@@ -54,7 +54,7 @@ public class JUnit_CatchBalls extends JUnit_Test
             //On execute le script
             log.debug("Ramassage des balles");
             mRobot.robot.switchSensor();
-            mRobot.robot.prendBoules();
+            mRobot.robot.catchBalls();
             log.debug("isPelleOk ?: " + mRobot.robot.isPelleOk());
             mRobot.robot.switchSensor();
         }

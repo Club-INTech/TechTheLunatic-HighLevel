@@ -154,18 +154,18 @@ public class FullScripted extends AbstractScript
                 actualState.robot.moveLengthwise(distanceAfterDrop1stMod, hooksToConsider);
 
                 actualState.robot.turn(angleToCloseZone);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceToCloseZone,emptyHook);
+                actualState.robot.moveLengthwise(distanceToCloseZone,emptyHook);
 
                 //deuxième partie du match
                 actualState.robot.turn(angleManip2ndMod);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceManip2ndMod, emptyHook);
+                actualState.robot.moveLengthwise(distanceManip2ndMod, emptyHook);
                 //actualState.robot.useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPLI_CALLE_G, false);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, false);
 
                 actualState.robot.turn(angleBeforeCatch2ndMod);
 
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceBeforeCatch2ndMod,emptyHook);
+                actualState.robot.moveLengthwise(distanceBeforeCatch2ndMod,emptyHook);
                 // Attraper le module
                 actualState.robot.useActuator(ActuatorOrder.PREND_MODULE_G, true);
                 actualState.robot.useActuator(ActuatorOrder.REPOS_ATTRAPE_G, true);
@@ -191,12 +191,12 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
 
                 actualState.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAfterCatch2ndMod,emptyHook);
+                actualState.robot.moveLengthwise(distanceAfterCatch2ndMod,emptyHook);
 
 
                 actualState.robot.turn(angleBeforeDrop1stBalls);
 
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceBeforeDrop1stBalls,emptyHook);
+                actualState.robot.moveLengthwise(distanceBeforeDrop1stBalls,emptyHook);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
@@ -211,7 +211,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
                 //Reculer un peu
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAfterDrop1stBalls,emptyHook);
+                actualState.robot.moveLengthwise(distanceAfterDrop1stBalls,emptyHook);
 
                 //tourner la pelle jusqu'à la position initiale
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
@@ -228,7 +228,7 @@ public class FullScripted extends AbstractScript
                 // Manoeuvre pour se diriger vers le cratère
                 //stateToConsider.robot.useActuator(ActuatorOrder.PREND_MODULE_D, true);
                 actualState.robot.turn(vec.getA()+0.05);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceBeforeCatch2ndBalls,emptyHook);
+                actualState.robot.moveLengthwise(distanceBeforeCatch2ndBalls,emptyHook);
 
                 // Prepare la pelleteuse avant déploiement(bras relevés mais légèrement abaissés pour ne pas bloquer la rotation de la pelle, puis pelle mise à 300°)
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -244,9 +244,9 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.TIENT_BOULES,false);
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, false);
 
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceToDisengageCloseZone,emptyHook);
+                actualState.robot.moveLengthwise(distanceToDisengageCloseZone,emptyHook);
                 actualState.robot.turn(angleBeforeCatch2ndBalls);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceBeforeCatch2ndBalls,emptyHook);
+                actualState.robot.moveLengthwise(distanceBeforeCatch2ndBalls,emptyHook);
 
                 //abaisser les bras au plus bas
                 actualState.robot.useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
@@ -261,7 +261,7 @@ public class FullScripted extends AbstractScript
                 actualState.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
                 //Reculer un peu
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(finalMove,emptyHook);
+                actualState.robot.moveLengthwise(finalMove,emptyHook);
 
                 //tourner la pelle jusqu'à la position initiale
                 actualState.robot.useActuator(ActuatorOrder.PRET_PELLE, true);

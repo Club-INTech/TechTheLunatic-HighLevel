@@ -176,6 +176,86 @@ public class Robot implements Service {
 
 
 	/**
+	 * Suite d'action pour prendre les boules; utile pour les scripts
+	 * @throws SerialConnexionException
+	 */
+	public void catchBalls() throws SerialConnexionException {
+		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+		useActuator(ActuatorOrder.PRET_PELLE, true);
+		useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+		useActuator(ActuatorOrder.P1, true);
+		useActuator(ActuatorOrder.P2, true);
+		useActuator(ActuatorOrder.P1, true);
+		useActuator(ActuatorOrder.P2, true);
+		//useActuator(ActuatorOrder.P1, true);
+		//useActuator(ActuatorOrder.P2, true);
+		useActuator(ActuatorOrder.PREND_PELLE, true);
+		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+		useActuator(ActuatorOrder.RANGE_PELLE, false);
+		useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+	}
+
+	/**
+	 * Suite d'actions pour livrer les boules; utile pour les scripts
+	 * @throws SerialConnexionException
+	 */
+
+	public void dropBalls() throws SerialConnexionException {
+		useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
+		useActuator(ActuatorOrder.LIVRE_PELLE, true);
+		useActuator(ActuatorOrder.PREND_PELLE, true);
+		// useActuator(ActuatorOrder.LIVRE_PELLE, true);
+		useActuator(ActuatorOrder.RANGE_PELLE, true);
+		useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+	}
+
+	/**
+	 * Suite d'actions pour prendre un module de la table; utile pour les scripts
+	 * @param side
+	 * @throws SerialConnexionException
+	 */
+
+	public void catchModule(Side side) throws SerialConnexionException {
+		if(side==Side.RIGHT) {
+			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+
+			useActuator(ActuatorOrder.PREND_MODULE_D, true);
+			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+			useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+			useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+			useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+
+			useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+			useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+
+			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+
+		}
+		else if(side==Side.LEFT){
+
+			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+			useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
+
+			useActuator(ActuatorOrder.PREND_MODULE_G, true);
+			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
+			useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+			useActuator(ActuatorOrder.REPOS_CALLE_G, false);
+			useActuator(ActuatorOrder.REPOS_CALLE_D, true);
+
+			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
+			useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
+
+			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+		}
+
+		useActuator(ActuatorOrder.REPOS_CALLE_D, false);
+		useActuator(ActuatorOrder.REPOS_CALLE_G, true);
+		useActuator(ActuatorOrder.LEVE_ASC, true);
+	}
+
+
+	/**
 	 * Utiliser un actuateur par l'ordre fourni
 	 * Peut être bloquante le temps de faire l'action
 	 *
@@ -198,6 +278,10 @@ public class Robot implements Service {
 	 * LOCOMOTION *
 	 *************/
 
+			/************************
+		 	* APPELS AU PATHFINDING *
+		 	************************/
+
 
 	/**
 	 * Déplace le robot vers un point en suivant un chemin qui évite les obstacles. (appel du pathfinding)
@@ -214,7 +298,6 @@ public class Robot implements Service {
 		//On crée bêtement un cercle de rayon nul pour lancer moveToCircle, sachant que la position de ce cercle est extraite pour le pathDiniDing (et après on dit qu'à INTech on code comme des porcs...)
 		moveToCircle(new Circle(aim), hooksToConsider, table);
 	}
-
 
 	/**
 	 * deplace le robot vers le point du cercle donnné le plus proche, en évitant les obstacles. (appel du pathfinding)
@@ -235,7 +318,7 @@ public class Robot implements Service {
 	 * @throws UnableToMoveException
 	 */
 
-	public void goTo(Vec2 pointVise) throws UnableToMoveException{
+	public void goTo(Vec2 pointVise) throws UnableToMoveException {
 		goTo(pointVise, new ArrayList<Hook>(), false, true);
 	}
 
@@ -260,6 +343,11 @@ public class Robot implements Service {
 		log.debug("Appel de Robot.goTo :" + pointVise);
 		mLocomotion.goTo(pointVise, hooksToConsider, expectedWallImpact, isDetect);
 	}
+
+
+			/***********************
+	 		* MOUVEMENTS UNITAIRES *
+	 		***********************/
 
 
 	/**
@@ -324,7 +412,6 @@ public class Robot implements Service {
 		turn(angle, hooksToConsider, expectsWallImpact, isTurnRelative, true);
 	}
 
-
 	/**
 	 * Fait tourner le robot en considérant TOUT !
 	 * @param angle
@@ -340,7 +427,6 @@ public class Robot implements Service {
 			angle += getOrientation();
 		mLocomotion.turn(angle, hooksToConsider, expectsWallImpact, mustDetect);
 	}
-
 
 	/**
 	 * Fait avancer le robot de la distance spécifiée. Le robot garde son orientation actuelle et va simplement avancer.
@@ -770,69 +856,4 @@ public class Robot implements Service {
 		return mLocomotion.isRobotMovingBackward;
 	}
 
-
-	//Ordres d'actionneurs groupés, pour scripts
-	public void prendBoules() throws SerialConnexionException {
-		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
-		useActuator(ActuatorOrder.PRET_PELLE, true);
-		useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
-		useActuator(ActuatorOrder.P1, true);
-		useActuator(ActuatorOrder.P2, true);
-		useActuator(ActuatorOrder.P1, true);
-		useActuator(ActuatorOrder.P2, true);
-		//useActuator(ActuatorOrder.P1, true);
-		//useActuator(ActuatorOrder.P2, true);
-		useActuator(ActuatorOrder.PREND_PELLE, true);
-		useActuator(ActuatorOrder.MED_PELLETEUSE, true);
-		useActuator(ActuatorOrder.RANGE_PELLE, false);
-		useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
-	}
-
-	public void livreBoules() throws SerialConnexionException {
-		useActuator(ActuatorOrder.LIVRAISON_PELLETEUSE, true);
-		useActuator(ActuatorOrder.LIVRE_PELLE, true);
-		useActuator(ActuatorOrder.PREND_PELLE, true);
-		// useActuator(ActuatorOrder.LIVRE_PELLE, true);
-		useActuator(ActuatorOrder.RANGE_PELLE, true);
-		useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
-    }
-
-    public void prendModule(Side side) throws SerialConnexionException {
-    	if(side==Side.RIGHT) {
-			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
-
-			useActuator(ActuatorOrder.PREND_MODULE_D, true);
-			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-			useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
-			useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-			useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-
-			useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-			useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
-
-            useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-
-		}
-		else if(side==Side.LEFT){
-
-			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-			useActuator(ActuatorOrder.LIVRE_CALLE_D, false);
-
-			useActuator(ActuatorOrder.PREND_MODULE_G, true);
-			useActuator(ActuatorOrder.MID_ATTRAPE_G, true);
-			useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
-			useActuator(ActuatorOrder.REPOS_CALLE_G, false);
-			useActuator(ActuatorOrder.REPOS_CALLE_D, true);
-
-			useActuator(ActuatorOrder.LIVRE_CALLE_G, false);
-			useActuator(ActuatorOrder.LIVRE_CALLE_D, true);
-
-			useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
-		}
-
-		useActuator(ActuatorOrder.REPOS_CALLE_D, false);
-		useActuator(ActuatorOrder.REPOS_CALLE_G, true);
-		useActuator(ActuatorOrder.LEVE_ASC, true);
-	}
 }

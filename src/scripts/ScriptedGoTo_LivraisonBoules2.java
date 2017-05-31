@@ -71,12 +71,12 @@ public class ScriptedGoTo_LivraisonBoules2 extends AbstractScript {
                     actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES2,true);
 
                     // Livraison des 2emes boules
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseApresBoules);
+                    actualState.robot.moveLengthwise(distanceCratereBaseApresBoules);
                     actualState.robot.turn(angleAvantDeposeBoules);
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules2, hooksToConsider, true, true);
+                    actualState.robot.moveLengthwise(distanceAvantDeposeBoules2, hooksToConsider, true, true);
                     actualState.robot.turn(angleDeposeBoules);
 
-                    actualState.robot.livreBoules();
+                    actualState.robot.dropBalls();
 
                     actualState.robot.setRempliDeBoules(false);
 

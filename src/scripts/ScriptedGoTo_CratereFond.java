@@ -79,11 +79,11 @@ public class ScriptedGoTo_CratereFond extends AbstractScript{
                 actualState.robot.goTo(point4arriveDevantCratereFond, new ArrayList<Hook>(), false, false);
                 actualState.robot.turnTo(posCratere1);
                 actualState.robot.turn(angleDevantCratere1,hooksToConsider, true, true);
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondAvantBoules);
+                actualState.robot.moveLengthwise(distanceCratereFondAvantBoules);
 
                 actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
-                actualState.robot.prendBoules();
+                actualState.robot.catchBalls();
 
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereBaseLunaire.isStillThere=false;

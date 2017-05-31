@@ -80,7 +80,7 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
 
                     actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_LIVRAISON_BOULES1,true);
 
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereFondApresDepotModule);
+                    actualState.robot.moveLengthwise(distanceCratereFondApresDepotModule);
 
                     // Aller vers la zone de départ
                     actualState.robot.goTo(pointSortieCratereFond, hooksToConsider);
@@ -113,7 +113,7 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
 
                     actualState.robot.setLocomotionSpeed(Speed.MEDIUM_ALL);
 
-                    actualState.robot.prendModule(Side.LEFT);
+                    actualState.robot.catchModule(Side.LEFT);
 
                     actualState.table.ballsCratereDepart.isStillThere=false;
                     actualState.robot.setChargementModule(actualState.robot.getChargementModule()+1);
@@ -134,12 +134,12 @@ public class ScriptedGoTo_LivraisonBoules1 extends AbstractScript {
                     actualState.robot.setDirectionStrategy(DirectionStrategy.FASTEST);
 
                     // Livraison des 1eres boules
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceApresModule2);
+                    actualState.robot.moveLengthwise(distanceApresModule2);
                     actualState.robot.turn(-Math.PI/2+0.15);
-                    actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceAvantDeposeBoules1, hooksToConsider, true, true);
+                    actualState.robot.moveLengthwise(distanceAvantDeposeBoules1, hooksToConsider, true, true);
                     actualState.robot.turn(-Math.PI/2);
 
-                    actualState.robot.livreBoules();
+                    actualState.robot.dropBalls();
 
                     actualState.robot.setRempliDeBoules(false);
 

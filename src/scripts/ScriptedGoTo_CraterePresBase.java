@@ -60,16 +60,16 @@ public class ScriptedGoTo_CraterePresBase extends AbstractScript {
             {
                 actualState.robot.dejaFait.put(ScriptNames.SCRIPTED_GO_TO_CRATERE_PRES_BASE,true);
 
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceReculApresDepotBoule1);
+                actualState.robot.moveLengthwise(distanceReculApresDepotBoule1);
 
                 // Prise des 2emes boules
                 actualState.robot.turnTo(posCratere2);
 
 //                actualState.robot.turn(angleCorrectionCratere2, hooksToConsider,true, true);
 
-                actualState.robot.moveLengthwiseAndWaitIfNeeded(distanceCratereBaseAvantBoules);
+                actualState.robot.moveLengthwise(distanceCratereBaseAvantBoules);
 
-                actualState.robot.prendBoules();
+                actualState.robot.catchBalls();
 
                 actualState.robot.setRempliDeBoules(true);
                 actualState.table.ballsCratereDepart.isStillThere=false;
