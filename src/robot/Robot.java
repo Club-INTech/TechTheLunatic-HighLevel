@@ -313,6 +313,35 @@ public class Robot implements Service {
 	}
 
 	/**
+	 * Appel de locomotion sur un chemin (en général déterminé par le Pathfinding)
+	 * @param chemin
+	 * @param hooksToConsider
+	 * @throws UnableToMoveException
+	 */
+
+	@SuppressWarnings("unchecked")
+	public void followPath(ArrayList<Vec2> chemin, ArrayList<Hook> hooksToConsider) throws UnableToMoveException
+	{
+		cheminSuivi = (ArrayList<Vec2>) chemin.clone();
+		mLocomotion.followPath(chemin, hooksToConsider, DirectionStrategy.getDefaultStrategy());
+	}
+
+	/**
+	 * Appel de locomotion sur un chemin (en général déterminé par le Pathfinding), en considérant la directionStrategy
+	 * @param chemin
+	 * @param hooksToConsider
+	 * @param direction
+	 * @throws UnableToMoveException
+	 */
+
+	@SuppressWarnings("unchecked")
+	protected void followPath(ArrayList<Vec2> chemin, ArrayList<Hook> hooksToConsider, DirectionStrategy direction) throws UnableToMoveException
+	{
+		cheminSuivi = (ArrayList<Vec2>) chemin.clone();
+		mLocomotion.followPath(chemin, hooksToConsider, direction);
+	}
+
+	/**
 	 * Effectue un trajet en ligne droite jusqu'au point désiré
 	 * @param pointVise
 	 * @throws UnableToMoveException
@@ -343,6 +372,8 @@ public class Robot implements Service {
 		log.debug("Appel de Robot.goTo :" + pointVise);
 		mLocomotion.goTo(pointVise, hooksToConsider, expectedWallImpact, isDetect);
 	}
+
+
 
 
 			/***********************
@@ -551,6 +582,11 @@ public class Robot implements Service {
         setLocomotionSpeed(oldSpeed);
     }
 
+
+	/*****************
+	 * RESTE A TRIER *
+	 ****************/
+
 	/**
 	 * Active la détection basique
 	 * @param basicDetection oui/non
@@ -665,21 +701,6 @@ public class Robot implements Service {
 			log.debug("Revoir le code : impossible de trouver la propriété " + e.getPropertyNotFound());
 		}
 	}
-    
-    @SuppressWarnings("unchecked")
-    public void followPath(ArrayList<Vec2> chemin, ArrayList<Hook> hooksToConsider) throws UnableToMoveException
-    {
-    	cheminSuivi = (ArrayList<Vec2>) chemin.clone();
-        mLocomotion.followPath(chemin, hooksToConsider, DirectionStrategy.getDefaultStrategy());
-    }
-    
-
-    @SuppressWarnings("unchecked")
-    protected void followPath(ArrayList<Vec2> chemin, ArrayList<Hook> hooksToConsider, DirectionStrategy direction) throws UnableToMoveException
-    {
-    	cheminSuivi = (ArrayList<Vec2>) chemin.clone();
-        mLocomotion.followPath(chemin, hooksToConsider, direction);
-    }
 
     public void immobilise()
     {
