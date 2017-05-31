@@ -90,8 +90,8 @@ public class Geometry
 	}
 
 	// Cohen–Sutherland clipping algorithm clips a line from
-// P0 = (x0, y0) to P1 = (x1, y1) against a rectangle with
-// diagonal from (xmin, ymin) to (xmax, ymax).
+    // P0 = (x0, y0) to P1 = (x1, y1) against a rectangle with
+    // diagonal from (xmin, ymin) to (xmax, ymax).
 
 	public static boolean CohenSutherlandLineClipAndDraw(Vec2 depart,Vec2 arrivee,Vec2 hautGauche,Vec2 basDroite)
 	{
