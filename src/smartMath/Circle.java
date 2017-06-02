@@ -21,8 +21,9 @@ package smartMath;
 
 /**
  * Classe des cercles, utile pour les points d'entrée des scripts et le Pathfinding
- * @author paul
+ * @author paul, rem
  */
+
 public class Circle {
 
 	/** Position du centre du cercle*/

@@ -30,6 +30,8 @@ import pathfinder.Graphe;
 import pathfinder.Noeud;
 import pathfinder.Pathfinding;
 import scripts.ScriptManager;
+import smartMath.Geometry;
+import smartMath.Segment;
 import smartMath.Vec2;
 import strategie.GameState;
 import table.Table;
@@ -85,7 +87,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
                     log.debug(win.getMouse().getLeftClickPosition() + " " + win.getMouse().getRightClickPosition());
                     long start = System.currentTimeMillis();
 
-                    ArrayList<Vec2> p = pf.Astarfoulah(dep, arr, Math.PI, 460,1.6D);
+                    ArrayList<Vec2> p = pf.Astarfoulah(dep, arr, Math.PI, 460, 1.6D);
 
                     long end = System.currentTimeMillis();
                     System.out.println("time elapsed : " + (end - start));
@@ -100,9 +102,8 @@ public class JUnit_Pathfinding extends JUnit_Test {
         }
     }
 
-     @Test
-    public void testrandom() throws Exception
-    {
+    @Test
+    public void testRandom() throws Exception {
         mRobot = container.getService(GameState.class);
         mRobot.updateConfig();
         mRobot.robot.setPosition(Table.entryPosition);
@@ -113,21 +114,20 @@ public class JUnit_Pathfinding extends JUnit_Test {
 
         scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
 
-        Graphe graphe= pf.getGraphe();
+        Graphe graphe = pf.getGraphe();
         ArrayList<Vec2> graph = new ArrayList<>();
 
-        for(Noeud n : graphe.getlNoeuds())
-        {
+        for (Noeud n : graphe.getlNoeuds()) {
             graph.add(n.position);
         }
 
         int randomYarr = ThreadLocalRandom.current().nextInt(0, 2000);
         int randomXarr = ThreadLocalRandom.current().nextInt(-1500, 1500);
-        ArrayList<Vec2> path = pf.Astarfoulah(mRobot.robot.getPosition(),new Vec2(randomXarr,randomYarr),mRobot.robot.getOrientation(),mRobot.robot.getLocomotionSpeed().translationSpeed,mRobot.robot.getLocomotionSpeed().rotationSpeed  );
+        ArrayList<Vec2> path = pf.Astarfoulah(mRobot.robot.getPosition(), new Vec2(randomXarr, randomYarr), mRobot.robot.getOrientation(), mRobot.robot.getLocomotionSpeed().translationSpeed, mRobot.robot.getLocomotionSpeed().rotationSpeed);
 
         mRobot.robot.followPath(path, new ArrayList<Hook>());
 
-        for (int i=0; i<100; i++) {
+        for (int i = 0; i < 100; i++) {
 
             win.getPanel().drawArrayList(path);
             win.getPanel().repaint();
@@ -136,7 +136,7 @@ public class JUnit_Pathfinding extends JUnit_Test {
 
             randomYarr = ThreadLocalRandom.current().nextInt(0, 2000);
             randomXarr = ThreadLocalRandom.current().nextInt(-1500, 1500);
-            path = pf.Astarfoulah(mRobot.robot.getPosition(), new Vec2(randomXarr, randomYarr), mRobot.robot.getOrientation(), mRobot.robot.getLocomotionSpeed().translationSpeed,mRobot.robot.getLocomotionSpeed().rotationSpeed );
+            path = pf.Astarfoulah(mRobot.robot.getPosition(), new Vec2(randomXarr, randomYarr), mRobot.robot.getOrientation(), mRobot.robot.getLocomotionSpeed().translationSpeed, mRobot.robot.getLocomotionSpeed().rotationSpeed);
             mRobot.robot.followPath(path, new ArrayList<Hook>());
         }
         returnToEntryPosition(mRobot);

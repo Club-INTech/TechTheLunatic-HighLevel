@@ -170,7 +170,7 @@ public class Pathfinding implements Service {
                 // Cas des obstacles circulaires
                 if (obstacle instanceof ObstacleCircular) {
 
-                    Vec2 toReturn = Geometry.pointExterieur(departV, ((ObstacleCircular) obstacle).getCircle());
+                    Vec2 toReturn = Geometry.closestPointOutCircle(departV, ((ObstacleCircular) obstacle).getCircle());
                     log.debug("Nouveau départ :" + toReturn);
                     ArrayList<Vec2> newPath = Astarfoulah(toReturn, arriveeV, robotOrientation, translationSpeed,rotationSpeed );
                     newPath.add(0, departV);
@@ -304,7 +304,7 @@ public class Pathfinding implements Service {
             // Cas des obstacles circulaires
             if (obstacle instanceof ObstacleCircular)
             {
-                Vec2 toReturn = Geometry.pointExterieur(arriveeV, ((ObstacleCircular) obstacle).getCircle());
+                Vec2 toReturn = Geometry.closestPointOutCircle(arriveeV, ((ObstacleCircular) obstacle).getCircle());
                 ArrayList<Vec2> newPath = Astarfoulah(departV, toReturn, robotOrientation, translationSpeed,rotationSpeed );
                 return newPath;
             }

@@ -43,6 +43,14 @@ public class Segment
 	}
 
 	/**
+	 * Donne le segment sous forme d'un vecteur
+	 * @return le vecteur !
+	 */
+	public Vec2 getVector(){
+		return mPointB.minusNewVector(mPointA);
+	}
+
+	/**
 	 * @return le premier point
 	 */
 	public Vec2 getA()
