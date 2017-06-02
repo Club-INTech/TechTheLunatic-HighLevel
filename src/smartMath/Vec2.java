@@ -101,12 +101,22 @@ public class Vec2 {
 
 	/**
 	 * Effectue le produit scalaire avec un second vecteur
-	 *
 	 * @param other le second vecteur du produit scalaire
 	 * @return résultat du produit
 	 */
 	public int dot(Vec2 other) {
 		return x * other.x + y * other.y;
+	}
+
+	/**
+	 * Effectue le produit vectoriel avec un second vecteur
+	 * ATTENTION : le produit vectoriel est anti-symétrique, le paramètre est donc le 2e vecteur
+	 * De plus, comme on est en 2D, on renvoie évidemment le scalaire associé au vecteur
+	 * @param other le second vecteur du produit vectoriel
+	 * @return scalaire associé au produit vectoriel
+	 */
+	public int crossProduct (Vec2 other){
+		return this.x*other.y - this.y*other.x;
 	}
 
 	/**
@@ -227,7 +237,7 @@ public class Vec2 {
 	}
 
 	/**
-	 * Tous les setters et getters parce private :p
+	 * Tous les setters et getters parce que private :p
 	 */
 
 	public void set(Vec2 other) {
@@ -277,7 +287,8 @@ public class Vec2 {
 		y = (int) (r * Math.sin(a));
 	}
 
-	/** Demande à pf c'est quoi...
+	/** Le hashCode permet d'identifier un objet par un id géneré en fonction des paramètres (ici x et y);
+	 * ca sert pour la fonction equals notamment
 	 */
 	/* (non-Javadoc)
  * @see java.lang.Object#hashCode()
@@ -324,7 +335,6 @@ public class Vec2 {
 
 	/**
 	 * transforme un point en un cercle de rayon nul
-	 *
 	 * @return un cercle de centre ce Vec2 et de rayon nul.
 	 */
 	public Circle toCircle() {

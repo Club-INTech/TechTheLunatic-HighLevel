@@ -74,5 +74,4 @@ public class Callback
 	{
 	    return isUnique && isDone;
 	}
-	
 }

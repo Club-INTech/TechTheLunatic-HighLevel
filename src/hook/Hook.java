@@ -36,7 +36,7 @@ import java.util.ArrayList;
 abstract public class Hook
 {
 	/** Liste de callback du hook*/
-	protected ArrayList<Callback> callbacks = new ArrayList<Callback>();
+	protected ArrayList <Callback> callbacks = new ArrayList<Callback>();
 
 	/** Système de log sur lequel écrire */
 	protected Log log;
