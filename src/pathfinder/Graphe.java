@@ -71,7 +71,6 @@ public class Graphe {
     this.config=config;
     this.table=table;
 
-
     this.lNoeuds=new ArrayList<Noeud>();
     initGraphe();
 }
@@ -112,7 +111,7 @@ public class Graphe {
                         int nombobst= oManager.getmCircularObstacle().size();
                         int nombobstRec=oManager.getRectangles().size();
 
-                        ArrayList<Segment> lineObstacles = oManager.getLines();
+                        ArrayList <Segment> lineObstacles = oManager.getLines();
                         //si on est en dehors du graphe
                         if(Math.abs(noeud1.position.getX())>1500-oManager.mRobotRadius || noeud1.position.getY()<oManager.mRobotRadius || noeud1.position.getY()>2000-oManager.mRobotRadius)
                         {

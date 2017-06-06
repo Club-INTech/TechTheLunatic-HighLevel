@@ -55,10 +55,9 @@ public class Geometry
 		// - le point d'intersection est entre A2 et B2 : (A1B1)^(A1B2) * (A1B1)^(A1A2) < 0
 		// - le point d'intersection est entre A1 et B1 : (A2B2)^(A2B1) * (A2B2)^(A2A1) < 0
 		// ^ = produit vectoriel
-		return (segment1.getVector().crossProduct(segment2.getVector())) != 0
-				&& (segment1.getVector().crossProduct(segment2.getB().minusNewVector(segment1.getA()))  *  segment1.getVector().crossProduct(segment2.getA().minusNewVector(segment1.getA()))) < 0
-				&& (segment2.getVector().crossProduct(segment1.getB().minusNewVector(segment2.getA()))  *  segment2.getVector().crossProduct(segment1.getA().minusNewVector(segment2.getA()))) < 0
-				;
+		return  ((segment1.getVector().crossProduct(segment2.getVector()) != 0)
+				&& ((segment1.getVector().crossProduct(segment2.getB().minusNewVector(segment1.getA()))  *  segment1.getVector().crossProduct(segment2.getA().minusNewVector(segment1.getA()))) < 0)
+				&& ((segment2.getVector().crossProduct(segment1.getB().minusNewVector(segment2.getA()))  *  segment2.getVector().crossProduct(segment1.getA().minusNewVector(segment2.getA()))) < 0));
 	}
 	
 	/**

@@ -22,6 +22,8 @@
 package graphics;
 
 import robot.Robot;
+import scripts.ScriptManager;
+import strategie.GameState;
 import table.Table;
 
 import javax.swing.*;
@@ -41,20 +43,20 @@ public class Window extends JFrame
 	private Mouse mMouse;
 	private Keyboard mKeyboard;
 	
-	public Window(Table table, Robot robot)
+	public Window(Table table, GameState mRobot, ScriptManager scriptManager)
 	{
 		this.setVisible(true);
 		this.setTitle("Table");
 	    this.setSize(600, 400);
 	    this.setLocationRelativeTo(null);
 	    
-	    mPanel = new TablePanel(table, robot);
+	    mPanel = new TablePanel(table, mRobot.robot);
 	    this.setContentPane(mPanel);
 	    
 	    mMouse = new Mouse(mPanel);
 	    addMouseListener(mMouse);
 	    
-	    mKeyboard = new Keyboard(robot);
+	    mKeyboard = new Keyboard(mRobot, scriptManager);
 	    addKeyListener(mKeyboard);
 	}
 

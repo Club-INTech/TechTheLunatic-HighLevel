@@ -22,6 +22,8 @@ package threads;
 
 import graphics.Window;
 import robot.Robot;
+import scripts.ScriptManager;
+import strategie.GameState;
 import table.Table;
 import utils.Config;
 import utils.Log;
@@ -38,13 +40,13 @@ public class ThreadInterface extends AbstractThread
     private Log log;
     private Robot robot;
 
-    public ThreadInterface(Config config, Log log, Table table, Robot robot)
+    public ThreadInterface(Config config, Log log, Table table, GameState state, ScriptManager scriptManager)
     {
         super(config, log);
         Thread.currentThread().setPriority(3); // C'est le thread le moins prioritaire du lot
         this.log = log;
         this.robot = robot;
-        this.win = new Window(table, robot);
+        this.win = new Window(table, state, scriptManager);
     }
 
     @Override
