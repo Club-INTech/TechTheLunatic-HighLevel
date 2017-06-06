@@ -20,26 +20,34 @@
 package graphics;
 
 import enums.ActuatorOrder;
+import enums.ScriptNames;
+import enums.Side;
 import enums.TurningStrategy;
 import exceptions.serial.SerialConnexionException;
+import hook.Hook;
 import robot.Robot;
+import scripts.ScriptManager;
+import strategie.GameState;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 /**
  * Gestionnaire des actions clavier pour l'interface graphique, ajoutez vos actions aux blocks correspondants
  * @author etienne, discord, florian
  */
 public class Keyboard implements KeyListener {
-	private Robot mRobot;
+	private GameState mRobot;
+	private ScriptManager scriptManager;
 	private TurningStrategy turningStr = TurningStrategy.FASTEST;
 	private boolean modeActual = false;
 	
-	public Keyboard(Robot robot)
+	public Keyboard(GameState robot, ScriptManager scriptManager)
 	{
 		mRobot= robot;
+		this.scriptManager = scriptManager;
 	}
 
 	int isUpPressed = 0;
@@ -51,9 +59,13 @@ public class Keyboard implements KeyListener {
 	boolean isDownPressedb;
 	boolean isLeftPressedb;
 	boolean isRightPressedb;
+	boolean isApressed;
+	boolean isVpressed;
+	boolean isXpressed;
 	boolean isPpressed;
-	boolean isLpressed;
-	boolean isDpressed;
+	boolean isKpressed;
+	boolean isWpressed;
+	boolean isCpressed;
 	int lastEvent;
 
 	void doThat() throws SerialConnexionException {
@@ -61,7 +73,7 @@ public class Keyboard implements KeyListener {
 		{
 			try
 			{
-				mRobot.useActuator(ActuatorOrder.MOVE_FORWARD, false);
+				mRobot.robot.useActuator(ActuatorOrder.MOVE_FORWARD, false);
 			}
 			catch(Exception exception)
 			{
@@ -72,7 +84,7 @@ public class Keyboard implements KeyListener {
 		{
 			try
 			{
-				mRobot.useActuator(ActuatorOrder.MOVE_BACKWARD, false);
+				mRobot.robot.useActuator(ActuatorOrder.MOVE_BACKWARD, false);
 			}
 			catch(Exception exception)
 			{
@@ -83,7 +95,7 @@ public class Keyboard implements KeyListener {
 		{
 			try
 			{
-				mRobot.useActuator(ActuatorOrder.TURN_LEFT, false);
+				mRobot.robot.useActuator(ActuatorOrder.TURN_LEFT, false);
 			}
 			catch(Exception exception)
 			{
@@ -94,55 +106,85 @@ public class Keyboard implements KeyListener {
 		{
 			try
 			{
-				mRobot.useActuator(ActuatorOrder.TURN_RIGHT, false);
+				mRobot.robot.useActuator(ActuatorOrder.TURN_RIGHT, false);
 			}
 			catch(Exception exception)
 			{
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
-		else if (isPpressed) {
+		else if (isApressed) {
 			try {
 				// Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
-				mRobot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+				mRobot.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
 				// Fait tourner la pelleteuse (jusqu'à ~150 ou 200°)
-				mRobot.useActuator(ActuatorOrder.PREND_PELLE, true);
+				mRobot.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
 				// "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
-				mRobot.useActuator(ActuatorOrder.TIENT_BOULES, false);
-				mRobot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
+				mRobot.robot.useActuator(ActuatorOrder.TIENT_BOULES, false);
+				mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 			} catch (Exception exception) {
 				System.out.println("laule");
 			}
-		}else if (isLpressed) {
+		}else if (isVpressed) {
 			try {
 
-				mRobot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
-				mRobot.useActuator(ActuatorOrder.PRET_PELLE, true);
+				mRobot.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+				mRobot.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 			} catch (Exception exception) {
 				System.out.println("laule");
 			}
-		}else if (isDpressed){
+		}else if (isXpressed){
 			try{
 				//abaisser les bras au plus bas
-				mRobot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
+				mRobot.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
 
 				//rotation de la pelle jusqu'à la position de livraison
-				mRobot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
+				mRobot.robot.useActuator(ActuatorOrder.LIVRE_PELLE, true);
 
 				//lever les bras jusqu'à la position intermédiaire
-				mRobot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
+				mRobot.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
 
 				//tourner la pelle jusqu'à la position initiale
-				mRobot.useActuator(ActuatorOrder.PRET_PELLE, true);
+				mRobot.robot.useActuator(ActuatorOrder.PRET_PELLE, true);
 
 				//monter les bras le plus haut \o/
-				mRobot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
-			}catch(Exception exception){
-
+				mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, true);
+			}catch(Exception e){
+				e.printStackTrace();
 			}
-		}else{
+		}else if (isPpressed) {
+			try {
+				scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
+
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}else if (isKpressed) {
+			try{
+				System.out.println("Prepare à catch un Module Droit");
+				mRobot.robot.useActuator(ActuatorOrder.MID_ATTRAPE_D, true);
+				mRobot.robot.useActuator(ActuatorOrder.REPLI_CALLE_D, false);
+				mRobot.robot.useActuator(ActuatorOrder.LIVRE_CALLE_G, true);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}else if (isWpressed) {
+			try{
+				System.out.println("Catch le module droit billy !");
+				mRobot.robot.catchModule(Side.RIGHT);
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}else if (isCpressed){
+			try{
+				mRobot.robot.useActuator(ActuatorOrder.POUSSE_LARGUEUR_LENT, true);
+				mRobot.robot.useActuator(ActuatorOrder.REPOS_LARGUEUR, false);
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}else {
 			release();
 		}
 
@@ -174,14 +216,26 @@ public class Keyboard implements KeyListener {
 					isRightPressedb = true;
 					lastEvent = e.getKeyCode();
 					break;
+				case KeyEvent.VK_A:
+					isApressed = true;
+					break;
+				case KeyEvent.VK_V:
+					isVpressed = true;
+					break;
+				case KeyEvent.VK_X:
+					isXpressed = true;
+					break;
 				case KeyEvent.VK_P:
 					isPpressed = true;
 					break;
-				case KeyEvent.VK_L:
-					isLpressed = true;
+				case KeyEvent.VK_K:
+					isKpressed = true;
 					break;
-				case KeyEvent.VK_D:
-					isDpressed = true;
+				case KeyEvent.VK_W:
+					isWpressed = true;
+					break;
+				case KeyEvent.VK_C:
+					isCpressed = true;
 					break;
 			}
 			try {
@@ -196,7 +250,7 @@ public class Keyboard implements KeyListener {
 	void release(){
 		try
 		{
-			mRobot.useActuator(ActuatorOrder.SSTOP,false);
+			mRobot.robot.useActuator(ActuatorOrder.SSTOP,false);
 		}catch(Exception exception)
 		{
 			System.out.println("ça marche pas bien trololo");
@@ -215,12 +269,20 @@ public class Keyboard implements KeyListener {
 				lastEvent = 0;isLeftPressedb = false;break;
 			case KeyEvent.VK_RIGHT:
 				lastEvent = 0;isRightPressedb = false;break;
+			case KeyEvent.VK_A:
+				isApressed = false;break;
+			case KeyEvent.VK_V:
+				isVpressed = false; break;
+			case KeyEvent.VK_X:
+				isXpressed = false; break;
 			case KeyEvent.VK_P:
 				isPpressed = false; break;
-			case KeyEvent.VK_L:
-				isLpressed = false; break;
-			case KeyEvent.VK_D:
-				isDpressed = false; break;
+			case KeyEvent.VK_K:
+				isKpressed = false; break;
+			case KeyEvent.VK_W:
+				isWpressed = false; break;
+			case KeyEvent.VK_C:
+				isCpressed = false; break;
 		}
 		release();
 	}

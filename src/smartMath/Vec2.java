@@ -116,7 +116,7 @@ public class Vec2 {
 	 * @return scalaire associé au produit vectoriel
 	 */
 	public int crossProduct (Vec2 other){
-		return this.x*other.y - this.y*other.x;
+		return (x * other.y - y * other.x);
 	}
 
 	/**

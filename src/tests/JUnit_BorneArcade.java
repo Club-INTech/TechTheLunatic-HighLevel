@@ -25,6 +25,7 @@ import graphics.Window;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
+import scripts.ScriptManager;
 import strategie.GameState;
 import table.Table;
 import threads.ThreadInterface;
@@ -51,7 +52,7 @@ public class JUnit_BorneArcade extends JUnit_Test
 
 		real_state = container.getService(GameState.class);
         
-		win = new Window(container.getService(Table.class), real_state.robot);
+		win = new Window(container.getService(Table.class), real_state, container.getService(ScriptManager.class));
 
 		/*container.getService(ThreadSensor.class);
 		container.getService(ThreadInterface.class);
@@ -71,12 +72,12 @@ public class JUnit_BorneArcade extends JUnit_Test
 	{
 		while(true)
 		{
-			/*real_state.robot.getPosition();
+			real_state.robot.getPosition();
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}*/
+			}
 		}
 	}
 }
