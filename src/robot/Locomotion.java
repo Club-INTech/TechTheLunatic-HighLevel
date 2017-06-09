@@ -443,14 +443,14 @@ public class Locomotion implements Service
         // si on est à 90°, on privilégie la marche avant
 
         int totalTime = 0;
-        boolean isEnemy = table.getObstacleManager().isEnnemyForwardorBackWard(detectionDistance,highLevelPosition, aim, highLevelOrientation);
+        boolean isEnemy = table.getObstacleManager().isEnnemyForwardOrBackWard(detectionDistance,highLevelPosition, aim, highLevelOrientation);
 
         while (isEnemy && totalTime < timeOutEnnemyMove && mustDetect)
         {
             Sleep.sleep(timeToWaitIfEnnemy);
             totalTime += timeToWaitIfEnnemy;
             log.debug ("Ennemi détecté dans le sens de marche, on attend");
-            isEnemy = table.getObstacleManager().isEnnemyForwardorBackWard(detectionDistance,highLevelPosition, aim, highLevelOrientation);
+            isEnemy = table.getObstacleManager().isEnnemyForwardOrBackWard(detectionDistance,highLevelPosition, aim, highLevelOrientation);
         }
 
         if(totalTime >= timeOutEnnemyMove){
@@ -991,7 +991,7 @@ public class Locomotion implements Service
      */
     public void detectEnemyAtDistance(int distance, Vec2 movementDirection) throws UnexpectedObstacleOnPathException
     {
-        if(table.getObstacleManager().isEnnemyForwardorBackWard(distance, highLevelPosition, movementDirection, highLevelOrientation)){
+        if(table.getObstacleManager().isEnnemyForwardOrBackWard(distance, highLevelPosition, movementDirection, highLevelOrientation)){
             log.debug("DetectEnemyAtDistance voie un ennemi sur le chemin");
             immobilise();
             throw new UnexpectedObstacleOnPathException();
