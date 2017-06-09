@@ -93,12 +93,11 @@ public class Keyboard implements KeyListener {
 		}
 		else if(/*isLeftPressed < 15 &&*/ isLeftPressedb)
 		{
-			try
-			{
+			try{
 				mRobot.robot.useActuator(ActuatorOrder.TURN_LEFT, false);
-			}
-			catch(Exception exception)
+			}catch(Exception e)
 			{
+				e.printStackTrace();
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
@@ -113,7 +112,7 @@ public class Keyboard implements KeyListener {
 				System.out.println("ça marche pas bien trololo");
 			}
 		}
-		else if (isApressed) {
+		else if (isVpressed) {
 			try {
 				// Déploie la pelleteuse (descendre les bras, avec pelle toujours à 300 °)
 				mRobot.robot.useActuator(ActuatorOrder.DEPLOYER_PELLETEUSE, true);
@@ -122,12 +121,12 @@ public class Keyboard implements KeyListener {
 				mRobot.robot.useActuator(ActuatorOrder.PREND_PELLE, true);
 
 				// "Lèves les bras Maurice, c'est plus rigolo quand tu lèves les bras !", RIP King Julian
-				mRobot.robot.useActuator(ActuatorOrder.TIENT_BOULES, false);
+				mRobot.robot.useActuator(ActuatorOrder.RANGE_PELLE, false);
 				mRobot.robot.useActuator(ActuatorOrder.REPLIER_PELLETEUSE, false);
 			} catch (Exception exception) {
 				System.out.println("laule");
 			}
-		}else if (isVpressed) {
+		}else if (isApressed) {
 			try {
 
 				mRobot.robot.useActuator(ActuatorOrder.MED_PELLETEUSE, true);
@@ -157,6 +156,7 @@ public class Keyboard implements KeyListener {
 		}else if (isPpressed) {
 			try {
 				scriptManager.getScript(ScriptNames.INITIALISE_ROBOT).goToThenExec(0, mRobot, new ArrayList<Hook>());
+				mRobot.robot.useActuator(ActuatorOrder.MONTLHERY, false);
 
 			}catch (Exception e){
 				e.printStackTrace();

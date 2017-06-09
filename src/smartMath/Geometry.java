@@ -55,9 +55,15 @@ public class Geometry
 		// - le point d'intersection est entre A2 et B2 : (A1B1)^(A1B2) * (A1B1)^(A1A2) < 0
 		// - le point d'intersection est entre A1 et B1 : (A2B2)^(A2B1) * (A2B2)^(A2A1) < 0
 		// ^ = produit vectoriel
-		return  ((segment1.getVector().crossProduct(segment2.getVector()) != 0)
+
+		return ((double)segment1.getB().getX() - (double)segment1.getA().getX()) * ((double)segment2.getB().getY() - (double)segment2.getA().getY()) - ((double)segment1.getB().getY() - (double)segment1.getA().getY()) * ((double)segment2.getB().getX() - (double)segment2.getA().getX()) != 0
+				&& (((double)segment1.getB().getX() - (double)segment1.getA().getX()) * ((double)segment2.getB().getY() - (double)segment1.getA().getY()) - ((double)segment1.getB().getY() - (double)segment1.getA().getY()) * ((double)segment2.getB().getX() - (double)segment1.getA().getX())) * (((double)segment1.getB().getX() - (double)segment1.getA().getX()) * ((double)segment2.getA().getY() - (double)segment1.getA().getY()) - ((double)segment1.getB().getY() - (double)segment1.getA().getY()) * ((double)segment2.getA().getX() - (double)segment1.getA().getX())) < 0
+				&& (((double)segment2.getB().getX() - (double)segment2.getA().getX()) * ((double)segment1.getB().getY() - (double)segment2.getA().getY()) - ((double)segment2.getB().getY() - (double)segment2.getA().getY()) * ((double)segment1.getB().getX() - (double)segment2.getA().getX())) * (((double)segment2.getB().getX() - (double)segment2.getA().getX()) * ((double)segment1.getA().getY() - (double)segment2.getA().getY()) - ((double)segment2.getB().getY() - (double)segment2.getA().getY()) * ((double)segment1.getA().getX() - (double)segment2.getA().getX())) < 0
+				;
+		/*return  ((segment1.getVector().crossProduct(segment2.getVector()) != 0)
 				&& ((segment1.getVector().crossProduct(segment2.getB().minusNewVector(segment1.getA()))  *  segment1.getVector().crossProduct(segment2.getA().minusNewVector(segment1.getA()))) < 0)
 				&& ((segment2.getVector().crossProduct(segment1.getB().minusNewVector(segment2.getA()))  *  segment2.getVector().crossProduct(segment1.getA().minusNewVector(segment2.getA()))) < 0));
+				*/
 	}
 	
 	/**
@@ -69,7 +75,18 @@ public class Geometry
 	public static boolean intersects(Segment segment, Circle circle)
 	{
 		// TODO : expliquer l'algo
-		double area = (circle.getCenter().getX() - segment.getA().getX()) * (segment.getB().getY() - segment.getA().getY()) - (circle.getCenter().getY() - segment.getA().getY()) * (segment.getB().getX() - segment.getA().getX());
+		double area = ((double)circle.getCenter().getX() - (double)segment.getA().getX())*((double)segment.getB().getY() - (double)segment.getA().getY()) - ((double)circle.getCenter().getY() - (double)segment.getA().getY())*((double)segment.getB().getX() - (double)segment.getA().getX());
+		double distA = ((double)segment.getA().getX() - (double)circle.getCenter().getX())*((double)segment.getA().getX() - (double)circle.getCenter().getX()) + ((double)segment.getA().getY() - (double)circle.getCenter().getY())*((double)segment.getA().getY() - (double)circle.getCenter().getY());
+		double distB = ((double)segment.getB().getX() - (double)circle.getCenter().getX())*((double)segment.getB().getX() - (double)circle.getCenter().getX()) + ((double)segment.getB().getY() - (double)circle.getCenter().getY())*((double)segment.getB().getY() - (double)circle.getCenter().getY());
+		if(distA >= circle.getRadius() * circle.getRadius() && distB < circle.getRadius() * circle.getRadius() || distA < circle.getRadius() * circle.getRadius() && distB >= circle.getRadius() * circle.getRadius())
+			return true;
+		return distA >= circle.getRadius() * circle.getRadius()
+				&& distB >= circle.getRadius() * circle.getRadius()
+				&& area * area / (((double)segment.getB().getX() - (double)segment.getA().getX())*((double)segment.getB().getX() - (double)segment.getA().getX())+((double)segment.getB().getY() - (double)segment.getA().getY())*((double)segment.getB().getY() - (double)segment.getA().getY())) <= circle.getRadius() * circle.getRadius()
+				&& ((double)segment.getB().getX() - (double)segment.getA().getX())*((double)circle.getCenter().getX() - (double)segment.getA().getX()) + ((double)segment.getB().getY() - (double)segment.getA().getY())*((double)circle.getCenter().getY() - (double)segment.getA().getY()) >= 0
+				&& ((double)segment.getA().getX() - (double)segment.getB().getX())*((double)circle.getCenter().getX() - (double)segment.getB().getX()) + ((double)segment.getA().getY() - (double)segment.getB().getY())*((double)circle.getCenter().getY() - (double)segment.getB().getY()) >= 0;
+
+		/*double area = (circle.getCenter().getX() - segment.getA().getX()) * (segment.getB().getY() - segment.getA().getY()) - (circle.getCenter().getY() - segment.getA().getY()) * (segment.getB().getX() - segment.getA().getX());
 		double distA = circle.getCenter().minusNewVector(segment.getA()).squaredLength();
 		double distB = circle.getCenter().minusNewVector(segment.getB()).squaredLength();
 
@@ -80,6 +97,7 @@ public class Geometry
 			&& area * area / (double)(segment.getVector().squaredLength()) < circle.getRadius()*circle.getRadius()
 			&& (segment.getB().getX() - segment.getA().getX())*(circle.getCenter().getX() - segment.getA().getX()) + (segment.getB().getY() - segment.getA().getY())*(circle.getCenter().getY() - segment.getA().getY()) >= 0
 			&& (segment.getA().getX() - segment.getB().getX())*(circle.getCenter().getX() - segment.getB().getX()) + (segment.getA().getY() - segment.getB().getY())*(circle.getCenter().getY() - segment.getB().getY()) >= 0);
+			*/
 	}
 
 	/**
