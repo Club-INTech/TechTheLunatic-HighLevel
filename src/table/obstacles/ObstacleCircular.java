@@ -47,7 +47,6 @@ public class ObstacleCircular extends Obstacle
 		super(circle.getCenter());
 		this.circle=circle;
 	}
-
 	
 	/* (non-Javadoc)
 	 * @see table.obstacles.Obstacle#clone()

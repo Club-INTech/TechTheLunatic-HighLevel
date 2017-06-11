@@ -801,7 +801,7 @@ public class ObstacleManager
 	 * INUTILISES *
 	 **************/
 
-	
+
 	/**
 	 * Vérifie si la position donnée est dégagée ou si elle est dans l'un des obstacles sur la table (tous les obstacles)
      *
