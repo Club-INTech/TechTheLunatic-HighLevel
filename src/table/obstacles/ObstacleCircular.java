@@ -47,7 +47,7 @@ public class ObstacleCircular extends Obstacle
 		super(circle.getCenter());
 		this.circle=circle;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see table.obstacles.Obstacle#clone()
 	 */
@@ -134,8 +134,7 @@ public class ObstacleCircular extends Obstacle
 	/* (non-Javadoc)
 	 * @see table.obstacles.Obstacle#toString()
 	 */
-
-
+	
 	/**
 	 * Créer les noeuds autour de l'obstacle en commençant à 0 sur un cercle trigonométrique usuel radians puis tous les 2kpi/n
 	 * @param graphe le graphe sur lequel on doit créer les noeuds
