@@ -622,7 +622,7 @@ public class Pathfinding implements Service {
                 return obstacle;
             }
         }
-        for (Obstacle obstacle : table.getObstacleManager().getmRectangles()){
+        for (Obstacle obstacle : table.getObstacleManager().getRectangles()){
             if (obstacle.isInObstacle(propo)){
                 return obstacle;
             }

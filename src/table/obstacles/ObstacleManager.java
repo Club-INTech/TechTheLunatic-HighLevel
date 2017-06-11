@@ -558,10 +558,82 @@ public class ObstacleManager
 	}
 
 
-	/*********************
-	 * PAS ENCORE RANGES *
-	 *********************/
+	/***************
+	 * UTILITAIRES *
+	 ***************/
 
+
+	/**
+	 * Supprime la première occurence de cet obstacle
+	 * @param obs l'obstacle
+	 */
+	private synchronized void removeObstacle(ObstacleCircular obs)
+	{
+		mCircularObstacle.remove(obs);
+	}
+
+	/**
+	 * Supprime la première occurence de cet obstacle
+	 * @param obs l'obstacle
+	 */
+	private synchronized void removeObstacle(ObstacleRectangular obs)
+	{
+		mRectangles.remove(obs);
+	}
+
+	/**
+	 * Renvoie true si un obstacle chevauche un disque. (uniquement un obstacle detecte par les capteurs)
+	 *
+	 * @param discCenter le centre du disque a vérifier
+	 * @param radius le rayon du disque
+	 * @return true, si au moins un obstacle chevauche le disque
+	 */
+	public synchronized boolean isDiscObstructed(final Vec2 discCenter, int radius)
+	{
+		radiusDetectionDisc=radius;
+		positionDetectionDisc=discCenter;
+
+		for(int i=0; i<mMobileObstacles.size(); i++)
+		{
+			if ((radius+mMobileObstacles.get(i).getRadius())*(radius+mMobileObstacles.get(i).getRadius())
+					> (discCenter.getX()-mMobileObstacles.get(i).getPosition().getX())*(discCenter.getX()-mMobileObstacles.get(i).getPosition().getX())
+					+ (discCenter.getY()-mMobileObstacles.get(i).getPosition().getY())*(discCenter.getY()-mMobileObstacles.get(i).getPosition().getY()))
+			{
+				log.debug("Disque obstructed avec l'obstacle "+mMobileObstacles.get(i).getPosition()+"de rayon"+mMobileObstacles.get(i).getRadius());
+				log.debug("Disque en "+discCenter+" de rayon "+radius);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Vérifie si le position spécifié est dans l'obstacle spécifié ou non
+	 * Attention : l'obstacle doit etre issu des classes ObstacleCircular ou ObstacleRectangular sous peine d'exception
+	 * Attention : verifie si le point (et non le robot) est dans l'obstacle.
+	 *
+	 * @param pos la position a vérifier
+	 * @param obstacle l'obstacle a considérer
+	 * @return true, si la position est dans l'obstacle
+	 */
+	public synchronized boolean isPositionInObstacle(Vec2 pos, Obstacle obstacle)
+	{
+		if(obstacle instanceof ObstacleCircular)
+		{
+			ObstacleCircular obstacleCircular = (ObstacleCircular)obstacle;
+			return pos.minusNewVector(obstacle.getPosition()).getR() < ((ObstacleCircular) obstacle).getRadius();
+		}
+		if(obstacle instanceof ObstacleRectangular)
+		{
+			ObstacleRectangular obstacleRectangular = (ObstacleRectangular)obstacle;
+			return pos.getX()<(obstacleRectangular.position.getX()-(obstacleRectangular.sizeX/2))
+					|| pos.getX()>(obstacleRectangular.position.getX()+(obstacleRectangular.sizeX/2))
+					|| pos.getY()<(obstacleRectangular.position.getY()-(obstacleRectangular.sizeY/2))
+					|| pos.getY()>(obstacleRectangular.position.getY()+(obstacleRectangular.sizeY/2));
+		}
+		else
+			throw new IllegalArgumentException();
+	}
 
 	/**
      * Rend le gestionnaire d'obstacle fourni en argument explicite égal a ce gestionnaire.
@@ -584,32 +656,49 @@ public class ObstacleManager
     	boolean IDontKnow = false;
         return IDontKnow;
     }
-    
-    /**
-     * Utilis� par le pathfinding.
+
+
+	/*********************
+	 * GETTERS & SETTERS *
+	 *********************/
+
+
+
+	/** Utilis� par le pathfinding.
      * Retourne tout les les obstacles temporaires/mobiles. (détectés par la balise laser, les capteurs de distance, etc.)
-     *
      * @return la liste des obstacles temporaires/mobiles de la table
      */
     public ArrayList<ObstacleProximity> getMobileObstacles()
     {
         return mMobileObstacles;
     }
+
+	/**
+	 * Utilisé pour les tests.
+	 * Renvois le nombre d'obstacles mobiles actuellement en mémoire
+	 *
+	 * @return le nombre d'obstacles mobiles actuellement en mémoire
+	 */
+	public int getMobileObstaclesCount()
+	{
+		return mMobileObstacles.size();
+	}
+
+	public ArrayList<ObstacleProximity> getUntestedArrayList()
+	{
+		return mUntestedMobileObstacles;
+	}
     
-    /**
-     * Utilis� par le pathfinding.
+    /** Utilis� par le pathfinding.
      * Retourne tout les les obstacles fixes de la table.
-     *
      * @return la liste des obstacles fixes de la table
      */
-    
     public ArrayList<ObstacleCircular> getmCircularObstacle()
     {
         return mCircularObstacle;
     }
     
     /**
-     * 
      * @return la liste des lignes formant les bords des obstacles sous forme de segments
      */
 	public ArrayList<Segment> getLines()
@@ -633,57 +722,19 @@ public class ObstacleManager
 		return mRobotRadius;
 	}
 
+	/**
+	 * @return la "longueur" de notre robot (oui parce que convention bizarre...)
+	 */
 	public int getmRobotLenght() {
 		return mRobotLenght;
 	}
 
+	/**
+	 * @return la "largeur" de notre robot
+	 */
 	public int getmRobotWidth() {
 		return mRobotWidth;
 	}
-
-	/**
-	 * Supprime la première occurence de cet obstacle
-	 * @param obs l'obstacle
-     */
-	private synchronized void removeObstacle(ObstacleCircular obs)
-	{
-		mCircularObstacle.remove(obs);
-	}
-
-	/**
-	 * Supprime la première occurence de cet obstacle
-	 * @param obs l'obstacle
-     */
-	private synchronized void removeObstacle(ObstacleRectangular obs)
-	{
-		mRectangles.remove(obs);
-	}
-
-    /**
-     * Renvoie true si un obstacle chevauche un disque. (uniquement un obstacle detecte par les capteurs)
-     *
-     * @param discCenter le centre du disque a vérifier
-     * @param radius le rayon du disque
-     * @return true, si au moins un obstacle chevauche le disque
-     */
-    public synchronized boolean isDiscObstructed(final Vec2 discCenter, int radius)
-    {
-    	radiusDetectionDisc=radius;
-    	positionDetectionDisc=discCenter;
-    	
-    	for(int i=0; i<mMobileObstacles.size(); i++)
-    	{
-    		if ((radius+mMobileObstacles.get(i).getRadius())*(radius+mMobileObstacles.get(i).getRadius())
-    			 > (discCenter.getX()-mMobileObstacles.get(i).getPosition().getX())*(discCenter.getX()-mMobileObstacles.get(i).getPosition().getX())
-    			 + (discCenter.getY()-mMobileObstacles.get(i).getPosition().getY())*(discCenter.getY()-mMobileObstacles.get(i).getPosition().getY()))
-    		{
-    			log.debug("Disque obstructed avec l'obstacle "+mMobileObstacles.get(i).getPosition()+"de rayon"+mMobileObstacles.get(i).getRadius());
-    			log.debug("Disque en "+discCenter+" de rayon "+radius);
-    			return true;
-    		}
-    	}
-    	return false;
-    }
 
 	/**
      * Change le position d'un robot adverse.
@@ -713,45 +764,45 @@ public class ObstacleManager
     	//cela sera utilise par la strategie, la methode sera ecrite si besoin
         return  mMobileObstacles.get(ennemyID).position;
     }
-    
-    
-    /**
-     * Utilisé pour les tests.
-     * Renvois le nombre d'obstacles mobiles actuellement en mémoire
-     *
-     * @return le nombre d'obstacles mobiles actuellement en mémoire
-     */
-    public int getMobileObstaclesCount()
-    {
-        return mMobileObstacles.size();
-    }
-    
-    /**
-     * Vérifie si le position spécifié est dans l'obstacle spécifié ou non
-     * Attention : l'obstacle doit etre issu des classes ObstacleCircular ou ObstacleRectangular sous peine d'exception
-     * Attention : verifie si le point (et non le robot) est dans l'obstacle.
-     *
-     * @param pos la position a vérifier
-     * @param obstacle l'obstacle a considérer
-     * @return true, si la position est dans l'obstacle
-     */
-    public synchronized boolean isPositionInObstacle(Vec2 pos, Obstacle obstacle)
-    {
-    	if(obstacle instanceof ObstacleCircular)
-    	{
-    		ObstacleCircular obstacleCircular = (ObstacleCircular)obstacle;
-    		return (pos.getX()-obstacleCircular.position.getX())*(pos.getX()-obstacleCircular.position.getX())+(pos.getY()-obstacleCircular.position.getY())*(pos.getY()-obstacleCircular.position.getY())<obstacleCircular.getRadius()*obstacleCircular.getRadius();
-    	}
-    	if(obstacle instanceof ObstacleRectangular)
-    	{
-    		ObstacleRectangular obstacleRectangular = (ObstacleRectangular)obstacle;
-	    	return pos.getX()<(obstacleRectangular.position.getX()-(obstacleRectangular.sizeX/2)) || pos.getX()>(obstacleRectangular.position.getX()+(obstacleRectangular.sizeX/2)) || pos.getY()<(obstacleRectangular.position.getY()-(obstacleRectangular.sizeY/2)) || pos.getY()>(obstacleRectangular.position.getY()+(obstacleRectangular.sizeY/2));
-    	}
-    	else
-    		throw new IllegalArgumentException();
-    }
-    
-    /**
+
+	/**
+	 * Debug / interface graphique
+	 * @return
+	 */
+	@SuppressWarnings("javadoc")
+	public int getDiscRadius()
+	{
+		return radiusDetectionDisc;
+	}
+	public Vec2 getDiscPosition()
+	{
+		return positionDetectionDisc;
+	}
+
+	public void updateConfig()
+	{
+		try
+		{
+			mRobotRadius = Integer.parseInt(config.getProperty("rayon_robot"));
+			mEnnemyRadius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
+			mRobotLenght = Integer.parseInt(config.getProperty("longueur_robot"));
+			mRobotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
+			defaultLifetime = Integer.parseInt(config.getProperty("duree_peremption_obstacles"));
+			cDesFousEnFace = Boolean.parseBoolean(config.getProperty("cDesFousEnFace"));
+		}
+		catch (ConfigPropertyNotFoundException e)
+		{
+			log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());
+		}
+	}
+
+
+	/**************
+	 * INUTILISES *
+	 **************/
+
+	
+	/**
 	 * Vérifie si la position donnée est dégagée ou si elle est dans l'un des obstacles sur la table (tous les obstacles)
      *
      * @param position la position a vérifier
@@ -866,20 +917,6 @@ public class ObstacleManager
 	}
     
     /**
-     * Debug / interface graphique
-     * @return 
-     */
-    @SuppressWarnings("javadoc")
-	public int getDiscRadius()
-    {
-    	return radiusDetectionDisc;
-    }
-    public Vec2 getDiscPosition()
-    {
-    	return positionDetectionDisc;
-    }
-    
-    /**
      *  On enleve les obstacles qui sont en confrontation avec nous :
      *  Cela evite de se retrouver dans un obstacle
      * @param position 
@@ -914,28 +951,6 @@ public class ObstacleManager
     {
     	for(int i = 0; i< mCircularObstacle.size(); i++)
     		mCircularObstacle.get(i).printObstacleMemory();
-    }
-    
-    public void updateConfig()
-	{
-		try 
-		{
-			mRobotRadius = Integer.parseInt(config.getProperty("rayon_robot"));
-			mEnnemyRadius = Integer.parseInt(config.getProperty("rayon_robot_adverse"));
-			mRobotLenght = Integer.parseInt(config.getProperty("longueur_robot"));
-			mRobotWidth = Integer.parseInt(config.getProperty("largeur_robot"));
-		    defaultLifetime = Integer.parseInt(config.getProperty("duree_peremption_obstacles"));
-		    cDesFousEnFace = Boolean.parseBoolean(config.getProperty("cDesFousEnFace"));
-		}
-	    catch (ConfigPropertyNotFoundException e)
-    	{
-    		log.debug("Revoir le code : impossible de trouver la propriété "+e.getPropertyNotFound());
-		}
-	}
-    
-    public ArrayList<ObstacleProximity> getUntestedArrayList()
-    {
-    	return mUntestedMobileObstacles;
     }
 
 	/**
@@ -1020,9 +1035,5 @@ public class ObstacleManager
 		mCircularObstacle.clear();
 		mMobileObstacles.clear();
 		mUntestedMobileObstacles.clear();
-	}
-
-	public ArrayList<ObstacleRectangular> getmRectangles() {
-		return mRectangles;
 	}
 }
