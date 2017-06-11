@@ -34,14 +34,12 @@ import java.util.ArrayList;
  */
 public class ObstacleCircular extends Obstacle
 {
-	
 	/** rayon en mm de cet obstacle */
 	protected Circle circle;
 	protected ArrayList<Noeud> lNoeud;
 	
 	/**
 	 * crée un nouvel obstacle de forme circulaire a la position et a la taille spécifiée.
-	 *
 	 * @param circle le cercle représentant l'obstacle
 	 */
 	public ObstacleCircular(Circle circle)
