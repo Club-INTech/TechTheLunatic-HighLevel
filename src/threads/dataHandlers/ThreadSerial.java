@@ -357,7 +357,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
                     m += "\r";
 
                     output.flush();
-
                     output.write(m.getBytes());
 
                     if(!ignoredOrderForLogging)
@@ -741,8 +740,6 @@ public class ThreadSerial extends AbstractThread implements SerialPortEventListe
             throw new IOException(); // visiblement on ne recevra rien de plus
 
         byte out = (byte) input.read();
-
-
         return out & 0xFF;
 
     }
